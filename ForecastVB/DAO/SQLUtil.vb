@@ -1,17 +1,27 @@
-﻿Imports System.Data.SqlClient
+﻿Imports System.Data.Odbc
+Imports System.Data.SqlClient
 Public Class SQLUtil
     Private myConn As SqlConnection
     Private myCmd As SqlCommand
     Private myReader As SqlDataReader
-    Private results As String
     Private sDatabaseLocatie As String = "Data Source=USER-PC\SQLEXPRESS;Initial Catalog=SyntraTest;Integrated Security=True"
-
-
-    Public Sub SQLUtil()
+    Public Function Execute(command As String) As ArrayList
         myConn = New SqlConnection(sDatabaseLocatie)
         myCmd = myConn.CreateCommand
-        myCmd.CommandText = "SELECT * FROM Cursussen"
-        myConn.Open()
-        myReader = myCmd.ExecuteReader()
-    End Sub
+        myCmd.CommandText = command
+        Try
+            Dim arr As New ArrayList
+            myConn.Open()
+            myReader = myCmd.ExecuteReader()
+            While myReader.Read()
+                arr.Add(myReader.GetName(1))
+            End While
+            Return arr
+        Catch ex As Exception
+            MessageBox.Show(ex.ToString(), "ERROR Please contact Developer", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            'TODO Throw exception instead
+        Finally
+            myConn.Close()
+        End Try
+    End Function
 End Class
