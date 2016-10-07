@@ -73,7 +73,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BLL\Prospect.vb" />
+    <Compile Include="BLL\SubAfdBLL.vb" />
     <Compile Include="DAO\SQLUtil.vb" />
+    <Compile Include="DAO\SubAfdDao.vb" />
     <Compile Include="Form1.vb">
       <SubType>Form</SubType>
     </Compile>

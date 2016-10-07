@@ -5,6 +5,7 @@ Public Class SQLUtil
     Private myCmd As SqlCommand
     Private myReader As SqlDataReader
     Private sDatabaseLocatie As String = "Data Source=USER-PC\SQLEXPRESS;Initial Catalog=SyntraTest;Integrated Security=True"
+
     Public Function Execute(command As String) As ArrayList
         myConn = New SqlConnection(sDatabaseLocatie)
         myCmd = myConn.CreateCommand
@@ -14,7 +15,7 @@ Public Class SQLUtil
             myConn.Open()
             myReader = myCmd.ExecuteReader()
             While myReader.Read()
-                arr.Add(myReader.GetString(0))
+                arr.Add(myReader.GetValue(0))
             End While
             Return arr
         Catch ex As Exception
@@ -24,4 +25,5 @@ Public Class SQLUtil
             myConn.Close()
         End Try
     End Function
+
 End Class

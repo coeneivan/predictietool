@@ -1,4 +1,5 @@
 ﻿Public Class MainScreen
+    Private Const jaar = 2015
     Private Sub MainScreen_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim s As New SQLUtil
         'Load all cursussen
@@ -21,15 +22,15 @@
 
         'Calculate main percentage
         Dim knownX, knownY As New ArrayList
-        knownY.Add(79.55)
-        knownY.Add(75.93)
-        knownY.Add(75.75)
-        knownY.Add(77.53)
-        knownY.Add(75.5)
-        knownY.Add(75.91)
-        knownY.Add(76.3)
-        knownY.Add(74.55)
-        knownY.Add(71.06)
+        knownY.Add(92.31)
+        knownY.Add(90)
+        knownY.Add(77.78)
+        knownY.Add(68.18)
+        knownY.Add(53.13)
+        knownY.Add(48)
+        knownY.Add(47.62)
+        knownY.Add(73.68)
+        knownY.Add(48.15)
         knownX.Add(2006)
         knownX.Add(2007)
         knownX.Add(2008)
@@ -40,20 +41,14 @@
         knownX.Add(2013)
         knownX.Add(2014)
         Dim p As New Prospect
-        Dim range = p.certainty(knownY, p.prospect(knownY, knownX, CDbl(2015)))
+        Dim pros = p.prospect(knownY, knownX, CDbl(jaar))
+        Dim range = p.certainty(knownY, pros)
         txtRestultJaar.Text = "[" + Math.Round(range(0), 2).ToString + " - " + Math.Round(range(1), 2).ToString + "]"
     End Sub
 
     Private Sub cboSubAfd_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboSubAfd.SelectedIndexChanged
-        Dim s As New SQLUtil
-        Dim subAfdsAll = s.Execute("SELECT Opleidingsnr FROM Cursussen WHERE CodeSubafdeling = '" + cboSubAfd.SelectedItem + "'")
-        Dim subAfdsGeschrapt = s.Execute("SELECT Opleidingsnr FROM Cursussen WHERE CodeSubafdeling = '" + cboSubAfd.SelectedItem + "'and codeIngetrokken ='ja'")
-        Dim knownX = s.Execute("SELECT Distinct YEAR(startdatum) FROM Cursussen WHERE CodeSubafdeling = '" + cboSubAfd.SelectedItem + "'and year(StartDatum)<2015 ")
-        Dim knownY = s.Execute("")
-
-        Dim p As New Prospect
-        Dim range = p.certainty(knownY, p.prospect(knownY, knownX, CDbl(2015)))
+        Dim subafd As New SubAfdBLL
+        Dim range = subafd.berekenVerwachtingsBereikVoorSubAfd(jaar, cboSubAfd.SelectedItem)
         txtResultSubAfd.Text = "[" + Math.Round(range(0), 2).ToString + " - " + Math.Round(range(1), 2).ToString + "]"
-
     End Sub
 End Class

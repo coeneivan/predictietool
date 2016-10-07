@@ -1,11 +1,12 @@
 ﻿Public Class Prospect
     ''' <summary>
-    ''' Estimates the value, using 2 arraylists.
+    ''' Berekent een verwachte gemiddelde voor een bepaalde jaar
     ''' </summary>
-    ''' <param name="knownY">Arraylist for known X values</param>
-    ''' <param name="knownX">Arraylist for known Y values</param>
-    ''' <param name="toEstimate">Double X value to estimate</param>
-    ''' <returns>The estimated value for Y</returns>
+    ''' <param name="knownY">Arraylist voor de gekende X parameters</param>
+    ''' <param name="knownX">Arraylist voor de gekende Y parameters</param>
+    ''' <param name="toEstimate">Double X waarde dat insgeschat moet woorden</param>
+    ''' <returns>De ingeschatte waarde voor Y</returns>
+    ''' <example>prospect(Ywaarden, jaren, 2015)</example>
     Public Function prospect(knownY As ArrayList, knownX As ArrayList, toEstimate As Double) As Double
         Dim n As Integer
         n = knownY.Count()
@@ -32,11 +33,12 @@
         Return Math.Exp(alpha + beta * toEstimate)
     End Function
     ''' <summary>
-    ''' Calculates a range of 95% certainty of the average.
+    ''' Berekent een bereik waar het gemiddelde zich zal bevinden.
+    ''' Er wordt met een nauwkeurigheidsgraad van 95% gewerkt
     ''' </summary>
-    ''' <param name="knownY">Arraylist from all the knwon Y values</param>
-    ''' <param name="average">Double predicted average</param>
-    ''' <returns>Arraylist with 2 values, 0 --> Lowest value; 1 --> Highest value</returns>
+    ''' <param name="knownY">Arraylist voor de gekende Y waarden</param>
+    ''' <param name="average">Double voorspelde gemiddelde</param>
+    ''' <returns>Arraylist met 2 waarden, 0 --> Ondergrens; 1 --> Bovengrens</returns>
     Public Function certainty(knownY As ArrayList, average As Double) As ArrayList
         Dim toRet As New ArrayList
         Dim sumOfSquaresOfDifferences As Double
