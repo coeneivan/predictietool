@@ -5,6 +5,8 @@ Public Class SQLUtil
     Private myCmd As SqlCommand
     Private myReader As SqlDataReader
     Private sDatabaseLocatie As String = "Data Source=USER-PC\SQLEXPRESS;Initial Catalog=SyntraTest;Integrated Security=True"
+    'Private sDatabaseLocatie As String = "Data Source=laptop-BEN_ASUS\;Initial Catalog=SyntraTest;Integrated Security=True"
+
 
     Public Function Execute(command As String) As ArrayList
         myConn = New SqlConnection(sDatabaseLocatie)
