@@ -14,7 +14,7 @@ Public Class SQLUtil
             myConn.Open()
             myReader = myCmd.ExecuteReader()
             While myReader.Read()
-                arr.Add(myReader.GetName(1))
+                arr.Add(myReader.GetString(0))
             End While
             Return arr
         Catch ex As Exception
