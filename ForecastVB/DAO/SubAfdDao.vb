@@ -34,4 +34,25 @@
         Dim toRet = s.Execute("SELECT Distinct YEAR(startdatum) FROM Cursussen WHERE CodeSubafdeling = '" + subAfd + "'AND year(StartDatum) < " + jaar.ToString)
         Return toRet
     End Function
+
+    ''' <summary>
+    ''' Geeft alle codes van de gekende subafdelingen 1 keer terug
+    ''' </summary>
+    ''' <returns>Geeft een array met alle gekende subafdelingen 1 keer in de lijst terug</returns>
+    Public Function getAlleSubafdelingen() As ArrayList
+        Dim s As New SQLUtil
+        Dim toRet = s.Execute("SELECT DISTINCT CodeSubafdeling FROM Cursussen")
+        Return toRet
+    End Function
+
+    ''' <summary>
+    ''' Geeft een lijst terug van alle subafdelingen voor een bepaald jaar
+    ''' </summary>
+    ''' <param name="jaar">Het jaar waarvoor de subafdelingen gezocht moeten worden</param>
+    ''' <returns>ArrayList met alle subafdelingen van het gegeven jaar</returns>
+    Public Function getAlleSubafdelingenPerJaar(jaar As Integer) As ArrayList
+        Dim s As New SQLUtil
+        Dim toRet = s.Execute("SELECT DISTINCT CodeSubafdeling FROM Cursussen where year(StartDatum) = " + jaar.ToString)
+        Return toRet
+    End Function
 End Class
