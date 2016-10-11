@@ -9,7 +9,7 @@ Public Class SQLUtil
 
     Public Sub New()
         Dim fileReader As String
-        fileReader = My.Computer.FileSystem.ReadAllText("..\..\..\conn.txt")
+        fileReader = My.Computer.FileSystem.ReadAllText("..\..\conn.txt")
         sDatabaseLocatie = fileReader.ToString
     End Sub
 
