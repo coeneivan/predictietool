@@ -85,10 +85,6 @@
     End Sub
 
     Private Sub btnCalc_Click(sender As Object, e As EventArgs) Handles btnCalc.Click
-        Dim p As New Prospect
-        txtCalculateY.Text = Math.Round(p.prospect(knownY, knownX, CDbl(txtCalculateX.Text)), 2)
-        Dim range = p.certainty(knownY, p.prospect(knownY, knownX, CDbl(txtCalculateX.Text)))
-        txtResult.Text = "[" + Math.Round(range(0), 2).ToString + " - " + Math.Round(range(1), 2).ToString + "]"
     End Sub
 
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click

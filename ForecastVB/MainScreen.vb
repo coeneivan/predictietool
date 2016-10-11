@@ -1,54 +1,43 @@
 ﻿Public Class MainScreen
     Private Const jaar = 2015
     Private Sub MainScreen_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Dim s As New SQLUtil
         'Load all cursussen
-        Dim subAfds = s.Execute("SELECT distinct CodeSubafdeling FROM Cursussen")
-        For Each row As Object In subAfds
-            cboSubAfd.Items.Add(row.ToString)
-        Next
+        Dim subafds As New subAfdBll
+        cboSubAfd.Items.AddRange(subafds.getAallSubAfds(jaar).ToArray)
 
         'Load dagen
-        Dim dagen = {"Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag", "Zaterdag", "Zondag"}
-        For Each row As Object In dagen
-            cboLesdag.Items.Add(row.ToString)
-        Next
+        cboLesdag.Items.AddRange({"Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag", "Zaterdag", "Zondag"})
 
         'Load merken
-        Dim merken = s.Execute("SELECT distinct merk FROM Cursussen")
-        For Each row As Object In merken
-            cboMerk.Items.Add(row.ToString)
-        Next
+        Dim merken As New MerkBLL
+        cboMerk.Items.AddRange(merken.getAll(jaar).ToArray)
 
         'Calculate main percentage
         Dim knownX, knownY As New ArrayList
-        knownY.Add(92.31)
-        knownY.Add(90)
-        knownY.Add(77.78)
-        knownY.Add(68.18)
-        knownY.Add(53.13)
-        knownY.Add(48)
-        knownY.Add(47.62)
-        knownY.Add(73.68)
-        knownY.Add(48.15)
-        knownX.Add(2006)
-        knownX.Add(2007)
-        knownX.Add(2008)
-        knownX.Add(2009)
-        knownX.Add(2010)
-        knownX.Add(2011)
-        knownX.Add(2012)
-        knownX.Add(2013)
-        knownX.Add(2014)
+        Dim dictionary As New Dictionary(Of String, Parameter)
+        dictionary.Add("2006", New Parameter(100, 92.31))
+        dictionary.Add("2007", New Parameter(100, 90))
+        dictionary.Add("2008", New Parameter(100, 77.78))
+        dictionary.Add("2009", New Parameter(100, 68.18))
+        dictionary.Add("2010", New Parameter(100, 53.13))
+        dictionary.Add("2011", New Parameter(100, 48))
+        dictionary.Add("2012", New Parameter(100, 47.62))
+        dictionary.Add("2013", New Parameter(100, 73.68))
+        dictionary.Add("2014", New Parameter(100, 48.15))
+
         Dim p As New Prospect
-        Dim pros = p.prospect(knownY, knownX, CDbl(jaar))
-        Dim range = p.certainty(knownY, pros)
-        txtRestultJaar.Text = "[" + Math.Round(range(0), 2).ToString + " - " + Math.Round(range(1), 2).ToString + "]"
+        Dim pros = p.prospect(dictionary, CDbl(jaar))
+        Dim range = p.certainty(dictionary, pros)
+        txtRestultJaar.Text = range.ToString
     End Sub
 
     Private Sub cboSubAfd_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboSubAfd.SelectedIndexChanged
-        Dim subafd As New SubAfdBLL
-        Dim range = subafd.berekenVerwachtingsBereikVoorSubAfd(jaar, cboSubAfd.SelectedItem)
-        txtResultSubAfd.Text = "[" + Math.Round(range(0), 2).ToString + " - " + Math.Round(range(1), 2).ToString + "]"
+        Dim subafd As New subAfdBll
+        txtResultSubAfd.Text = subafd.berekenVerwachtingsBereikVoorSubAfd(jaar, cboSubAfd.SelectedItem).ToString
+    End Sub
+
+    Private Sub cboMerk_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboMerk.SelectedIndexChanged
+        Dim merken As New MerkBLL
+        txtResultMerk.Text = merken.berekenVerwachtingsBereikVoorMerk(jaar, cboMerk.SelectedItem).ToString
     End Sub
 End Class

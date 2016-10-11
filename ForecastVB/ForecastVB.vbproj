@@ -72,10 +72,12 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BLL\MerkBLL.vb" />
+    <Compile Include="BLL\ParameterParent.vb" />
     <Compile Include="BLL\Prospect.vb" />
     <Compile Include="BLL\SubAfdBLL.vb" />
+    <Compile Include="DAO\ParametersDAO.vb" />
     <Compile Include="DAO\SQLUtil.vb" />
-    <Compile Include="DAO\SubAfdDao.vb" />
     <Compile Include="Form1.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -89,6 +91,8 @@
     <Compile Include="MainScreen.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Model\Bereik.vb" />
+    <Compile Include="Model\Parameter.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -108,9 +112,11 @@
   <ItemGroup>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="MainScreen.resx">
       <DependentUpon>MainScreen.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
