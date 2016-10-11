@@ -53,7 +53,7 @@
     Private Sub createBlock(startX As Long, startY As Long, subAfd As String)
         Dim allAfd = New subAfdBll
         Dim jaar As Int16 = 2015
-        Dim subafdljaar = allAfd.getAantalCursussenPerJaarPerSubAfd(berekeningsjaar, subAfd)
+        Dim subafdljaar = allAfd.berekenVerwachtingsBereikVoorSubAfd(berekeningsjaar, subAfd)
 
 
         ' Creeër label titel
