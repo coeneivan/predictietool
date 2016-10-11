@@ -73,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BLL\DagBll.vb" />
+    <Compile Include="BLL\DatumBLL.vb" />
     <Compile Include="BLL\MerkBLL.vb" />
     <Compile Include="BLL\ParameterParent.vb" />
     <Compile Include="BLL\Prospect.vb" />

@@ -1,12 +1,19 @@
 ﻿Imports System.Data.Odbc
 Imports System.Configuration
 Imports System.Data.SqlClient
+''' <summary>
+''' Maakt verbinding met DB
+''' Zorgt er voor dat sql scripts kunnen uitgevoerd worden
+''' </summary>
 Public Class SQLUtil
     Private myConn As SqlConnection
     Private myCmd As SqlCommand
     Private myReader As SqlDataReader
     Private sDatabaseLocatie As String
-
+    ''' <summary>
+    ''' Initialiseert de klasse
+    ''' Leest de connectionstring uit de file conn.txt die zich in de root bevindt
+    ''' </summary>
     Public Sub New()
         Dim fileReader As String
         fileReader = My.Computer.FileSystem.ReadAllText("..\..\conn.txt")
