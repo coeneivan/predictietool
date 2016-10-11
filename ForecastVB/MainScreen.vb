@@ -40,4 +40,9 @@
         Dim merken As New MerkBLL
         txtResultMerk.Text = merken.berekenVerwachtingsBereikVoorMerk(jaar, cboMerk.SelectedItem).ToString
     End Sub
+
+    Private Sub cboLesdag_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboLesdag.SelectedIndexChanged
+        Dim dag As New DagBll
+        txtRestultLesDag.Text = dag.berekenVerwachtingsBereikVoorMerk(jaar, cboLesdag.SelectedItem).ToString
+    End Sub
 End Class
