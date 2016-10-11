@@ -1,5 +1,5 @@
 ﻿Public Class GeneralData
-
+    'Ik ga lekker moeilijk doen!
     Dim berekeningsjaar As Int16 = 2015
 
     Public Sub New()
