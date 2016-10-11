@@ -1,11 +1,17 @@
 ﻿Imports System.Data.Odbc
+Imports System.Configuration
 Imports System.Data.SqlClient
 Public Class SQLUtil
     Private myConn As SqlConnection
     Private myCmd As SqlCommand
     Private myReader As SqlDataReader
-    'Private sDatabaseLocatie As String = "Data Source=USER-PC\SQLEXPRESS;Initial Catalog=SyntraTest;Integrated Security=True"
-    Private sDatabaseLocatie As String = "Data Source=laptop-BEN_ASUS\;Initial Catalog=SyntraTest;Integrated Security=True"
+    Private sDatabaseLocatie As String
+
+    Public Sub New()
+        Dim fileReader As String
+        fileReader = My.Computer.FileSystem.ReadAllText("..\..\..\conn.txt")
+        sDatabaseLocatie = fileReader.ToString
+    End Sub
 
     ''' <summary>
     ''' Maakt verbinding met DB en voert sql commando uit
