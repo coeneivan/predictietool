@@ -16,7 +16,7 @@ Public Class DagBll
     ''' <param name="jaar">Integer tot welk jaar er gezocht moet worden</param>
     ''' <param name="lesdag">String met dag waarvoor er waarde moet opgehaald worden</param>
     ''' <returns>Bereik</returns>
-    Public Function berekenVerwachtingsBereikVoorMerk(jaar As Integer, lesdag As String) As Bereik
+    Public Function berekenVerwachtingsBereikVoorDag(jaar As Integer, lesdag As String) As Bereik
         Return parent.berekenVerwachtingsBereik(jaar, lesdag)
     End Function
     ''' <summary>

@@ -41,130 +41,144 @@ Partial Class MainScreen
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(115, 381)
+        Me.Label3.Location = New System.Drawing.Point(77, 244)
+        Me.Label3.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(150, 25)
+        Me.Label3.Size = New System.Drawing.Size(99, 17)
         Me.Label3.TabIndex = 3
         Me.Label3.Text = "Sub afdeeling;"
         '
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(170, 493)
+        Me.Label4.Location = New System.Drawing.Point(113, 316)
+        Me.Label4.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(95, 25)
+        Me.Label4.Size = New System.Drawing.Size(63, 17)
         Me.Label4.TabIndex = 4
         Me.Label4.Text = "Les dag:"
         '
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(61, 605)
+        Me.Label5.Location = New System.Drawing.Point(41, 387)
+        Me.Label5.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(204, 25)
+        Me.Label5.Size = New System.Drawing.Size(135, 17)
         Me.Label5.TabIndex = 5
         Me.Label5.Text = "Start van de cursus:"
         '
         'cboSubAfd
         '
         Me.cboSubAfd.FormattingEnabled = True
-        Me.cboSubAfd.Location = New System.Drawing.Point(316, 378)
+        Me.cboSubAfd.Location = New System.Drawing.Point(211, 242)
+        Me.cboSubAfd.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.cboSubAfd.Name = "cboSubAfd"
-        Me.cboSubAfd.Size = New System.Drawing.Size(311, 33)
+        Me.cboSubAfd.Size = New System.Drawing.Size(209, 24)
         Me.cboSubAfd.TabIndex = 1
         '
         'cboLesdag
         '
         Me.cboLesdag.FormattingEnabled = True
-        Me.cboLesdag.Location = New System.Drawing.Point(316, 490)
+        Me.cboLesdag.Location = New System.Drawing.Point(211, 314)
+        Me.cboLesdag.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.cboLesdag.Name = "cboLesdag"
-        Me.cboLesdag.Size = New System.Drawing.Size(311, 33)
+        Me.cboLesdag.Size = New System.Drawing.Size(209, 24)
         Me.cboLesdag.TabIndex = 2
         '
         'dtpStartcursus
         '
-        Me.dtpStartcursus.Location = New System.Drawing.Point(316, 605)
+        Me.dtpStartcursus.Location = New System.Drawing.Point(211, 387)
+        Me.dtpStartcursus.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.dtpStartcursus.Name = "dtpStartcursus"
-        Me.dtpStartcursus.Size = New System.Drawing.Size(311, 31)
+        Me.dtpStartcursus.Size = New System.Drawing.Size(209, 22)
         Me.dtpStartcursus.TabIndex = 3
         '
         'Label6
         '
         Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(284, 709)
+        Me.Label6.Location = New System.Drawing.Point(189, 450)
+        Me.Label6.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(103, 25)
+        Me.Label6.Size = New System.Drawing.Size(68, 17)
         Me.Label6.TabIndex = 10
         Me.Label6.Text = "Resultaat"
         Me.Label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'txtResultMerk
         '
-        Me.txtResultMerk.Location = New System.Drawing.Point(66, 784)
+        Me.txtResultMerk.Location = New System.Drawing.Point(44, 498)
+        Me.txtResultMerk.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.txtResultMerk.Name = "txtResultMerk"
         Me.txtResultMerk.ReadOnly = True
-        Me.txtResultMerk.Size = New System.Drawing.Size(561, 31)
+        Me.txtResultMerk.Size = New System.Drawing.Size(375, 22)
         Me.txtResultMerk.TabIndex = 11
         Me.txtResultMerk.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'txtResultSubAfd
         '
-        Me.txtResultSubAfd.Location = New System.Drawing.Point(66, 821)
+        Me.txtResultSubAfd.Location = New System.Drawing.Point(44, 521)
+        Me.txtResultSubAfd.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.txtResultSubAfd.Name = "txtResultSubAfd"
         Me.txtResultSubAfd.ReadOnly = True
-        Me.txtResultSubAfd.Size = New System.Drawing.Size(561, 31)
+        Me.txtResultSubAfd.Size = New System.Drawing.Size(375, 22)
         Me.txtResultSubAfd.TabIndex = 11
         Me.txtResultSubAfd.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'txtRestultLesDag
         '
-        Me.txtRestultLesDag.Location = New System.Drawing.Point(66, 858)
+        Me.txtRestultLesDag.Location = New System.Drawing.Point(44, 545)
+        Me.txtRestultLesDag.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.txtRestultLesDag.Name = "txtRestultLesDag"
         Me.txtRestultLesDag.ReadOnly = True
-        Me.txtRestultLesDag.Size = New System.Drawing.Size(561, 31)
+        Me.txtRestultLesDag.Size = New System.Drawing.Size(375, 22)
         Me.txtRestultLesDag.TabIndex = 11
         Me.txtRestultLesDag.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'txtResultDatum
         '
-        Me.txtResultDatum.Location = New System.Drawing.Point(66, 895)
+        Me.txtResultDatum.Location = New System.Drawing.Point(44, 569)
+        Me.txtResultDatum.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.txtResultDatum.Name = "txtResultDatum"
         Me.txtResultDatum.ReadOnly = True
-        Me.txtResultDatum.Size = New System.Drawing.Size(561, 31)
+        Me.txtResultDatum.Size = New System.Drawing.Size(375, 22)
         Me.txtResultDatum.TabIndex = 11
         Me.txtResultDatum.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'cboMerk
         '
         Me.cboMerk.FormattingEnabled = True
-        Me.cboMerk.Location = New System.Drawing.Point(316, 266)
+        Me.cboMerk.Location = New System.Drawing.Point(211, 170)
+        Me.cboMerk.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.cboMerk.Name = "cboMerk"
-        Me.cboMerk.Size = New System.Drawing.Size(311, 33)
+        Me.cboMerk.Size = New System.Drawing.Size(209, 24)
         Me.cboMerk.TabIndex = 0
         '
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(205, 269)
+        Me.Label2.Location = New System.Drawing.Point(137, 172)
+        Me.Label2.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(66, 25)
+        Me.Label2.Size = New System.Drawing.Size(43, 17)
         Me.Label2.TabIndex = 2
         Me.Label2.Text = "Merk:"
         '
         'txtRestultJaar
         '
-        Me.txtRestultJaar.Location = New System.Drawing.Point(66, 747)
+        Me.txtRestultJaar.Location = New System.Drawing.Point(44, 474)
+        Me.txtRestultJaar.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.txtRestultJaar.Name = "txtRestultJaar"
         Me.txtRestultJaar.ReadOnly = True
-        Me.txtRestultJaar.Size = New System.Drawing.Size(561, 31)
+        Me.txtRestultJaar.Size = New System.Drawing.Size(375, 22)
         Me.txtRestultJaar.TabIndex = 11
         Me.txtRestultJaar.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'MainScreen
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(12.0!, 25.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(712, 991)
+        Me.ClientSize = New System.Drawing.Size(475, 907)
         Me.Controls.Add(Me.cboMerk)
         Me.Controls.Add(Me.txtResultDatum)
         Me.Controls.Add(Me.txtRestultLesDag)
@@ -179,6 +193,7 @@ Partial Class MainScreen
         Me.Controls.Add(Me.Label4)
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.Label2)
+        Me.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.Name = "MainScreen"
         Me.Text = "Cursus realiseerbaarheid prospectie tool"
         Me.ResumeLayout(False)

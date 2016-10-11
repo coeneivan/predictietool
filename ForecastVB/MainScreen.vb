@@ -43,6 +43,11 @@
 
     Private Sub cboLesdag_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboLesdag.SelectedIndexChanged
         Dim dag As New DagBll
-        txtRestultLesDag.Text = dag.berekenVerwachtingsBereikVoorMerk(jaar, cboLesdag.SelectedItem).ToString
+        txtRestultLesDag.Text = dag.berekenVerwachtingsBereikVoorDag(jaar, cboLesdag.SelectedItem).ToString
+    End Sub
+
+    Private Sub dtpStartcursus_ValueChanged(sender As Object, e As EventArgs) Handles dtpStartcursus.ValueChanged
+        Dim datum As New DatumBLL
+        txtResultDatum.Text = datum.berekenVerwachtingsBereikVoorDatum(jaar, dtpStartcursus.Value.Month.ToString).ToString
     End Sub
 End Class

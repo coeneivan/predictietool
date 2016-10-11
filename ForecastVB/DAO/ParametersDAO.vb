@@ -11,7 +11,7 @@ Public Class ParametersDAO
     ''' <returns>Arralyst met de gekende jaren voor de meegegeven parameterwaarde</returns>
     Public Function getCursussen(jaar As Integer, paramaeter As String, value As String) As Dictionary(Of String, Parameter)
         Dim s As New SQLUtil
-        Return s.getDictionary("SELECT YEAR(c.startdatum) as jaar,count(*) as totaal,(SELECT count(*) FROM [SyntraTest].[dbo].[Cursussen] as cc WHERE cc.CodeIngetrokken = 'nee' AND cc." + paramaeter + " = '" + value + "' AND year(cc.StartDatum) = year(c.StartDatum)) as nietGeschrapt FROM [SyntraTest].[dbo].[Cursussen] as c WHERE c." + paramaeter + " = '" + value + "' AND year(c.StartDatum) < " + jaar.ToString + " GROUP BY year(c.startDatum)")
+        Return s.getDictionary("SELECT YEAR(c.startdatum) as jaar,count(*) as totaal,(SELECT count(*) FROM [SyntraTest].[dbo].[Cursussen] as cc WHERE cc.CodeIngetrokken = 'nee' AND " + paramaeter + " = '" + value + "' AND year(cc.StartDatum) = year(c.StartDatum)) as nietGeschrapt FROM [SyntraTest].[dbo].[Cursussen] as c WHERE " + paramaeter + " = '" + value + "' AND year(c.StartDatum) < " + jaar.ToString + " GROUP BY year(c.startDatum)")
     End Function
     ''' <summary>
     ''' Geeft een arraylist weer met alle gekende data
