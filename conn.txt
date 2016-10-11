@@ -1,1 +1,0 @@
-Data Source=laptop-BEN_ASUS\;Initial Catalog=SyntraTest;Integrated Security=True
