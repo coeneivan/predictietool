@@ -40,8 +40,8 @@
     ''' </summary>
     ''' <returns>Geeft de lijst met alle subafdelingen in een ArrayList terug</returns>
     Private Function getAllSubafdelingenVoorJaar(jaar As Int16) As ArrayList
-        Dim allAfd = New SubAfdDao
-        Return allAfd.getAlleSubafdelingenPerJaar(jaar)
+        Dim allAfd = New subAfdBll
+        Return allAfd.getAallSubAfds(jaar)
     End Function
 
     ''' <summary>
@@ -51,7 +51,7 @@
     ''' <param name="startY">Wat is de Y waarde van waar de gegevens moeten beginnen. Dit om overlapping met een vorige blok te voorkomen</param>
     ''' <param name="subAfd">Om welke subafdeling gaat het?</param>
     Private Sub createBlock(startX As Long, startY As Long, subAfd As String)
-        Dim allAfd = New SubAfdDao
+        Dim allAfd = New subAfdBll
         Dim jaar As Int16 = 2015
         Dim subafdljaar = allAfd.getAantalCursussenPerJaarPerSubAfd(berekeningsjaar, subAfd)
 
