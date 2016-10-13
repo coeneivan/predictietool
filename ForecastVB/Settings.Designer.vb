@@ -25,11 +25,11 @@ Partial Class Settings
     Private Sub InitializeComponent()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.lsvFilter = New System.Windows.Forms.ListView()
-        Me.txtFactor = New System.Windows.Forms.TextBox()
         Me.txtOmschrijving = New System.Windows.Forms.TextBox()
         Me.btnAdd = New System.Windows.Forms.Button()
         Me.btnRemove = New System.Windows.Forms.Button()
         Me.cbbKolom = New System.Windows.Forms.ComboBox()
+        Me.cbbFactor = New System.Windows.Forms.ComboBox()
         Me.SuspendLayout()
         '
         'Label1
@@ -50,13 +50,6 @@ Partial Class Settings
         Me.lsvFilter.TabIndex = 3
         Me.lsvFilter.UseCompatibleStateImageBehavior = False
         Me.lsvFilter.View = System.Windows.Forms.View.Details
-        '
-        'txtFactor
-        '
-        Me.txtFactor.Location = New System.Drawing.Point(268, 161)
-        Me.txtFactor.Name = "txtFactor"
-        Me.txtFactor.Size = New System.Drawing.Size(150, 20)
-        Me.txtFactor.TabIndex = 5
         '
         'txtOmschrijving
         '
@@ -85,22 +78,32 @@ Partial Class Settings
         '
         'cbbKolom
         '
+        Me.cbbKolom.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cbbKolom.FormattingEnabled = True
         Me.cbbKolom.Location = New System.Drawing.Point(12, 161)
         Me.cbbKolom.Name = "cbbKolom"
         Me.cbbKolom.Size = New System.Drawing.Size(250, 21)
         Me.cbbKolom.TabIndex = 9
         '
+        'cbbFactor
+        '
+        Me.cbbFactor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbbFactor.FormattingEnabled = True
+        Me.cbbFactor.Location = New System.Drawing.Point(269, 160)
+        Me.cbbFactor.Name = "cbbFactor"
+        Me.cbbFactor.Size = New System.Drawing.Size(149, 21)
+        Me.cbbFactor.TabIndex = 10
+        '
         'Settings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(635, 215)
+        Me.Controls.Add(Me.cbbFactor)
         Me.Controls.Add(Me.cbbKolom)
         Me.Controls.Add(Me.btnRemove)
         Me.Controls.Add(Me.btnAdd)
         Me.Controls.Add(Me.txtOmschrijving)
-        Me.Controls.Add(Me.txtFactor)
         Me.Controls.Add(Me.lsvFilter)
         Me.Controls.Add(Me.Label1)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
@@ -112,9 +115,9 @@ Partial Class Settings
     End Sub
     Friend WithEvents Label1 As Label
     Friend WithEvents lsvFilter As ListView
-    Friend WithEvents txtFactor As TextBox
     Friend WithEvents txtOmschrijving As TextBox
     Friend WithEvents btnAdd As Button
     Friend WithEvents btnRemove As Button
     Friend WithEvents cbbKolom As ComboBox
+    Friend WithEvents cbbFactor As ComboBox
 End Class
