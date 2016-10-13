@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="Globals">
-    <ProjectGuid>5abc8c8b-9d9b-4c31-9516-a51a9f3d0bfe</ProjectGuid>
+    <ProjectGuid>3ef2e9a2-afdc-4109-833a-aa8da77e1a4e</ProjectGuid>
   </PropertyGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">14.0</VisualStudioVersion>
@@ -12,6 +12,8 @@
     <StartupFile>script.R</StartupFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <ResetReplOnRun>True</ResetReplOnRun>
+    <CommandLineArgs />
     <SettingsFile>
     </SettingsFile>
   </PropertyGroup>
@@ -25,5 +27,5 @@
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\RTVS\Rules\rtvs.rules.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\RTVS\Rules\rtvs.rules.props') And !Exists('$(MSBuildUserExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\RTVS\Rules\rtvs.rules.props')" />
   <Import Project="$(MSBuildUserExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\RTVS\Targets\Microsoft.R.targets" Condition="Exists('$(MSBuildUserExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\RTVS\Targets\Microsoft.R.targets')" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\RTVS\Targets\Microsoft.R.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\RTVS\Targets\Microsoft.R.targets') And !Exists('$(MSBuildUserExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\RTVS\Targets\Microsoft.R.targets')" />
-  <Import Project="RProject.InMemory.Targets" Condition="Exists('RProject.InMemory.Targets')" />
+  <Import Project="ivanGaatOokIetsProberenInR.InMemory.Targets" Condition="Exists('ivanGaatOokIetsProberenInR.InMemory.Targets')" />
 </Project>

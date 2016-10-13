@@ -100,6 +100,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Model\Bereik.vb" />
+    <Compile Include="Model\FilterItem.vb" />
     <Compile Include="Model\Parameter.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -116,6 +117,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="util\JSONParser.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Form1.resx">
