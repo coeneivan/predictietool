@@ -42,27 +42,32 @@ Partial Class Form1
         Me.Button3 = New System.Windows.Forms.Button()
         Me.Label7 = New System.Windows.Forms.Label()
         Me.txtResult = New System.Windows.Forms.TextBox()
+        Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
+        Me.Button4 = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
         'txtNewX
         '
-        Me.txtNewX.Location = New System.Drawing.Point(40, 62)
+        Me.txtNewX.Location = New System.Drawing.Point(27, 40)
+        Me.txtNewX.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.txtNewX.Name = "txtNewX"
-        Me.txtNewX.Size = New System.Drawing.Size(218, 31)
+        Me.txtNewX.Size = New System.Drawing.Size(147, 22)
         Me.txtNewX.TabIndex = 0
         '
         'txtNewY
         '
-        Me.txtNewY.Location = New System.Drawing.Point(315, 62)
+        Me.txtNewY.Location = New System.Drawing.Point(210, 40)
+        Me.txtNewY.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.txtNewY.Name = "txtNewY"
-        Me.txtNewY.Size = New System.Drawing.Size(290, 31)
+        Me.txtNewY.Size = New System.Drawing.Size(195, 22)
         Me.txtNewY.TabIndex = 1
         '
         'btnAdd
         '
-        Me.btnAdd.Location = New System.Drawing.Point(673, 50)
+        Me.btnAdd.Location = New System.Drawing.Point(449, 32)
+        Me.btnAdd.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.btnAdd.Name = "btnAdd"
-        Me.btnAdd.Size = New System.Drawing.Size(220, 54)
+        Me.btnAdd.Size = New System.Drawing.Size(147, 35)
         Me.btnAdd.TabIndex = 2
         Me.btnAdd.Text = "ADD"
         Me.btnAdd.UseVisualStyleBackColor = True
@@ -70,51 +75,57 @@ Partial Class Form1
         'lbX
         '
         Me.lbX.FormattingEnabled = True
-        Me.lbX.ItemHeight = 25
-        Me.lbX.Location = New System.Drawing.Point(40, 223)
+        Me.lbX.ItemHeight = 16
+        Me.lbX.Location = New System.Drawing.Point(27, 143)
+        Me.lbX.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.lbX.Name = "lbX"
-        Me.lbX.Size = New System.Drawing.Size(218, 429)
+        Me.lbX.Size = New System.Drawing.Size(147, 276)
         Me.lbX.TabIndex = 3
         '
         'lbY
         '
         Me.lbY.FormattingEnabled = True
-        Me.lbY.ItemHeight = 25
-        Me.lbY.Location = New System.Drawing.Point(315, 223)
+        Me.lbY.ItemHeight = 16
+        Me.lbY.Location = New System.Drawing.Point(210, 143)
+        Me.lbY.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.lbY.Name = "lbY"
-        Me.lbY.Size = New System.Drawing.Size(290, 429)
+        Me.lbY.Size = New System.Drawing.Size(195, 276)
         Me.lbY.TabIndex = 3
         '
         'txtCalculateX
         '
-        Me.txtCalculateX.Location = New System.Drawing.Point(40, 133)
+        Me.txtCalculateX.Location = New System.Drawing.Point(27, 85)
+        Me.txtCalculateX.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.txtCalculateX.Name = "txtCalculateX"
-        Me.txtCalculateX.Size = New System.Drawing.Size(218, 31)
+        Me.txtCalculateX.Size = New System.Drawing.Size(147, 22)
         Me.txtCalculateX.TabIndex = 4
         Me.txtCalculateX.Text = "2015"
         '
         'txtCalculateY
         '
-        Me.txtCalculateY.Location = New System.Drawing.Point(315, 133)
+        Me.txtCalculateY.Location = New System.Drawing.Point(210, 85)
+        Me.txtCalculateY.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.txtCalculateY.Name = "txtCalculateY"
         Me.txtCalculateY.ReadOnly = True
-        Me.txtCalculateY.Size = New System.Drawing.Size(290, 31)
+        Me.txtCalculateY.Size = New System.Drawing.Size(195, 22)
         Me.txtCalculateY.TabIndex = 6
         '
         'btnCalc
         '
-        Me.btnCalc.Location = New System.Drawing.Point(673, 121)
+        Me.btnCalc.Location = New System.Drawing.Point(449, 77)
+        Me.btnCalc.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.btnCalc.Name = "btnCalc"
-        Me.btnCalc.Size = New System.Drawing.Size(220, 54)
+        Me.btnCalc.Size = New System.Drawing.Size(147, 35)
         Me.btnCalc.TabIndex = 5
         Me.btnCalc.Text = "Prospect"
         Me.btnCalc.UseVisualStyleBackColor = True
         '
         'btnTest
         '
-        Me.btnTest.Location = New System.Drawing.Point(673, 294)
+        Me.btnTest.Location = New System.Drawing.Point(449, 188)
+        Me.btnTest.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.btnTest.Name = "btnTest"
-        Me.btnTest.Size = New System.Drawing.Size(220, 112)
+        Me.btnTest.Size = New System.Drawing.Size(147, 72)
         Me.btnTest.TabIndex = 5
         Me.btnTest.Text = "ADD TEST DAT (YEAR)"
         Me.btnTest.UseVisualStyleBackColor = True
@@ -122,80 +133,89 @@ Partial Class Form1
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(40, 31)
+        Me.Label1.Location = New System.Drawing.Point(27, 20)
+        Me.Label1.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(74, 25)
+        Me.Label1.Size = New System.Drawing.Size(48, 17)
         Me.Label1.TabIndex = 7
         Me.Label1.Text = "New X"
         '
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(315, 31)
+        Me.Label2.Location = New System.Drawing.Point(210, 20)
+        Me.Label2.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(75, 25)
+        Me.Label2.Size = New System.Drawing.Size(48, 17)
         Me.Label2.TabIndex = 7
         Me.Label2.Text = "New Y"
         '
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(40, 105)
+        Me.Label3.Location = New System.Drawing.Point(27, 67)
+        Me.Label3.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(139, 25)
+        Me.Label3.Size = New System.Drawing.Size(92, 17)
         Me.Label3.TabIndex = 7
         Me.Label3.Text = "X to prospect"
         '
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(40, 195)
+        Me.Label4.Location = New System.Drawing.Point(27, 125)
+        Me.Label4.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(112, 25)
+        Me.Label4.Size = New System.Drawing.Size(73, 17)
         Me.Label4.TabIndex = 7
         Me.Label4.Text = "Known X's"
         '
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(315, 105)
+        Me.Label5.Location = New System.Drawing.Point(210, 67)
+        Me.Label5.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(126, 25)
+        Me.Label5.Size = New System.Drawing.Size(83, 17)
         Me.Label5.TabIndex = 7
         Me.Label5.Text = "Prospection"
         '
         'Label6
         '
         Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(315, 195)
+        Me.Label6.Location = New System.Drawing.Point(210, 125)
+        Me.Label6.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(110, 25)
+        Me.Label6.Size = New System.Drawing.Size(71, 17)
         Me.Label6.TabIndex = 7
         Me.Label6.Text = "known Y's"
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(673, 414)
+        Me.Button1.Location = New System.Drawing.Point(449, 265)
+        Me.Button1.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(220, 112)
+        Me.Button1.Size = New System.Drawing.Size(147, 72)
         Me.Button1.TabIndex = 5
         Me.Button1.Text = "ADD TEST DATA (WEB)"
         Me.Button1.UseVisualStyleBackColor = True
         '
         'Button2
         '
-        Me.Button2.Location = New System.Drawing.Point(673, 534)
+        Me.Button2.Location = New System.Drawing.Point(449, 342)
+        Me.Button2.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(220, 112)
+        Me.Button2.Size = New System.Drawing.Size(147, 72)
         Me.Button2.TabIndex = 5
         Me.Button2.Text = "ADD TEST DATA (MONDAY)"
         Me.Button2.UseVisualStyleBackColor = True
         '
         'Button3
         '
-        Me.Button3.Location = New System.Drawing.Point(673, 195)
+        Me.Button3.Location = New System.Drawing.Point(449, 125)
+        Me.Button3.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.Button3.Name = "Button3"
-        Me.Button3.Size = New System.Drawing.Size(220, 54)
+        Me.Button3.Size = New System.Drawing.Size(147, 35)
         Me.Button3.TabIndex = 5
         Me.Button3.Text = "Clear list"
         Me.Button3.UseVisualStyleBackColor = True
@@ -203,25 +223,41 @@ Partial Class Form1
         'Label7
         '
         Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(40, 694)
+        Me.Label7.Location = New System.Drawing.Point(27, 444)
+        Me.Label7.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(224, 25)
+        Me.Label7.Size = New System.Drawing.Size(148, 17)
         Me.Label7.TabIndex = 8
         Me.Label7.Text = "Result (95% certainty)"
         '
         'txtResult
         '
-        Me.txtResult.Location = New System.Drawing.Point(40, 737)
+        Me.txtResult.Location = New System.Drawing.Point(27, 472)
+        Me.txtResult.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.txtResult.Name = "txtResult"
         Me.txtResult.ReadOnly = True
-        Me.txtResult.Size = New System.Drawing.Size(565, 31)
+        Me.txtResult.Size = New System.Drawing.Size(378, 22)
         Me.txtResult.TabIndex = 9
+        '
+        'OpenFileDialog1
+        '
+        Me.OpenFileDialog1.FileName = "OpenFileDialog1"
+        '
+        'Button4
+        '
+        Me.Button4.Location = New System.Drawing.Point(449, 472)
+        Me.Button4.Name = "Button4"
+        Me.Button4.Size = New System.Drawing.Size(147, 22)
+        Me.Button4.TabIndex = 10
+        Me.Button4.Text = "Button4"
+        Me.Button4.UseVisualStyleBackColor = True
         '
         'Form1
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(12.0!, 25.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(937, 1019)
+        Me.ClientSize = New System.Drawing.Size(625, 652)
+        Me.Controls.Add(Me.Button4)
         Me.Controls.Add(Me.txtResult)
         Me.Controls.Add(Me.Label7)
         Me.Controls.Add(Me.Label6)
@@ -242,6 +278,7 @@ Partial Class Form1
         Me.Controls.Add(Me.txtCalculateX)
         Me.Controls.Add(Me.txtNewY)
         Me.Controls.Add(Me.txtNewX)
+        Me.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.Name = "Form1"
         Me.Text = "Form1"
         Me.ResumeLayout(False)
@@ -269,4 +306,6 @@ Partial Class Form1
     Friend WithEvents Button3 As Button
     Friend WithEvents Label7 As Label
     Friend WithEvents txtResult As TextBox
+    Friend WithEvents OpenFileDialog1 As OpenFileDialog
+    Friend WithEvents Button4 As Button
 End Class
