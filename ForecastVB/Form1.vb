@@ -98,6 +98,11 @@
         Next
         txtCalculateY.Text = ""
     End Sub
+
+    Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
+        OpenFileDialog1.ShowDialog()
+    End Sub
+
     Private Sub clearList()
         knownY.Clear()
         knownX.Clear()
