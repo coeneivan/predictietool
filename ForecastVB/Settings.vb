@@ -1,4 +1,7 @@
-﻿Public Class Settings
+﻿Imports ForecastVB.FilterItem
+Imports System.Web.Script.Serialization
+
+Public Class Settings
 
     Private tabelNaam = "dbo.Cursussen" 'De tabel naam waarin de kolomen moeten worden gezocht
     Public Sub New()
@@ -45,10 +48,23 @@
     ''' </summary>
     Private Sub ListViewStarter()
         lsvFilter.Columns.Add("Kolom", 250)
-        lsvFilter.Columns.Add("Factor", 150)
-        lsvFilter.Columns.Add("Filter", 200)
-
+        lsvFilter.Columns.Add("Factor", 100)
+        lsvFilter.Columns.Add("Filter", 225)
     End Sub
+
+    Private Function createFilterList() As ArrayList
+        Dim itemList As New ArrayList
+
+        For Each item As ListViewItem In lsvFilter.Items
+            Dim f As New FilterItem
+            f.setKolom(item.SubItems.Item(0).Text)
+            f.setFactor(item.SubItems.Item(1).Text)
+            f.setFilter(item.SubItems.Item(2).Text)
+            itemList.Add(f)
+        Next
+
+        Return itemList
+    End Function
 
     ''' <summary>
     ''' Ingestelde parameters worden door op de toevoegen knop te drukken toegevoegd aan de te filteren lijst
@@ -74,5 +90,7 @@
                 lsvFilter.Items.Remove(i)
             Next
         End If
+
+        createFilterList()
     End Sub
 End Class

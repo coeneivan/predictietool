@@ -35,16 +35,16 @@ Partial Class Settings
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(12, 13)
+        Me.Label1.Location = New System.Drawing.Point(11, 260)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(170, 13)
+        Me.Label1.Size = New System.Drawing.Size(34, 13)
         Me.Label1.TabIndex = 2
-        Me.Label1.Text = "SQL waarop gefilterd moet worden"
+        Me.Label1.Text = "Filters"
         '
         'lsvFilter
         '
         Me.lsvFilter.FullRowSelect = True
-        Me.lsvFilter.Location = New System.Drawing.Point(12, 29)
+        Me.lsvFilter.Location = New System.Drawing.Point(11, 276)
         Me.lsvFilter.Name = "lsvFilter"
         Me.lsvFilter.Size = New System.Drawing.Size(612, 126)
         Me.lsvFilter.TabIndex = 3
@@ -53,14 +53,14 @@ Partial Class Settings
         '
         'txtOmschrijving
         '
-        Me.txtOmschrijving.Location = New System.Drawing.Point(424, 161)
+        Me.txtOmschrijving.Location = New System.Drawing.Point(423, 408)
         Me.txtOmschrijving.Name = "txtOmschrijving"
         Me.txtOmschrijving.Size = New System.Drawing.Size(200, 20)
         Me.txtOmschrijving.TabIndex = 6
         '
         'btnAdd
         '
-        Me.btnAdd.Location = New System.Drawing.Point(548, 187)
+        Me.btnAdd.Location = New System.Drawing.Point(547, 434)
         Me.btnAdd.Name = "btnAdd"
         Me.btnAdd.Size = New System.Drawing.Size(75, 23)
         Me.btnAdd.TabIndex = 7
@@ -69,7 +69,7 @@ Partial Class Settings
         '
         'btnRemove
         '
-        Me.btnRemove.Location = New System.Drawing.Point(12, 187)
+        Me.btnRemove.Location = New System.Drawing.Point(11, 434)
         Me.btnRemove.Name = "btnRemove"
         Me.btnRemove.Size = New System.Drawing.Size(75, 23)
         Me.btnRemove.TabIndex = 8
@@ -80,7 +80,7 @@ Partial Class Settings
         '
         Me.cbbKolom.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cbbKolom.FormattingEnabled = True
-        Me.cbbKolom.Location = New System.Drawing.Point(12, 161)
+        Me.cbbKolom.Location = New System.Drawing.Point(11, 408)
         Me.cbbKolom.Name = "cbbKolom"
         Me.cbbKolom.Size = New System.Drawing.Size(250, 21)
         Me.cbbKolom.TabIndex = 9
@@ -89,7 +89,7 @@ Partial Class Settings
         '
         Me.cbbFactor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cbbFactor.FormattingEnabled = True
-        Me.cbbFactor.Location = New System.Drawing.Point(269, 160)
+        Me.cbbFactor.Location = New System.Drawing.Point(268, 407)
         Me.cbbFactor.Name = "cbbFactor"
         Me.cbbFactor.Size = New System.Drawing.Size(149, 21)
         Me.cbbFactor.TabIndex = 10
@@ -98,7 +98,7 @@ Partial Class Settings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(635, 215)
+        Me.ClientSize = New System.Drawing.Size(635, 480)
         Me.Controls.Add(Me.cbbFactor)
         Me.Controls.Add(Me.cbbKolom)
         Me.Controls.Add(Me.btnRemove)
