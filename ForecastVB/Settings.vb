@@ -1,5 +1,4 @@
 ﻿Imports ForecastVB.FilterItem
-Imports System.Web.Script.Serialization
 
 Public Class Settings
 
@@ -90,7 +89,5 @@ Public Class Settings
                 lsvFilter.Items.Remove(i)
             Next
         End If
-
-        createFilterList()
     End Sub
 End Class

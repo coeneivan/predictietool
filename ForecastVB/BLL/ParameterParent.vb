@@ -28,7 +28,7 @@ Public Class ParameterParent
     ''' <returns></returns>
     Public Function berekenVerwachtingsBereik(jaar As Integer, parameterwaarde As String) As Bereik
         Dim dao As New ParametersDAO
-        Dim all = dao.getCursussen(jaar, parameternaam, parameterwaarde)
+        Dim all = dao.getCursussen(jaar, parameternaam, parameterwaarde, Nothing)
         Dim p As New Prospect
         Dim pros = p.prospect(all, jaar)
         Dim range = p.certainty(all, pros)
