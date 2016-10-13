@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="Globals">
     <ProjectGuid>5abc8c8b-9d9b-4c31-9516-a51a9f3d0bfe</ProjectGuid>
@@ -10,6 +10,10 @@
   </PropertyGroup>
   <PropertyGroup>
     <StartupFile>script.R</StartupFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <SettingsFile>
+    </SettingsFile>
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>

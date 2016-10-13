@@ -18,7 +18,7 @@ DrawVerhoudingGeschraptPerDagPerSubafdeling <- function(Subafdeling) {
     query = sprintf("SELECT DISTINCT dag, count(*) as totaal, COUNT(CASE WHEN CodeIngetrokken = 'Nee' THEN 1 ELSE NULL END) AS Doorgegaan, COUNT(CASE WHEN CodeIngetrokken = 'Ja' THEN 1 ELSE NULL END) AS Ingetrokken from Cursussen where CodeSubafdeling = \'%s\' Group by dag;", Subafdeling)
     # Run Query
     week <- sqlQuery(dbhandle, query)
-    week2 <- data.frame(week$dag, week$Doorgegaan)
+    week2 <- data.frame(week)
     barplot(as.matrix(week2))   
 }
 

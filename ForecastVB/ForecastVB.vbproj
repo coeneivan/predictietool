@@ -93,7 +93,6 @@
     <Compile Include="GeneralData.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="JSON EXAMPLE\HomeView.vb" />
     <Compile Include="MainScreen.Designer.vb">
       <DependentUpon>MainScreen.vb</DependentUpon>
     </Compile>
@@ -101,6 +100,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Model\Bereik.vb" />
+    <Compile Include="Model\FilterItem.vb" />
     <Compile Include="Model\Parameter.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -117,12 +117,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Settings.Designer.vb">
-      <DependentUpon>Settings.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Settings.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="util\JSONParser.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Form1.resx">
@@ -142,12 +137,8 @@
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Settings.resx">
-      <DependentUpon>Settings.vb</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="JSON EXAMPLE\OefeningenDict.json" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
@@ -161,9 +152,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="conn.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="FIlter\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
