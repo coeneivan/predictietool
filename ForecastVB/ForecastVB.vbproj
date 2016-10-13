@@ -80,6 +80,7 @@
     <Compile Include="BLL\SubAfdBLL.vb" />
     <Compile Include="DAO\ParametersDAO.vb" />
     <Compile Include="DAO\SQLUtil.vb" />
+    <Compile Include="example JSON\HomeView.vb" />
     <Compile Include="Form1.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -145,6 +146,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="example JSON\OefeningenDict.json" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
@@ -159,9 +161,7 @@
   <ItemGroup>
     <Content Include="conn.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="example JSON\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
