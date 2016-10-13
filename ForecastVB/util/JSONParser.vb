@@ -5,8 +5,8 @@ Imports System.Web
 Public Class JSONParser
     Private fileReader As String
     Public Function read(filePath As String) As ArrayList
-        Dim json As String = filePath
-        Dim ser As JObject = JObject.Parse(json)
+        'Dim json As String = filePath
+        Dim ser As JObject = JObject.Parse(My.Computer.FileSystem.ReadAllText(filePath))
         Dim data As List(Of JToken) = ser.Children().ToList
         Dim list As New ArrayList
 
@@ -23,9 +23,9 @@ Public Class JSONParser
         Next
         Return list
     End Function
-    Public Function save(filters As ArrayList, filepath As String) As Boolean
+
+    Public Function save(filters As ArrayList) As String
         Dim serializer As New JavaScriptSerializer()
-        serializer.Serialize(filters.ToArray)
-        Return True
+        Return serializer.Serialize(filters.ToArray)
     End Function
 End Class
