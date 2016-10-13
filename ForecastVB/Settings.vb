@@ -91,7 +91,7 @@ Public Class Settings
         End If
     End Sub
 
-    Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
+    Private Sub btnOpen_Click(sender As Object, e As EventArgs) Handles btnOpen.Click
         OpenFileDialog1.Filter = "JSON file|*.json"
         OpenFileDialog1.Title = "Open a JSON File"
         OpenFileDialog1.ShowDialog()
@@ -110,7 +110,7 @@ Public Class Settings
         Next
     End Sub
 
-    Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
+    Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
         SaveFileDialog1.Filter = "JSON file|*.json"
         SaveFileDialog1.Title = "Save a JSON File"
         SaveFileDialog1.ShowDialog()

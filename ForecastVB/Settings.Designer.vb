@@ -32,8 +32,8 @@ Partial Class Settings
         Me.cbbFactor = New System.Windows.Forms.ComboBox()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.ListView1 = New System.Windows.Forms.ListView()
-        Me.Button4 = New System.Windows.Forms.Button()
-        Me.Button5 = New System.Windows.Forms.Button()
+        Me.btnOpen = New System.Windows.Forms.Button()
+        Me.btnSave = New System.Windows.Forms.Button()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.SuspendLayout()
@@ -66,7 +66,7 @@ Partial Class Settings
         '
         'btnAdd
         '
-        Me.btnAdd.Location = New System.Drawing.Point(547, 357)
+        Me.btnAdd.Location = New System.Drawing.Point(548, 357)
         Me.btnAdd.Name = "btnAdd"
         Me.btnAdd.Size = New System.Drawing.Size(75, 23)
         Me.btnAdd.TabIndex = 7
@@ -113,29 +113,29 @@ Partial Class Settings
         '
         Me.ListView1.Location = New System.Drawing.Point(11, 25)
         Me.ListView1.Name = "ListView1"
-        Me.ListView1.Size = New System.Drawing.Size(406, 121)
+        Me.ListView1.Size = New System.Drawing.Size(483, 121)
         Me.ListView1.TabIndex = 12
         Me.ListView1.UseCompatibleStateImageBehavior = False
         '
-        'Button4
+        'btnOpen
         '
-        Me.Button4.Location = New System.Drawing.Point(444, 35)
-        Me.Button4.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button4.Name = "Button4"
-        Me.Button4.Size = New System.Drawing.Size(110, 20)
-        Me.Button4.TabIndex = 13
-        Me.Button4.Text = "Button4"
-        Me.Button4.UseVisualStyleBackColor = True
+        Me.btnOpen.Location = New System.Drawing.Point(508, 25)
+        Me.btnOpen.Margin = New System.Windows.Forms.Padding(2)
+        Me.btnOpen.Name = "btnOpen"
+        Me.btnOpen.Size = New System.Drawing.Size(115, 24)
+        Me.btnOpen.TabIndex = 13
+        Me.btnOpen.Text = "Filter lijst toevoegen"
+        Me.btnOpen.UseVisualStyleBackColor = True
         '
-        'Button5
+        'btnSave
         '
-        Me.Button5.Location = New System.Drawing.Point(444, 73)
-        Me.Button5.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button5.Name = "Button5"
-        Me.Button5.Size = New System.Drawing.Size(56, 19)
-        Me.Button5.TabIndex = 14
-        Me.Button5.Text = "Button5"
-        Me.Button5.UseVisualStyleBackColor = True
+        Me.btnSave.Location = New System.Drawing.Point(548, 385)
+        Me.btnSave.Margin = New System.Windows.Forms.Padding(2)
+        Me.btnSave.Name = "btnSave"
+        Me.btnSave.Size = New System.Drawing.Size(75, 23)
+        Me.btnSave.TabIndex = 14
+        Me.btnSave.Text = "Lijst opslaan"
+        Me.btnSave.UseVisualStyleBackColor = True
         '
         'OpenFileDialog1
         '
@@ -145,9 +145,9 @@ Partial Class Settings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(635, 387)
-        Me.Controls.Add(Me.Button5)
-        Me.Controls.Add(Me.Button4)
+        Me.ClientSize = New System.Drawing.Size(635, 414)
+        Me.Controls.Add(Me.btnSave)
+        Me.Controls.Add(Me.btnOpen)
         Me.Controls.Add(Me.ListView1)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.cbbFactor)
@@ -173,8 +173,8 @@ Partial Class Settings
     Friend WithEvents cbbFactor As ComboBox
     Friend WithEvents Label2 As Label
     Friend WithEvents ListView1 As ListView
-    Friend WithEvents Button4 As Button
-    Friend WithEvents Button5 As Button
+    Friend WithEvents btnOpen As Button
+    Friend WithEvents btnSave As Button
     Friend WithEvents OpenFileDialog1 As OpenFileDialog
     Friend WithEvents SaveFileDialog1 As SaveFileDialog
 End Class
