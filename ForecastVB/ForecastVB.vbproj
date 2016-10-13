@@ -117,6 +117,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Settings.Designer.vb">
+      <DependentUpon>Settings.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Settings.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="util\JSONParser.vb" />
   </ItemGroup>
   <ItemGroup>
@@ -152,6 +158,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="conn.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="example JSON\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
