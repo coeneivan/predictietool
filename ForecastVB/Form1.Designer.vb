@@ -44,12 +44,14 @@ Partial Class Form1
         Me.txtResult = New System.Windows.Forms.TextBox()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.Button4 = New System.Windows.Forms.Button()
+        Me.Button5 = New System.Windows.Forms.Button()
+        Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.SuspendLayout()
         '
         'txtNewX
         '
         Me.txtNewX.Location = New System.Drawing.Point(27, 40)
-        Me.txtNewX.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.txtNewX.Margin = New System.Windows.Forms.Padding(2)
         Me.txtNewX.Name = "txtNewX"
         Me.txtNewX.Size = New System.Drawing.Size(147, 22)
         Me.txtNewX.TabIndex = 0
@@ -57,7 +59,7 @@ Partial Class Form1
         'txtNewY
         '
         Me.txtNewY.Location = New System.Drawing.Point(210, 40)
-        Me.txtNewY.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.txtNewY.Margin = New System.Windows.Forms.Padding(2)
         Me.txtNewY.Name = "txtNewY"
         Me.txtNewY.Size = New System.Drawing.Size(195, 22)
         Me.txtNewY.TabIndex = 1
@@ -65,7 +67,7 @@ Partial Class Form1
         'btnAdd
         '
         Me.btnAdd.Location = New System.Drawing.Point(449, 32)
-        Me.btnAdd.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.btnAdd.Margin = New System.Windows.Forms.Padding(2)
         Me.btnAdd.Name = "btnAdd"
         Me.btnAdd.Size = New System.Drawing.Size(147, 35)
         Me.btnAdd.TabIndex = 2
@@ -77,7 +79,7 @@ Partial Class Form1
         Me.lbX.FormattingEnabled = True
         Me.lbX.ItemHeight = 16
         Me.lbX.Location = New System.Drawing.Point(27, 143)
-        Me.lbX.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.lbX.Margin = New System.Windows.Forms.Padding(2)
         Me.lbX.Name = "lbX"
         Me.lbX.Size = New System.Drawing.Size(147, 276)
         Me.lbX.TabIndex = 3
@@ -87,7 +89,7 @@ Partial Class Form1
         Me.lbY.FormattingEnabled = True
         Me.lbY.ItemHeight = 16
         Me.lbY.Location = New System.Drawing.Point(210, 143)
-        Me.lbY.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.lbY.Margin = New System.Windows.Forms.Padding(2)
         Me.lbY.Name = "lbY"
         Me.lbY.Size = New System.Drawing.Size(195, 276)
         Me.lbY.TabIndex = 3
@@ -95,7 +97,7 @@ Partial Class Form1
         'txtCalculateX
         '
         Me.txtCalculateX.Location = New System.Drawing.Point(27, 85)
-        Me.txtCalculateX.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.txtCalculateX.Margin = New System.Windows.Forms.Padding(2)
         Me.txtCalculateX.Name = "txtCalculateX"
         Me.txtCalculateX.Size = New System.Drawing.Size(147, 22)
         Me.txtCalculateX.TabIndex = 4
@@ -104,7 +106,7 @@ Partial Class Form1
         'txtCalculateY
         '
         Me.txtCalculateY.Location = New System.Drawing.Point(210, 85)
-        Me.txtCalculateY.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.txtCalculateY.Margin = New System.Windows.Forms.Padding(2)
         Me.txtCalculateY.Name = "txtCalculateY"
         Me.txtCalculateY.ReadOnly = True
         Me.txtCalculateY.Size = New System.Drawing.Size(195, 22)
@@ -113,7 +115,7 @@ Partial Class Form1
         'btnCalc
         '
         Me.btnCalc.Location = New System.Drawing.Point(449, 77)
-        Me.btnCalc.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.btnCalc.Margin = New System.Windows.Forms.Padding(2)
         Me.btnCalc.Name = "btnCalc"
         Me.btnCalc.Size = New System.Drawing.Size(147, 35)
         Me.btnCalc.TabIndex = 5
@@ -123,7 +125,7 @@ Partial Class Form1
         'btnTest
         '
         Me.btnTest.Location = New System.Drawing.Point(449, 188)
-        Me.btnTest.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.btnTest.Margin = New System.Windows.Forms.Padding(2)
         Me.btnTest.Name = "btnTest"
         Me.btnTest.Size = New System.Drawing.Size(147, 72)
         Me.btnTest.TabIndex = 5
@@ -193,7 +195,7 @@ Partial Class Form1
         'Button1
         '
         Me.Button1.Location = New System.Drawing.Point(449, 265)
-        Me.Button1.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.Button1.Margin = New System.Windows.Forms.Padding(2)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(147, 72)
         Me.Button1.TabIndex = 5
@@ -203,7 +205,7 @@ Partial Class Form1
         'Button2
         '
         Me.Button2.Location = New System.Drawing.Point(449, 342)
-        Me.Button2.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.Button2.Margin = New System.Windows.Forms.Padding(2)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(147, 72)
         Me.Button2.TabIndex = 5
@@ -213,7 +215,7 @@ Partial Class Form1
         'Button3
         '
         Me.Button3.Location = New System.Drawing.Point(449, 125)
-        Me.Button3.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.Button3.Margin = New System.Windows.Forms.Padding(2)
         Me.Button3.Name = "Button3"
         Me.Button3.Size = New System.Drawing.Size(147, 35)
         Me.Button3.TabIndex = 5
@@ -233,7 +235,7 @@ Partial Class Form1
         'txtResult
         '
         Me.txtResult.Location = New System.Drawing.Point(27, 472)
-        Me.txtResult.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.txtResult.Margin = New System.Windows.Forms.Padding(2)
         Me.txtResult.Name = "txtResult"
         Me.txtResult.ReadOnly = True
         Me.txtResult.Size = New System.Drawing.Size(378, 22)
@@ -242,6 +244,7 @@ Partial Class Form1
         'OpenFileDialog1
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
+        Me.OpenFileDialog1.Filter = "JSON Files|*.JSON"
         '
         'Button4
         '
@@ -252,11 +255,21 @@ Partial Class Form1
         Me.Button4.Text = "Button4"
         Me.Button4.UseVisualStyleBackColor = True
         '
+        'Button5
+        '
+        Me.Button5.Location = New System.Drawing.Point(30, 533)
+        Me.Button5.Name = "Button5"
+        Me.Button5.Size = New System.Drawing.Size(75, 23)
+        Me.Button5.TabIndex = 11
+        Me.Button5.Text = "Button5"
+        Me.Button5.UseVisualStyleBackColor = True
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(625, 652)
+        Me.Controls.Add(Me.Button5)
         Me.Controls.Add(Me.Button4)
         Me.Controls.Add(Me.txtResult)
         Me.Controls.Add(Me.Label7)
@@ -278,7 +291,7 @@ Partial Class Form1
         Me.Controls.Add(Me.txtCalculateX)
         Me.Controls.Add(Me.txtNewY)
         Me.Controls.Add(Me.txtNewX)
-        Me.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.Margin = New System.Windows.Forms.Padding(2)
         Me.Name = "Form1"
         Me.Text = "Form1"
         Me.ResumeLayout(False)
@@ -308,4 +321,6 @@ Partial Class Form1
     Friend WithEvents txtResult As TextBox
     Friend WithEvents OpenFileDialog1 As OpenFileDialog
     Friend WithEvents Button4 As Button
+    Friend WithEvents Button5 As Button
+    Friend WithEvents SaveFileDialog1 As SaveFileDialog
 End Class
