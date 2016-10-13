@@ -24,7 +24,7 @@ Public Class ParametersDAO
             For i As Integer = 0 To filter.Count - 1
                 Dim filIt As FilterItem
                 filIt = filter.Item(i)
-                fil += " AND " + filIt.getKolom + " " + filIt.getFactor + " " + filIt.getFilter
+                fil += " AND " + filIt.kolom + " " + filIt.factor + " " + filIt.filter
 
             Next
 

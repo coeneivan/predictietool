@@ -56,9 +56,9 @@ Public Class Settings
 
         For Each item As ListViewItem In lsvFilter.Items
             Dim f As New FilterItem
-            f.setKolom(item.SubItems.Item(0).Text)
-            f.setFactor(item.SubItems.Item(1).Text)
-            f.setFilter(item.SubItems.Item(2).Text)
+            f.kolom = item.SubItems.Item(0).Text
+            f.factor = item.SubItems.Item(1).Text
+            f.filter = item.SubItems.Item(2).Text
             itemList.Add(f)
         Next
 
@@ -88,6 +88,38 @@ Public Class Settings
             For Each i As ListViewItem In lsvFilter.SelectedItems
                 lsvFilter.Items.Remove(i)
             Next
+        End If
+    End Sub
+
+    Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
+        OpenFileDialog1.Filter = "JSON file|*.json"
+        OpenFileDialog1.Title = "Open a JSON File"
+        OpenFileDialog1.ShowDialog()
+        Dim j As New JSONParser()
+        Dim filters = j.read(OpenFileDialog1.FileName)
+
+        lsvFilter.Clear()
+        ListViewStarter()
+
+        For Each f As FilterItem In filters
+            Dim lvi As New ListViewItem(f.kolom, 0)
+            lvi.SubItems.Add(f.factor)
+            lvi.SubItems.Add(f.filter)
+
+            lsvFilter.Items.Add(lvi)
+        Next
+    End Sub
+
+    Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
+        SaveFileDialog1.Filter = "JSON file|*.json"
+        SaveFileDialog1.Title = "Save a JSON File"
+        SaveFileDialog1.ShowDialog()
+
+        If SaveFileDialog1.FileName <> "" Then
+            Dim j As New JSONParser()
+            Dim filters As New ArrayList
+            filters = createFilterList()
+            My.Computer.FileSystem.WriteAllText(SaveFileDialog1.FileName, j.save(filters), False)
         End If
     End Sub
 End Class

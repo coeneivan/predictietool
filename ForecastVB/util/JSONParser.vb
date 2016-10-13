@@ -6,20 +6,16 @@ Public Class JSONParser
     Private fileReader As String
     Public Function read(filePath As String) As ArrayList
         'Dim json As String = filePath
-        Dim ser As JObject = JObject.Parse(My.Computer.FileSystem.ReadAllText(filePath))
+        Dim ser As JArray = JArray.Parse(My.Computer.FileSystem.ReadAllText(filePath))
         Dim data As List(Of JToken) = ser.Children().ToList
         Dim list As New ArrayList
 
-        For Each item As JProperty In data
+        For Each item As JObject In data
             item.CreateReader()
-            If item.Name = "filter" Then
-                For Each comment As JObject In item.Values
-                    Dim k As String = comment("kolom")
-                    Dim fa As String = comment("factor")
-                    Dim fi As String = comment("filter")
-                    list.Add(New FilterItem(k, fa, fi))
-                Next
-            End If
+            Dim k As String = item("kolom")
+            Dim fa As String = item("factor")
+            Dim fi As String = item("filter")
+            list.Add(New FilterItem(k, fa, fi))
         Next
         Return list
     End Function
