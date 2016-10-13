@@ -95,19 +95,22 @@ Public Class Settings
         OpenFileDialog1.Filter = "JSON file|*.json"
         OpenFileDialog1.Title = "Open a JSON File"
         OpenFileDialog1.ShowDialog()
-        Dim j As New JSONParser()
-        Dim filters = j.read(OpenFileDialog1.FileName)
 
-        lsvFilter.Clear()
-        ListViewStarter()
+        If OpenFileDialog1.FileName <> "" And My.Computer.FileSystem.FileExists(OpenFileDialog1.FileName) Then
+            Dim j As New JSONParser()
+            Dim filters = j.read(OpenFileDialog1.FileName)
+            lsvFilter.Clear()
+            ListViewStarter()
 
-        For Each f As FilterItem In filters
-            Dim lvi As New ListViewItem(f.kolom, 0)
-            lvi.SubItems.Add(f.factor)
-            lvi.SubItems.Add(f.filter)
+            For Each f As FilterItem In filters
+                Dim lvi As New ListViewItem(f.kolom, 0)
+                lvi.SubItems.Add(f.factor)
+                lvi.SubItems.Add(f.filter)
 
-            lsvFilter.Items.Add(lvi)
-        Next
+                lsvFilter.Items.Add(lvi)
+            Next
+        End If
+
     End Sub
 
     Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
