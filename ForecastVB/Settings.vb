@@ -1,8 +1,8 @@
-﻿Imports ForecastVB.FilterItem
+﻿Imports System.IO
+Imports ForecastVB.FilterItem
 
 Public Class Settings
 
-    Private tabelNaam = "dbo.Cursussen" 'De tabel naam waarin de kolomen moeten worden gezocht
     Public Sub New()
 
         ' This call is required by the designer.
@@ -34,10 +34,10 @@ Public Class Settings
     ''' Zo wordt voorkomen dat de gebruiker de verkeerde naamin geeft voor een kolomn kop
     ''' </summary>
     Private Sub setKolomNaam()
-        Dim sqlUtil As New SQLUtil
-        Dim kolommen As ArrayList
+        Dim kolommen As New ArrayList
+        Dim filtersBLL As New FiltersBLL
 
-        kolommen = sqlUtil.getArrayList("SELECT name FROM Sys.columns WHERE object_id = OBJECT_ID('" + tabelNaam + "');")
+        kolommen = filtersBLL.getKolomkopCursussen()
 
         cbbKolom.Items.AddRange(kolommen.ToArray)
     End Sub
@@ -95,7 +95,7 @@ Public Class Settings
         OpenFileDialog1.Filter = "JSON file|*.json"
         OpenFileDialog1.Title = "Open a JSON File"
         OpenFileDialog1.ShowDialog()
-
+        'todo: auto save list
         If OpenFileDialog1.FileName <> "" And My.Computer.FileSystem.FileExists(OpenFileDialog1.FileName) Then
             Dim j As New JSONParser()
             Dim filters = j.read(OpenFileDialog1.FileName)
@@ -124,5 +124,7 @@ Public Class Settings
             filters = createFilterList()
             My.Computer.FileSystem.WriteAllText(SaveFileDialog1.FileName, j.save(filters), False)
         End If
+
+        'todo: save in new folder from mydocument
     End Sub
 End Class
