@@ -16,7 +16,7 @@
         Dim sql As New SQLUtil
         Dim subAfds As New ArrayList
         Dim subBll As New subAfdBll
-        subAfds.AddRange(sql.getArrayList("select distinct top 10 CodeSubafdeling from Cursussen where Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "'").ToArray())
+        subAfds.AddRange(sql.getArrayList("select distinct CodeSubafdeling from Cursussen where Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "'").ToArray())
         'TODO: delete top 10
 
 
@@ -41,7 +41,7 @@
 
                 lvi.SubItems.Add(y.ToString)
             End If
-            lvi.SubItems.Add(bereik.valtTussen(y))
+            'lvi.SubItems.Add(bereik.valtTussen(y))
             lvResult.Items.AddRange(New ListViewItem() {lvi})
 
             pgb.Value = i
