@@ -53,7 +53,7 @@
     End Sub
 
     Private Sub btnFilter_Click(sender As Object, e As EventArgs) Handles btnFilter.Click
-        Dim settings As New Settings()
+        Dim settings As New Settings(Me)
         settings.Show()
     End Sub
 

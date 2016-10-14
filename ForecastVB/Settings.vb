@@ -117,20 +117,24 @@ Public Class Settings
         If OpenFileDialog1.FileName <> "" And My.Computer.FileSystem.FileExists(OpenFileDialog1.FileName) Then
             Dim j As New JSONParser()
             Dim filters = j.read(OpenFileDialog1.FileName)
-            lsvFilter.Clear()
-            ListViewStarter()
-
-            For Each f As FilterItem In filters
-                Dim lvi As New ListViewItem(f.kolom, 0)
-                lvi.SubItems.Add(f.factor)
-                lvi.SubItems.Add(f.filter)
-
-                lsvFilter.Items.Add(lvi)
-            Next
-
-            makeFilterFileList()
+            readFilterFile(filters)
         End If
 
+    End Sub
+
+    Private Sub readFilterFile(filters As ArrayList)
+        lsvFilter.Clear()
+        ListViewStarter()
+
+        For Each f As FilterItem In filters
+            Dim lvi As New ListViewItem(f.kolom, 0)
+            lvi.SubItems.Add(f.factor)
+            lvi.SubItems.Add(f.filter)
+
+            lsvFilter.Items.Add(lvi)
+        Next
+
+        makeFilterFileList()
     End Sub
 
     Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
@@ -178,7 +182,10 @@ Public Class Settings
         End If
     End Sub
 
-
+    Private Sub cbbFilterFiles_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cbbFilterFiles.SelectedIndexChanged
+        Dim j As New JSONParser
+        readFilterFile(New ArrayList(j.read(saveDirectory + cbbFilterFiles.SelectedItem.ToString() + ".json")))
+    End Sub
 
     Private Sub Settings_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
         root.addFilters(filters)
