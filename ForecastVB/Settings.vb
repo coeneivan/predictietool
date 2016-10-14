@@ -1,4 +1,5 @@
-﻿Imports System.IO
+﻿Imports System.ComponentModel
+Imports System.IO
 Imports ForecastVB.FilterItem
 Imports Microsoft.VisualBasic.FileIO
 
@@ -6,9 +7,11 @@ Public Class Settings
 
     ' Directory waar alle filter bestanden worden in opgeslaan
     Dim saveDirectory As String = SpecialDirectories.MyDocuments + "//Predictie Filters//"
+    Private filters As ArrayList
+    Private root As MainScreen
 
-    Public Sub New()
-
+    Public Sub New(main As MainScreen)
+        filters = main.getFilters()
         ' This call is required by the designer.
         InitializeComponent()
         ' Add any initialization after the InitializeComponent() call.
@@ -173,5 +176,11 @@ Public Class Settings
                 e.Handled = True
             End If
         End If
+    End Sub
+
+
+
+    Private Sub Settings_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
+        root.addFilters(filters)
     End Sub
 End Class
