@@ -18,6 +18,11 @@
         Dim subBll As New subAfdBll
         subAfds.AddRange(sql.getArrayList("select distinct top 10 CodeSubafdeling from Cursussen where Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "'").ToArray())
         'TODO: delete top 10
+
+
+        pgb.Minimum = 0
+        pgb.Maximum = subAfds.Count - 1
+
         For i As Integer = 0 To subAfds.Count - 1
             Dim lvi As New ListViewItem(subAfds(i).ToString)
             Dim bereik = subBll.berekenVerwachtingsBereikVoorSubAfd(2015, subAfds(i), Nothing)
@@ -33,6 +38,8 @@
             End If
             lvi.SubItems.Add(bereik.valtTussen(y))
             lvResult.Items.AddRange(New ListViewItem() {lvi})
+
+            pgb.Value = i
         Next
     End Sub
 End Class
