@@ -1,6 +1,5 @@
 ﻿Imports System.ComponentModel
 Imports System.IO
-Imports ForecastVB.FilterItem
 
 Public Class Settings
     Private filters As ArrayList
@@ -131,6 +130,8 @@ Public Class Settings
     End Sub
 
     Private Sub Settings_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
-        root.addFilters(filters)
+        If filters.Count <> 0 Then
+            root.addFilters(filters)
+        End If
     End Sub
 End Class

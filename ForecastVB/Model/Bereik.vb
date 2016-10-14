@@ -19,6 +19,9 @@ Public Class Bereik
     ''' </summary>
     ''' <returns>Een string om aan de eindgebruike te tonen</returns>
     Public Overrides Function ToString() As String
-        Return "[" + Math.Round(ondergrens, 2).ToString + " - " + Math.Round(average, 2).ToString + " - " + Math.Round(bovengrens, 2).ToString + "]"
+        Return "[" + IIf(ondergrens > 0, Math.Round(ondergrens, 2), 0).ToString + " - " + Math.Round(average, 2).ToString + " - " + IIf(bovengrens < 100, Math.Round(bovengrens, 2), 100).ToString + "]"
+    End Function
+    Public Function valtTussen(x As Double) As Boolean
+        Return x >= ondergrens And x <= bovengrens
     End Function
 End Class
