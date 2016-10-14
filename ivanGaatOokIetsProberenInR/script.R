@@ -10,7 +10,7 @@ library(randomForest)
 dbhandle <- odbcDriverConnect('driver=SQL Server;server=USER-PC\\SQLExpress;database=SyntraTest')
 
 inget <- sqlQuery(dbhandle, "SELECT CodeIngetrokken, month(StartDatum) as StartDatum, dag, Merk, UitvCentrum, CodeSoortCursus, CodeAnalytischPlanSubafdeling, CodeSubafdeling, OpInternet FROM [SyntraTest].[dbo].[Cursussen]")
-colnames(inget) <- c("CodeIngetrokken", "StartDatum", "dag", "Merk", "UitvCentrum") #"CodeSoortCursus", "CodeAnalytischPlanSubafdeling", "CodeSubafdeling", "OpInternet"
+colnames(inget) <- c("CodeIngetrokken", "StartDatum", "dag", "Merk", "UitvCentrum", "CodeSoortCursus", "CodeAnalytischPlanSubafdeling", "CodeSubafdeling", "OpInternet")
 #summary(inget)
 
 ############VOOR OVER DE MIDDAG
@@ -18,7 +18,7 @@ colnames(inget) <- c("CodeIngetrokken", "StartDatum", "dag", "Merk", "UitvCentru
 # prepare training scheme
 control <- trainControl(method = "repeatedcv", number = 10, repeats = 3)
 # train the model
-model <- train(CodeIngetrokken ~ StartDatum + dag + Merk + UitvCentrum, data = inget, method = "lvq", preProcess = "scale", trControl = control)
+model <- train(CodeIngetrokken ~., data = inget, method = "lvq", preProcess = "scale", trControl = control)
 # estimate variable importance
 importance <- varImp(model, scale = FALSE)
 
