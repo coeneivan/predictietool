@@ -18,7 +18,7 @@
         Dim subBll As New subAfdBll
         Dim ja = 0
         Dim nee = 0
-        subAfds.AddRange(sql.getArrayList("select distinct top 10 CodeSubafdeling from Cursussen where Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "'").ToArray())
+        subAfds.AddRange(sql.getArrayList("select distinct CodeSubafdeling from Cursussen where Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' and year(StartDatum) = 2015 group by codesubafdeling having count(*) > 5").ToArray())
         'TODO: delete top 10
 
 
@@ -67,6 +67,6 @@
 
             pgb.Value = i
         Next
-        Label1.Text = "TRUE: " + ja + " FALSE: " + nee
+        Label1.Text = "TRUE: " + ja.ToString() + " FALSE: " + nee.ToString()
     End Sub
 End Class
