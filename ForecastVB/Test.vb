@@ -27,10 +27,23 @@
             Dim merk As New MerkBLL
             Dim dag As New DagBll
             Dim lvi As New ListViewItem(subAfds(i).ToString)
-            Dim subA = subBll.berekenVerwachtingsBereikVoorSubAfd(2015, subAfds(i), Nothing).getAvg
-            Dim dagA = dag.berekenVerwachtingsBereikVoorDag(2015, cboDag.SelectedItem.ToString, Nothing).getAvg
-            Dim merkA = merk.berekenVerwachtingsBereikVoorMerk(2015, cboMerk.SelectedItem.ToString, Nothing).getAvg
-            Dim bereik = (subA * dagA * merkA) / 3
+            Dim subA As Bereik = subBll.berekenVerwachtingsBereikVoorSubAfd(2015, subAfds(i), Nothing)
+            Dim dagA As Bereik = dag.berekenVerwachtingsBereikVoorDag(2015, cboDag.SelectedItem.ToString, Nothing)
+            Dim merkA As Bereik = merk.berekenVerwachtingsBereikVoorMerk(2015, cboMerk.SelectedItem.ToString, Nothing)
+            Dim min As Double = 100
+            Dim max As Double = 0
+            Dim bereiken As New ArrayList()
+            bereiken.AddRange({subA, dagA, merkA})
+            For j As Integer = 0 To bereiken.Count - 1
+                Dim ber As Bereik = bereiken(j)
+                If ber.getBovengrens > max Then
+                    max = ber.getBovengrens
+                End If
+                If ber.getOndergrens < min Then
+                    min = ber.getOndergrens
+                End If
+            Next
+            Dim bereik As New Bereik(min, 0, max) '((subA / 100 * dagA / 100 * merkA / 100) / 3) * 100
             lvi.SubItems.Add(bereik.ToString)
             Dim dick = sql.getDictionary("SELECT YEAR(c.startdatum) as jaar,count(*) as totaal,(SELECT count(*) FROM [SyntraTest].[dbo].[Cursussen] as cc WHERE cc.CodeIngetrokken = 'nee' AND CodeSubafdeling = '" + subAfds(i) + "' AND year(cc.StartDatum) = year(c.StartDatum) AND Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "') as nietGeschrapt FROM [SyntraTest].[dbo].[Cursussen] as c WHERE CodeSubafdeling = '" + subAfds(i) + "' AND year(c.StartDatum) =  2015 and Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' group by year(startdatum)")
             Dim y As Double
