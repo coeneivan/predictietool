@@ -16,8 +16,8 @@ Public Class MerkBLL
     ''' <param name="jaar">Integer tot welk jaar er gezocht moet worden</param>
     ''' <param name="merk">String met de merk waarvoor er waarde moet opgehaald worden</param>
     ''' <returns>Bereik</returns>
-    Public Function berekenVerwachtingsBereikVoorMerk(jaar As Integer, merk As String) As Bereik
-        Return parent.berekenVerwachtingsBereik(jaar, merk)
+    Public Function berekenVerwachtingsBereikVoorMerk(jaar As Integer, merk As String, filters As ArrayList) As Bereik
+        Return parent.berekenVerwachtingsBereik(jaar, merk, filters)
     End Function
     ''' <summary>
     ''' Geeft een arraylist weer met alle gekende merken
@@ -25,7 +25,7 @@ Public Class MerkBLL
     ''' </summary>
     ''' <param name="jaar">Tot welke jaar moet er gezocht worden?</param>
     ''' <returns>Arraylist met 1 kolom, de gekende merken</returns>
-    Public Function getAll(jaar As Integer) As ArrayList
-        Return parent.getAall(jaar)
+    Public Function getAll(jaar As Integer, filters As ArrayList) As ArrayList
+        Return parent.getAall(jaar, filters)
     End Function
 End Class

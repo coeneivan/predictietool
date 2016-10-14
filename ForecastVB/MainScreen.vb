@@ -4,13 +4,14 @@
     Private Sub MainScreen_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         'Load all cursussen
         Dim subafds As New subAfdBll
-        cboSubAfd.Items.AddRange(subafds.getAallSubAfds(jaar).ToArray)
+        cboSubAfd.Items.AddRange(subafds.getAallSubAfds(jaar, filterlist).ToArray)
 
         'Load dagen
         cboLesdag.Items.AddRange({"Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag", "Zaterdag", "Zondag"})
+
         'Load merken
         Dim merken As New MerkBLL
-        cboMerk.Items.AddRange(merken.getAll(jaar).ToArray)
+        cboMerk.Items.AddRange(merken.getAll(jaar, filterlist).ToArray)
 
         'Calculate main percentage
         Dim knownX, knownY As New ArrayList
@@ -33,22 +34,22 @@
 
     Private Sub cboSubAfd_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboSubAfd.SelectedIndexChanged
         Dim subafd As New subAfdBll
-        txtResultSubAfd.Text = subafd.berekenVerwachtingsBereikVoorSubAfd(jaar, cboSubAfd.SelectedItem).ToString
+        txtResultSubAfd.Text = subafd.berekenVerwachtingsBereikVoorSubAfd(jaar, cboSubAfd.SelectedItem, filterlist).ToString
     End Sub
 
     Private Sub cboMerk_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboMerk.SelectedIndexChanged
         Dim merken As New MerkBLL
-        txtResultMerk.Text = merken.berekenVerwachtingsBereikVoorMerk(jaar, cboMerk.SelectedItem).ToString
+        txtResultMerk.Text = merken.berekenVerwachtingsBereikVoorMerk(jaar, cboMerk.SelectedItem, filterlist).ToString
     End Sub
 
     Private Sub cboLesdag_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboLesdag.SelectedIndexChanged
         Dim dag As New DagBll
-        txtRestultLesDag.Text = dag.berekenVerwachtingsBereikVoorDag(jaar, cboLesdag.SelectedItem).ToString
+        txtRestultLesDag.Text = dag.berekenVerwachtingsBereikVoorDag(jaar, cboLesdag.SelectedItem, filterlist).ToString
     End Sub
 
     Private Sub dtpStartcursus_ValueChanged(sender As Object, e As EventArgs) Handles dtpStartcursus.ValueChanged
         Dim datum As New DatumBLL
-        txtResultDatum.Text = datum.berekenVerwachtingsBereikVoorDatum(jaar, dtpStartcursus.Value.Month.ToString).ToString
+        txtResultDatum.Text = datum.berekenVerwachtingsBereikVoorDatum(jaar, dtpStartcursus.Value.Month.ToString, filterlist).ToString
     End Sub
 
     Private Sub btnFilter_Click(sender As Object, e As EventArgs) Handles btnFilter.Click
@@ -67,7 +68,7 @@
     End Function
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        Dim testItLikeItsHot As New Test
-        testItLikeItsHot.Show()
+        Dim t As New Test
+        t.Show()
     End Sub
 End Class

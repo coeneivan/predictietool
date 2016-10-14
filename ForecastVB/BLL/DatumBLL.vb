@@ -9,7 +9,7 @@
     ''' <param name="jaar">Integer tot welk jaar er gezocht moet worden</param>
     ''' <param name="maand">String met maand waarvoor er waarde moet opgehaald worden</param>
     ''' <returns>Bereik</returns>
-    Public Function berekenVerwachtingsBereikVoorDatum(jaar As Integer, maand As String) As Bereik
-        Return parent.berekenVerwachtingsBereik(jaar, maand)
+    Public Function berekenVerwachtingsBereikVoorDatum(jaar As Integer, maand As String, filters As ArrayList) As Bereik
+        Return parent.berekenVerwachtingsBereik(jaar, maand, filters)
     End Function
 End Class

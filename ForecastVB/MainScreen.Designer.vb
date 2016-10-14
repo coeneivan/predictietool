@@ -45,144 +45,145 @@ Partial Class MainScreen
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(75, 315)
+        Me.Label3.Location = New System.Drawing.Point(56, 256)
         Me.Label3.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(99, 17)
+        Me.Label3.Size = New System.Drawing.Size(75, 13)
         Me.Label3.TabIndex = 3
         Me.Label3.Text = "Sub afdeeling;"
         '
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(111, 387)
+        Me.Label4.Location = New System.Drawing.Point(83, 314)
         Me.Label4.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(63, 17)
+        Me.Label4.Size = New System.Drawing.Size(48, 13)
         Me.Label4.TabIndex = 4
         Me.Label4.Text = "Les dag:"
         '
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(39, 458)
+        Me.Label5.Location = New System.Drawing.Point(29, 372)
         Me.Label5.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(135, 17)
+        Me.Label5.Size = New System.Drawing.Size(102, 13)
         Me.Label5.TabIndex = 5
         Me.Label5.Text = "Start van de cursus:"
         '
         'cboSubAfd
         '
         Me.cboSubAfd.FormattingEnabled = True
-        Me.cboSubAfd.Location = New System.Drawing.Point(209, 313)
+        Me.cboSubAfd.Location = New System.Drawing.Point(157, 254)
         Me.cboSubAfd.Margin = New System.Windows.Forms.Padding(2)
         Me.cboSubAfd.Name = "cboSubAfd"
-        Me.cboSubAfd.Size = New System.Drawing.Size(209, 24)
+        Me.cboSubAfd.Size = New System.Drawing.Size(158, 21)
         Me.cboSubAfd.TabIndex = 1
         '
         'cboLesdag
         '
         Me.cboLesdag.FormattingEnabled = True
-        Me.cboLesdag.Location = New System.Drawing.Point(209, 385)
+        Me.cboLesdag.Location = New System.Drawing.Point(157, 313)
         Me.cboLesdag.Margin = New System.Windows.Forms.Padding(2)
         Me.cboLesdag.Name = "cboLesdag"
-        Me.cboLesdag.Size = New System.Drawing.Size(209, 24)
+        Me.cboLesdag.Size = New System.Drawing.Size(158, 21)
         Me.cboLesdag.TabIndex = 2
         '
         'dtpStartcursus
         '
-        Me.dtpStartcursus.Location = New System.Drawing.Point(209, 458)
+        Me.dtpStartcursus.Location = New System.Drawing.Point(157, 372)
         Me.dtpStartcursus.Margin = New System.Windows.Forms.Padding(2)
         Me.dtpStartcursus.Name = "dtpStartcursus"
-        Me.dtpStartcursus.Size = New System.Drawing.Size(209, 22)
+        Me.dtpStartcursus.Size = New System.Drawing.Size(158, 20)
         Me.dtpStartcursus.TabIndex = 3
         '
         'Label6
         '
         Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(187, 521)
+        Me.Label6.Location = New System.Drawing.Point(140, 423)
         Me.Label6.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(68, 17)
+        Me.Label6.Size = New System.Drawing.Size(52, 13)
         Me.Label6.TabIndex = 10
         Me.Label6.Text = "Resultaat"
         Me.Label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'txtResultMerk
         '
-        Me.txtResultMerk.Location = New System.Drawing.Point(42, 569)
+        Me.txtResultMerk.Location = New System.Drawing.Point(32, 462)
         Me.txtResultMerk.Margin = New System.Windows.Forms.Padding(2)
         Me.txtResultMerk.Name = "txtResultMerk"
         Me.txtResultMerk.ReadOnly = True
-        Me.txtResultMerk.Size = New System.Drawing.Size(375, 22)
+        Me.txtResultMerk.Size = New System.Drawing.Size(282, 20)
         Me.txtResultMerk.TabIndex = 11
         Me.txtResultMerk.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'txtResultSubAfd
         '
-        Me.txtResultSubAfd.Location = New System.Drawing.Point(42, 592)
+        Me.txtResultSubAfd.Location = New System.Drawing.Point(32, 481)
         Me.txtResultSubAfd.Margin = New System.Windows.Forms.Padding(2)
         Me.txtResultSubAfd.Name = "txtResultSubAfd"
         Me.txtResultSubAfd.ReadOnly = True
-        Me.txtResultSubAfd.Size = New System.Drawing.Size(375, 22)
+        Me.txtResultSubAfd.Size = New System.Drawing.Size(282, 20)
         Me.txtResultSubAfd.TabIndex = 11
         Me.txtResultSubAfd.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'txtRestultLesDag
         '
-        Me.txtRestultLesDag.Location = New System.Drawing.Point(42, 616)
+        Me.txtRestultLesDag.Location = New System.Drawing.Point(32, 500)
         Me.txtRestultLesDag.Margin = New System.Windows.Forms.Padding(2)
         Me.txtRestultLesDag.Name = "txtRestultLesDag"
         Me.txtRestultLesDag.ReadOnly = True
-        Me.txtRestultLesDag.Size = New System.Drawing.Size(375, 22)
+        Me.txtRestultLesDag.Size = New System.Drawing.Size(282, 20)
         Me.txtRestultLesDag.TabIndex = 11
         Me.txtRestultLesDag.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'txtResultDatum
         '
-        Me.txtResultDatum.Location = New System.Drawing.Point(42, 640)
+        Me.txtResultDatum.Location = New System.Drawing.Point(32, 520)
         Me.txtResultDatum.Margin = New System.Windows.Forms.Padding(2)
         Me.txtResultDatum.Name = "txtResultDatum"
         Me.txtResultDatum.ReadOnly = True
-        Me.txtResultDatum.Size = New System.Drawing.Size(375, 22)
+        Me.txtResultDatum.Size = New System.Drawing.Size(282, 20)
         Me.txtResultDatum.TabIndex = 11
         Me.txtResultDatum.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'cboMerk
         '
         Me.cboMerk.FormattingEnabled = True
-        Me.cboMerk.Location = New System.Drawing.Point(209, 241)
+        Me.cboMerk.Location = New System.Drawing.Point(157, 196)
         Me.cboMerk.Margin = New System.Windows.Forms.Padding(2)
         Me.cboMerk.Name = "cboMerk"
-        Me.cboMerk.Size = New System.Drawing.Size(209, 24)
+        Me.cboMerk.Size = New System.Drawing.Size(158, 21)
         Me.cboMerk.TabIndex = 0
         '
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(135, 243)
+        Me.Label2.Location = New System.Drawing.Point(101, 197)
         Me.Label2.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(43, 17)
+        Me.Label2.Size = New System.Drawing.Size(34, 13)
         Me.Label2.TabIndex = 2
         Me.Label2.Text = "Merk:"
         '
         'txtRestultJaar
         '
-        Me.txtRestultJaar.Location = New System.Drawing.Point(42, 545)
+        Me.txtRestultJaar.Location = New System.Drawing.Point(32, 443)
         Me.txtRestultJaar.Margin = New System.Windows.Forms.Padding(2)
         Me.txtRestultJaar.Name = "txtRestultJaar"
         Me.txtRestultJaar.ReadOnly = True
-        Me.txtRestultJaar.Size = New System.Drawing.Size(375, 22)
+        Me.txtRestultJaar.Size = New System.Drawing.Size(282, 20)
         Me.txtRestultJaar.TabIndex = 11
         Me.txtRestultJaar.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'btnFilter
         '
-        Me.btnFilter.Location = New System.Drawing.Point(12, 12)
+        Me.btnFilter.Location = New System.Drawing.Point(9, 10)
+        Me.btnFilter.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.btnFilter.Name = "btnFilter"
-        Me.btnFilter.Size = New System.Drawing.Size(164, 49)
+        Me.btnFilter.Size = New System.Drawing.Size(123, 40)
         Me.btnFilter.TabIndex = 12
         Me.btnFilter.Text = "Filters toevoegen"
         Me.btnFilter.UseVisualStyleBackColor = True
@@ -190,35 +191,37 @@ Partial Class MainScreen
         'ComboBox1
         '
         Me.ComboBox1.FormattingEnabled = True
-        Me.ComboBox1.Location = New System.Drawing.Point(299, 25)
+        Me.ComboBox1.Location = New System.Drawing.Point(224, 20)
+        Me.ComboBox1.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.ComboBox1.Name = "ComboBox1"
-        Me.ComboBox1.Size = New System.Drawing.Size(164, 24)
+        Me.ComboBox1.Size = New System.Drawing.Size(124, 21)
         Me.ComboBox1.TabIndex = 13
         '
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(208, 28)
+        Me.Label1.Location = New System.Drawing.Point(156, 23)
         Me.Label1.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(81, 17)
+        Me.Label1.Size = New System.Drawing.Size(62, 13)
         Me.Label1.TabIndex = 2
         Me.Label1.Text = "Active filter:"
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(42, 707)
+        Me.Button1.Location = New System.Drawing.Point(32, 574)
+        Me.Button1.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(375, 68)
+        Me.Button1.Size = New System.Drawing.Size(281, 55)
         Me.Button1.TabIndex = 14
         Me.Button1.Text = "Test it!"
         Me.Button1.UseVisualStyleBackColor = True
         '
         'MainScreen
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(475, 907)
+        Me.ClientSize = New System.Drawing.Size(356, 737)
         Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.ComboBox1)
         Me.Controls.Add(Me.btnFilter)
