@@ -50,4 +50,9 @@
         Dim datum As New DatumBLL
         txtResultDatum.Text = datum.berekenVerwachtingsBereikVoorDatum(jaar, dtpStartcursus.Value.Month.ToString).ToString
     End Sub
+
+    Private Sub btnFilter_Click(sender As Object, e As EventArgs) Handles btnFilter.Click
+        Dim settings As New Settings
+        settings.Show()
+    End Sub
 End Class

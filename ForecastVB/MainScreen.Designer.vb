@@ -36,6 +36,8 @@ Partial Class MainScreen
         Me.cboMerk = New System.Windows.Forms.ComboBox()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.txtRestultJaar = New System.Windows.Forms.TextBox()
+        Me.btnFilter = New System.Windows.Forms.Button()
+        Me.ComboBox1 = New System.Windows.Forms.ComboBox()
         Me.SuspendLayout()
         '
         'Label3
@@ -72,7 +74,7 @@ Partial Class MainScreen
         '
         Me.cboSubAfd.FormattingEnabled = True
         Me.cboSubAfd.Location = New System.Drawing.Point(211, 242)
-        Me.cboSubAfd.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.cboSubAfd.Margin = New System.Windows.Forms.Padding(2)
         Me.cboSubAfd.Name = "cboSubAfd"
         Me.cboSubAfd.Size = New System.Drawing.Size(209, 24)
         Me.cboSubAfd.TabIndex = 1
@@ -81,7 +83,7 @@ Partial Class MainScreen
         '
         Me.cboLesdag.FormattingEnabled = True
         Me.cboLesdag.Location = New System.Drawing.Point(211, 314)
-        Me.cboLesdag.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.cboLesdag.Margin = New System.Windows.Forms.Padding(2)
         Me.cboLesdag.Name = "cboLesdag"
         Me.cboLesdag.Size = New System.Drawing.Size(209, 24)
         Me.cboLesdag.TabIndex = 2
@@ -89,7 +91,7 @@ Partial Class MainScreen
         'dtpStartcursus
         '
         Me.dtpStartcursus.Location = New System.Drawing.Point(211, 387)
-        Me.dtpStartcursus.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.dtpStartcursus.Margin = New System.Windows.Forms.Padding(2)
         Me.dtpStartcursus.Name = "dtpStartcursus"
         Me.dtpStartcursus.Size = New System.Drawing.Size(209, 22)
         Me.dtpStartcursus.TabIndex = 3
@@ -108,7 +110,7 @@ Partial Class MainScreen
         'txtResultMerk
         '
         Me.txtResultMerk.Location = New System.Drawing.Point(44, 498)
-        Me.txtResultMerk.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.txtResultMerk.Margin = New System.Windows.Forms.Padding(2)
         Me.txtResultMerk.Name = "txtResultMerk"
         Me.txtResultMerk.ReadOnly = True
         Me.txtResultMerk.Size = New System.Drawing.Size(375, 22)
@@ -118,7 +120,7 @@ Partial Class MainScreen
         'txtResultSubAfd
         '
         Me.txtResultSubAfd.Location = New System.Drawing.Point(44, 521)
-        Me.txtResultSubAfd.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.txtResultSubAfd.Margin = New System.Windows.Forms.Padding(2)
         Me.txtResultSubAfd.Name = "txtResultSubAfd"
         Me.txtResultSubAfd.ReadOnly = True
         Me.txtResultSubAfd.Size = New System.Drawing.Size(375, 22)
@@ -128,7 +130,7 @@ Partial Class MainScreen
         'txtRestultLesDag
         '
         Me.txtRestultLesDag.Location = New System.Drawing.Point(44, 545)
-        Me.txtRestultLesDag.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.txtRestultLesDag.Margin = New System.Windows.Forms.Padding(2)
         Me.txtRestultLesDag.Name = "txtRestultLesDag"
         Me.txtRestultLesDag.ReadOnly = True
         Me.txtRestultLesDag.Size = New System.Drawing.Size(375, 22)
@@ -138,7 +140,7 @@ Partial Class MainScreen
         'txtResultDatum
         '
         Me.txtResultDatum.Location = New System.Drawing.Point(44, 569)
-        Me.txtResultDatum.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.txtResultDatum.Margin = New System.Windows.Forms.Padding(2)
         Me.txtResultDatum.Name = "txtResultDatum"
         Me.txtResultDatum.ReadOnly = True
         Me.txtResultDatum.Size = New System.Drawing.Size(375, 22)
@@ -149,7 +151,7 @@ Partial Class MainScreen
         '
         Me.cboMerk.FormattingEnabled = True
         Me.cboMerk.Location = New System.Drawing.Point(211, 170)
-        Me.cboMerk.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.cboMerk.Margin = New System.Windows.Forms.Padding(2)
         Me.cboMerk.Name = "cboMerk"
         Me.cboMerk.Size = New System.Drawing.Size(209, 24)
         Me.cboMerk.TabIndex = 0
@@ -167,18 +169,37 @@ Partial Class MainScreen
         'txtRestultJaar
         '
         Me.txtRestultJaar.Location = New System.Drawing.Point(44, 474)
-        Me.txtRestultJaar.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.txtRestultJaar.Margin = New System.Windows.Forms.Padding(2)
         Me.txtRestultJaar.Name = "txtRestultJaar"
         Me.txtRestultJaar.ReadOnly = True
         Me.txtRestultJaar.Size = New System.Drawing.Size(375, 22)
         Me.txtRestultJaar.TabIndex = 11
         Me.txtRestultJaar.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
+        'btnFilter
+        '
+        Me.btnFilter.Location = New System.Drawing.Point(12, 12)
+        Me.btnFilter.Name = "btnFilter"
+        Me.btnFilter.Size = New System.Drawing.Size(75, 49)
+        Me.btnFilter.TabIndex = 12
+        Me.btnFilter.Text = "Filter"
+        Me.btnFilter.UseVisualStyleBackColor = True
+        '
+        'ComboBox1
+        '
+        Me.ComboBox1.FormattingEnabled = True
+        Me.ComboBox1.Location = New System.Drawing.Point(299, 25)
+        Me.ComboBox1.Name = "ComboBox1"
+        Me.ComboBox1.Size = New System.Drawing.Size(164, 24)
+        Me.ComboBox1.TabIndex = 13
+        '
         'MainScreen
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(475, 907)
+        Me.Controls.Add(Me.ComboBox1)
+        Me.Controls.Add(Me.btnFilter)
         Me.Controls.Add(Me.cboMerk)
         Me.Controls.Add(Me.txtResultDatum)
         Me.Controls.Add(Me.txtRestultLesDag)
@@ -193,7 +214,7 @@ Partial Class MainScreen
         Me.Controls.Add(Me.Label4)
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.Label2)
-        Me.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.Margin = New System.Windows.Forms.Padding(2)
         Me.Name = "MainScreen"
         Me.Text = "Cursus realiseerbaarheid prospectie tool"
         Me.ResumeLayout(False)
@@ -214,4 +235,6 @@ Partial Class MainScreen
     Friend WithEvents cboMerk As ComboBox
     Friend WithEvents Label2 As Label
     Friend WithEvents txtRestultJaar As TextBox
+    Friend WithEvents btnFilter As Button
+    Friend WithEvents ComboBox1 As ComboBox
 End Class
