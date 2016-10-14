@@ -94,10 +94,12 @@
   <ItemGroup>
     <Compile Include="BLL\DagBll.vb" />
     <Compile Include="BLL\DatumBLL.vb" />
+    <Compile Include="BLL\FiltersBLL.vb" />
     <Compile Include="BLL\MerkBLL.vb" />
     <Compile Include="BLL\ParameterParent.vb" />
     <Compile Include="BLL\Prospect.vb" />
     <Compile Include="BLL\SubAfdBLL.vb" />
+    <Compile Include="DAO\FiltersDAO.vb" />
     <Compile Include="DAO\ParametersDAO.vb" />
     <Compile Include="DAO\SQLUtil.vb" />
     <Compile Include="Form1.vb">
