@@ -19,8 +19,13 @@
         subAfds.AddRange(sql.getArrayList("select distinct top 10 CodeSubafdeling from Cursussen where Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "'").ToArray())
         'TODO: delete top 10
         For i As Integer = 0 To subAfds.Count - 1
+            Dim merk As New MerkBLL
+            Dim dag As New DagBll
             Dim lvi As New ListViewItem(subAfds(i).ToString)
-            Dim bereik = subBll.berekenVerwachtingsBereikVoorSubAfd(2015, subAfds(i), Nothing)
+            Dim subA = subBll.berekenVerwachtingsBereikVoorSubAfd(2015, subAfds(i), Nothing).getAvg
+            Dim dagA = dag.berekenVerwachtingsBereikVoorDag(2015, cboDag.SelectedItem.ToString, Nothing).getAvg
+            Dim merkA = merk.berekenVerwachtingsBereikVoorMerk(2015, cboMerk.SelectedItem.ToString, Nothing).getAvg
+            Dim bereik = (subA * dagA * merkA) / 3
             lvi.SubItems.Add(bereik.ToString)
             Dim dick = sql.getDictionary("SELECT YEAR(c.startdatum) as jaar,count(*) as totaal,(SELECT count(*) FROM [SyntraTest].[dbo].[Cursussen] as cc WHERE cc.CodeIngetrokken = 'nee' AND CodeSubafdeling = '" + subAfds(i) + "' AND year(cc.StartDatum) = year(c.StartDatum) AND Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "') as nietGeschrapt FROM [SyntraTest].[dbo].[Cursussen] as c WHERE CodeSubafdeling = '" + subAfds(i) + "' AND year(c.StartDatum) =  2015 and Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' group by year(startdatum)")
             Dim y As Double

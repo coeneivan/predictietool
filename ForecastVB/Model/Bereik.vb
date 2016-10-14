@@ -24,4 +24,7 @@ Public Class Bereik
     Public Function valtTussen(x As Double) As Boolean
         Return x >= ondergrens And x <= bovengrens
     End Function
+    Public Function getAvg() As Double
+        Return average
+    End Function
 End Class
