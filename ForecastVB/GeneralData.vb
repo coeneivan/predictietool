@@ -41,7 +41,7 @@
     ''' <returns>Geeft de lijst met alle subafdelingen in een ArrayList terug</returns>
     Private Function getAllSubafdelingenVoorJaar(jaar As Int16) As ArrayList
         Dim allAfd = New subAfdBll
-        Return allAfd.getAallSubAfds(jaar)
+        Return allAfd.getAallSubAfds(jaar, Nothing)
     End Function
 
     ''' <summary>
@@ -53,7 +53,7 @@
     Private Sub createBlock(startX As Long, startY As Long, subAfd As String)
         Dim allAfd = New subAfdBll
         Dim jaar As Int16 = 2015
-        Dim subafdljaar = allAfd.berekenVerwachtingsBereikVoorSubAfd(berekeningsjaar, subAfd)
+        Dim subafdljaar = allAfd.berekenVerwachtingsBereikVoorSubAfd(berekeningsjaar, subAfd, Nothing)
 
 
         ' Creeër label titel

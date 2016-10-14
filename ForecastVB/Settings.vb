@@ -1,8 +1,10 @@
-﻿Imports System.IO
+﻿Imports System.ComponentModel
+Imports System.IO
 Imports ForecastVB.FilterItem
 
 Public Class Settings
     Private filters As ArrayList
+    Private root As MainScreen
     Public Sub New(main As MainScreen)
         filters = main.getFilters()
         ' This call is required by the designer.
@@ -126,5 +128,9 @@ Public Class Settings
         End If
 
         'todo: save in new folder from mydocument
+    End Sub
+
+    Private Sub Settings_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
+        root.addFilters(filters)
     End Sub
 End Class
