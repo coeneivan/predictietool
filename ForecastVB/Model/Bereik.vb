@@ -27,4 +27,10 @@ Public Class Bereik
     Public Function getAvg() As Double
         Return average
     End Function
+    Public Function getOndergrens() As Double
+        Return ondergrens
+    End Function
+    Public Function getBovengrens() As Double
+        Return bovengrens
+    End Function
 End Class
