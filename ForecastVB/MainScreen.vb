@@ -1,5 +1,6 @@
 ﻿Public Class MainScreen
     Private Const jaar = 2015
+    Private Shared filterlist As New ArrayList
     Private Sub MainScreen_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         'Load all cursussen
         Dim subafds As New subAfdBll
@@ -52,7 +53,17 @@
     End Sub
 
     Private Sub btnFilter_Click(sender As Object, e As EventArgs) Handles btnFilter.Click
-        Dim settings As New Settings
+        Dim settings As New Settings(Me)
         settings.Show()
     End Sub
+
+    Public Sub addFilters(filters As ArrayList)
+        filterlist.AddRange(filters)
+    End Sub
+    Public Sub addFilter(filter As FilterItem)
+        filterlist.Add(filter)
+    End Sub
+    Public Function getFilters() As ArrayList
+        Return filterlist
+    End Function
 End Class

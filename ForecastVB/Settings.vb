@@ -2,9 +2,9 @@
 Imports ForecastVB.FilterItem
 
 Public Class Settings
-
-    Public Sub New()
-
+    Private filters As ArrayList
+    Public Sub New(main As MainScreen)
+        filters = main.getFilters()
         ' This call is required by the designer.
         InitializeComponent()
         ' Add any initialization after the InitializeComponent() call.
