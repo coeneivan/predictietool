@@ -16,8 +16,8 @@ Public Class DagBll
     ''' <param name="jaar">Integer tot welk jaar er gezocht moet worden</param>
     ''' <param name="lesdag">String met dag waarvoor er waarde moet opgehaald worden</param>
     ''' <returns>Bereik</returns>
-    Public Function berekenVerwachtingsBereikVoorDag(jaar As Integer, lesdag As String, filters As ArrayList) As Bereik
-        Return parent.berekenVerwachtingsBereik(jaar, lesdag, filters)
+    Public Function berekenVerwachtingsBereikVoorDag(jaar As Integer, lesdag As String) As Bereik
+        Return parent.berekenVerwachtingsBereik(jaar, lesdag)
     End Function
     ''' <summary>
     ''' Geeft een arraylist weer met alle gekende dagen
@@ -25,7 +25,7 @@ Public Class DagBll
     ''' </summary>
     ''' <param name="jaar">Tot welke jaar moet er gezocht worden?</param>
     ''' <returns>Arraylist met 1 kolom, de gekende dagen</returns>
-    Public Function getAll(jaar As Integer, filters As ArrayList) As ArrayList
-        Return parent.getAall(jaar, filters)
+    Public Function getAll(jaar As Integer) As ArrayList
+        Return parent.getAall(jaar)
     End Function
 End Class
