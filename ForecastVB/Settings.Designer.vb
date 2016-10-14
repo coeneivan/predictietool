@@ -31,26 +31,28 @@ Partial Class Settings
         Me.cbbKolom = New System.Windows.Forms.ComboBox()
         Me.cbbFactor = New System.Windows.Forms.ComboBox()
         Me.Label2 = New System.Windows.Forms.Label()
-        Me.ListView1 = New System.Windows.Forms.ListView()
         Me.btnOpen = New System.Windows.Forms.Button()
         Me.btnSave = New System.Windows.Forms.Button()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.txtFileName = New System.Windows.Forms.TextBox()
+        Me.cbbFilterFiles = New System.Windows.Forms.ComboBox()
         Me.SuspendLayout()
         '
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(11, 183)
+        Me.Label1.Location = New System.Drawing.Point(12, 33)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(34, 13)
+        Me.Label1.Size = New System.Drawing.Size(51, 13)
         Me.Label1.TabIndex = 2
-        Me.Label1.Text = "Filters"
+        Me.Label1.Text = "Filters lijst"
         '
         'lsvFilter
         '
         Me.lsvFilter.FullRowSelect = True
-        Me.lsvFilter.Location = New System.Drawing.Point(11, 199)
+        Me.lsvFilter.Location = New System.Drawing.Point(12, 49)
         Me.lsvFilter.Name = "lsvFilter"
         Me.lsvFilter.Size = New System.Drawing.Size(612, 126)
         Me.lsvFilter.TabIndex = 3
@@ -59,14 +61,14 @@ Partial Class Settings
         '
         'txtOmschrijving
         '
-        Me.txtOmschrijving.Location = New System.Drawing.Point(423, 331)
+        Me.txtOmschrijving.Location = New System.Drawing.Point(424, 181)
         Me.txtOmschrijving.Name = "txtOmschrijving"
         Me.txtOmschrijving.Size = New System.Drawing.Size(200, 20)
         Me.txtOmschrijving.TabIndex = 6
         '
         'btnAdd
         '
-        Me.btnAdd.Location = New System.Drawing.Point(548, 357)
+        Me.btnAdd.Location = New System.Drawing.Point(549, 207)
         Me.btnAdd.Name = "btnAdd"
         Me.btnAdd.Size = New System.Drawing.Size(75, 23)
         Me.btnAdd.TabIndex = 7
@@ -75,7 +77,7 @@ Partial Class Settings
         '
         'btnRemove
         '
-        Me.btnRemove.Location = New System.Drawing.Point(11, 357)
+        Me.btnRemove.Location = New System.Drawing.Point(12, 207)
         Me.btnRemove.Name = "btnRemove"
         Me.btnRemove.Size = New System.Drawing.Size(75, 23)
         Me.btnRemove.TabIndex = 8
@@ -86,7 +88,7 @@ Partial Class Settings
         '
         Me.cbbKolom.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cbbKolom.FormattingEnabled = True
-        Me.cbbKolom.Location = New System.Drawing.Point(11, 331)
+        Me.cbbKolom.Location = New System.Drawing.Point(12, 181)
         Me.cbbKolom.Name = "cbbKolom"
         Me.cbbKolom.Size = New System.Drawing.Size(250, 21)
         Me.cbbKolom.TabIndex = 9
@@ -95,7 +97,7 @@ Partial Class Settings
         '
         Me.cbbFactor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cbbFactor.FormattingEnabled = True
-        Me.cbbFactor.Location = New System.Drawing.Point(268, 330)
+        Me.cbbFactor.Location = New System.Drawing.Point(269, 180)
         Me.cbbFactor.Name = "cbbFactor"
         Me.cbbFactor.Size = New System.Drawing.Size(149, 21)
         Me.cbbFactor.TabIndex = 10
@@ -105,21 +107,13 @@ Partial Class Settings
         Me.Label2.AutoSize = True
         Me.Label2.Location = New System.Drawing.Point(12, 9)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(82, 13)
+        Me.Label2.Size = New System.Drawing.Size(90, 13)
         Me.Label2.TabIndex = 11
-        Me.Label2.Text = "Filter bestanden"
-        '
-        'ListView1
-        '
-        Me.ListView1.Location = New System.Drawing.Point(11, 25)
-        Me.ListView1.Name = "ListView1"
-        Me.ListView1.Size = New System.Drawing.Size(483, 121)
-        Me.ListView1.TabIndex = 12
-        Me.ListView1.UseCompatibleStateImageBehavior = False
+        Me.Label2.Text = "Kies filter bestand"
         '
         'btnOpen
         '
-        Me.btnOpen.Location = New System.Drawing.Point(508, 25)
+        Me.btnOpen.Location = New System.Drawing.Point(508, 3)
         Me.btnOpen.Margin = New System.Windows.Forms.Padding(2)
         Me.btnOpen.Name = "btnOpen"
         Me.btnOpen.Size = New System.Drawing.Size(115, 24)
@@ -129,7 +123,7 @@ Partial Class Settings
         '
         'btnSave
         '
-        Me.btnSave.Location = New System.Drawing.Point(548, 385)
+        Me.btnSave.Location = New System.Drawing.Point(549, 235)
         Me.btnSave.Margin = New System.Windows.Forms.Padding(2)
         Me.btnSave.Name = "btnSave"
         Me.btnSave.Size = New System.Drawing.Size(75, 23)
@@ -141,14 +135,40 @@ Partial Class Settings
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.Location = New System.Drawing.Point(13, 240)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(35, 13)
+        Me.Label3.TabIndex = 15
+        Me.Label3.Text = "Naam"
+        '
+        'txtFileName
+        '
+        Me.txtFileName.Location = New System.Drawing.Point(54, 237)
+        Me.txtFileName.Name = "txtFileName"
+        Me.txtFileName.Size = New System.Drawing.Size(490, 20)
+        Me.txtFileName.TabIndex = 16
+        '
+        'cbbFilterFiles
+        '
+        Me.cbbFilterFiles.FormattingEnabled = True
+        Me.cbbFilterFiles.Location = New System.Drawing.Point(108, 6)
+        Me.cbbFilterFiles.Name = "cbbFilterFiles"
+        Me.cbbFilterFiles.Size = New System.Drawing.Size(395, 21)
+        Me.cbbFilterFiles.TabIndex = 17
+        '
         'Settings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(635, 414)
+        Me.ClientSize = New System.Drawing.Size(635, 262)
+        Me.Controls.Add(Me.cbbFilterFiles)
+        Me.Controls.Add(Me.txtFileName)
+        Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.btnSave)
         Me.Controls.Add(Me.btnOpen)
-        Me.Controls.Add(Me.ListView1)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.cbbFactor)
         Me.Controls.Add(Me.cbbKolom)
@@ -172,9 +192,11 @@ Partial Class Settings
     Friend WithEvents cbbKolom As ComboBox
     Friend WithEvents cbbFactor As ComboBox
     Friend WithEvents Label2 As Label
-    Friend WithEvents ListView1 As ListView
     Friend WithEvents btnOpen As Button
     Friend WithEvents btnSave As Button
     Friend WithEvents OpenFileDialog1 As OpenFileDialog
     Friend WithEvents SaveFileDialog1 As SaveFileDialog
+    Friend WithEvents Label3 As Label
+    Friend WithEvents txtFileName As TextBox
+    Friend WithEvents cbbFilterFiles As ComboBox
 End Class

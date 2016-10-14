@@ -1,7 +1,11 @@
 ﻿Imports System.IO
 Imports ForecastVB.FilterItem
+Imports Microsoft.VisualBasic.FileIO
 
 Public Class Settings
+
+    ' Directory waar alle filter bestanden worden in opgeslaan
+    Dim saveDirectory As String = SpecialDirectories.MyDocuments + "//Predictie Filters//"
 
     Public Sub New()
 
@@ -9,6 +13,7 @@ Public Class Settings
         InitializeComponent()
         ' Add any initialization after the InitializeComponent() call.
 
+        makeFilterFileList()
         setKolomNaam()
         setFactorLijst()
         ListViewStarter()
@@ -46,6 +51,7 @@ Public Class Settings
     ''' Genereert de kolom koppen van de tabel op het settings scherm
     ''' </summary>
     Private Sub ListViewStarter()
+        lsvFilter.Clear()
         lsvFilter.Columns.Add("Kolom", 250)
         lsvFilter.Columns.Add("Factor", 100)
         lsvFilter.Columns.Add("Filter", 225)
@@ -64,6 +70,15 @@ Public Class Settings
 
         Return itemList
     End Function
+
+    Private Sub makeFilterFileList()
+        cbbFilterFiles.Items.Clear()
+        Dim filterFiles As String() = Directory.GetFiles(saveDirectory)
+        For Each file As String In filterFiles
+            Dim filterNames As String = System.IO.Path.GetFileNameWithoutExtension(file)
+            cbbFilterFiles.Items.Add(filterNames)
+        Next
+    End Sub
 
     ''' <summary>
     ''' Ingestelde parameters worden door op de toevoegen knop te drukken toegevoegd aan de te filteren lijst
@@ -109,22 +124,54 @@ Public Class Settings
 
                 lsvFilter.Items.Add(lvi)
             Next
+
+            makeFilterFileList()
         End If
 
     End Sub
 
     Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
-        SaveFileDialog1.Filter = "JSON file|*.json"
-        SaveFileDialog1.Title = "Save a JSON File"
-        SaveFileDialog1.ShowDialog()
 
-        If SaveFileDialog1.FileName <> "" Then
-            Dim j As New JSONParser()
-            Dim filters As New ArrayList
-            filters = createFilterList()
-            My.Computer.FileSystem.WriteAllText(SaveFileDialog1.FileName, j.save(filters), False)
+        Try
+            'SaveFileDialog1.Filter = "JSON file|*.json"
+            'SaveFileDialog1.Title = "Save a JSON File"
+            'SaveFileDialog1.ShowDialog()
+
+            'TODO Test of naam reeds in folder bestaat
+            If txtFileName.Text <> "" Then
+                Dim j As New JSONParser()
+                Dim filters As New ArrayList
+                filters = createFilterList()
+                'My.Computer.FileSystem.WriteAllText(SaveFileDialog1.FileName, j.save(filters), False)
+
+                If Not (My.Computer.FileSystem.DirectoryExists(saveDirectory)) Then
+                    My.Computer.FileSystem.CreateDirectory(saveDirectory)
+                End If
+
+                My.Computer.FileSystem.WriteAllText(saveDirectory + txtFileName.Text + ".json", j.save(filters), False)
+                txtFileName.Clear()
+
+                ' Reset listview met filterbestanden
+                makeFilterFileList()
+            Else
+                Throw New ApplicationException("Gelieve een bestandsnaam in te stellen")
+            End If
+        Catch ex As ApplicationException
+            MessageBox.Show(ex.Message)
+        End Try
+
+
+
+
+    End Sub
+
+    Private Sub txtFileName_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtFileName.KeyPress
+        If Not (Char.IsLetterOrDigit(e.KeyChar) OrElse e.KeyChar = "."c) Then
+            If e.KeyChar = CChar(ChrW(Keys.Back)) Or e.KeyChar = CChar(ChrW(Keys.Space)) Then
+                e.Handled = False
+            Else
+                e.Handled = True
+            End If
         End If
-
-        'todo: save in new folder from mydocument
     End Sub
 End Class
