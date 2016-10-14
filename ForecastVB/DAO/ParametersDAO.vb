@@ -36,25 +36,8 @@ Public Class ParametersDAO
     ''' <param name="jaar">Tot welke jaar moet er gezocht worden?</param>
     ''' <param name="parameter">String met de naam van de parameter</param>
     ''' <returns>Arraylist met 1 kolom, de gekende data</returns>
-    Public Function getAll(jaar As Integer, parameter As String, filter As ArrayList)
+    Public Function getAll(jaar As Integer, parameter As String)
         Dim s As New SQLUtil
-        If filter Is Nothing Then
-            Return s.getArrayList("SELECT distinct " + parameter + "  FROM [SyntraTest].[dbo].[Cursussen]")
-        Else
-            Dim fil As String
-            fil = ""
-
-            For i As Integer = 0 To filter.Count - 1
-                Dim filIt As FilterItem
-                filIt = filter.Item(i)
-                If i = 0 Then
-                    fil += " WHERE "
-                Else
-                    fil += " AND "
-                End If
-                fil += filIt.kolom + " " + filIt.factor + " " + filIt.filter
-            Next
-            Return s.getArrayList("SELECT distinct " + parameter + "  FROM [SyntraTest].[dbo].[Cursussen]" + fil)
-        End If
+        Return s.getArrayList("SELECT distinct " + parameter + "  FROM [SyntraTest].[dbo].[Cursussen]")
     End Function
 End Class
