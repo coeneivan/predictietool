@@ -8,7 +8,6 @@
 
         'Load dagen
         cboLesdag.Items.AddRange({"Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag", "Zaterdag", "Zondag"})
-
         'Load merken
         Dim merken As New MerkBLL
         cboMerk.Items.AddRange(merken.getAll(jaar).ToArray)
@@ -66,4 +65,9 @@
     Public Function getFilters() As ArrayList
         Return filterlist
     End Function
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        Dim testItLikeItsHot As New Test
+        testItLikeItsHot.Show()
+    End Sub
 End Class

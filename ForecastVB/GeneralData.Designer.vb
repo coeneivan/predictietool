@@ -26,9 +26,10 @@ Partial Class GeneralData
         '
         'GeneralData
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(479, 590)
+        Me.ClientSize = New System.Drawing.Size(639, 726)
+        Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.Name = "GeneralData"
         Me.Text = "GeneralData"
         Me.ResumeLayout(False)
