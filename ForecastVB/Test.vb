@@ -45,7 +45,7 @@
                     min = ber.getOndergrens
                 End If
             Next
-            Dim bereik As New Bereik(min, 0, max) '((subA / 100 * dagA / 100 * merkA / 100) / 3) * 100
+            Dim bereik As New Bereik(min, 0, max)
             lvi.SubItems.Add(bereik.ToString)
             Dim dick = sql.getDictionary("SELECT YEAR(c.startdatum) as jaar,count(*) as totaal,(SELECT count(*) FROM [SyntraTest].[dbo].[Cursussen] as cc WHERE cc.CodeIngetrokken = 'nee' AND CodeSubafdeling = '" + subAfds(i) + "' AND year(cc.StartDatum) = year(c.StartDatum) AND Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "') as nietGeschrapt FROM [SyntraTest].[dbo].[Cursussen] as c WHERE CodeSubafdeling = '" + subAfds(i) + "' AND year(c.StartDatum) =  2015 and Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' group by year(startdatum)")
             Dim y As Double
