@@ -1,6 +1,5 @@
 ﻿Imports System.ComponentModel
 Imports System.IO
-Imports ForecastVB.FilterItem
 Imports Microsoft.VisualBasic.FileIO
 
 Public Class Settings
@@ -75,7 +74,7 @@ Public Class Settings
     End Function
 
     Private Sub makeFilterFileList()
-        cbbFilterFiles.Items.Clear()
+        cbbFilterFiles.Items.Clear() 'TODO Check if directory exists 
         Dim filterFiles As String() = Directory.GetFiles(saveDirectory)
         For Each file As String In filterFiles
             Dim filterNames As String = System.IO.Path.GetFileNameWithoutExtension(file)
@@ -113,7 +112,7 @@ Public Class Settings
         OpenFileDialog1.Filter = "JSON file|*.json"
         OpenFileDialog1.Title = "Open a JSON File"
         OpenFileDialog1.ShowDialog()
-        'todo: auto save list
+        'TODO: auto save list
         If OpenFileDialog1.FileName <> "" And My.Computer.FileSystem.FileExists(OpenFileDialog1.FileName) Then
             Dim j As New JSONParser()
             Dim filters = j.read(OpenFileDialog1.FileName)

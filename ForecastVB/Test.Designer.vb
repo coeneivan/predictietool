@@ -33,18 +33,20 @@ Partial Class Test
         'cboMerk
         '
         Me.cboMerk.FormattingEnabled = True
-        Me.cboMerk.Location = New System.Drawing.Point(10, 12)
+        Me.cboMerk.Location = New System.Drawing.Point(8, 10)
+        Me.cboMerk.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.cboMerk.Name = "cboMerk"
-        Me.cboMerk.Size = New System.Drawing.Size(365, 24)
+        Me.cboMerk.Size = New System.Drawing.Size(275, 21)
         Me.cboMerk.TabIndex = 0
         Me.cboMerk.Text = "Merk"
         '
         'cboDag
         '
         Me.cboDag.FormattingEnabled = True
-        Me.cboDag.Location = New System.Drawing.Point(381, 13)
+        Me.cboDag.Location = New System.Drawing.Point(286, 10)
+        Me.cboDag.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.cboDag.Name = "cboDag"
-        Me.cboDag.Size = New System.Drawing.Size(365, 24)
+        Me.cboDag.Size = New System.Drawing.Size(275, 21)
         Me.cboDag.TabIndex = 0
         Me.cboDag.Text = "Dag"
         '
@@ -52,49 +54,55 @@ Partial Class Test
         '
         Me.lvResult.GridLines = True
         Me.lvResult.HoverSelection = True
-        Me.lvResult.Location = New System.Drawing.Point(10, 43)
+        Me.lvResult.Location = New System.Drawing.Point(8, 35)
+        Me.lvResult.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.lvResult.Name = "lvResult"
-        Me.lvResult.Size = New System.Drawing.Size(860, 871)
+        Me.lvResult.Size = New System.Drawing.Size(646, 708)
         Me.lvResult.TabIndex = 1
         Me.lvResult.UseCompatibleStateImageBehavior = False
         Me.lvResult.View = System.Windows.Forms.View.Details
         '
         'btnCheck
         '
-        Me.btnCheck.Location = New System.Drawing.Point(752, 13)
+        Me.btnCheck.Location = New System.Drawing.Point(566, 11)
+        Me.btnCheck.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.btnCheck.Name = "btnCheck"
-        Me.btnCheck.Size = New System.Drawing.Size(118, 24)
+        Me.btnCheck.Size = New System.Drawing.Size(88, 21)
         Me.btnCheck.TabIndex = 2
         Me.btnCheck.Text = "GO"
         Me.btnCheck.UseVisualStyleBackColor = True
         '
         'pgb
         '
-        Me.pgb.Location = New System.Drawing.Point(10, 950)
+        Me.pgb.Location = New System.Drawing.Point(8, 772)
+        Me.pgb.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.pgb.Name = "pgb"
-        Me.pgb.Size = New System.Drawing.Size(860, 23)
+        Me.pgb.Size = New System.Drawing.Size(645, 19)
         Me.pgb.TabIndex = 3
         '
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(13, 1004)
+        Me.Label1.Location = New System.Drawing.Point(10, 816)
+        Me.Label1.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(51, 17)
+        Me.Label1.Size = New System.Drawing.Size(39, 13)
         Me.Label1.TabIndex = 4
         Me.Label1.Text = "Label1"
         '
         'Test
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(882, 1047)
+        Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.ClientSize = New System.Drawing.Size(662, 851)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.pgb)
         Me.Controls.Add(Me.btnCheck)
         Me.Controls.Add(Me.lvResult)
         Me.Controls.Add(Me.cboDag)
         Me.Controls.Add(Me.cboMerk)
+        Me.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.Name = "Test"
         Me.Text = "Test"
         Me.ResumeLayout(False)

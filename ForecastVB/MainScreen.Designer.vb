@@ -37,7 +37,7 @@ Partial Class MainScreen
         Me.Label2 = New System.Windows.Forms.Label()
         Me.txtRestultJaar = New System.Windows.Forms.TextBox()
         Me.btnFilter = New System.Windows.Forms.Button()
-        Me.ComboBox1 = New System.Windows.Forms.ComboBox()
+        Me.cboFiltersList = New System.Windows.Forms.ComboBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.SuspendLayout()
@@ -181,21 +181,21 @@ Partial Class MainScreen
         'btnFilter
         '
         Me.btnFilter.Location = New System.Drawing.Point(9, 10)
-        Me.btnFilter.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.btnFilter.Margin = New System.Windows.Forms.Padding(2)
         Me.btnFilter.Name = "btnFilter"
         Me.btnFilter.Size = New System.Drawing.Size(123, 40)
         Me.btnFilter.TabIndex = 12
         Me.btnFilter.Text = "Filters toevoegen"
         Me.btnFilter.UseVisualStyleBackColor = True
         '
-        'ComboBox1
+        'cboFiltersList
         '
-        Me.ComboBox1.FormattingEnabled = True
-        Me.ComboBox1.Location = New System.Drawing.Point(224, 20)
-        Me.ComboBox1.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
-        Me.ComboBox1.Name = "ComboBox1"
-        Me.ComboBox1.Size = New System.Drawing.Size(124, 21)
-        Me.ComboBox1.TabIndex = 13
+        Me.cboFiltersList.FormattingEnabled = True
+        Me.cboFiltersList.Location = New System.Drawing.Point(224, 20)
+        Me.cboFiltersList.Margin = New System.Windows.Forms.Padding(2)
+        Me.cboFiltersList.Name = "cboFiltersList"
+        Me.cboFiltersList.Size = New System.Drawing.Size(124, 21)
+        Me.cboFiltersList.TabIndex = 13
         '
         'Label1
         '
@@ -210,7 +210,7 @@ Partial Class MainScreen
         'Button1
         '
         Me.Button1.Location = New System.Drawing.Point(32, 574)
-        Me.Button1.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.Button1.Margin = New System.Windows.Forms.Padding(2)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(281, 55)
         Me.Button1.TabIndex = 14
@@ -223,7 +223,7 @@ Partial Class MainScreen
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(356, 737)
         Me.Controls.Add(Me.Button1)
-        Me.Controls.Add(Me.ComboBox1)
+        Me.Controls.Add(Me.cboFiltersList)
         Me.Controls.Add(Me.btnFilter)
         Me.Controls.Add(Me.cboMerk)
         Me.Controls.Add(Me.txtResultDatum)
@@ -262,7 +262,7 @@ Partial Class MainScreen
     Friend WithEvents Label2 As Label
     Friend WithEvents txtRestultJaar As TextBox
     Friend WithEvents btnFilter As Button
-    Friend WithEvents ComboBox1 As ComboBox
+    Friend WithEvents cboFiltersList As ComboBox
     Friend WithEvents Label1 As Label
     Friend WithEvents Button1 As Button
 End Class
