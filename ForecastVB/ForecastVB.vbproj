@@ -185,6 +185,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="conn.txt" />
+    <None Include="Resources\1476721606_Close.png" />
+    <None Include="Resources\1476715277_add.png" />
+    <None Include="Resources\1476715262_multimedia-27.png" />
+    <None Include="Resources\1476715250_empty_filter.png" />
+    <None Include="Resources\1476715240_BT_folder_file_open.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">

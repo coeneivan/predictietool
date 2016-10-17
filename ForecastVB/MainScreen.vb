@@ -8,7 +8,6 @@ Public Class MainScreen
     Private selectedFilterList As String
     Private saveDirectory As String = SpecialDirectories.MyDocuments + "//Predictie Filters//"
     Private Sub MainScreen_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
         'Load all cursussen
         Dim subafds As New subAfdBll
         cboSubAfd.Items.AddRange(subafds.getAallSubAfds(jaar, filters).ToArray)

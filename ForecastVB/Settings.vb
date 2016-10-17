@@ -235,4 +235,8 @@ Public Class Settings
     Private Sub Settings_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         cbbFilterFiles.SelectedItem = root.getSelectedList
     End Sub
+
+    Private Sub btnAddNewList_Click(sender As Object, e As EventArgs) Handles btnAddNewList.Click
+        ListViewStarter()
+    End Sub
 End Class

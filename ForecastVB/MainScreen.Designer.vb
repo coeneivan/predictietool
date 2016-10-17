@@ -49,7 +49,7 @@ Partial Class MainScreen
         Me.Label3.Location = New System.Drawing.Point(56, 256)
         Me.Label3.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(75, 13)
+        Me.Label3.Size = New System.Drawing.Size(69, 13)
         Me.Label3.TabIndex = 3
         Me.Label3.Text = "Sub afdeling;"
         '
@@ -181,12 +181,15 @@ Partial Class MainScreen
         '
         'btnFilter
         '
+        Me.btnFilter.Image = CType(resources.GetObject("btnFilter.Image"), System.Drawing.Image)
+        Me.btnFilter.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.btnFilter.Location = New System.Drawing.Point(9, 10)
         Me.btnFilter.Margin = New System.Windows.Forms.Padding(2)
         Me.btnFilter.Name = "btnFilter"
-        Me.btnFilter.Size = New System.Drawing.Size(123, 42)
+        Me.btnFilter.Size = New System.Drawing.Size(123, 40)
         Me.btnFilter.TabIndex = 12
         Me.btnFilter.Text = "Filters toevoegen"
+        Me.btnFilter.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.btnFilter.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
         Me.btnFilter.UseVisualStyleBackColor = False
         '
