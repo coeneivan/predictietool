@@ -4,7 +4,7 @@ Imports Microsoft.VisualBasic.FileIO
 Public Class MainScreen
     Private Const jaar = 2015
     Private Shared filters As New ArrayList
-    Private Shared filterlist As New ArrayList
+    Private filterlist As ArrayList
     Private saveDirectory As String = SpecialDirectories.MyDocuments + "//Predictie Filters//"
     Private Sub MainScreen_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         'Load all cursussen
@@ -37,6 +37,7 @@ Public Class MainScreen
         txtRestultJaar.Text = range.ToString
 
         Try
+            filterlist = New ArrayList
             cboFiltersList.Items.Clear()
             Dim filterFiles As String() = Directory.GetFiles(saveDirectory)
             For Each file As String In filterFiles
@@ -92,6 +93,17 @@ Public Class MainScreen
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         Dim t As New Test
         t.Show()
+    End Sub
+
+    Private Sub cboFiltersList_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboFiltersList.SelectedIndexChanged
+        Dim j As New JSONParser
+        readFilterFile(New ArrayList(j.read(saveDirectory + cboFiltersList.SelectedItem.ToString() + ".json")))
+    End Sub
+    Private Sub readFilterFile(filters As ArrayList)
+        filters.Clear()
+        For Each f As FilterItem In filters
+            filters.Add(f)
+        Next
     End Sub
 
 

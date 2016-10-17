@@ -85,6 +85,16 @@ Public Class Settings
             Dim filterNames As String = System.IO.Path.GetFileNameWithoutExtension(file)
             cbbFilterFiles.Items.Add(filterNames)
         Next
+        cbbFilterFiles.Items.Clear() 'TODO Check if directory exists 
+        Try
+            If root.getFilterList.Count > 0 Then
+                cbbFilterFiles.Items.AddRange(root.getFilterList.ToArray)
+            End If
+        Catch ex As Exception
+            'TODO: catch null exception
+        End Try
+
+
     End Sub
 
     ''' <summary>
