@@ -127,7 +127,7 @@ Public Class Settings
         OpenFileDialog1.Filter = "JSON file|*.json"
         OpenFileDialog1.Title = "Open a JSON File"
         OpenFileDialog1.ShowDialog()
-        'TODO: auto save list
+
         If OpenFileDialog1.FileName <> "" And My.Computer.FileSystem.FileExists(OpenFileDialog1.FileName) Then
             Try
                 ' Creeër een input box om het op te slaan bestand een naam te geven
@@ -262,11 +262,11 @@ Public Class Settings
         End If
     End Sub
 
-    Private Sub Settings_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        cbbFilterFiles.SelectedItem = root.getSelectedList
-    End Sub
-
     Public Sub setNewFileName(f As String)
         newFileName = f
+    End Sub
+
+    Private Sub Settings_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        cbbFilterFiles.SelectedItem = root.getSelectedList
     End Sub
 End Class
