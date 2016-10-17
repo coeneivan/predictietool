@@ -39,12 +39,13 @@ Partial Class Settings
         Me.txtFileName = New System.Windows.Forms.TextBox()
         Me.cbbFilterFiles = New System.Windows.Forms.ComboBox()
         Me.btnRemoveFilter = New System.Windows.Forms.Button()
+        Me.btnAddNewList = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(11, 66)
+        Me.Label1.Location = New System.Drawing.Point(12, 78)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(51, 13)
         Me.Label1.TabIndex = 2
@@ -53,9 +54,9 @@ Partial Class Settings
         'lsvFilter
         '
         Me.lsvFilter.FullRowSelect = True
-        Me.lsvFilter.Location = New System.Drawing.Point(11, 82)
+        Me.lsvFilter.Location = New System.Drawing.Point(11, 94)
         Me.lsvFilter.Name = "lsvFilter"
-        Me.lsvFilter.Size = New System.Drawing.Size(612, 126)
+        Me.lsvFilter.Size = New System.Drawing.Size(612, 114)
         Me.lsvFilter.TabIndex = 3
         Me.lsvFilter.UseCompatibleStateImageBehavior = False
         Me.lsvFilter.View = System.Windows.Forms.View.Details
@@ -69,20 +70,26 @@ Partial Class Settings
         '
         'btnAdd
         '
-        Me.btnAdd.Location = New System.Drawing.Point(548, 240)
+        Me.btnAdd.Image = Global.ForecastVB.My.Resources.Resources._1476715277_add
+        Me.btnAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.btnAdd.Location = New System.Drawing.Point(488, 240)
         Me.btnAdd.Name = "btnAdd"
-        Me.btnAdd.Size = New System.Drawing.Size(75, 23)
+        Me.btnAdd.Size = New System.Drawing.Size(135, 40)
         Me.btnAdd.TabIndex = 7
-        Me.btnAdd.Text = "Toevoegen"
+        Me.btnAdd.Text = "Filter toevoegen"
+        Me.btnAdd.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
         Me.btnAdd.UseVisualStyleBackColor = True
         '
         'btnRemove
         '
-        Me.btnRemove.Location = New System.Drawing.Point(11, 240)
+        Me.btnRemove.Image = Global.ForecastVB.My.Resources.Resources._1476721606_Close
+        Me.btnRemove.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.btnRemove.Location = New System.Drawing.Point(367, 240)
         Me.btnRemove.Name = "btnRemove"
-        Me.btnRemove.Size = New System.Drawing.Size(75, 23)
+        Me.btnRemove.Size = New System.Drawing.Size(115, 40)
         Me.btnRemove.TabIndex = 8
-        Me.btnRemove.Text = "Verwijderen"
+        Me.btnRemove.Text = "Verwijder filter"
+        Me.btnRemove.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
         Me.btnRemove.UseVisualStyleBackColor = True
         '
         'cbbKolom
@@ -106,7 +113,7 @@ Partial Class Settings
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(12, 9)
+        Me.Label2.Location = New System.Drawing.Point(392, 25)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(90, 13)
         Me.Label2.TabIndex = 11
@@ -114,22 +121,30 @@ Partial Class Settings
         '
         'btnOpen
         '
-        Me.btnOpen.Location = New System.Drawing.Point(508, 5)
+        Me.btnOpen.Image = Global.ForecastVB.My.Resources.Resources._1476715240_BT_folder_file_open
+        Me.btnOpen.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.btnOpen.Location = New System.Drawing.Point(11, 11)
         Me.btnOpen.Margin = New System.Windows.Forms.Padding(2)
         Me.btnOpen.Name = "btnOpen"
-        Me.btnOpen.Size = New System.Drawing.Size(115, 24)
+        Me.btnOpen.Size = New System.Drawing.Size(115, 40)
         Me.btnOpen.TabIndex = 13
-        Me.btnOpen.Text = "Filter lijst toevoegen"
+        Me.btnOpen.Text = "Open filterfile"
+        Me.btnOpen.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.btnOpen.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
         Me.btnOpen.UseVisualStyleBackColor = True
         '
         'btnSave
         '
-        Me.btnSave.Location = New System.Drawing.Point(548, 268)
+        Me.btnSave.Image = Global.ForecastVB.My.Resources.Resources._1476715262_multimedia_27
+        Me.btnSave.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.btnSave.Location = New System.Drawing.Point(488, 285)
         Me.btnSave.Margin = New System.Windows.Forms.Padding(2)
         Me.btnSave.Name = "btnSave"
-        Me.btnSave.Size = New System.Drawing.Size(75, 23)
+        Me.btnSave.Size = New System.Drawing.Size(135, 40)
         Me.btnSave.TabIndex = 14
         Me.btnSave.Text = "Lijst opslaan"
+        Me.btnSave.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.btnSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
         Me.btnSave.UseVisualStyleBackColor = True
         '
         'OpenFileDialog1
@@ -139,7 +154,7 @@ Partial Class Settings
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(12, 273)
+        Me.Label3.Location = New System.Drawing.Point(12, 299)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(35, 13)
         Me.Label3.TabIndex = 15
@@ -147,34 +162,50 @@ Partial Class Settings
         '
         'txtFileName
         '
-        Me.txtFileName.Location = New System.Drawing.Point(53, 270)
+        Me.txtFileName.Location = New System.Drawing.Point(53, 296)
         Me.txtFileName.Name = "txtFileName"
-        Me.txtFileName.Size = New System.Drawing.Size(490, 20)
+        Me.txtFileName.Size = New System.Drawing.Size(429, 20)
         Me.txtFileName.TabIndex = 16
         '
         'cbbFilterFiles
         '
         Me.cbbFilterFiles.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cbbFilterFiles.FormattingEnabled = True
-        Me.cbbFilterFiles.Location = New System.Drawing.Point(108, 6)
+        Me.cbbFilterFiles.Location = New System.Drawing.Point(488, 22)
         Me.cbbFilterFiles.Name = "cbbFilterFiles"
-        Me.cbbFilterFiles.Size = New System.Drawing.Size(395, 21)
+        Me.cbbFilterFiles.Size = New System.Drawing.Size(135, 21)
         Me.cbbFilterFiles.TabIndex = 17
         '
         'btnRemoveFilter
         '
-        Me.btnRemoveFilter.Location = New System.Drawing.Point(508, 35)
+        Me.btnRemoveFilter.Image = Global.ForecastVB.My.Resources.Resources._1476721606_Close
+        Me.btnRemoveFilter.Location = New System.Drawing.Point(252, 11)
         Me.btnRemoveFilter.Name = "btnRemoveFilter"
-        Me.btnRemoveFilter.Size = New System.Drawing.Size(115, 23)
+        Me.btnRemoveFilter.Size = New System.Drawing.Size(134, 40)
         Me.btnRemoveFilter.TabIndex = 18
-        Me.btnRemoveFilter.Text = "Verwijder filter"
+        Me.btnRemoveFilter.Text = "Verwijder filterfile"
+        Me.btnRemoveFilter.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.btnRemoveFilter.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
         Me.btnRemoveFilter.UseVisualStyleBackColor = True
+        '
+        'btnAddNewList
+        '
+        Me.btnAddNewList.Image = Global.ForecastVB.My.Resources.Resources._1476715277_add
+        Me.btnAddNewList.Location = New System.Drawing.Point(131, 11)
+        Me.btnAddNewList.Name = "btnAddNewList"
+        Me.btnAddNewList.Size = New System.Drawing.Size(115, 40)
+        Me.btnAddNewList.TabIndex = 18
+        Me.btnAddNewList.Text = "Nieuw filterfile"
+        Me.btnAddNewList.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.btnAddNewList.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
+        Me.btnAddNewList.UseVisualStyleBackColor = True
         '
         'Settings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(635, 305)
+        Me.ClientSize = New System.Drawing.Size(635, 334)
+        Me.Controls.Add(Me.btnAddNewList)
         Me.Controls.Add(Me.btnRemoveFilter)
         Me.Controls.Add(Me.cbbFilterFiles)
         Me.Controls.Add(Me.txtFileName)
@@ -213,4 +244,5 @@ Partial Class Settings
     Friend WithEvents txtFileName As TextBox
     Friend WithEvents cbbFilterFiles As ComboBox
     Friend WithEvents btnRemoveFilter As Button
+    Friend WithEvents btnAddNewList As Button
 End Class

@@ -89,8 +89,10 @@
             End If
             Dim tf = bereik.valtTussen(y)
             If tf Then
+                lvi.BackColor = Color.FromArgb(255, 46, 204, 113)
                 ja += 1
             Else
+                lvi.BackColor = Color.FromArgb(255, 231, 76, 60)
                 nee += 1
             End If
             lvi.SubItems.Add(tf)

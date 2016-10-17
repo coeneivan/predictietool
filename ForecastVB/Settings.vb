@@ -262,11 +262,15 @@ Public Class Settings
         End If
     End Sub
 
-    Public Sub setNewFileName(f As String)
-        newFileName = f
-    End Sub
-
     Private Sub Settings_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         cbbFilterFiles.SelectedItem = root.getSelectedList
+    End Sub
+
+    Private Sub btnAddNewList_Click(sender As Object, e As EventArgs) Handles btnAddNewList.Click
+        ListViewStarter()
+    End Sub
+
+    Public Sub setNewFileName(f As String)
+        newFileName = f
     End Sub
 End Class
