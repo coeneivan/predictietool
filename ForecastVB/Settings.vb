@@ -15,7 +15,7 @@ Public Class Settings
         ' This call is required by the designer.
         InitializeComponent()
         ' Add any initialization after the InitializeComponent() call.
-
+        root = main
         makeFilterFileList()
         setKolomNaam()
         setFactorLijst()
@@ -80,14 +80,9 @@ Public Class Settings
         ' Bestaat directory? bestaat hij niet, maak hem aan
         doesDirectoryExistifNotCreate()
 
-        Dim filterFiles As String() = Directory.GetFiles(saveDirectory)
-        For Each file As String In filterFiles
-            Dim filterNames As String = System.IO.Path.GetFileNameWithoutExtension(file)
-            cbbFilterFiles.Items.Add(filterNames)
-        Next
         cbbFilterFiles.Items.Clear() 'TODO Check if directory exists 
         Try
-            If root.getFilterList.Count > 0 Then
+            If root.getFilterList().Count > 0 Then
                 cbbFilterFiles.Items.AddRange(root.getFilterList.ToArray)
             End If
         Catch ex As Exception
