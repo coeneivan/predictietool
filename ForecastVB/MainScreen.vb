@@ -8,8 +8,7 @@ Public Class MainScreen
     Private selectedFilterList As String
     Private saveDirectory As String = SpecialDirectories.MyDocuments + "//Predictie Filters//"
     Private Sub MainScreen_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        selectedFilterList = My.Settings.selectedFilterList
-        cboFiltersList.SelectedText = selectedFilterList
+
         'Load all cursussen
         Dim subafds As New subAfdBll
         cboSubAfd.Items.AddRange(subafds.getAallSubAfds(jaar, filters).ToArray)
@@ -54,6 +53,8 @@ Public Class MainScreen
         Catch ex As Exception
             'TODO: catch it!
         End Try
+        selectedFilterList = My.Settings.selectedFilterList
+        cboFiltersList.SelectedItem = selectedFilterList
     End Sub
     Private Sub cboSubAfd_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboSubAfd.SelectedIndexChanged
         Dim subafd As New subAfdBll
@@ -102,7 +103,8 @@ Public Class MainScreen
     Public Function getSelectedList() As String
         Return selectedFilterList
     End Function
-    Private Sub cboFiltersList_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboFiltersList.SelectedIndexChanged
+
+    Private Sub cboFiltersList_SelectedValueChanged(sender As Object, e As EventArgs) Handles cboFiltersList.SelectedValueChanged
         Dim j As New JSONParser
         filters = j.read(saveDirectory + cboFiltersList.SelectedItem.ToString() + ".json")
         My.Settings.selectedFilterList = cboFiltersList.SelectedItem
