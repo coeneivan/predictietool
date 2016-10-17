@@ -40,9 +40,10 @@
 
         End If
         pgb.Minimum = 0
-        pgb.Maximum = subAfds.Count - 1
-        If pgb.Maximum = 0 Then
+        If subAfds.Count = 0 Then
             pgb.Maximum = 1
+        Else
+            pgb.Maximum = subAfds.Count - 1
         End If
 
         For i As Integer = 0 To subAfds.Count - 1
