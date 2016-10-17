@@ -203,6 +203,7 @@ Public Class Settings
         If filters.Count <> 0 Then
             root.addFilters(filters)
         End If
+        root.refreshFilterList()
     End Sub
 
     Private Sub btnRemoveFilter_Click(sender As Object, e As EventArgs) Handles btnRemoveFilter.Click

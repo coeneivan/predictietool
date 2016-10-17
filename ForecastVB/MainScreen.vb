@@ -36,6 +36,9 @@ Public Class MainScreen
         Dim range = p.certainty(dictionary, pros)
         txtRestultJaar.Text = range.ToString
 
+        refreshFilterList()
+    End Sub
+    Public Sub refreshFilterList()
         Try
             filterlist = New ArrayList
             cboFiltersList.Items.Clear()
@@ -49,7 +52,6 @@ Public Class MainScreen
             'TODO: catch it!
         End Try
     End Sub
-
     Private Sub cboSubAfd_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboSubAfd.SelectedIndexChanged
         Dim subafd As New subAfdBll
         txtResultSubAfd.Text = subafd.berekenVerwachtingsBereikVoorSubAfd(jaar, cboSubAfd.SelectedItem, filters).ToString
