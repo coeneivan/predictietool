@@ -114,7 +114,7 @@ Partial Class Settings
         '
         'btnOpen
         '
-        Me.btnOpen.Location = New System.Drawing.Point(508, 3)
+        Me.btnOpen.Location = New System.Drawing.Point(508, 5)
         Me.btnOpen.Margin = New System.Windows.Forms.Padding(2)
         Me.btnOpen.Name = "btnOpen"
         Me.btnOpen.Size = New System.Drawing.Size(115, 24)
@@ -163,7 +163,7 @@ Partial Class Settings
         '
         'btnRemoveFilter
         '
-        Me.btnRemoveFilter.Location = New System.Drawing.Point(508, 33)
+        Me.btnRemoveFilter.Location = New System.Drawing.Point(508, 35)
         Me.btnRemoveFilter.Name = "btnRemoveFilter"
         Me.btnRemoveFilter.Size = New System.Drawing.Size(115, 23)
         Me.btnRemoveFilter.TabIndex = 18
@@ -190,6 +190,7 @@ Partial Class Settings
         Me.Controls.Add(Me.lsvFilter)
         Me.Controls.Add(Me.Label1)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
+        Me.MaximizeBox = False
         Me.Name = "Settings"
         Me.Text = "Settings"
         Me.ResumeLayout(False)

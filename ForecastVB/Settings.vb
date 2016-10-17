@@ -9,6 +9,7 @@ Public Class Settings
     Private filters As ArrayList
     Private root As MainScreen
     Dim selectedIndex As Integer = -1
+    Dim newFileName As String
 
     Public Sub New(main As MainScreen)
         filters = main.getFilters()
@@ -21,6 +22,10 @@ Public Class Settings
         setFactorLijst()
         ListViewStarter()
     End Sub
+
+    Friend Function getSaveDirectory() As String
+        Return saveDirectory
+    End Function
 
     Private Sub setFactorLijst()
         cbbFactor.Items.Add("=")
@@ -80,7 +85,7 @@ Public Class Settings
         ' Bestaat directory? bestaat hij niet, maak hem aan
         doesDirectoryExistifNotCreate()
 
-        cbbFilterFiles.Items.Clear() 'TODO Check if directory exists 
+        cbbFilterFiles.Items.Clear()
         Try
             If root.getFilterList().Count > 0 Then
                 cbbFilterFiles.Items.AddRange(root.getFilterList.ToArray)
@@ -124,9 +129,31 @@ Public Class Settings
         OpenFileDialog1.ShowDialog()
         'TODO: auto save list
         If OpenFileDialog1.FileName <> "" And My.Computer.FileSystem.FileExists(OpenFileDialog1.FileName) Then
-            Dim j As New JSONParser()
-            Dim filters = j.read(OpenFileDialog1.FileName)
-            readFilterFile(filters)
+            Try
+                ' Creeër een input box om het op te slaan bestand een naam te geven
+                Dim addFile As AddFile = New AddFile(System.IO.Path.GetFileNameWithoutExtension(OpenFileDialog1.FileName), Me)
+                addFile.ShowDialog()
+
+                If (addFile.DialogResult = DialogResult.OK) Then
+                    Dim geefNaamInputbox As String = newFileName
+
+
+                    Dim j As New JSONParser()
+                    Dim filters = j.read(OpenFileDialog1.FileName)
+                    readFilterFile(filters)
+
+                    My.Computer.FileSystem.WriteAllText(saveDirectory + geefNaamInputbox + ".json", j.save(filters), False)
+
+                    root.refreshFilterList()
+
+                    ' Reset listview met filterbestanden en filterlist
+                    makeFilterFileList()
+                    ListViewStarter()
+
+                End If
+            Catch ex As ApplicationException
+                MessageBox.Show(ex.Message)
+            End Try
         End If
 
     End Sub
@@ -153,47 +180,38 @@ Public Class Settings
             'SaveFileDialog1.Title = "Save a JSON File"
             'SaveFileDialog1.ShowDialog()
 
-            If txtFileName.Text <> "" Then
-                If My.Computer.FileSystem.FileExists(saveDirectory + txtFileName.Text + ".json") Then
-                    Throw New ApplicationException("Filternaam bestaat al, gelieve de filter een andere naam te geven.")
-                End If
-
-                Dim j As New JSONParser()
-                Dim filters As New ArrayList
-                filters = createFilterList()
-                'My.Computer.FileSystem.WriteAllText(SaveFileDialog1.FileName, j.save(filters), False)
-
-                ' Bestaat directory? bestaat hij niet, maak hem aan
-                doesDirectoryExistifNotCreate()
-
-                My.Computer.FileSystem.WriteAllText(saveDirectory + txtFileName.Text + ".json", j.save(filters), False)
-                txtFileName.Clear()
-
-                root.refreshFilterList()
-
-                ' Reset listview met filterbestanden en filterlist
-                makeFilterFileList()
-                ListViewStarter()
-            Else
+            If (txtFileName.Text = "") Then
                 Throw New ApplicationException("Gelieve een bestandsnaam in te stellen")
             End If
+
+            If My.Computer.FileSystem.FileExists(saveDirectory + txtFileName.Text + ".json") Then
+                Throw New ApplicationException("Filternaam bestaat al, gelieve de filter een andere naam te geven.")
+            End If
+
+            Dim j As New JSONParser()
+            Dim filters As New ArrayList
+            filters = createFilterList()
+            'My.Computer.FileSystem.WriteAllText(SaveFileDialog1.FileName, j.save(filters), False)
+
+            ' Bestaat directory? bestaat hij niet, maak hem aan
+            doesDirectoryExistifNotCreate()
+
+            My.Computer.FileSystem.WriteAllText(saveDirectory + txtFileName.Text + ".json", j.save(filters), False)
+            txtFileName.Clear()
+
+            root.refreshFilterList()
+
+            ' Reset listview met filterbestanden en filterlist
+            makeFilterFileList()
+            ListViewStarter()
+
         Catch ex As ApplicationException
             MessageBox.Show(ex.Message)
         End Try
-
-
-
-
     End Sub
 
     Private Sub txtFileName_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtFileName.KeyPress
-        If Not (Char.IsLetterOrDigit(e.KeyChar) OrElse e.KeyChar = "."c) Then
-            If e.KeyChar = CChar(ChrW(Keys.Back)) Or e.KeyChar = CChar(ChrW(Keys.Space)) Then
-                e.Handled = False
-            Else
-                e.Handled = True
-            End If
-        End If
+        filenameKeyPressCheck(sender, e)
     End Sub
 
     Private Sub cbbFilterFiles_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cbbFilterFiles.SelectedIndexChanged
@@ -223,6 +241,8 @@ Public Class Settings
             MessageBox.Show("Het bestand werd niet terug gevonden")
         Catch ex As IOException
             MessageBox.Show("Er werd een probleem met het apparaat ondervonden.")
+        Catch ex As NullReferenceException
+            MessageBox.Show("Gelieve een filter te selecteren om te verwijderen.")
         End Try
     End Sub
 
@@ -230,5 +250,19 @@ Public Class Settings
         If Not (My.Computer.FileSystem.DirectoryExists(saveDirectory)) Then
             My.Computer.FileSystem.CreateDirectory(saveDirectory)
         End If
+    End Sub
+
+    Public Sub filenameKeyPressCheck(sender As Object, e As KeyPressEventArgs)
+        If Not (Char.IsLetterOrDigit(e.KeyChar) OrElse e.KeyChar = "."c) Then
+            If e.KeyChar = CChar(ChrW(Keys.Back)) Or e.KeyChar = CChar(ChrW(Keys.Space)) Then
+                e.Handled = False
+            Else
+                e.Handled = True
+            End If
+        End If
+    End Sub
+
+    Public Sub setNewFileName(f As String)
+        newFileName = f
     End Sub
 End Class
