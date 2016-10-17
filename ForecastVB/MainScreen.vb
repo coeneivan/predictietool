@@ -71,4 +71,7 @@
         Dim t As New Test
         t.Show()
     End Sub
+
+
+    ' TODO Filters laten werken op berekende resultaat
 End Class
