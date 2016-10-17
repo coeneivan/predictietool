@@ -76,7 +76,15 @@ Public Class Settings
 
     Private Sub makeFilterFileList()
         cbbFilterFiles.Items.Clear() 'TODO Check if directory exists 
-        cbbFilterFiles.Items.AddRange(root.getFilterList.ToArray)
+        Try
+            If root.getFilterList.Count > 0 Then
+                cbbFilterFiles.Items.AddRange(root.getFilterList.ToArray)
+            End If
+        Catch ex As Exception
+            'TODO: catch null exception
+        End Try
+
+
     End Sub
 
     ''' <summary>
