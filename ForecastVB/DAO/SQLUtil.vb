@@ -38,8 +38,7 @@ Public Class SQLUtil
             End While
             Return arr
         Catch ex As Exception
-            MessageBox.Show(ex.ToString(), "ERROR Please contact Developer", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            'TODO Throw exception instead
+            Throw New Exception
         Finally
             myConn.Close()
         End Try
@@ -64,8 +63,7 @@ Public Class SQLUtil
             End While
             Return arr
         Catch ex As Exception
-            MessageBox.Show(ex.ToString(), "ERROR Please contact Developer", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            'TODO Throw exception instead
+            Throw New Exception
         Finally
             myConn.Close()
         End Try

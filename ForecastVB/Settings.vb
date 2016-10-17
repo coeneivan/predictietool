@@ -127,7 +127,7 @@ Public Class Settings
         OpenFileDialog1.Filter = "JSON file|*.json"
         OpenFileDialog1.Title = "Open a JSON File"
         OpenFileDialog1.ShowDialog()
-        'TODO: auto save list
+
         If OpenFileDialog1.FileName <> "" And My.Computer.FileSystem.FileExists(OpenFileDialog1.FileName) Then
             Try
                 ' Creeër een input box om het op te slaan bestand een naam te geven
