@@ -2,11 +2,14 @@
 Imports Microsoft.VisualBasic.FileIO
 
 Public Class MainScreen
-    Private Const jaar = 2015
-    Private Shared filters As New ArrayList
+    Private Const jaar = 2015 'TODO: veranderen naar gewenste jaar
+    Private filters As New ArrayList
     Private filterlist As ArrayList
+    Private selectedFilterList As String
     Private saveDirectory As String = SpecialDirectories.MyDocuments + "//Predictie Filters//"
     Private Sub MainScreen_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        selectedFilterList = My.Settings.selectedFilterList
+        cboFiltersList.SelectedText = selectedFilterList
         'Load all cursussen
         Dim subafds As New subAfdBll
         cboSubAfd.Items.AddRange(subafds.getAallSubAfds(jaar, filters).ToArray)
@@ -96,10 +99,14 @@ Public Class MainScreen
         Dim t As New Test(Me)
         t.Show()
     End Sub
-
+    Public Function getSelectedList() As String
+        Return selectedFilterList
+    End Function
     Private Sub cboFiltersList_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboFiltersList.SelectedIndexChanged
         Dim j As New JSONParser
         filters = j.read(saveDirectory + cboFiltersList.SelectedItem.ToString() + ".json")
+        My.Settings.selectedFilterList = cboFiltersList.SelectedItem
+        My.Settings.Save()
     End Sub
     ' TODO Filters laten werken op berekende resultaat
 End Class

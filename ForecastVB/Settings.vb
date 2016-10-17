@@ -231,4 +231,8 @@ Public Class Settings
             My.Computer.FileSystem.CreateDirectory(saveDirectory)
         End If
     End Sub
+
+    Private Sub Settings_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        cbbFilterFiles.SelectedItem = root.getSelectedList
+    End Sub
 End Class
