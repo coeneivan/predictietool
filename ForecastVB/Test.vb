@@ -31,6 +31,7 @@
         Dim filters = root.getFilters
         If filters Is Nothing Then
             subAfds.AddRange(sql.getArrayList("select distinct CodeSubafdeling from Cursussen where Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' and year(StartDatum) = 2015 group by codesubafdeling having count(*) > 5").ToArray())
+            'TODO: catch empty arraylist
         Else
             Dim fil As String
             fil = ""
