@@ -186,7 +186,6 @@ Public Class Settings
     End Sub
 
     Private Sub cbbFilterFiles_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cbbFilterFiles.SelectedIndexChanged
-        selectedIndex = cbbFilterFiles.SelectedIndex
         Dim j As New JSONParser
         readFilterFile(New ArrayList(j.read(saveDirectory + cbbFilterFiles.SelectedItem.ToString() + ".json")))
 
@@ -205,6 +204,7 @@ Public Class Settings
             If (resultaat = 6) Then
                 My.Computer.FileSystem.DeleteFile(saveDirectory + cbbFilterFiles.SelectedItem.ToString + ".json")
                 makeFilterFileList()
+                ListViewStarter()
             End If
         Catch ex As FileNotFoundException
             MessageBox.Show("Het bestand werd niet terug gevonden")
