@@ -169,8 +169,9 @@ Public Class Settings
                 My.Computer.FileSystem.WriteAllText(saveDirectory + txtFileName.Text + ".json", j.save(filters), False)
                 txtFileName.Clear()
 
-                ' Reset listview met filterbestanden
+                ' Reset listview met filterbestanden en filterlist
                 makeFilterFileList()
+                ListViewStarter()
             Else
                 Throw New ApplicationException("Gelieve een bestandsnaam in te stellen")
             End If
