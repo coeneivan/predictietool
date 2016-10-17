@@ -14,6 +14,7 @@
         startUp()
     End Sub
     Private Sub startUp()
+        lvResult.Clear()
         lvResult.Columns.Add("SubAfdeling", 150)
         lvResult.Columns.Add("Voorspeld", 150)
         lvResult.Columns.Add("Echt", 150)
@@ -21,6 +22,7 @@
     End Sub
 
     Private Sub btnCheck_Click(sender As Object, e As EventArgs) Handles btnCheck.Click
+        startUp()
         Dim sql As New SQLUtil
         Dim subAfds As New ArrayList
         Dim subBll As New subAfdBll
