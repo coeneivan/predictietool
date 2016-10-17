@@ -80,8 +80,6 @@ Public Class Settings
     End Function
 
     Private Sub makeFilterFileList()
-        cbbFilterFiles.Items.Clear()
-
         ' Bestaat directory? bestaat hij niet, maak hem aan
         doesDirectoryExistifNotCreate()
 
@@ -108,6 +106,23 @@ Public Class Settings
 
         lsvFilter.Items.AddRange(New ListViewItem() {lvi})
 
+        saveListToCurrentFilter()
+
+        txtOmschrijving.Clear()
+    End Sub
+
+    Private Sub saveListToCurrentFilter()
+        Dim j As New JSONParser()
+        Dim filters As New ArrayList
+        filters = createFilterList()
+        'My.Computer.FileSystem.WriteAllText(SaveFileDialog1.FileName, j.save(filters), False)
+
+        If (cbbFilterFiles.SelectedItem <> "") Then
+            My.Computer.FileSystem.WriteAllText(saveDirectory + cbbFilterFiles.SelectedItem.ToString + ".json", j.save(filters), False)
+        End If
+        txtFileName.Clear()
+
+        root.refreshFilterList()
     End Sub
 
     ''' <summary>
@@ -120,6 +135,8 @@ Public Class Settings
             For Each i As ListViewItem In lsvFilter.SelectedItems
                 lsvFilter.Items.Remove(i)
             Next
+
+            saveListToCurrentFilter()
         End If
     End Sub
 
@@ -176,15 +193,13 @@ Public Class Settings
     Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
 
         Try
-            'SaveFileDialog1.Filter = "JSON file|*.json"
-            'SaveFileDialog1.Title = "Save a JSON File"
-            'SaveFileDialog1.ShowDialog()
+            Dim fileName As String = txtFileName.Text
 
             If (txtFileName.Text = "") Then
                 Throw New ApplicationException("Gelieve een bestandsnaam in te stellen")
             End If
 
-            If My.Computer.FileSystem.FileExists(saveDirectory + txtFileName.Text + ".json") Then
+            If My.Computer.FileSystem.FileExists(saveDirectory + fileName + ".json") Then
                 Throw New ApplicationException("Filternaam bestaat al, gelieve de filter een andere naam te geven.")
             End If
 
@@ -196,7 +211,7 @@ Public Class Settings
             ' Bestaat directory? bestaat hij niet, maak hem aan
             doesDirectoryExistifNotCreate()
 
-            My.Computer.FileSystem.WriteAllText(saveDirectory + txtFileName.Text + ".json", j.save(filters), False)
+            My.Computer.FileSystem.WriteAllText(saveDirectory + fileName + ".json", j.save(filters), False)
             txtFileName.Clear()
 
             root.refreshFilterList()
@@ -204,6 +219,8 @@ Public Class Settings
             ' Reset listview met filterbestanden en filterlist
             makeFilterFileList()
             ListViewStarter()
+
+            cbbFilterFiles.SelectedItem = fileName
 
         Catch ex As ApplicationException
             MessageBox.Show(ex.Message)
@@ -216,7 +233,9 @@ Public Class Settings
 
     Private Sub cbbFilterFiles_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cbbFilterFiles.SelectedIndexChanged
         Dim j As New JSONParser
-        readFilterFile(j.read(saveDirectory + cbbFilterFiles.SelectedItem.ToString() + ".json"))
+        If cbbFilterFiles.SelectedItem <> "" Then
+            readFilterFile(j.read(saveDirectory + cbbFilterFiles.SelectedItem.ToString() + ".json"))
+        End If
 
     End Sub
 
@@ -225,6 +244,7 @@ Public Class Settings
             root.addFilters(filters)
         End If
         root.refreshFilterList()
+
     End Sub
 
     Private Sub btnRemoveFilter_Click(sender As Object, e As EventArgs) Handles btnRemoveFilter.Click
@@ -268,9 +288,15 @@ Public Class Settings
 
     Private Sub btnAddNewList_Click(sender As Object, e As EventArgs) Handles btnAddNewList.Click
         ListViewStarter()
+        cbbFilterFiles.Items.Add("")
+        cbbFilterFiles.SelectedIndex = cbbFilterFiles.Items.Count - 1
     End Sub
 
     Public Sub setNewFileName(f As String)
         newFileName = f
+    End Sub
+
+    Protected Overrides Sub Finalize()
+        MyBase.Finalize()
     End Sub
 End Class
