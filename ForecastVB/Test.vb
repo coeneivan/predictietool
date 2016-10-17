@@ -1,4 +1,12 @@
 ﻿Public Class Test
+    Private root As MainScreen
+    Public Sub New(main As MainScreen)
+        ' This call is required by the designer.
+        InitializeComponent()
+        root = main
+        ' Add any initialization after the InitializeComponent() call.
+
+    End Sub
     Private Sub Test_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim m As New MerkBLL
         cboMerk.Items.AddRange(m.getAll(2015, Nothing).ToArray)
@@ -18,11 +26,24 @@
         Dim subBll As New subAfdBll
         Dim ja = 0
         Dim nee = 0
-        subAfds.AddRange(sql.getArrayList("select distinct CodeSubafdeling from Cursussen where Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' and year(StartDatum) = 2015 group by codesubafdeling having count(*) > 5").ToArray())
+        Dim filters = root.getFilters
+        If filters Is Nothing Then
+            subAfds.AddRange(sql.getArrayList("select distinct CodeSubafdeling from Cursussen where Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' and year(StartDatum) = 2015 group by codesubafdeling having count(*) > 5").ToArray())
+        Else
+            Dim fil As String
+            fil = ""
 
+            For Each filIt As FilterItem In filters
+                fil += " AND " + filIt.kolom + " " + filIt.factor + " " + filIt.filter
+            Next
+            subAfds.AddRange(sql.getArrayList("select distinct CodeSubafdeling from Cursussen where Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' and year(StartDatum) = 2015 " + fil + "group by codesubafdeling having count(*) > 5").ToArray())
 
+        End If
         pgb.Minimum = 0
         pgb.Maximum = subAfds.Count - 1
+        If pgb.Maximum = 0 Then
+            pgb.Maximum = 1
+        End If
 
         For i As Integer = 0 To subAfds.Count - 1
             Dim merk As New MerkBLL
@@ -46,7 +67,18 @@
             Next
             Dim bereik As New Bereik(min, 0, max)
             lvi.SubItems.Add(bereik.ToString)
-            Dim dick = sql.getDictionary("SELECT YEAR(c.startdatum) as jaar,count(*) as totaal,(SELECT count(*) FROM [SyntraTest].[dbo].[Cursussen] as cc WHERE cc.CodeIngetrokken = 'nee' AND CodeSubafdeling = '" + subAfds(i) + "' AND year(cc.StartDatum) = year(c.StartDatum) AND Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "') as nietGeschrapt FROM [SyntraTest].[dbo].[Cursussen] as c WHERE CodeSubafdeling = '" + subAfds(i) + "' AND year(c.StartDatum) =  2015 and Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' group by year(startdatum)")
+            Dim dick
+            If filters Is Nothing Then
+                dick = sql.getDictionary("SELECT YEAR(c.startdatum) as jaar,count(*) as totaal,(SELECT count(*) FROM [SyntraTest].[dbo].[Cursussen] as cc WHERE cc.CodeIngetrokken = 'nee' AND CodeSubafdeling = '" + subAfds(i) + "' AND year(cc.StartDatum) = year(c.StartDatum) AND Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "') as nietGeschrapt FROM [SyntraTest].[dbo].[Cursussen] as c WHERE CodeSubafdeling = '" + subAfds(i) + "' AND year(c.StartDatum) =  2015 and Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' group by year(startdatum)")
+            Else
+                Dim fil As String
+                fil = ""
+
+                For Each filIt As FilterItem In filters
+                    fil += " AND " + filIt.kolom + " " + filIt.factor + " " + filIt.filter
+                Next
+                dick = sql.getDictionary("SELECT YEAR(c.startdatum) as jaar,count(*) as totaal,(SELECT count(*) FROM [SyntraTest].[dbo].[Cursussen] as cc WHERE cc.CodeIngetrokken = 'nee' AND CodeSubafdeling = '" + subAfds(i) + "' AND year(cc.StartDatum) = year(c.StartDatum) AND Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' " + fil + ") as nietGeschrapt FROM [SyntraTest].[dbo].[Cursussen] as c WHERE CodeSubafdeling = '" + subAfds(i) + "' AND year(c.StartDatum) =  2015 and Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' " + fil + " group by year(startdatum)")
+            End If
             Dim y As Double
             If dick IsNot Nothing Then
                 For Each kvp As KeyValuePair(Of String, Parameter) In dick

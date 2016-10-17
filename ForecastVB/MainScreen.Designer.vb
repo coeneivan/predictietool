@@ -22,6 +22,7 @@ Partial Class MainScreen
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MainScreen))
         Me.Label3 = New System.Windows.Forms.Label()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.Label5 = New System.Windows.Forms.Label()
@@ -50,7 +51,7 @@ Partial Class MainScreen
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(75, 13)
         Me.Label3.TabIndex = 3
-        Me.Label3.Text = "Sub afdeeling;"
+        Me.Label3.Text = "Sub afdeling;"
         '
         'Label4
         '
@@ -183,10 +184,11 @@ Partial Class MainScreen
         Me.btnFilter.Location = New System.Drawing.Point(9, 10)
         Me.btnFilter.Margin = New System.Windows.Forms.Padding(2)
         Me.btnFilter.Name = "btnFilter"
-        Me.btnFilter.Size = New System.Drawing.Size(123, 40)
+        Me.btnFilter.Size = New System.Drawing.Size(123, 42)
         Me.btnFilter.TabIndex = 12
         Me.btnFilter.Text = "Filters toevoegen"
-        Me.btnFilter.UseVisualStyleBackColor = True
+        Me.btnFilter.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
+        Me.btnFilter.UseVisualStyleBackColor = False
         '
         'cboFiltersList
         '
@@ -221,6 +223,7 @@ Partial Class MainScreen
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.BackColor = System.Drawing.SystemColors.Control
         Me.ClientSize = New System.Drawing.Size(356, 737)
         Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.cboFiltersList)

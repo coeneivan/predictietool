@@ -216,7 +216,7 @@ Public Class Settings
 
     Private Sub cbbFilterFiles_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cbbFilterFiles.SelectedIndexChanged
         Dim j As New JSONParser
-        readFilterFile(New ArrayList(j.read(saveDirectory + cbbFilterFiles.SelectedItem.ToString() + ".json")))
+        readFilterFile(j.read(saveDirectory + cbbFilterFiles.SelectedItem.ToString() + ".json"))
 
     End Sub
 
@@ -260,6 +260,10 @@ Public Class Settings
                 e.Handled = True
             End If
         End If
+    End Sub
+
+    Private Sub Settings_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        cbbFilterFiles.SelectedItem = root.getSelectedList
     End Sub
 
     Public Sub setNewFileName(f As String)
