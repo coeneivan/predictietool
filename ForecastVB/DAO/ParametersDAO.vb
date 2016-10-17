@@ -21,13 +21,11 @@ Public Class ParametersDAO
             Dim fil As String
             fil = ""
 
-            For i As Integer = 0 To filter.Count - 1
-                Dim filIt As FilterItem
-                filIt = filter.Item(i)
+            For Each filIt As FilterItem In filter
                 fil += " AND " + filIt.kolom + " " + filIt.factor + " " + filIt.filter
             Next
 
-            Return s.getDictionary("SELECT YEAR(c.startdatum) as jaar,count(*) as totaal,(SELECT count(*) FROM [SyntraTest].[dbo].[Cursussen] as cc WHERE cc.CodeIngetrokken = 'nee' AND " + parameter + " = '" + value + fil + "' AND year(cc.StartDatum) = year(c.StartDatum)) as nietGeschrapt FROM [SyntraTest].[dbo].[Cursussen] as c WHERE " + parameter + " = '" + value + "' AND year(c.StartDatum) < " + jaar.ToString + fil + " GROUP BY year(c.startDatum)")
+            Return s.getDictionary("SELECT YEAR(c.startdatum) as jaar,count(*) as totaal,(SELECT count(*) FROM [SyntraTest].[dbo].[Cursussen] as cc WHERE cc.CodeIngetrokken = 'nee' AND " + parameter + " = '" + value + "' AND year(cc.StartDatum) = year(c.StartDatum) " + fil + ") as nietGeschrapt FROM [SyntraTest].[dbo].[Cursussen] as c WHERE " + parameter + " = '" + value + "' AND year(c.StartDatum) < " + jaar.ToString + fil + " GROUP BY year(c.startDatum)")
         End If
     End Function
     ''' <summary>

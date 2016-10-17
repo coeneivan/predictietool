@@ -93,21 +93,13 @@ Public Class MainScreen
         Return filterlist
     End Function
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        Dim t As New Test
+        Dim t As New Test(Me)
         t.Show()
     End Sub
 
     Private Sub cboFiltersList_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboFiltersList.SelectedIndexChanged
         Dim j As New JSONParser
-        readFilterFile(New ArrayList(j.read(saveDirectory + cboFiltersList.SelectedItem.ToString() + ".json")))
+        filters = j.read(saveDirectory + cboFiltersList.SelectedItem.ToString() + ".json")
     End Sub
-    Private Sub readFilterFile(filters As ArrayList)
-        filters.Clear()
-        For Each f As FilterItem In filters
-            filters.Add(f)
-        Next
-    End Sub
-
-
     ' TODO Filters laten werken op berekende resultaat
 End Class
