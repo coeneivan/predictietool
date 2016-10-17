@@ -256,6 +256,7 @@ Public Class Settings
                 makeFilterFileList()
                 ListViewStarter()
                 root.refreshFilterList()
+                makeFilterFileList()
             End If
         Catch ex As FileNotFoundException
             MessageBox.Show("Het bestand werd niet terug gevonden")
