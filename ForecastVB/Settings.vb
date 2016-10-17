@@ -75,7 +75,11 @@ Public Class Settings
     End Function
 
     Private Sub makeFilterFileList()
-        cbbFilterFiles.Items.Clear() 'TODO Check if directory exists 
+        cbbFilterFiles.Items.Clear()
+
+        ' Bestaat directory? bestaat hij niet, maak hem aan
+        doesDirectoryExistifNotCreate()
+
         Dim filterFiles As String() = Directory.GetFiles(saveDirectory)
         For Each file As String In filterFiles
             Dim filterNames As String = System.IO.Path.GetFileNameWithoutExtension(file)
@@ -154,9 +158,8 @@ Public Class Settings
                 filters = createFilterList()
                 'My.Computer.FileSystem.WriteAllText(SaveFileDialog1.FileName, j.save(filters), False)
 
-                If Not (My.Computer.FileSystem.DirectoryExists(saveDirectory)) Then
-                    My.Computer.FileSystem.CreateDirectory(saveDirectory)
-                End If
+                ' Bestaat directory? bestaat hij niet, maak hem aan
+                doesDirectoryExistifNotCreate()
 
                 My.Computer.FileSystem.WriteAllText(saveDirectory + txtFileName.Text + ".json", j.save(filters), False)
                 txtFileName.Clear()
@@ -211,5 +214,11 @@ Public Class Settings
         Catch ex As IOException
             MessageBox.Show("Er werd een probleem met het apparaat ondervonden.")
         End Try
+    End Sub
+
+    Private Sub doesDirectoryExistifNotCreate()
+        If Not (My.Computer.FileSystem.DirectoryExists(saveDirectory)) Then
+            My.Computer.FileSystem.CreateDirectory(saveDirectory)
+        End If
     End Sub
 End Class
