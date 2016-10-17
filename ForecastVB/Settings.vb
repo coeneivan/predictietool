@@ -8,6 +8,7 @@ Public Class Settings
     Dim saveDirectory As String = SpecialDirectories.MyDocuments + "//Predictie Filters//"
     Private filters As ArrayList
     Private root As MainScreen
+    Dim selectedIndex As Integer = -1
 
     Public Sub New(main As MainScreen)
         filters = main.getFilters()
@@ -133,7 +134,7 @@ Public Class Settings
             lsvFilter.Items.Add(lvi)
         Next
 
-        makeFilterFileList()
+        'makeFilterFileList()
     End Sub
 
     Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
@@ -143,8 +144,11 @@ Public Class Settings
             'SaveFileDialog1.Title = "Save a JSON File"
             'SaveFileDialog1.ShowDialog()
 
-            'TODO Test of naam reeds in folder bestaat
             If txtFileName.Text <> "" Then
+                If My.Computer.FileSystem.FileExists(saveDirectory + txtFileName.Text + ".json") Then
+                    Throw New ApplicationException("Filternaam bestaat al, gelieve de filter een andere naam te geven.")
+                End If
+
                 Dim j As New JSONParser()
                 Dim filters As New ArrayList
                 filters = createFilterList()
@@ -182,13 +186,30 @@ Public Class Settings
     End Sub
 
     Private Sub cbbFilterFiles_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cbbFilterFiles.SelectedIndexChanged
+        selectedIndex = cbbFilterFiles.SelectedIndex
         Dim j As New JSONParser
         readFilterFile(New ArrayList(j.read(saveDirectory + cbbFilterFiles.SelectedItem.ToString() + ".json")))
+
     End Sub
 
     Private Sub Settings_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
         If filters.Count <> 0 Then
             root.addFilters(filters)
         End If
+    End Sub
+
+    Private Sub btnRemoveFilter_Click(sender As Object, e As EventArgs) Handles btnRemoveFilter.Click
+        Try
+            Dim resultaat As Integer = MessageBox.Show("Weet u zeker dat u de filter " + Chr(34) + cbbFilterFiles.SelectedItem.ToString + Chr(34) + " wilt verwijderen?", "Filter verwijderen", MessageBoxButtons.YesNo)
+
+            If (resultaat = 6) Then
+                My.Computer.FileSystem.DeleteFile(saveDirectory + cbbFilterFiles.SelectedItem.ToString + ".json")
+                makeFilterFileList()
+            End If
+        Catch ex As FileNotFoundException
+            MessageBox.Show("Het bestand werd niet terug gevonden")
+        Catch ex As IOException
+            MessageBox.Show("Er werd een probleem met het apparaat ondervonden.")
+        End Try
     End Sub
 End Class
