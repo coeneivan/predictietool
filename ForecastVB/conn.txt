@@ -1,0 +1,1 @@
+Data Source=USER-PC\SQLExpress;Initial Catalog=SyntraTest;Integrated Security=True
