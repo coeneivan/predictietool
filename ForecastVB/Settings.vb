@@ -76,11 +76,7 @@ Public Class Settings
 
     Private Sub makeFilterFileList()
         cbbFilterFiles.Items.Clear() 'TODO Check if directory exists 
-        Dim filterFiles As String() = Directory.GetFiles(saveDirectory)
-        For Each file As String In filterFiles
-            Dim filterNames As String = System.IO.Path.GetFileNameWithoutExtension(file)
-            cbbFilterFiles.Items.Add(filterNames)
-        Next
+        cbbFilterFiles.Items.AddRange(root.getFilterList.ToArray)
     End Sub
 
     ''' <summary>

@@ -94,6 +94,17 @@ Public Class MainScreen
         t.Show()
     End Sub
 
+    Private Sub cboFiltersList_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboFiltersList.SelectedIndexChanged
+        Dim j As New JSONParser
+        readFilterFile(New ArrayList(j.read(saveDirectory + cboFiltersList.SelectedItem.ToString() + ".json")))
+    End Sub
+    Private Sub readFilterFile(filters As ArrayList)
+        filters.Clear()
+        For Each f As FilterItem In filters
+            filters.Add(f)
+        Next
+    End Sub
+
 
     ' TODO Filters laten werken op berekende resultaat
 End Class
