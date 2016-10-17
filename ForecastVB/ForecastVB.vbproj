@@ -92,6 +92,12 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddFile.Designer.vb">
+      <DependentUpon>AddFile.vb</DependentUpon>
+    </Compile>
+    <Compile Include="AddFile.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="BLL\DagBll.vb" />
     <Compile Include="BLL\DatumBLL.vb" />
     <Compile Include="BLL\FiltersBLL.vb" />
@@ -148,6 +154,9 @@
     <Compile Include="util\JSONParser.vb" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="AddFile.resx">
+      <DependentUpon>AddFile.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.vb</DependentUpon>
       <SubType>Designer</SubType>

@@ -221,6 +221,7 @@ Partial Class Settings
         Me.Controls.Add(Me.lsvFilter)
         Me.Controls.Add(Me.Label1)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
+        Me.MaximizeBox = False
         Me.Name = "Settings"
         Me.Text = "Settings"
         Me.ResumeLayout(False)
