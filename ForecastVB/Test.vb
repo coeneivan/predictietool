@@ -39,8 +39,11 @@
             subAfds.AddRange(sql.getArrayList("select distinct CodeSubafdeling from Cursussen where Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' and year(StartDatum) = 2015 " + fil + "group by codesubafdeling having count(*) > 5").ToArray())
 
         End If
-        'pgb.Minimum = 0
-        'pgb.Maximum = subAfds.Count - 1
+        pgb.Minimum = 0
+        pgb.Maximum = subAfds.Count - 1
+        If pgb.Maximum = 0 Then
+            pgb.Maximum = 1
+        End If
 
         For i As Integer = 0 To subAfds.Count - 1
             Dim merk As New MerkBLL
