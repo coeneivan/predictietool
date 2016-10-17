@@ -80,14 +80,9 @@ Public Class Settings
         ' Bestaat directory? bestaat hij niet, maak hem aan
         doesDirectoryExistifNotCreate()
 
-        Dim filterFiles As String() = Directory.GetFiles(saveDirectory)
-        For Each file As String In filterFiles
-            Dim filterNames As String = System.IO.Path.GetFileNameWithoutExtension(file)
-            cbbFilterFiles.Items.Add(filterNames)
-        Next
         cbbFilterFiles.Items.Clear() 'TODO Check if directory exists 
         Try
-            If root.getFilterList.Count > 0 Then
+            If root.getFilterList().Count > 0 Then
                 cbbFilterFiles.Items.AddRange(root.getFilterList.ToArray)
             End If
         Catch ex As Exception
@@ -174,8 +169,9 @@ Public Class Settings
                 My.Computer.FileSystem.WriteAllText(saveDirectory + txtFileName.Text + ".json", j.save(filters), False)
                 txtFileName.Clear()
 
-                ' Reset listview met filterbestanden
+                ' Reset listview met filterbestanden en filterlist
                 makeFilterFileList()
+                ListViewStarter()
             Else
                 Throw New ApplicationException("Gelieve een bestandsnaam in te stellen")
             End If
