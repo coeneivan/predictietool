@@ -169,6 +169,8 @@ Public Class Settings
                 My.Computer.FileSystem.WriteAllText(saveDirectory + txtFileName.Text + ".json", j.save(filters), False)
                 txtFileName.Clear()
 
+                root.refreshFilterList()
+
                 ' Reset listview met filterbestanden en filterlist
                 makeFilterFileList()
                 ListViewStarter()
@@ -215,6 +217,7 @@ Public Class Settings
                 My.Computer.FileSystem.DeleteFile(saveDirectory + cbbFilterFiles.SelectedItem.ToString + ".json")
                 makeFilterFileList()
                 ListViewStarter()
+                root.refreshFilterList()
             End If
         Catch ex As FileNotFoundException
             MessageBox.Show("Het bestand werd niet terug gevonden")
