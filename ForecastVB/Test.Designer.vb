@@ -22,6 +22,7 @@ Partial Class Test
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Test))
         Me.cboMerk = New System.Windows.Forms.ComboBox()
         Me.cboDag = New System.Windows.Forms.ComboBox()
         Me.lvResult = New System.Windows.Forms.ListView()
@@ -34,7 +35,7 @@ Partial Class Test
         '
         Me.cboMerk.FormattingEnabled = True
         Me.cboMerk.Location = New System.Drawing.Point(8, 10)
-        Me.cboMerk.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.cboMerk.Margin = New System.Windows.Forms.Padding(2)
         Me.cboMerk.Name = "cboMerk"
         Me.cboMerk.Size = New System.Drawing.Size(275, 21)
         Me.cboMerk.TabIndex = 0
@@ -44,7 +45,7 @@ Partial Class Test
         '
         Me.cboDag.FormattingEnabled = True
         Me.cboDag.Location = New System.Drawing.Point(286, 10)
-        Me.cboDag.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.cboDag.Margin = New System.Windows.Forms.Padding(2)
         Me.cboDag.Name = "cboDag"
         Me.cboDag.Size = New System.Drawing.Size(275, 21)
         Me.cboDag.TabIndex = 0
@@ -55,7 +56,7 @@ Partial Class Test
         Me.lvResult.GridLines = True
         Me.lvResult.HoverSelection = True
         Me.lvResult.Location = New System.Drawing.Point(8, 35)
-        Me.lvResult.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.lvResult.Margin = New System.Windows.Forms.Padding(2)
         Me.lvResult.Name = "lvResult"
         Me.lvResult.Size = New System.Drawing.Size(646, 708)
         Me.lvResult.TabIndex = 1
@@ -65,7 +66,7 @@ Partial Class Test
         'btnCheck
         '
         Me.btnCheck.Location = New System.Drawing.Point(566, 11)
-        Me.btnCheck.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.btnCheck.Margin = New System.Windows.Forms.Padding(2)
         Me.btnCheck.Name = "btnCheck"
         Me.btnCheck.Size = New System.Drawing.Size(88, 21)
         Me.btnCheck.TabIndex = 2
@@ -75,7 +76,7 @@ Partial Class Test
         'pgb
         '
         Me.pgb.Location = New System.Drawing.Point(8, 772)
-        Me.pgb.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.pgb.Margin = New System.Windows.Forms.Padding(2)
         Me.pgb.Name = "pgb"
         Me.pgb.Size = New System.Drawing.Size(645, 19)
         Me.pgb.TabIndex = 3
@@ -102,7 +103,8 @@ Partial Class Test
         Me.Controls.Add(Me.lvResult)
         Me.Controls.Add(Me.cboDag)
         Me.Controls.Add(Me.cboMerk)
-        Me.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+        Me.Margin = New System.Windows.Forms.Padding(2)
         Me.Name = "Test"
         Me.Text = "Test"
         Me.ResumeLayout(False)

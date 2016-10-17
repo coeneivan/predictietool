@@ -23,6 +23,7 @@ Partial Class AddFile
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(AddFile))
         Me.Label1 = New System.Windows.Forms.Label()
         Me.txtFileName = New System.Windows.Forms.TextBox()
         Me.btnOk = New System.Windows.Forms.Button()
@@ -75,6 +76,7 @@ Partial Class AddFile
         Me.Controls.Add(Me.txtFileName)
         Me.Controls.Add(Me.Label1)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.KeyPreview = True
         Me.MaximizeBox = False
         Me.MinimizeBox = False

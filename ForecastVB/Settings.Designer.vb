@@ -23,6 +23,7 @@ Partial Class Settings
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Settings))
         Me.Label1 = New System.Windows.Forms.Label()
         Me.lsvFilter = New System.Windows.Forms.ListView()
         Me.txtOmschrijving = New System.Windows.Forms.TextBox()
@@ -221,6 +222,7 @@ Partial Class Settings
         Me.Controls.Add(Me.lsvFilter)
         Me.Controls.Add(Me.Label1)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False
         Me.Name = "Settings"
         Me.Text = "Settings"
