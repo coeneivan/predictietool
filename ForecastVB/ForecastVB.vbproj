@@ -106,6 +106,7 @@
     <Compile Include="BLL\DatumBLL.vb" />
     <Compile Include="BLL\FiltersBLL.vb" />
     <Compile Include="BLL\MerkBLL.vb" />
+    <Compile Include="BLL\newPredictor.vb" />
     <Compile Include="BLL\ParameterParent.vb" />
     <Compile Include="BLL\Prospect.vb" />
     <Compile Include="BLL\SubAfdBLL.vb" />

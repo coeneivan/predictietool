@@ -7,6 +7,7 @@ Public Class MainScreen
     Private filterlist As ArrayList
     Private selectedFilterList As String
     Private saveDirectory As String = SpecialDirectories.MyDocuments + "//Predictie Filters//"
+    Private m, d, s, sd As Double
     Private Sub MainScreen_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         'Load all cursussen
         Dim subafds As New subAfdBll
@@ -57,22 +58,30 @@ Public Class MainScreen
     End Sub
     Private Sub cboSubAfd_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboSubAfd.SelectedIndexChanged
         Dim subafd As New subAfdBll
-        txtResultSubAfd.Text = subafd.berekenVerwachtingsBereikVoorSubAfd(jaar, cboSubAfd.SelectedItem, filters).ToString
+        Dim sb = subafd.berekenVerwachtingsBereikVoorSubAfd(jaar, cboSubAfd.SelectedItem, filters)
+        txtResultSubAfd.Text = sb.ToString()
+        s = sb.getAvg
     End Sub
 
     Private Sub cboMerk_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboMerk.SelectedIndexChanged
         Dim merken As New MerkBLL
-        txtResultMerk.Text = merken.berekenVerwachtingsBereikVoorMerk(jaar, cboMerk.SelectedItem, filters).ToString
+        Dim mb = merken.berekenVerwachtingsBereikVoorMerk(jaar, cboMerk.SelectedItem, filters)
+        txtResultMerk.Text = mb.ToString
+        m = mb.getAvg
     End Sub
 
     Private Sub cboLesdag_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboLesdag.SelectedIndexChanged
         Dim dag As New DagBll
-        txtRestultLesDag.Text = dag.berekenVerwachtingsBereikVoorDag(jaar, cboLesdag.SelectedItem, filters).ToString
+        Dim db = dag.berekenVerwachtingsBereikVoorDag(jaar, cboLesdag.SelectedItem, filters)
+        txtRestultLesDag.Text = db.ToString
+        d = db.getAvg.ToString
     End Sub
 
     Private Sub dtpStartcursus_ValueChanged(sender As Object, e As EventArgs) Handles dtpStartcursus.ValueChanged
         Dim datum As New DatumBLL
-        txtResultDatum.Text = datum.berekenVerwachtingsBereikVoorDatum(jaar, dtpStartcursus.Value.Month.ToString, filters).ToString
+        Dim sdb = datum.berekenVerwachtingsBereikVoorDatum(jaar, dtpStartcursus.Value.Month.ToString, filters)
+        txtResultDatum.Text = sdb.ToString
+        sd = sdb.getAvg
     End Sub
 
     Private Sub btnFilter_Click(sender As Object, e As EventArgs) Handles btnFilter.Click
@@ -99,6 +108,11 @@ Public Class MainScreen
         Dim t As New Test(Me)
         t.Show()
     End Sub
+
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+        txtTotaal.Text = ((d * 0.4846 / 100) * (m * 0.4547 / 100) * (s * 0.5541 / 100) * (sd * 0.538 / 100) * 100).ToString
+    End Sub
+
     Public Function getSelectedList() As String
         Return selectedFilterList
     End Function
@@ -109,5 +123,5 @@ Public Class MainScreen
         My.Settings.selectedFilterList = cboFiltersList.SelectedItem
         My.Settings.Save()
     End Sub
-    ' TODO Filters laten werken op berekende resultaat
+
 End Class

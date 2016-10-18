@@ -29,6 +29,7 @@ Partial Class Test
         Me.btnCheck = New System.Windows.Forms.Button()
         Me.pgb = New System.Windows.Forms.ProgressBar()
         Me.Label1 = New System.Windows.Forms.Label()
+        Me.ComboBox1 = New System.Windows.Forms.ComboBox()
         Me.SuspendLayout()
         '
         'cboMerk
@@ -47,7 +48,7 @@ Partial Class Test
         Me.cboDag.Location = New System.Drawing.Point(286, 10)
         Me.cboDag.Margin = New System.Windows.Forms.Padding(2)
         Me.cboDag.Name = "cboDag"
-        Me.cboDag.Size = New System.Drawing.Size(275, 21)
+        Me.cboDag.Size = New System.Drawing.Size(136, 21)
         Me.cboDag.TabIndex = 0
         Me.cboDag.Text = "Dag"
         '
@@ -91,12 +92,23 @@ Partial Class Test
         Me.Label1.TabIndex = 4
         Me.Label1.Text = "Label1"
         '
+        'ComboBox1
+        '
+        Me.ComboBox1.FormattingEnabled = True
+        Me.ComboBox1.Items.AddRange(New Object() {"Normal", "Thanks to Python"})
+        Me.ComboBox1.Location = New System.Drawing.Point(428, 10)
+        Me.ComboBox1.Name = "ComboBox1"
+        Me.ComboBox1.Size = New System.Drawing.Size(133, 21)
+        Me.ComboBox1.TabIndex = 5
+        Me.ComboBox1.Text = "Algo"
+        '
         'Test
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.ClientSize = New System.Drawing.Size(662, 851)
+        Me.Controls.Add(Me.ComboBox1)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.pgb)
         Me.Controls.Add(Me.btnCheck)
@@ -118,4 +130,5 @@ Partial Class Test
     Friend WithEvents btnCheck As Button
     Friend WithEvents pgb As ProgressBar
     Friend WithEvents Label1 As Label
+    Friend WithEvents ComboBox1 As ComboBox
 End Class

@@ -68,5 +68,30 @@ Public Class SQLUtil
             myConn.Close()
         End Try
     End Function
+    Public Function getAll(command As String) As List(Of List(Of String))
+        myConn = New SqlConnection(sDatabaseLocatie)
+        myCmd = myConn.CreateCommand
+        myCmd.CommandText = command
 
+        Try
+            Dim arr As New List(Of List(Of String))
+            myConn.Open()
+            myReader = myCmd.ExecuteReader()
+            Dim dt As New DataTable()
+            dt.Load(myReader)
+
+            For i As Integer = 0 To dt.Rows.Count - 1
+                Dim toAdd As New List(Of String)
+                For k As Integer = 0 To dt.Columns.Count - 1
+                    toAdd.Add(dt.Rows(i)(k))
+                Next
+                arr.Add(toAdd)
+            Next
+            Return arr
+        Catch ex As Exception
+            Throw New Exception
+        Finally
+            myConn.Close()
+        End Try
+    End Function
 End Class

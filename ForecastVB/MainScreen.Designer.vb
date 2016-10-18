@@ -41,6 +41,8 @@ Partial Class MainScreen
         Me.cboFiltersList = New System.Windows.Forms.ComboBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Button1 = New System.Windows.Forms.Button()
+        Me.txtTotaal = New System.Windows.Forms.TextBox()
+        Me.Button2 = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
         'Label3
@@ -222,12 +224,30 @@ Partial Class MainScreen
         Me.Button1.Text = "Test it!"
         Me.Button1.UseVisualStyleBackColor = True
         '
+        'txtTotaal
+        '
+        Me.txtTotaal.Location = New System.Drawing.Point(32, 652)
+        Me.txtTotaal.Name = "txtTotaal"
+        Me.txtTotaal.Size = New System.Drawing.Size(281, 20)
+        Me.txtTotaal.TabIndex = 15
+        '
+        'Button2
+        '
+        Me.Button2.Location = New System.Drawing.Point(157, 679)
+        Me.Button2.Name = "Button2"
+        Me.Button2.Size = New System.Drawing.Size(75, 23)
+        Me.Button2.TabIndex = 16
+        Me.Button2.Text = "Calculate"
+        Me.Button2.UseVisualStyleBackColor = True
+        '
         'MainScreen
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.Control
         Me.ClientSize = New System.Drawing.Size(356, 737)
+        Me.Controls.Add(Me.Button2)
+        Me.Controls.Add(Me.txtTotaal)
         Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.cboFiltersList)
         Me.Controls.Add(Me.btnFilter)
@@ -272,4 +292,6 @@ Partial Class MainScreen
     Friend WithEvents cboFiltersList As ComboBox
     Friend WithEvents Label1 As Label
     Friend WithEvents Button1 As Button
+    Friend WithEvents txtTotaal As TextBox
+    Friend WithEvents Button2 As Button
 End Class
