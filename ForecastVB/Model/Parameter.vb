@@ -19,4 +19,8 @@ Public Class Parameter
     Public Function berekenPercentage() As Double
         Return Math.Round((nietGeschrapt / totaalAantal * 100), 2)
     End Function
+
+    Public Function getTotaal() As Double
+        Return totaalAantal
+    End Function
 End Class
