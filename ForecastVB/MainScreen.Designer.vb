@@ -36,7 +36,6 @@ Partial Class MainScreen
         Me.txtResultDatum = New System.Windows.Forms.TextBox()
         Me.cboMerk = New System.Windows.Forms.ComboBox()
         Me.Label2 = New System.Windows.Forms.Label()
-        Me.txtRestultJaar = New System.Windows.Forms.TextBox()
         Me.btnFilter = New System.Windows.Forms.Button()
         Me.cboFiltersList = New System.Windows.Forms.ComboBox()
         Me.Label1 = New System.Windows.Forms.Label()
@@ -171,16 +170,6 @@ Partial Class MainScreen
         Me.Label2.TabIndex = 2
         Me.Label2.Text = "Merk:"
         '
-        'txtRestultJaar
-        '
-        Me.txtRestultJaar.Location = New System.Drawing.Point(32, 443)
-        Me.txtRestultJaar.Margin = New System.Windows.Forms.Padding(2)
-        Me.txtRestultJaar.Name = "txtRestultJaar"
-        Me.txtRestultJaar.ReadOnly = True
-        Me.txtRestultJaar.Size = New System.Drawing.Size(282, 20)
-        Me.txtRestultJaar.TabIndex = 11
-        Me.txtRestultJaar.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        '
         'btnFilter
         '
         Me.btnFilter.Image = CType(resources.GetObject("btnFilter.Image"), System.Drawing.Image)
@@ -255,7 +244,6 @@ Partial Class MainScreen
         Me.Controls.Add(Me.txtResultDatum)
         Me.Controls.Add(Me.txtRestultLesDag)
         Me.Controls.Add(Me.txtResultSubAfd)
-        Me.Controls.Add(Me.txtRestultJaar)
         Me.Controls.Add(Me.txtResultMerk)
         Me.Controls.Add(Me.Label6)
         Me.Controls.Add(Me.dtpStartcursus)
@@ -287,7 +275,6 @@ Partial Class MainScreen
     Friend WithEvents txtResultDatum As TextBox
     Friend WithEvents cboMerk As ComboBox
     Friend WithEvents Label2 As Label
-    Friend WithEvents txtRestultJaar As TextBox
     Friend WithEvents btnFilter As Button
     Friend WithEvents cboFiltersList As ComboBox
     Friend WithEvents Label1 As Label
