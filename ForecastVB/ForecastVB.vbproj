@@ -102,6 +102,7 @@
     <Compile Include="AddFile.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="BLL\Apriori.vb" />
     <Compile Include="BLL\DagBll.vb" />
     <Compile Include="BLL\DatumBLL.vb" />
     <Compile Include="BLL\FiltersBLL.vb" />
