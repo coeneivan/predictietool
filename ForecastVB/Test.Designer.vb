@@ -95,7 +95,7 @@ Partial Class Test
         'ComboBox1
         '
         Me.ComboBox1.FormattingEnabled = True
-        Me.ComboBox1.Items.AddRange(New Object() {"Normal", "Thanks to Python"})
+        Me.ComboBox1.Items.AddRange(New Object() {"Normal", "Thanks to Python", "Math.net regressie"})
         Me.ComboBox1.Location = New System.Drawing.Point(428, 10)
         Me.ComboBox1.Name = "ComboBox1"
         Me.ComboBox1.Size = New System.Drawing.Size(133, 21)
