@@ -41,18 +41,15 @@
                 Dim boven = 0
                 Dim nee = 0
                 Dim filters = root.getFilters
+                Dim fil As String = ""
+
                 If filters Is Nothing Then
                     subAfds.AddRange(sql.getArrayList("select distinct CodeSubafdeling from Cursussen where Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' and year(StartDatum) = 2015 group by codesubafdeling having count(*) > 5").ToArray())
                     'TODO: catch empty arraylist
                 Else
-                    Dim fil As String
-                    fil = ""
-
                     For Each filIt As FilterItem In filters
                         fil += " AND " + filIt.kolom + " " + filIt.factor + " " + filIt.filter
                     Next
-
-
                     subAfds.AddRange(sql.getArrayList("select distinct CodeSubafdeling from Cursussen where Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' and year(StartDatum) = 2015 " + fil + "group by codesubafdeling having count(*) > 5").ToArray())
 
                 End If
@@ -90,12 +87,8 @@
                     If filters Is Nothing Then
                         dick = sql.getDictionary("SELECT YEAR(c.startdatum) as jaar,count(*) as totaal,(SELECT count(*) FROM [SyntraTest].[dbo].[Cursussen] as cc WHERE cc.CodeIngetrokken = 'nee' AND CodeSubafdeling = '" + subAfds(i) + "' AND year(cc.StartDatum) = year(c.StartDatum) AND Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "') as nietGeschrapt FROM [SyntraTest].[dbo].[Cursussen] as c WHERE CodeSubafdeling = '" + subAfds(i) + "' AND year(c.StartDatum) =  2015 and Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' group by year(startdatum)")
                     Else
-                        Dim fil As String
-                        fil = ""
-
-                        For Each filIt As FilterItem In filters
-                            fil += " AND " + filIt.kolom + " " + filIt.factor + " " + filIt.filter
-                        Next
+                        ' Voorkomen dat filterlijst opnieuw moet doorlopen worden, dit voorkomt de for each loop binnen deze for eacht loop
+                        ' nu worden alle filters  keer doorlopen boven aan in de methode
                         dick = sql.getDictionary("SELECT YEAR(c.startdatum) as jaar,count(*) as totaal,(SELECT count(*) FROM [SyntraTest].[dbo].[Cursussen] as cc WHERE cc.CodeIngetrokken = 'nee' AND CodeSubafdeling = '" + subAfds(i) + "' AND year(cc.StartDatum) = year(c.StartDatum) AND Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' " + fil + ") as nietGeschrapt FROM [SyntraTest].[dbo].[Cursussen] as c WHERE CodeSubafdeling = '" + subAfds(i) + "' AND year(c.StartDatum) =  2015 and Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' " + fil + " group by year(startdatum)")
                     End If
 
@@ -131,6 +124,9 @@
                 Next
                 Label1.Text = "Valt tussen: " + ja.ToString() + " valt onder: " + nee.ToString() + " valt boven " + boven.ToString
 
+            ElseIf ComboBox1.SelectedItem.Equals("Math.net regressie") Then
+                nonLinearRegressionTest()
+
             ElseIf ComboBox1.SelectedItem.Equals("Decision tree") Then
                 Dim cor = 0
                 Dim sql As New SQLUtil
@@ -155,5 +151,39 @@
         Catch ex As ApplicationException
             MessageBox.Show(ex.Message)
         End Try
+    End Sub
+
+    Private Sub nonLinearRegressionTest()
+        Dim subAfds As New ArrayList
+        Dim Sql = New SQLUtil
+        Dim filters = root.getFilters
+        Dim fil As String = ""
+        lvResult.Clear()
+
+        ' Zijn er filters ingesteld?
+        If filters Is Nothing Then
+            'Haal alle subafdelingen op waar er, zonder filters, meer dan cursussen zijn (voor preciesere meting worden onder  cursussen niet in rekening gebracht)
+            subAfds.AddRange(Sql.getArrayList("select distinct CodeSubafdeling from Cursussen where Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' and year(StartDatum) = 2015 group by codesubafdeling having count(*) > 5").ToArray())
+            'TODO: catch empty arraylist
+        Else
+            For Each filIt As FilterItem In filters
+                fil += " AND " + filIt.kolom + " " + filIt.factor + " " + filIt.filter
+            Next
+            'Haal alle subafdelingen op waar er, met filters, meer dan cursussen zijn (voor preciesere meting worden onder  cursussen niet in rekening gebracht)
+            subAfds.AddRange(Sql.getArrayList("select distinct CodeSubafdeling from Cursussen where Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' and year(StartDatum) = 2015 " + fil + "group by codesubafdeling having count(*) > 5").ToArray())
+        End If
+
+        For i As Integer = 0 To subAfds.Count - 1
+            Dim cursus As Dictionary(Of String, Parameter)
+
+            If filters Is Nothing Then
+                cursus = Sql.getDictionary("SELECT YEAR(c.startdatum) as jaar,count(*) as totaal,(SELECT count(*) FROM [SyntraTest].[dbo].[Cursussen] as cc WHERE cc.CodeIngetrokken = 'nee' AND CodeSubafdeling = '" + subAfds(i) + "' AND year(cc.StartDatum) = year(c.StartDatum) AND Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "') as nietGeschrapt FROM [SyntraTest].[dbo].[Cursussen] as c WHERE CodeSubafdeling = '" + subAfds(i) + "' AND year(c.StartDatum) =  2015 and Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' group by year(startdatum)")
+            Else
+                ' Voorkomen dat filterlijst opnieuw moet doorlopen worden, dit voorkomt de for each loop binnen deze for eacht loop
+                ' nu worden alle filters  keer doorlopen boven aan in de methode
+                cursus = Sql.getDictionary("SELECT YEAR(c.startdatum) as jaar,count(*) as totaal,(SELECT count(*) FROM [SyntraTest].[dbo].[Cursussen] as cc WHERE cc.CodeIngetrokken = 'nee' AND CodeSubafdeling = '" + subAfds(i) + "' AND year(cc.StartDatum) = year(c.StartDatum) AND Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' " + fil + ") as nietGeschrapt FROM [SyntraTest].[dbo].[Cursussen] as c WHERE CodeSubafdeling = '" + subAfds(i) + "' AND year(c.StartDatum) =  2015 and Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' " + fil + " group by year(startdatum)")
+            End If
+        Next
+
     End Sub
 End Class
