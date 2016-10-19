@@ -95,12 +95,12 @@ Partial Class Test
         'ComboBox1
         '
         Me.ComboBox1.FormattingEnabled = True
-        Me.ComboBox1.Items.AddRange(New Object() {"Normal", "Thanks to Python"})
+        Me.ComboBox1.Items.AddRange(New Object() {"Linear regression", "Decision tree"})
         Me.ComboBox1.Location = New System.Drawing.Point(428, 10)
         Me.ComboBox1.Name = "ComboBox1"
         Me.ComboBox1.Size = New System.Drawing.Size(133, 21)
         Me.ComboBox1.TabIndex = 5
-        Me.ComboBox1.Text = "Algo"
+        Me.ComboBox1.Text = "Algoritme"
         '
         'Test
         '
@@ -115,6 +115,7 @@ Partial Class Test
         Me.Controls.Add(Me.lvResult)
         Me.Controls.Add(Me.cboDag)
         Me.Controls.Add(Me.cboMerk)
+        Me.HelpButton = True
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Margin = New System.Windows.Forms.Padding(2)
         Me.Name = "Test"
