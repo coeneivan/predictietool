@@ -64,9 +64,9 @@
                     Dim merk As New MerkBLL
                     Dim dag As New DagBll
                     Dim lvi As New ListViewItem(subAfds(i).ToString)
-                    Dim subA As Bereik = subBll.berekenVerwachtingsBereikVoorSubAfd(2015, subAfds(i), Nothing)
-                    Dim dagA As Bereik = dag.berekenVerwachtingsBereikVoorDag(2015, cboDag.SelectedItem.ToString, Nothing)
-                    Dim merkA As Bereik = merk.berekenVerwachtingsBereikVoorMerk(2015, cboMerk.SelectedItem.ToString, Nothing)
+                    Dim subA As Bereik = subBll.berekenVerwachtingsBereikVoorSubAfd(2015, subAfds(i), filters)
+                    Dim dagA As Bereik = dag.berekenVerwachtingsBereikVoorDag(2015, cboDag.SelectedItem.ToString, filters)
+                    Dim merkA As Bereik = merk.berekenVerwachtingsBereikVoorMerk(2015, cboMerk.SelectedItem.ToString, filters)
                     Dim min As Double = 100
                     Dim cursCount As Double = 0
                     Dim max As Double = 0
@@ -147,6 +147,18 @@
                     lvResult.Items.AddRange(New ListViewItem() {lvi})
                 Next
                 Label1.Text = cor.ToString
+            ElseIf ComboBox1.SelectedItem.Equals("Apriori (association Rule Learning)") Then
+                Dim data = {{1, 3, 4, 0}, {2, 3, 5, 0}, {1, 2, 3, 5}, {2, 5, 0, 0}}
+                Dim ap As New Apriori(data)
+                For Each i In ap.joinTwo()
+                    Dim lviTXT = ""
+                    For Each a In i
+                        ap.scanD(0.5)
+                        lviTXT += a.ToString
+                    Next
+                    Dim lvi = New ListViewItem(lviTXT)
+                    lvResult.Items.AddRange(New ListViewItem() {lvi})
+                Next
             End If
         Catch ex As ApplicationException
             MessageBox.Show(ex.Message)
