@@ -1,6 +1,7 @@
 ﻿Imports System.Data.Odbc
 Imports System.Configuration
 Imports System.Data.SqlClient
+Imports ForecastVB
 ''' <summary>
 ''' Maakt verbinding met DB
 ''' Zorgt er voor dat sql scripts kunnen uitgevoerd worden
@@ -39,6 +40,45 @@ Public Class SQLUtil
             Return arr
         Catch ex As Exception
             Throw New Exception
+        Finally
+            myConn.Close()
+        End Try
+    End Function
+
+    Friend Function getParameterForYear(script As String) As Parameter
+        myConn = New SqlConnection(sDatabaseLocatie)
+        myCmd = myConn.CreateCommand
+        myCmd.CommandText = script
+
+        Try
+            Dim param As New Parameter
+            Dim arr As New Dictionary(Of String, Parameter)
+            myConn.Open()
+            myReader = myCmd.ExecuteReader()
+            While myReader.Read()
+                param.setTotaal(myReader.GetValue(1))
+                param.setNietGeschrapt(myReader.GetValue(2))
+            End While
+            Return param
+        Finally
+            myConn.Close()
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Geeft het aantal entries terug die geteld worden in de connection string (voorzie de count functie in de connectionstring)
+    ''' </summary>
+    ''' <param name="script">een SQL script die enkel de count terug geeft van het gewenste resultaat</param>
+    ''' <returns></returns>
+    Friend Function getCount(script As String) As Integer
+        myConn = New SqlConnection(sDatabaseLocatie)
+        myCmd = myConn.CreateCommand
+        myCmd.CommandText = Command()
+
+        Try
+            myConn.Open()
+            myReader = myCmd.ExecuteReader()
+            Return myReader.Read()
         Finally
             myConn.Close()
         End Try
@@ -93,5 +133,27 @@ Public Class SQLUtil
         Finally
             myConn.Close()
         End Try
+    End Function
+
+
+    Friend Function getDictionaryWithInteger(command As String) As Dictionary(Of Integer, Parameter)
+        myConn = New SqlConnection(sDatabaseLocatie)
+        myCmd = myConn.CreateCommand
+        myCmd.CommandText = command
+
+        Try
+            Dim arr As New Dictionary(Of Integer, Parameter)
+            myConn.Open()
+            myReader = myCmd.ExecuteReader()
+            While myReader.Read()
+                Dim param As New Parameter(myReader.GetValue(1), myReader.GetValue(2))
+                arr.Add(myReader.GetValue(0), param)
+            End While
+            Return arr
+        Finally
+            myConn.Close()
+        End Try
+
+        Return Nothing
     End Function
 End Class

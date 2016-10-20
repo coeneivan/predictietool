@@ -1,5 +1,14 @@
-﻿Public Class Test
+﻿
+
+Imports System.Windows.Forms.DataVisualization.Charting
+
+Public Class Test
     Private root As MainScreen
+    Dim a As Double = 1
+    Dim b As Double = 1
+    Dim c As Double = 1
+    Dim som As Double = 0
+
     Public Sub New(main As MainScreen)
         ' This call is required by the designer.
         InitializeComponent()
@@ -29,6 +38,9 @@
             End If
             If cboDag.SelectedItem Is Nothing Then
                 Throw New ApplicationException("Gelieve een dag te kiezen")
+            End If
+            If ComboBox1.SelectedItem Is Nothing Then
+                Throw New ApplicationException("Gelieve een algortime te kiezen")
             End If
 
             startUp()
@@ -124,7 +136,7 @@
                 Next
                 Label1.Text = "Valt tussen: " + ja.ToString() + " valt onder: " + nee.ToString() + " valt boven " + boven.ToString
 
-            ElseIf ComboBox1.SelectedItem.Equals("Math.net regressie") Then
+            ElseIf ComboBox1.SelectedItem.Equals("Lagrange Interpolating Polynomial") Then
                 nonLinearRegressionTest()
 
             ElseIf ComboBox1.SelectedItem.Equals("Decision tree") Then
@@ -154,36 +166,240 @@
     End Sub
 
     Private Sub nonLinearRegressionTest()
+
+        ' Toon grafiek voor i
+        Dim showForI As Int16 = 4
+
         Dim subAfds As New ArrayList
         Dim Sql = New SQLUtil
         Dim filters = root.getFilters
         Dim fil As String = ""
+        Dim startJaar As Int16 = 2006
+        Dim berekenJaar As Int16 = 2015
+        Dim minAantalCurs As Integer = 5
+
         lvResult.Clear()
+
+        chartBerekend.Titles.Clear()
+        cursusChart.Titles.Clear()
+        chartBerekend.Series.Clear()
+        cursusChart.Series.Clear()
+        cursusChart.Titles.Add("Werkelijk")
+        chartBerekend.Titles.Add("Berekend")
+        'Create a new series and add data points to it.
+
+
+
+        ' Kolom koppen opstellen
+        lvResult.Columns.Add("SubAfdeling", 100)
+        lvResult.Columns.Add("Voorspeld", 150)
+        lvResult.Columns.Add("Echt", 100)
+        'lvResult.Columns.Add("aantal", 50)
+
 
         ' Zijn er filters ingesteld?
         If filters Is Nothing Then
-            'Haal alle subafdelingen op waar er, zonder filters, meer dan cursussen zijn (voor preciesere meting worden onder  cursussen niet in rekening gebracht)
-            subAfds.AddRange(Sql.getArrayList("select distinct CodeSubafdeling from Cursussen where Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' and year(StartDatum) = 2015 group by codesubafdeling having count(*) > 5").ToArray())
+            'Haal alle subafdelingen op waar er, zonder filters, meer minAantalCurs dan cursussen zijn (voor preciesere meting worden onder  cursussen niet in rekening gebracht)
+            subAfds.AddRange(Sql.getArrayList("select distinct CodeSubafdeling from Cursussen where Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' and year(StartDatum) = 2015 group by codesubafdeling having count(*) > " + minAantalCurs.ToString).ToArray())
             'TODO: catch empty arraylist
         Else
             For Each filIt As FilterItem In filters
                 fil += " AND " + filIt.kolom + " " + filIt.factor + " " + filIt.filter
             Next
-            'Haal alle subafdelingen op waar er, met filters, meer dan cursussen zijn (voor preciesere meting worden onder  cursussen niet in rekening gebracht)
-            subAfds.AddRange(Sql.getArrayList("select distinct CodeSubafdeling from Cursussen where Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' and year(StartDatum) = 2015 " + fil + "group by codesubafdeling having count(*) > 5").ToArray())
+            'Haal alle subafdelingen op waar er, met filters, meer minAantalCurs dan cursussen zijn (voor preciesere meting worden onder  cursussen niet in rekening gebracht)
+            Dim con As String = "select distinct CodeSubafdeling from Cursussen where Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' and year(StartDatum) = 2015 " + fil + "group by codesubafdeling having count(*) > " + minAantalCurs.ToString
+            subAfds.AddRange(Sql.getArrayList(con).ToArray())
         End If
 
-        For i As Integer = 0 To subAfds.Count - 1
-            Dim cursus As Dictionary(Of String, Parameter)
+        pgb.Minimum = 0
+        If subAfds.Count = 0 Then
+            pgb.Maximum = 1
+        Else
+            pgb.Maximum = subAfds.Count - 1
+        End If
 
-            If filters Is Nothing Then
-                cursus = Sql.getDictionary("SELECT YEAR(c.startdatum) as jaar,count(*) as totaal,(SELECT count(*) FROM [SyntraTest].[dbo].[Cursussen] as cc WHERE cc.CodeIngetrokken = 'nee' AND CodeSubafdeling = '" + subAfds(i) + "' AND year(cc.StartDatum) = year(c.StartDatum) AND Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "') as nietGeschrapt FROM [SyntraTest].[dbo].[Cursussen] as c WHERE CodeSubafdeling = '" + subAfds(i) + "' AND year(c.StartDatum) =  2015 and Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' group by year(startdatum)")
-            Else
-                ' Voorkomen dat filterlijst opnieuw moet doorlopen worden, dit voorkomt de for each loop binnen deze for eacht loop
-                ' nu worden alle filters  keer doorlopen boven aan in de methode
-                cursus = Sql.getDictionary("SELECT YEAR(c.startdatum) as jaar,count(*) as totaal,(SELECT count(*) FROM [SyntraTest].[dbo].[Cursussen] as cc WHERE cc.CodeIngetrokken = 'nee' AND CodeSubafdeling = '" + subAfds(i) + "' AND year(cc.StartDatum) = year(c.StartDatum) AND Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' " + fil + ") as nietGeschrapt FROM [SyntraTest].[dbo].[Cursussen] as c WHERE CodeSubafdeling = '" + subAfds(i) + "' AND year(c.StartDatum) =  2015 and Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' " + fil + " group by year(startdatum)")
+        ' Overloop alle afdelingen
+        For i As Integer = 0 To subAfds.Count - 1
+            Dim cursus As Dictionary(Of Integer, Parameter)
+
+
+            Dim x_data As New List(Of Double) ' Jaar
+            Dim y_data As New List(Of Double) ' waarde
+
+
+            Dim r, a As New Series
+            r.Name = "realiteit " + subAfds(i)
+            a.Name = "Algoritme " + subAfds(i)
+            If (i = showForI) Then
+                'Change to a line graph.
+                'a.ChartType = SeriesChartType.Line
+                'r.ChartType = SeriesChartType.Line
             End If
+
+            ' Haal aantal cursussen en aantal doorgegane cursussen op per jaar voor deze subafdeling
+            cursus = TestBLL.GetAantalCursussenPerSubAfdelingPerJaarTotJaar(subAfds(i), fil, berekenJaar)
+
+            Dim j As Integer = 0
+            Dim lastYear As Double = 0
+            For Each curs As KeyValuePair(Of Integer, Parameter) In cursus
+
+                ' Zijn er voor dit jaar cursussen geweest? voeg ze toe aan list
+                If ((curs.Key) = (startJaar + j)) Then
+                    y_data.Add(curs.Value.getNietGeschrapt)
+                    x_data.Add(j + 1)
+
+                    If (i = showForI) Then
+                        r.Points.AddXY(j, curs.Value.getNietGeschrapt)
+                    End If
+
+                End If
+
+                lastYear = curs.Key
+                j += 1
+            Next
+
+
+
+            If (i = showForI) Then
+                For x As Double = 0.0 To x_data.Count - 1
+                    a.Points.AddXY(x_data.Item(x), berekenJaarVoor(x_data.Item(x) - 1, y_data, x_data))
+                Next
+                chartBerekend.Series.Add(a)
+                'Add the series to the Chart1 control.
+                cursusChart.Series.Add(r)
+            End If
+
+
+
+            Dim voorspelling As Double = berekenJaarVoor((berekenJaar - cursus.First.Key + 1), y_data, x_data)
+
+            Dim lvi As New ListViewItem(subAfds(i).ToString)
+            lvi.SubItems.Add(voorspelling)
+            Dim cursusPara As Parameter = TestBLL.GetAantalCursussenPerSubAfdelingVoorJaar(subAfds(i), fil, berekenJaar)
+
+
+            If (cursusPara IsNot Nothing) Then
+                lvi.SubItems.Add(cursusPara.getNietGeschrapt)
+            Else
+                lvi.SubItems.Add("Geen data voor berekend jaar")
+            End If
+
+            lvResult.Items.AddRange(New ListViewItem() {lvi})
+            pgb.Value = i
         Next
+
+    End Sub
+
+    ''' <summary>
+    ''' Berekend de waarde voor het te berekenen jaar wanneer lastYear het laatste jaar is met waarde
+    ''' </summary>
+    ''' <param name="findForX">het te brekenen jaar</param>
+    ''' <param name="y_data">De Y waardes met het aantal cursussen dat is kunnen door gaan</param>
+    ''' <param name="x_data">De X waardes voor het jaar waarin de cursussen zijn doorgegeaan</param>
+    ''' <returns>Geeft de voorspelde waarde terug volgens een niet linaire functie verkregen door de gegeven data</returns>
+    Private Function berekenJaarVoor(findForX As Short, y_data As List(Of Double), x_data As List(Of Double)) As Double
+
+        ' TODO rekening houden met het jaar die als laatst werd gegeven en het jaar die berekend moet worden
+        If (x_data.Count <> y_data.Count) Then
+            Throw New IndexOutOfRangeException("de x_data en y_data hebben niet even veel waardes")
+        End If
+
+
+        ' Om problemen te voorkomen wanneer voor x=0 iets moet worden berekend zullen alle waardes 1 index opschuiven
+        Dim xfix As New List(Of Double)
+        xfix.Add(0)
+        xfix.AddRange(x_data)
+
+        Dim yfix As New List(Of Double)
+        yfix.Add(0)
+        yfix.AddRange(y_data)
+
+        findForX += 1
+
+
+        Dim x As Double = x_data.Count
+        Dim y As Double = 0
+        For i As Double = 1 To x - 1
+            Dim deler As Double = 1
+            Dim noemer As Double = 1
+
+            For j As Double = 1 To x - 1
+                If (i <> j) Then
+                    noemer *= (findForX - xfix.Item(j))
+                    deler *= (xfix.Item(i) - xfix.Item(j))
+                    Dim stopHere As New Double
+                End If
+            Next
+
+
+            y += noemer / deler * yfix.Item(i)
+
+        Next
+        '' 
+        '' Formule: http://mathworld.wolfram.com/LagrangeInterpolatingPolynomial.html
+        '' 
+        ''          (x-x2)(x-x3)...(x-xn)           (x-x1)(x-x3)...(x-xn)                 (x-x1)(x-x2)...(x-x(n-1))
+        '' P(x) = ------------------------ * y1 + ------------------------ * y2 + ... + ---------------------------- * yn
+        ''        (x1-x2)(x1-x3)...(x1-xn)        (x2-x1)(x2-x3)...(x2-xn)              (xn-x1)(xn-x2)...(xn-x(n-1))
+        '' 
+
+
+
+
+        Return y
+    End Function
+
+
+    Public Sub testAlgoritme()
+        Dim testX As New List(Of Double)
+        Dim testY As New List(Of Double)
+
+        testX.Add(18.3447008513705)
+        testX.Add(79.8653766584296)
+        testX.Add(85.0978750911023)
+        testX.Add(10.5211032678597)
+        testX.Add(44.4555865329731)
+        testX.Add(69.5672625121865)
+        testX.Add(8.95984867894632)
+        testX.Add(86.1969639982446)
+        testX.Add(66.8565569431935)
+        testX.Add(16.8749080688385)
+        testX.Add(52.2697069637002)
+        testX.Add(93.916819815053)
+        testX.Add(24.3466884170974)
+        testX.Add(5.11781548243186)
+        testX.Add(25.126222222172)
+        testX.Add(34.0372283193021)
+        testX.Add(61.4445490763988)
+        testX.Add(42.7035769964426)
+        testX.Add(39.5308929765408)
+        testX.Add(29.9884494188329)
+
+        testY.Add(5.07222770500145)
+        testY.Add(7.15881537028438)
+        testY.Add(7.26276462771072)
+        testY.Add(4.25458132218093)
+        testY.Add(6.28186665811137)
+        testY.Add(6.91178733537563)
+        testY.Add(4.04380974743643)
+        testY.Add(7.25952869839834)
+        testY.Add(6.89808922760562)
+        testY.Add(4.87441797865311)
+        testY.Add(6.51794377384427)
+        testY.Add(7.34341950185679)
+        testY.Add(5.43164863364436)
+        testY.Add(3.38463431911083)
+        testY.Add(5.46422771944839)
+        testY.Add(5.90043172986688)
+        testY.Add(6.80389562051497)
+        testY.Add(6.19326313529158)
+        testY.Add(6.07039770693631)
+        testY.Add(5.73679247382638)
+
+
+        Dim berekenX = InputBox("Geef een getal")
+        Dim y = berekenJaarVoor(berekenX, testY, testX)
+        MessageBox.Show("Waarde voor X = " + berekenX.ToString + " is " + y.ToString)
 
     End Sub
 End Class
