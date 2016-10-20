@@ -415,3 +415,6 @@ Public Class Test
 
     End Sub
 End Class
+
+
+' TODO lees dit eens morgen: http://www.cs.ccsu.edu/~markov/ccsu_courses/DataMining-8.html
