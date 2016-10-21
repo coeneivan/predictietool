@@ -12,6 +12,10 @@ Public Class Parameter
         totaalAantal = pTotaal
         nietGeschrapt = pNietGeschrapt
     End Sub
+
+    Public Sub New()
+
+    End Sub
     ''' <summary>
     ''' Berekent het percentage van de gerealiseerde cursussen
     ''' </summary>
@@ -23,4 +27,16 @@ Public Class Parameter
     Public Function getTotaal() As Double
         Return totaalAantal
     End Function
+
+    Public Function getNietGeschrapt() As Double
+        Return nietGeschrapt
+    End Function
+
+    Public Sub setTotaal(t As Double)
+        totaalAantal = t
+    End Sub
+
+    Public Sub setNietGeschrapt(n As Double)
+        nietGeschrapt = n
+    End Sub
 End Class
