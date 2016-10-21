@@ -111,6 +111,11 @@ Public Class MainScreen
         Dim p As New Prospect
         Dim pros = p.prospect(a, 2015)
 
+
+        ' TODO Wegings factor aanpassen, yes bij kollom is aantal keer dat het resultaat ja was
+        ' http://www.cs.ccsu.edu/~markov/ccsu_courses/DataMining-8.html
+        ' hoeveel keer was resultaat ja als outlook sunny was? 2 keer van de 9 ja's
+
         Dim pNee = ((d / 100) * (m / 100) * (s / 100) * (sd / 100) * (c / 100) * (pros / 100))
         Dim pJa = (1 - (d / 100)) * (1 - (m / 100)) * (1 - (s / 100)) * (1 - (sd / 100) * (1 - (c / 100)) * (1 - (pros / 100)))
         Dim values As New ArrayList({d / 100, m / 100, s / 100, sd / 100, c / 100, pros / 100})
