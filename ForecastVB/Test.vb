@@ -97,23 +97,21 @@ Public Class Test
                     Dim merkA As Bereik = merk.berekenVerwachtingsBereikVoorMerk(2015, cboMerk.SelectedItem.ToString, filters)
                     Dim maandA As Bereik = maand.berekenVerwachtingsBereikVoorDatum(2015, (cbbMonth.SelectedItem).Value, filters)
                     Dim uitvCenA As Bereik = uitvCentrum.berekenVerwachtingsBereik(2015, cboUitvoerendCentrum.SelectedItem.ToString, filters)
-                    'TODO: berekn bereik van Maand en uitvoerend centrum
-                    Dim min As Double = 100
                     Dim cursCount As Double = 0
-                    Dim max As Double = 0
-                    Dim bereiken As New ArrayList()
-                    bereiken.AddRange({subA, dagA, merkA, maandA, uitvCenA})
-                    For j As Integer = 0 To bereiken.Count - 1
-                        Dim ber As Bereik = bereiken(j)
-                        If ber.getBovengrens > max Then
-                            max = ber.getBovengrens
-                        End If
-                        If ber.getOndergrens < min Then
-                            min = ber.getOndergrens
-                        End If
+                    Dim averages As New ArrayList()
+                    Dim sqlcommand = "SELECT YEAR(c.startdatum) as jaar,count(*) as totaal,(SELECT count(*) FROM [SyntraTest].[dbo].[Cursussen] as cc WHERE cc.CodeIngetrokken = 'nee'  AND year(cc.StartDatum) = year(c.StartDatum)) as nietGeschrapt FROM [SyntraTest].[dbo].[Cursussen] as c WHERE  year(c.StartDatum) < 2015 GROUP BY year(c.startDatum)"
+                    Dim p As New Prospect
+                    Dim pros = p.prospect(sql.getDictionary(sqlcommand), 2015)
+                    averages.AddRange({subA.getAvg / 100, dagA.getAvg / 100, merkA.getAvg / 100, maandA.getAvg / 100, uitvCenA.getAvg / 100, pros / 100})
+                    Dim pNee As Double = 1
+                    Dim pJa As Double = 1
+                    For Each a In averages
+                        pNee *= a
+                        pJa *= (1 - (a))
                     Next
-                    Dim bereik As New Bereik(min, 0, max)
-                    lvi.SubItems.Add(bereik.ToString)
+                    Dim range = p.certainty(averages, pNee / (pNee + pJa))
+
+                    lvi.SubItems.Add(range.ToString)
                     Dim dick As Dictionary(Of String, Parameter)
                     If filters Is Nothing Then
                         dick = sql.getDictionary("SELECT YEAR(c.startdatum) as jaar,count(*) as totaal,(SELECT count(*) FROM [SyntraTest].[dbo].[Cursussen] as cc WHERE cc.CodeIngetrokken = 'nee' AND CodeSubafdeling = '" + subAfds(i) + "' AND year(cc.StartDatum) = year(c.StartDatum) AND Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' and month(startdatum)=" + (cbbMonth.SelectedItem).Value + " and UitvCentrumOmsch='" + cboUitvoerendCentrum.SelectedItem + "') as nietGeschrapt FROM [SyntraTest].[dbo].[Cursussen] as c WHERE CodeSubafdeling = '" + subAfds(i) + "' AND year(c.StartDatum) =  2015 and Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' and month(startdatum)=" + (cbbMonth.SelectedItem).Value + " and UitvCentrumOmsch='" + cboUitvoerendCentrum.SelectedItem + "' group by year(startdatum)")
@@ -136,11 +134,11 @@ Public Class Test
 
                         lvi.SubItems.Add(y.ToString)
                     End If
-                    Dim tf = bereik.valtTussen(y)
+                    Dim tf = range.valtTussen(y)
                     If tf Then
                         lvi.BackColor = Color.FromArgb(255, 46, 204, 113)
                         ja += 1
-                    ElseIf bereik.getBovengrens < y Then
+                    ElseIf range.getBovengrens < y Then
                         lvi.BackColor = Color.FromArgb(255, 231, 76, 60)
                         boven += 1
                     Else

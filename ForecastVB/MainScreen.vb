@@ -112,7 +112,7 @@ Public Class MainScreen
         Dim pros = p.prospect(a, 2015)
 
         Dim pNee = ((d / 100) * (m / 100) * (s / 100) * (sd / 100) * (c / 100) * (pros / 100))
-        Dim pJa = (1 - (d / 100)) * (1 - (m / 100)) * (1 - (s / 100)) * (1 - (sd / 100) * (1 - (c / 100)) * (1 - (pros / 100)))
+        Dim pJa = (1 - (d / 100)) * (1 - (m / 100)) * (1 - (s / 100)) * (1 - (sd / 100)) * (1 - (c / 100)) * (1 - (pros / 100))
         Dim values As New ArrayList({d / 100, m / 100, s / 100, sd / 100, c / 100, pros / 100})
         Dim range = p.certainty(values, pNee / (pNee + pJa))
         txtTotaal.Text = range.ToString
