@@ -20,6 +20,8 @@ Public Class MainScreen
         Dim merken As New MerkBLL
         cboMerk.Items.AddRange(merken.getAll(jaar, filters).ToArray)
 
+        Dim para As New ParameterParent("uitvCentrumOmsch")
+        cboUitvCent.Items.AddRange(para.getAall(jaar, filters).ToArray)
         refreshFilterList()
     End Sub
     Public Sub refreshFilterList()
@@ -45,7 +47,7 @@ Public Class MainScreen
         s = sb.getAvg
     End Sub
 
-    Private Sub cboMerk_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboMerk.SelectedIndexChanged
+    Private Sub cboMerk_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboMerk.SelectedIndexChanged, cboUitvCent.SelectedIndexChanged
         Dim merken As New MerkBLL
         Dim mb = merken.berekenVerwachtingsBereikVoorMerk(jaar, cboMerk.SelectedItem, filters)
         txtResultMerk.Text = mb.ToString

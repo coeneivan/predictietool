@@ -42,12 +42,15 @@ Partial Class MainScreen
         Me.Button1 = New System.Windows.Forms.Button()
         Me.txtTotaal = New System.Windows.Forms.TextBox()
         Me.Button2 = New System.Windows.Forms.Button()
+        Me.Label7 = New System.Windows.Forms.Label()
+        Me.cboUitvCent = New System.Windows.Forms.ComboBox()
+        Me.BackgroundWorker1 = New System.ComponentModel.BackgroundWorker()
         Me.SuspendLayout()
         '
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(56, 256)
+        Me.Label3.Location = New System.Drawing.Point(61, 267)
         Me.Label3.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(69, 13)
@@ -57,7 +60,7 @@ Partial Class MainScreen
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(83, 314)
+        Me.Label4.Location = New System.Drawing.Point(82, 314)
         Me.Label4.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(48, 13)
@@ -67,7 +70,7 @@ Partial Class MainScreen
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(29, 372)
+        Me.Label5.Location = New System.Drawing.Point(28, 361)
         Me.Label5.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(102, 13)
@@ -77,7 +80,7 @@ Partial Class MainScreen
         'cboSubAfd
         '
         Me.cboSubAfd.FormattingEnabled = True
-        Me.cboSubAfd.Location = New System.Drawing.Point(157, 254)
+        Me.cboSubAfd.Location = New System.Drawing.Point(157, 264)
         Me.cboSubAfd.Margin = New System.Windows.Forms.Padding(2)
         Me.cboSubAfd.Name = "cboSubAfd"
         Me.cboSubAfd.Size = New System.Drawing.Size(158, 21)
@@ -86,7 +89,7 @@ Partial Class MainScreen
         'cboLesdag
         '
         Me.cboLesdag.FormattingEnabled = True
-        Me.cboLesdag.Location = New System.Drawing.Point(157, 313)
+        Me.cboLesdag.Location = New System.Drawing.Point(157, 311)
         Me.cboLesdag.Margin = New System.Windows.Forms.Padding(2)
         Me.cboLesdag.Name = "cboLesdag"
         Me.cboLesdag.Size = New System.Drawing.Size(158, 21)
@@ -94,7 +97,7 @@ Partial Class MainScreen
         '
         'dtpStartcursus
         '
-        Me.dtpStartcursus.Location = New System.Drawing.Point(157, 372)
+        Me.dtpStartcursus.Location = New System.Drawing.Point(157, 355)
         Me.dtpStartcursus.Margin = New System.Windows.Forms.Padding(2)
         Me.dtpStartcursus.Name = "dtpStartcursus"
         Me.dtpStartcursus.Size = New System.Drawing.Size(158, 20)
@@ -154,7 +157,7 @@ Partial Class MainScreen
         'cboMerk
         '
         Me.cboMerk.FormattingEnabled = True
-        Me.cboMerk.Location = New System.Drawing.Point(157, 196)
+        Me.cboMerk.Location = New System.Drawing.Point(157, 170)
         Me.cboMerk.Margin = New System.Windows.Forms.Padding(2)
         Me.cboMerk.Name = "cboMerk"
         Me.cboMerk.Size = New System.Drawing.Size(158, 21)
@@ -163,7 +166,7 @@ Partial Class MainScreen
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(101, 197)
+        Me.Label2.Location = New System.Drawing.Point(96, 173)
         Me.Label2.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(34, 13)
@@ -229,6 +232,25 @@ Partial Class MainScreen
         Me.Button2.Text = "Calculate"
         Me.Button2.UseVisualStyleBackColor = True
         '
+        'Label7
+        '
+        Me.Label7.AutoSize = True
+        Me.Label7.Location = New System.Drawing.Point(27, 220)
+        Me.Label7.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(103, 13)
+        Me.Label7.TabIndex = 2
+        Me.Label7.Text = "Uitvoerend centrum:"
+        '
+        'cboUitvCent
+        '
+        Me.cboUitvCent.FormattingEnabled = True
+        Me.cboUitvCent.Location = New System.Drawing.Point(157, 217)
+        Me.cboUitvCent.Margin = New System.Windows.Forms.Padding(2)
+        Me.cboUitvCent.Name = "cboUitvCent"
+        Me.cboUitvCent.Size = New System.Drawing.Size(158, 21)
+        Me.cboUitvCent.TabIndex = 0
+        '
         'MainScreen
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -240,6 +262,7 @@ Partial Class MainScreen
         Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.cboFiltersList)
         Me.Controls.Add(Me.btnFilter)
+        Me.Controls.Add(Me.cboUitvCent)
         Me.Controls.Add(Me.cboMerk)
         Me.Controls.Add(Me.txtResultDatum)
         Me.Controls.Add(Me.txtRestultLesDag)
@@ -252,6 +275,7 @@ Partial Class MainScreen
         Me.Controls.Add(Me.Label5)
         Me.Controls.Add(Me.Label4)
         Me.Controls.Add(Me.Label3)
+        Me.Controls.Add(Me.Label7)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.Label2)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
@@ -281,4 +305,7 @@ Partial Class MainScreen
     Friend WithEvents Button1 As Button
     Friend WithEvents txtTotaal As TextBox
     Friend WithEvents Button2 As Button
+    Friend WithEvents Label7 As Label
+    Friend WithEvents cboUitvCent As ComboBox
+    Friend WithEvents BackgroundWorker1 As System.ComponentModel.BackgroundWorker
 End Class

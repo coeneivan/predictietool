@@ -40,15 +40,18 @@ Partial Class Test
         Me.chartBerekend = New System.Windows.Forms.DataVisualization.Charting.Chart()
         CType(Me.cursusChart, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chartBerekend, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.cboUitvoerendCentrum = New System.Windows.Forms.ComboBox()
+        Me.dtpStartdatum = New System.Windows.Forms.DateTimePicker()
+        Me.Button1 = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
         'cboMerk
         '
         Me.cboMerk.FormattingEnabled = True
-        Me.cboMerk.Location = New System.Drawing.Point(8, 10)
+        Me.cboMerk.Location = New System.Drawing.Point(84, 10)
         Me.cboMerk.Margin = New System.Windows.Forms.Padding(2)
         Me.cboMerk.Name = "cboMerk"
-        Me.cboMerk.Size = New System.Drawing.Size(275, 21)
+        Me.cboMerk.Size = New System.Drawing.Size(199, 21)
         Me.cboMerk.TabIndex = 0
         Me.cboMerk.Text = "Merk"
         '
@@ -66,20 +69,20 @@ Partial Class Test
         '
         Me.lvResult.GridLines = True
         Me.lvResult.HoverSelection = True
-        Me.lvResult.Location = New System.Drawing.Point(8, 35)
+        Me.lvResult.Location = New System.Drawing.Point(8, 60)
         Me.lvResult.Margin = New System.Windows.Forms.Padding(2)
         Me.lvResult.Name = "lvResult"
-        Me.lvResult.Size = New System.Drawing.Size(646, 708)
+        Me.lvResult.Size = New System.Drawing.Size(646, 683)
         Me.lvResult.TabIndex = 1
         Me.lvResult.UseCompatibleStateImageBehavior = False
         Me.lvResult.View = System.Windows.Forms.View.Details
         '
         'btnCheck
         '
-        Me.btnCheck.Location = New System.Drawing.Point(566, 11)
+        Me.btnCheck.Location = New System.Drawing.Point(566, 10)
         Me.btnCheck.Margin = New System.Windows.Forms.Padding(2)
         Me.btnCheck.Name = "btnCheck"
-        Me.btnCheck.Size = New System.Drawing.Size(88, 21)
+        Me.btnCheck.Size = New System.Drawing.Size(88, 46)
         Me.btnCheck.TabIndex = 2
         Me.btnCheck.Text = "GO"
         Me.btnCheck.UseVisualStyleBackColor = True
@@ -106,7 +109,7 @@ Partial Class Test
         '
         Me.ComboBox1.FormattingEnabled = True
         Me.ComboBox1.Items.AddRange(New Object() {"Linear regression", "Decision tree", "Lagrange Interpolating Polynomial"})
-        Me.ComboBox1.Location = New System.Drawing.Point(428, 10)
+        Me.ComboBox1.Location = New System.Drawing.Point(427, 21)
         Me.ComboBox1.Name = "ComboBox1"
         Me.ComboBox1.Size = New System.Drawing.Size(133, 21)
         Me.ComboBox1.TabIndex = 5
@@ -144,6 +147,32 @@ Partial Class Test
         Me.chartBerekend.TabIndex = 7
         Me.chartBerekend.Text = "Chart1"
         '
+        'cboUitvoerendCentrum
+        '
+        Me.cboUitvoerendCentrum.FormattingEnabled = True
+        Me.cboUitvoerendCentrum.Location = New System.Drawing.Point(84, 35)
+        Me.cboUitvoerendCentrum.Margin = New System.Windows.Forms.Padding(2)
+        Me.cboUitvoerendCentrum.Name = "cboUitvoerendCentrum"
+        Me.cboUitvoerendCentrum.Size = New System.Drawing.Size(199, 21)
+        Me.cboUitvoerendCentrum.TabIndex = 0
+        Me.cboUitvoerendCentrum.Text = "Uitvoerend centrum"
+        '
+        'dtpStartdatum
+        '
+        Me.dtpStartdatum.Location = New System.Drawing.Point(286, 35)
+        Me.dtpStartdatum.Name = "dtpStartdatum"
+        Me.dtpStartdatum.Size = New System.Drawing.Size(136, 20)
+        Me.dtpStartdatum.TabIndex = 6
+        '
+        'Button1
+        '
+        Me.Button1.Location = New System.Drawing.Point(8, 10)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(71, 46)
+        Me.Button1.TabIndex = 7
+        Me.Button1.Text = "Alles laden"
+        Me.Button1.UseVisualStyleBackColor = True
+        '
         'Test
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -152,12 +181,15 @@ Partial Class Test
         Me.ClientSize = New System.Drawing.Size(1444, 851)
         Me.Controls.Add(Me.chartBerekend)
         Me.Controls.Add(Me.cursusChart)
+        Me.Controls.Add(Me.Button1)
+        Me.Controls.Add(Me.dtpStartdatum)
         Me.Controls.Add(Me.ComboBox1)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.pgb)
         Me.Controls.Add(Me.btnCheck)
         Me.Controls.Add(Me.lvResult)
         Me.Controls.Add(Me.cboDag)
+        Me.Controls.Add(Me.cboUitvoerendCentrum)
         Me.Controls.Add(Me.cboMerk)
         Me.HelpButton = True
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
@@ -178,6 +210,9 @@ Partial Class Test
     Friend WithEvents pgb As ProgressBar
     Friend WithEvents Label1 As Label
     Friend WithEvents ComboBox1 As ComboBox
+    Friend WithEvents cboUitvoerendCentrum As ComboBox
+    Friend WithEvents dtpStartdatum As DateTimePicker
+    Friend WithEvents Button1 As Button
     Friend WithEvents cursusChart As DataVisualization.Charting.Chart
     Friend WithEvents chartBerekend As DataVisualization.Charting.Chart
 End Class
