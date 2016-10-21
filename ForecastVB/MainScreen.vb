@@ -12,7 +12,6 @@ Public Class MainScreen
         'Load all cursussen
         Dim subafds As New subAfdBll
         cboSubAfd.Items.AddRange(subafds.getAallSubAfds(jaar, filters).ToArray)
-
         'Load dagen
         cboLesdag.Items.AddRange({"Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag", "Zaterdag", "Zondag"})
 
@@ -92,8 +91,12 @@ Public Class MainScreen
     Private Sub cboUitvCent_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboUitvCent.SelectedIndexChanged
         Dim centrum As New ParameterParent("UitvCentrumOmsch")
         Dim cb = centrum.berekenVerwachtingsBereik(jaar, cboUitvCent.SelectedItem, filters)
-        'txtRestultLesDag.Text = db.ToString
+        txtResultCentrum.Text = cb.ToString
         c = cb.getAvg
+    End Sub
+
+    Private Sub BackgroundWorker1_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs)
+
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click

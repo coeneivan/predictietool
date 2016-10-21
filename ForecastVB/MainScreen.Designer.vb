@@ -28,7 +28,6 @@ Partial Class MainScreen
         Me.Label5 = New System.Windows.Forms.Label()
         Me.cboSubAfd = New System.Windows.Forms.ComboBox()
         Me.cboLesdag = New System.Windows.Forms.ComboBox()
-        Me.dtpStartcursus = New System.Windows.Forms.DateTimePicker()
         Me.Label6 = New System.Windows.Forms.Label()
         Me.txtResultMerk = New System.Windows.Forms.TextBox()
         Me.txtResultSubAfd = New System.Windows.Forms.TextBox()
@@ -44,7 +43,8 @@ Partial Class MainScreen
         Me.Button2 = New System.Windows.Forms.Button()
         Me.Label7 = New System.Windows.Forms.Label()
         Me.cboUitvCent = New System.Windows.Forms.ComboBox()
-        Me.BackgroundWorker1 = New System.ComponentModel.BackgroundWorker()
+        Me.txtResultCentrum = New System.Windows.Forms.TextBox()
+        Me.dtpStartcursus = New System.Windows.Forms.DateTimePicker()
         Me.SuspendLayout()
         '
         'Label3
@@ -80,28 +80,20 @@ Partial Class MainScreen
         'cboSubAfd
         '
         Me.cboSubAfd.FormattingEnabled = True
-        Me.cboSubAfd.Location = New System.Drawing.Point(157, 264)
+        Me.cboSubAfd.Location = New System.Drawing.Point(156, 264)
         Me.cboSubAfd.Margin = New System.Windows.Forms.Padding(2)
         Me.cboSubAfd.Name = "cboSubAfd"
         Me.cboSubAfd.Size = New System.Drawing.Size(158, 21)
-        Me.cboSubAfd.TabIndex = 1
+        Me.cboSubAfd.TabIndex = 2
         '
         'cboLesdag
         '
         Me.cboLesdag.FormattingEnabled = True
-        Me.cboLesdag.Location = New System.Drawing.Point(157, 311)
+        Me.cboLesdag.Location = New System.Drawing.Point(156, 311)
         Me.cboLesdag.Margin = New System.Windows.Forms.Padding(2)
         Me.cboLesdag.Name = "cboLesdag"
         Me.cboLesdag.Size = New System.Drawing.Size(158, 21)
-        Me.cboLesdag.TabIndex = 2
-        '
-        'dtpStartcursus
-        '
-        Me.dtpStartcursus.Location = New System.Drawing.Point(157, 355)
-        Me.dtpStartcursus.Margin = New System.Windows.Forms.Padding(2)
-        Me.dtpStartcursus.Name = "dtpStartcursus"
-        Me.dtpStartcursus.Size = New System.Drawing.Size(158, 20)
-        Me.dtpStartcursus.TabIndex = 3
+        Me.cboLesdag.TabIndex = 3
         '
         'Label6
         '
@@ -116,7 +108,7 @@ Partial Class MainScreen
         '
         'txtResultMerk
         '
-        Me.txtResultMerk.Location = New System.Drawing.Point(32, 462)
+        Me.txtResultMerk.Location = New System.Drawing.Point(32, 443)
         Me.txtResultMerk.Margin = New System.Windows.Forms.Padding(2)
         Me.txtResultMerk.Name = "txtResultMerk"
         Me.txtResultMerk.ReadOnly = True
@@ -126,7 +118,7 @@ Partial Class MainScreen
         '
         'txtResultSubAfd
         '
-        Me.txtResultSubAfd.Location = New System.Drawing.Point(32, 481)
+        Me.txtResultSubAfd.Location = New System.Drawing.Point(32, 485)
         Me.txtResultSubAfd.Margin = New System.Windows.Forms.Padding(2)
         Me.txtResultSubAfd.Name = "txtResultSubAfd"
         Me.txtResultSubAfd.ReadOnly = True
@@ -136,7 +128,7 @@ Partial Class MainScreen
         '
         'txtRestultLesDag
         '
-        Me.txtRestultLesDag.Location = New System.Drawing.Point(32, 500)
+        Me.txtRestultLesDag.Location = New System.Drawing.Point(32, 506)
         Me.txtRestultLesDag.Margin = New System.Windows.Forms.Padding(2)
         Me.txtRestultLesDag.Name = "txtRestultLesDag"
         Me.txtRestultLesDag.ReadOnly = True
@@ -146,7 +138,7 @@ Partial Class MainScreen
         '
         'txtResultDatum
         '
-        Me.txtResultDatum.Location = New System.Drawing.Point(32, 520)
+        Me.txtResultDatum.Location = New System.Drawing.Point(32, 527)
         Me.txtResultDatum.Margin = New System.Windows.Forms.Padding(2)
         Me.txtResultDatum.Name = "txtResultDatum"
         Me.txtResultDatum.ReadOnly = True
@@ -157,7 +149,7 @@ Partial Class MainScreen
         'cboMerk
         '
         Me.cboMerk.FormattingEnabled = True
-        Me.cboMerk.Location = New System.Drawing.Point(157, 170)
+        Me.cboMerk.Location = New System.Drawing.Point(156, 170)
         Me.cboMerk.Margin = New System.Windows.Forms.Padding(2)
         Me.cboMerk.Name = "cboMerk"
         Me.cboMerk.Size = New System.Drawing.Size(158, 21)
@@ -177,11 +169,11 @@ Partial Class MainScreen
         '
         Me.btnFilter.Image = CType(resources.GetObject("btnFilter.Image"), System.Drawing.Image)
         Me.btnFilter.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnFilter.Location = New System.Drawing.Point(9, 10)
+        Me.btnFilter.Location = New System.Drawing.Point(222, 11)
         Me.btnFilter.Margin = New System.Windows.Forms.Padding(2)
         Me.btnFilter.Name = "btnFilter"
         Me.btnFilter.Size = New System.Drawing.Size(123, 40)
-        Me.btnFilter.TabIndex = 12
+        Me.btnFilter.TabIndex = 6
         Me.btnFilter.Text = "Filters toevoegen"
         Me.btnFilter.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.btnFilter.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
@@ -190,16 +182,16 @@ Partial Class MainScreen
         'cboFiltersList
         '
         Me.cboFiltersList.FormattingEnabled = True
-        Me.cboFiltersList.Location = New System.Drawing.Point(224, 20)
+        Me.cboFiltersList.Location = New System.Drawing.Point(77, 22)
         Me.cboFiltersList.Margin = New System.Windows.Forms.Padding(2)
         Me.cboFiltersList.Name = "cboFiltersList"
         Me.cboFiltersList.Size = New System.Drawing.Size(124, 21)
-        Me.cboFiltersList.TabIndex = 13
+        Me.cboFiltersList.TabIndex = 7
         '
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(156, 23)
+        Me.Label1.Location = New System.Drawing.Point(11, 25)
         Me.Label1.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(62, 13)
@@ -208,27 +200,29 @@ Partial Class MainScreen
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(32, 574)
+        Me.Button1.Location = New System.Drawing.Point(32, 618)
         Me.Button1.Margin = New System.Windows.Forms.Padding(2)
         Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(281, 55)
-        Me.Button1.TabIndex = 14
+        Me.Button1.Size = New System.Drawing.Size(282, 55)
+        Me.Button1.TabIndex = 5
         Me.Button1.Text = "Test it!"
         Me.Button1.UseVisualStyleBackColor = True
         '
         'txtTotaal
         '
-        Me.txtTotaal.Location = New System.Drawing.Point(32, 652)
+        Me.txtTotaal.Location = New System.Drawing.Point(32, 572)
         Me.txtTotaal.Name = "txtTotaal"
-        Me.txtTotaal.Size = New System.Drawing.Size(281, 20)
+        Me.txtTotaal.ReadOnly = True
+        Me.txtTotaal.Size = New System.Drawing.Size(282, 20)
         Me.txtTotaal.TabIndex = 15
+        Me.txtTotaal.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'Button2
         '
-        Me.Button2.Location = New System.Drawing.Point(157, 679)
+        Me.Button2.Location = New System.Drawing.Point(32, 548)
         Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(75, 23)
-        Me.Button2.TabIndex = 16
+        Me.Button2.Size = New System.Drawing.Size(282, 23)
+        Me.Button2.TabIndex = 5
         Me.Button2.Text = "Calculate"
         Me.Button2.UseVisualStyleBackColor = True
         '
@@ -245,11 +239,29 @@ Partial Class MainScreen
         'cboUitvCent
         '
         Me.cboUitvCent.FormattingEnabled = True
-        Me.cboUitvCent.Location = New System.Drawing.Point(157, 217)
+        Me.cboUitvCent.Location = New System.Drawing.Point(156, 217)
         Me.cboUitvCent.Margin = New System.Windows.Forms.Padding(2)
         Me.cboUitvCent.Name = "cboUitvCent"
         Me.cboUitvCent.Size = New System.Drawing.Size(158, 21)
-        Me.cboUitvCent.TabIndex = 0
+        Me.cboUitvCent.TabIndex = 1
+        '
+        'txtResultCentrum
+        '
+        Me.txtResultCentrum.Location = New System.Drawing.Point(32, 464)
+        Me.txtResultCentrum.Margin = New System.Windows.Forms.Padding(2)
+        Me.txtResultCentrum.Name = "txtResultCentrum"
+        Me.txtResultCentrum.ReadOnly = True
+        Me.txtResultCentrum.Size = New System.Drawing.Size(282, 20)
+        Me.txtResultCentrum.TabIndex = 11
+        Me.txtResultCentrum.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'dtpStartcursus
+        '
+        Me.dtpStartcursus.Location = New System.Drawing.Point(156, 355)
+        Me.dtpStartcursus.Margin = New System.Windows.Forms.Padding(2)
+        Me.dtpStartcursus.Name = "dtpStartcursus"
+        Me.dtpStartcursus.Size = New System.Drawing.Size(158, 20)
+        Me.dtpStartcursus.TabIndex = 4
         '
         'MainScreen
         '
@@ -267,6 +279,7 @@ Partial Class MainScreen
         Me.Controls.Add(Me.txtResultDatum)
         Me.Controls.Add(Me.txtRestultLesDag)
         Me.Controls.Add(Me.txtResultSubAfd)
+        Me.Controls.Add(Me.txtResultCentrum)
         Me.Controls.Add(Me.txtResultMerk)
         Me.Controls.Add(Me.Label6)
         Me.Controls.Add(Me.dtpStartcursus)
@@ -291,7 +304,6 @@ Partial Class MainScreen
     Friend WithEvents Label5 As Label
     Friend WithEvents cboSubAfd As ComboBox
     Friend WithEvents cboLesdag As ComboBox
-    Friend WithEvents dtpStartcursus As DateTimePicker
     Friend WithEvents Label6 As Label
     Friend WithEvents txtResultMerk As TextBox
     Friend WithEvents txtResultSubAfd As TextBox
@@ -307,5 +319,6 @@ Partial Class MainScreen
     Friend WithEvents Button2 As Button
     Friend WithEvents Label7 As Label
     Friend WithEvents cboUitvCent As ComboBox
-    Friend WithEvents BackgroundWorker1 As System.ComponentModel.BackgroundWorker
+    Friend WithEvents txtResultCentrum As TextBox
+    Friend WithEvents dtpStartcursus As DateTimePicker
 End Class

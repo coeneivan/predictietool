@@ -437,30 +437,35 @@ Public Class Test
         pgb.Minimum = 0
         pgb.Maximum = merken.getAll(2015, filters).Count
         For Each merk In merken.getAll(2015, filters)
+            My.Application.Log.WriteEntry(merk.ToString)
             Dim merkBereik = merken.berekenVerwachtingsBereikVoorMerk(2015, merk.ToString, filters)
             Dim uitvCentrum As New ParameterParent("UitvCentrumOmsch")
             merkFilter = New FilterItem("merk", "=", "'" + merk.ToString + "'")
             filters.Add(merkFilter)
             pgb.Maximum += uitvCentrum.getAall(2015, filters).Count
             For Each centrum In uitvCentrum.getAall(2015, filters)
+                My.Application.Log.WriteEntry(merk.ToString + " " + centrum.ToString)
                 Dim centrumBereik = uitvCentrum.berekenVerwachtingsBereik(2015, centrum.ToString, filters)
                 Dim centrumFilter = New FilterItem("UitvCentrumOmsch", "=", "'" + centrum.ToString + "'")
                 filters.Add(centrumFilter)
                 Dim subafds As New subAfdBll
                 pgb.Maximum += subafds.getAallSubAfds(2015, filters).Count
                 For Each subafd In subafds.getAallSubAfds(2015, filters)
+                    My.Application.Log.WriteEntry(merk.ToString + " " + centrum.ToString + " " + subafd.ToString)
                     Dim subafdelingBereik = subafds.berekenVerwachtingsBereikVoorSubAfd(2015, subafd.ToString, filters)
                     Dim subafdFilter As New FilterItem("CodeSubafdeling", "=", "'" + subafd.ToString + "'")
                     filters.Add(subafdFilter)
                     Dim startmaand As New ParameterParent("month(startdatum)")
                     pgb.Maximum += startmaand.getAall(2015, filters).Count
                     For Each maand In startmaand.getAall(2015, filters)
+                        My.Application.Log.WriteEntry(merk.ToString + " " + centrum.ToString + " " + subafd.ToString + " " + maand.ToString)
                         Dim maandBereik = startmaand.berekenVerwachtingsBereik(2015, maand.ToString, filters)
                         Dim lesdag As New DagBll()
                         Dim maandFilters As New FilterItem("month(startdatum)", "=", "'" + maand.ToString + "'")
                         filters.Add(maandFilters)
                         pgb.Maximum += lesdag.getAll(2015, filters).Count
                         For Each dag In lesdag.getAll(2015, filters)
+                            My.Application.Log.WriteEntry(merk.ToString + " " + centrum.ToString + " " + subafd.ToString + " " + maand.ToString + " " + dag.ToString)
                             Dim lvi As New ListViewItem(merk.ToString)
                             lvi.SubItems.Add(centrum.ToString)
                             lvi.SubItems.Add(subafd.ToString)
