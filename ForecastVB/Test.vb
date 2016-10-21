@@ -70,13 +70,13 @@ Public Class Test
 
 
                 If filters Is Nothing Then
-                    subAfds.AddRange(sql.getArrayList("select distinct CodeSubafdeling from Cursussen where Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' and month(startdatum)=" + cbbMonth.SelectedValue + " and UitvCentrumOmsch='" + cboUitvoerendCentrum.SelectedItem + "' and year(StartDatum) = 2015 group by codesubafdeling having count(*) > 5").ToArray())
+                    subAfds.AddRange(sql.getArrayList("select distinct CodeSubafdeling from Cursussen where Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' and month(startdatum)=" + (cbbMonth.SelectedItem).Value + " and UitvCentrumOmsch='" + cboUitvoerendCentrum.SelectedItem + "' and year(StartDatum) = 2015 group by codesubafdeling having count(*) > 5").ToArray())
                     'TODO: catch empty arraylist
                 Else
                     For Each filIt As FilterItem In filters
                         fil += " AND " + filIt.kolom + " " + filIt.factor + " " + filIt.filter
                     Next
-                    subAfds.AddRange(sql.getArrayList("select distinct CodeSubafdeling from Cursussen where Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' and month(startdatum)=" + cbbMonth.SelectedValue + " and UitvCentrumOmsch='" + cboUitvoerendCentrum.SelectedItem + "' and year(StartDatum) = 2015 " + fil + " group by codesubafdeling  having count(*) > 5").ToArray())
+                    subAfds.AddRange(sql.getArrayList("select distinct CodeSubafdeling from Cursussen where Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' and month(startdatum)=" + (cbbMonth.SelectedItem).Value + " and UitvCentrumOmsch='" + cboUitvoerendCentrum.SelectedItem + "' and year(StartDatum) = 2015 " + fil + " group by codesubafdeling  having count(*) > 5").ToArray())
 
                 End If
                 pgb.Minimum = 0
@@ -95,7 +95,7 @@ Public Class Test
                     Dim subA As Bereik = subBll.berekenVerwachtingsBereikVoorSubAfd(2015, subAfds(i), filters)
                     Dim dagA As Bereik = dag.berekenVerwachtingsBereikVoorDag(2015, cboDag.SelectedItem.ToString, filters)
                     Dim merkA As Bereik = merk.berekenVerwachtingsBereikVoorMerk(2015, cboMerk.SelectedItem.ToString, filters)
-                    Dim maandA As Bereik = maand.berekenVerwachtingsBereikVoorDatum(2015, cbbMonth.SelectedValue, filters)
+                    Dim maandA As Bereik = maand.berekenVerwachtingsBereikVoorDatum(2015, (cbbMonth.SelectedItem).Value, filters)
                     Dim uitvCenA As Bereik = uitvCentrum.berekenVerwachtingsBereik(2015, cboUitvoerendCentrum.SelectedItem.ToString, filters)
                     'TODO: berekn bereik van Maand en uitvoerend centrum
                     Dim min As Double = 100
@@ -116,11 +116,11 @@ Public Class Test
                     lvi.SubItems.Add(bereik.ToString)
                     Dim dick As Dictionary(Of String, Parameter)
                     If filters Is Nothing Then
-                        dick = sql.getDictionary("SELECT YEAR(c.startdatum) as jaar,count(*) as totaal,(SELECT count(*) FROM [SyntraTest].[dbo].[Cursussen] as cc WHERE cc.CodeIngetrokken = 'nee' AND CodeSubafdeling = '" + subAfds(i) + "' AND year(cc.StartDatum) = year(c.StartDatum) AND Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' and month(startdatum)=" + cbbMonth.SelectedValue + " and UitvCentrumOmsch='" + cboUitvoerendCentrum.SelectedItem + "') as nietGeschrapt FROM [SyntraTest].[dbo].[Cursussen] as c WHERE CodeSubafdeling = '" + subAfds(i) + "' AND year(c.StartDatum) =  2015 and Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' and month(startdatum)=" + cbbMonth.SelectedValue + " and UitvCentrumOmsch='" + cboUitvoerendCentrum.SelectedItem + "' group by year(startdatum)")
+                        dick = sql.getDictionary("SELECT YEAR(c.startdatum) as jaar,count(*) as totaal,(SELECT count(*) FROM [SyntraTest].[dbo].[Cursussen] as cc WHERE cc.CodeIngetrokken = 'nee' AND CodeSubafdeling = '" + subAfds(i) + "' AND year(cc.StartDatum) = year(c.StartDatum) AND Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' and month(startdatum)=" + (cbbMonth.SelectedItem).Value + " and UitvCentrumOmsch='" + cboUitvoerendCentrum.SelectedItem + "') as nietGeschrapt FROM [SyntraTest].[dbo].[Cursussen] as c WHERE CodeSubafdeling = '" + subAfds(i) + "' AND year(c.StartDatum) =  2015 and Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' and month(startdatum)=" + (cbbMonth.SelectedItem).Value + " and UitvCentrumOmsch='" + cboUitvoerendCentrum.SelectedItem + "' group by year(startdatum)")
                     Else
                         ' Voorkomen dat filterlijst opnieuw moet doorlopen worden, dit voorkomt de for each loop binnen deze for eacht loop
                         ' nu worden alle filters  keer doorlopen boven aan in de methode
-                        dick = sql.getDictionary("SELECT YEAR(c.startdatum) as jaar,count(*) as totaal,(SELECT count(*) FROM [SyntraTest].[dbo].[Cursussen] as cc WHERE cc.CodeIngetrokken = 'nee' AND CodeSubafdeling = '" + subAfds(i) + "' AND year(cc.StartDatum) = year(c.StartDatum) AND Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' and month(startdatum)=" + cbbMonth.SelectedValue + " and UitvCentrumOmsch='" + cboUitvoerendCentrum.SelectedItem + "' " + fil + ") as nietGeschrapt FROM [SyntraTest].[dbo].[Cursussen] as c WHERE CodeSubafdeling = '" + subAfds(i) + "' AND year(c.StartDatum) =  2015 and Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' and month(startdatum)=" + cbbMonth.SelectedValue + " and UitvCentrumOmsch='" + cboUitvoerendCentrum.SelectedItem + "'" + fil + " group by year(startdatum)")
+                        dick = sql.getDictionary("SELECT YEAR(c.startdatum) as jaar,count(*) as totaal,(SELECT count(*) FROM [SyntraTest].[dbo].[Cursussen] as cc WHERE cc.CodeIngetrokken = 'nee' AND CodeSubafdeling = '" + subAfds(i) + "' AND year(cc.StartDatum) = year(c.StartDatum) AND Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' and month(startdatum)=" + (cbbMonth.SelectedItem).Value + " and UitvCentrumOmsch='" + cboUitvoerendCentrum.SelectedItem + "' " + fil + ") as nietGeschrapt FROM [SyntraTest].[dbo].[Cursussen] as c WHERE CodeSubafdeling = '" + subAfds(i) + "' AND year(c.StartDatum) =  2015 and Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' and month(startdatum)=" + (cbbMonth.SelectedItem).Value + " and UitvCentrumOmsch='" + cboUitvoerendCentrum.SelectedItem + "'" + fil + " group by year(startdatum)")
                     End If
 
 
