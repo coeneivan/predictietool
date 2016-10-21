@@ -477,7 +477,8 @@ Public Class Test
         End If
 
 
-
+        ' TODO Niet telkens verbinding naar database leggen, eens proberen grote hoeveelheden data af te halen en daar mee te werken
+        ' Misschien werkt dit rapper om resultaten te bereken
 
         pgb.Minimum = 0
         pgb.Maximum = merken.getAll(2015, filters).Count
