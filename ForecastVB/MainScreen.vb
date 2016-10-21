@@ -7,7 +7,7 @@ Public Class MainScreen
     Private filterlist As ArrayList
     Private selectedFilterList As String
     Private saveDirectory As String = SpecialDirectories.MyDocuments + "//Predictie Filters//"
-    Private m, d, s, sd As Double
+    Private m, d, s, sd, c As Double
     Private Sub MainScreen_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         'Load all cursussen
         Dim subafds As New subAfdBll
@@ -47,7 +47,7 @@ Public Class MainScreen
         s = sb.getAvg
     End Sub
 
-    Private Sub cboMerk_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboMerk.SelectedIndexChanged, cboUitvCent.SelectedIndexChanged
+    Private Sub cboMerk_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboMerk.SelectedIndexChanged
         Dim merken As New MerkBLL
         Dim mb = merken.berekenVerwachtingsBereikVoorMerk(jaar, cboMerk.SelectedItem, filters)
         txtResultMerk.Text = mb.ToString
@@ -88,13 +88,31 @@ Public Class MainScreen
     Public Function getFilterList() As ArrayList
         Return filterlist
     End Function
+
+    Private Sub cboUitvCent_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboUitvCent.SelectedIndexChanged
+        Dim centrum As New ParameterParent("UitvCentrumOmsch")
+        Dim cb = centrum.berekenVerwachtingsBereik(jaar, cboUitvCent.SelectedItem, filters)
+        'txtRestultLesDag.Text = db.ToString
+        c = cb.getAvg
+    End Sub
+
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         Dim t As New Test(Me)
         t.Show()
     End Sub
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
-        txtTotaal.Text = ((d * 0.4846 / 100) * (m * 0.4547 / 100) * (s * 0.5541 / 100) * (sd * 0.538 / 100) * 100).ToString
+        Dim sql As New SQLUtil
+        Dim sqlcommand = "SELECT YEAR(c.startdatum) as jaar,count(*) as totaal,(SELECT count(*) FROM [SyntraTest].[dbo].[Cursussen] as cc WHERE cc.CodeIngetrokken = 'nee'  AND year(cc.StartDatum) = year(c.StartDatum)) as nietGeschrapt FROM [SyntraTest].[dbo].[Cursussen] as c WHERE  year(c.StartDatum) < 2015 GROUP BY year(c.startDatum)"
+        Dim a = sql.getDictionary(sqlcommand)
+        Dim p As New Prospect
+        Dim pros = p.prospect(a, 2015)
+
+        Dim pNee = ((d / 100) * (m / 100) * (s / 100) * (sd / 100) * (c / 100) * (pros / 100))
+        Dim pJa = (1 - (d / 100)) * (1 - (m / 100)) * (1 - (s / 100)) * (1 - (sd / 100) * (1 - (c / 100)) * (1 - (pros / 100)))
+        Dim values As New ArrayList({d / 100, m / 100, s / 100, sd / 100, c / 100, pros / 100})
+        Dim range = p.certainty(values, pNee / (pNee + pJa))
+        txtTotaal.Text = range.ToString
     End Sub
 
     Public Function getSelectedList() As String
