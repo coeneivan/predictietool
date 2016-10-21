@@ -38,31 +38,31 @@ Partial Class Test
         Me.ComboBox1 = New System.Windows.Forms.ComboBox()
         Me.cursusChart = New System.Windows.Forms.DataVisualization.Charting.Chart()
         Me.chartBerekend = New System.Windows.Forms.DataVisualization.Charting.Chart()
+        Me.cboUitvoerendCentrum = New System.Windows.Forms.ComboBox()
+        Me.ComboBox2 = New System.Windows.Forms.ComboBox()
+        Me.cbbMonth = New System.Windows.Forms.ComboBox()
         CType(Me.cursusChart, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chartBerekend, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.cboUitvoerendCentrum = New System.Windows.Forms.ComboBox()
-        Me.dtpStartdatum = New System.Windows.Forms.DateTimePicker()
-        Me.Button1 = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
         'cboMerk
         '
         Me.cboMerk.FormattingEnabled = True
-        Me.cboMerk.Location = New System.Drawing.Point(84, 10)
+        Me.cboMerk.Location = New System.Drawing.Point(11, 10)
         Me.cboMerk.Margin = New System.Windows.Forms.Padding(2)
         Me.cboMerk.Name = "cboMerk"
         Me.cboMerk.Size = New System.Drawing.Size(199, 21)
-        Me.cboMerk.TabIndex = 0
+        Me.cboMerk.TabIndex = 1
         Me.cboMerk.Text = "Merk"
         '
         'cboDag
         '
         Me.cboDag.FormattingEnabled = True
-        Me.cboDag.Location = New System.Drawing.Point(286, 10)
+        Me.cboDag.Location = New System.Drawing.Point(213, 10)
         Me.cboDag.Margin = New System.Windows.Forms.Padding(2)
         Me.cboDag.Name = "cboDag"
         Me.cboDag.Size = New System.Drawing.Size(136, 21)
-        Me.cboDag.TabIndex = 0
+        Me.cboDag.TabIndex = 2
         Me.cboDag.Text = "Dag"
         '
         'lvResult
@@ -73,7 +73,7 @@ Partial Class Test
         Me.lvResult.Margin = New System.Windows.Forms.Padding(2)
         Me.lvResult.Name = "lvResult"
         Me.lvResult.Size = New System.Drawing.Size(646, 683)
-        Me.lvResult.TabIndex = 1
+        Me.lvResult.TabIndex = 0
         Me.lvResult.UseCompatibleStateImageBehavior = False
         Me.lvResult.View = System.Windows.Forms.View.Details
         '
@@ -83,7 +83,7 @@ Partial Class Test
         Me.btnCheck.Margin = New System.Windows.Forms.Padding(2)
         Me.btnCheck.Name = "btnCheck"
         Me.btnCheck.Size = New System.Drawing.Size(88, 46)
-        Me.btnCheck.TabIndex = 2
+        Me.btnCheck.TabIndex = 6
         Me.btnCheck.Text = "GO"
         Me.btnCheck.UseVisualStyleBackColor = True
         '
@@ -93,7 +93,7 @@ Partial Class Test
         Me.pgb.Margin = New System.Windows.Forms.Padding(2)
         Me.pgb.Name = "pgb"
         Me.pgb.Size = New System.Drawing.Size(645, 19)
-        Me.pgb.TabIndex = 3
+        Me.pgb.TabIndex = 0
         '
         'Label1
         '
@@ -102,16 +102,16 @@ Partial Class Test
         Me.Label1.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(39, 13)
-        Me.Label1.TabIndex = 4
+        Me.Label1.TabIndex = 0
         Me.Label1.Text = "Label1"
         '
         'ComboBox1
         '
         Me.ComboBox1.FormattingEnabled = True
-        Me.ComboBox1.Items.AddRange(New Object() {"Linear regression", "Decision tree", "Lagrange Interpolating Polynomial"})
-        Me.ComboBox1.Location = New System.Drawing.Point(427, 21)
+        Me.ComboBox1.Items.AddRange(New Object() {"Linear regression", "Decision tree", "Lagrange Interpolating Polynomial", "Data mining algorithms: Prediction"})
+        Me.ComboBox1.Location = New System.Drawing.Point(393, 21)
         Me.ComboBox1.Name = "ComboBox1"
-        Me.ComboBox1.Size = New System.Drawing.Size(133, 21)
+        Me.ComboBox1.Size = New System.Drawing.Size(167, 21)
         Me.ComboBox1.TabIndex = 5
         Me.ComboBox1.Text = "Algoritme"
         '
@@ -128,7 +128,7 @@ Partial Class Test
         Series1.Name = "Series1"
         Me.cursusChart.Series.Add(Series1)
         Me.cursusChart.Size = New System.Drawing.Size(772, 400)
-        Me.cursusChart.TabIndex = 6
+        Me.cursusChart.TabIndex = 9
         Me.cursusChart.Text = "Chart1"
         '
         'chartBerekend
@@ -150,28 +150,43 @@ Partial Class Test
         'cboUitvoerendCentrum
         '
         Me.cboUitvoerendCentrum.FormattingEnabled = True
-        Me.cboUitvoerendCentrum.Location = New System.Drawing.Point(84, 35)
+        Me.cboUitvoerendCentrum.Location = New System.Drawing.Point(11, 35)
         Me.cboUitvoerendCentrum.Margin = New System.Windows.Forms.Padding(2)
         Me.cboUitvoerendCentrum.Name = "cboUitvoerendCentrum"
         Me.cboUitvoerendCentrum.Size = New System.Drawing.Size(199, 21)
-        Me.cboUitvoerendCentrum.TabIndex = 0
+        Me.cboUitvoerendCentrum.TabIndex = 3
         Me.cboUitvoerendCentrum.Text = "Uitvoerend centrum"
         '
-        'dtpStartdatum
+        'ComboBox2
         '
-        Me.dtpStartdatum.Location = New System.Drawing.Point(286, 35)
-        Me.dtpStartdatum.Name = "dtpStartdatum"
-        Me.dtpStartdatum.Size = New System.Drawing.Size(136, 20)
-        Me.dtpStartdatum.TabIndex = 6
+        Me.ComboBox2.FormattingEnabled = True
+        Me.ComboBox2.Location = New System.Drawing.Point(668, 424)
+        Me.ComboBox2.Name = "ComboBox2"
+        Me.ComboBox2.Size = New System.Drawing.Size(121, 21)
+        Me.ComboBox2.TabIndex = 10
         '
-        'Button1
+        'cbbMonth
         '
-        Me.Button1.Location = New System.Drawing.Point(8, 10)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(71, 46)
-        Me.Button1.TabIndex = 7
-        Me.Button1.Text = "Alles laden"
-        Me.Button1.UseVisualStyleBackColor = True
+        Me.cbbMonth.FormattingEnabled = True
+        Me.cbbMonth.Location = New System.Drawing.Point(213, 35)
+        Me.cbbMonth.Name = "cbbMonth"
+        Me.cbbMonth.Size = New System.Drawing.Size(136, 21)
+        Me.cbbMonth.TabIndex = 4
+        Me.cbbMonth.Text = "Maand"
+        Me.cbbMonth.Items.Add(New DictionaryEntry("Januari", "1"))
+        Me.cbbMonth.Items.Add(New DictionaryEntry("Februari", "2"))
+        Me.cbbMonth.Items.Add(New DictionaryEntry("Maart", "3"))
+        Me.cbbMonth.Items.Add(New DictionaryEntry("April", "4"))
+        Me.cbbMonth.Items.Add(New DictionaryEntry("Mei", "5"))
+        Me.cbbMonth.Items.Add(New DictionaryEntry("Juni", "6"))
+        Me.cbbMonth.Items.Add(New DictionaryEntry("Juli", "7"))
+        Me.cbbMonth.Items.Add(New DictionaryEntry("Augustus", "8"))
+        Me.cbbMonth.Items.Add(New DictionaryEntry("September", "9"))
+        Me.cbbMonth.Items.Add(New DictionaryEntry("October", "10"))
+        Me.cbbMonth.Items.Add(New DictionaryEntry("November", "11"))
+        Me.cbbMonth.Items.Add(New DictionaryEntry("December", "12"))
+        Me.cbbMonth.DisplayMember = "Key"
+        Me.cbbMonth.ValueMember = "Value"
         '
         'Test
         '
@@ -179,10 +194,10 @@ Partial Class Test
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.ClientSize = New System.Drawing.Size(1444, 851)
+        Me.Controls.Add(Me.cbbMonth)
+        Me.Controls.Add(Me.ComboBox2)
         Me.Controls.Add(Me.chartBerekend)
         Me.Controls.Add(Me.cursusChart)
-        Me.Controls.Add(Me.Button1)
-        Me.Controls.Add(Me.dtpStartdatum)
         Me.Controls.Add(Me.ComboBox1)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.pgb)
@@ -211,8 +226,8 @@ Partial Class Test
     Friend WithEvents Label1 As Label
     Friend WithEvents ComboBox1 As ComboBox
     Friend WithEvents cboUitvoerendCentrum As ComboBox
-    Friend WithEvents dtpStartdatum As DateTimePicker
-    Friend WithEvents Button1 As Button
     Friend WithEvents cursusChart As DataVisualization.Charting.Chart
     Friend WithEvents chartBerekend As DataVisualization.Charting.Chart
+    Friend WithEvents ComboBox2 As ComboBox
+    Friend WithEvents cbbMonth As ComboBox
 End Class
