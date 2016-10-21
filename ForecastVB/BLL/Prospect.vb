@@ -45,7 +45,17 @@
             sumOfSquaresOfDifferences += (kvp.Value.berekenPercentage - average) ^ 2
         Next
         Dim sd As Double = Math.Sqrt(sumOfSquaresOfDifferences / n)
-        Dim difference As Double = 1.99 * (sd / Math.Sqrt(n))
+        Dim difference As Double = 1.96 * (sd / Math.Sqrt(n))
         Return New Bereik(average - difference, average, average + difference)
+    End Function
+    Public Function certainty(values As ArrayList, average As Double) As Bereik
+        Dim sumOfSquaresOfDifferences As Double
+        Dim n = values.Count
+        For Each value In values
+            sumOfSquaresOfDifferences += (value - average) ^ 2
+        Next
+        Dim sd As Double = Math.Sqrt(sumOfSquaresOfDifferences / n)
+        Dim difference As Double = 1.96 * (sd / Math.Sqrt(n))
+        Return New Bereik((average - difference) * 100, (average) * 100, (average + difference) * 100)
     End Function
 End Class
