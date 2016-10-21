@@ -11,6 +11,8 @@
         Dim m As New MerkBLL
         cboMerk.Items.AddRange(m.getAll(2015, Nothing).ToArray)
         cboDag.Items.AddRange({"Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag", "Zaterdag", "Zondag"})
+        Dim para As New ParameterParent("uitvCentrumOmsch")
+        cboUitvoerendCentrum.Items.AddRange(para.getAall(2015, root.getFilters).ToArray)
         startUp()
     End Sub
     Private Sub startUp()
@@ -44,13 +46,13 @@
                 Dim fil As String = ""
 
                 If filters Is Nothing Then
-                    subAfds.AddRange(sql.getArrayList("select distinct CodeSubafdeling from Cursussen where Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' and year(StartDatum) = 2015 group by codesubafdeling having count(*) > 5").ToArray())
+                    subAfds.AddRange(sql.getArrayList("select distinct CodeSubafdeling from Cursussen where Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' and month(startdatum)=" + dtpStartdatum.Value.Month.ToString + " and UitvCentrumOmsch='" + cboUitvoerendCentrum.SelectedItem + "' and year(StartDatum) = 2015 group by codesubafdeling having count(*) > 5").ToArray())
                     'TODO: catch empty arraylist
                 Else
                     For Each filIt As FilterItem In filters
                         fil += " AND " + filIt.kolom + " " + filIt.factor + " " + filIt.filter
                     Next
-                    subAfds.AddRange(sql.getArrayList("select distinct CodeSubafdeling from Cursussen where Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' and year(StartDatum) = 2015 " + fil + "group by codesubafdeling having count(*) > 5").ToArray())
+                    subAfds.AddRange(sql.getArrayList("select distinct CodeSubafdeling from Cursussen where Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' and month(startdatum)=" + dtpStartdatum.Value.Month.ToString + " and UitvCentrumOmsch='" + cboUitvoerendCentrum.SelectedItem + "' and year(StartDatum) = 2015 " + fil + " group by codesubafdeling  having count(*) > 5").ToArray())
 
                 End If
                 pgb.Minimum = 0
@@ -63,15 +65,20 @@
                 For i As Integer = 0 To subAfds.Count - 1
                     Dim merk As New MerkBLL
                     Dim dag As New DagBll
+                    Dim maand As New DatumBLL
+                    Dim uitvCentrum As New ParameterParent("UitvCentrumOmsch")
                     Dim lvi As New ListViewItem(subAfds(i).ToString)
                     Dim subA As Bereik = subBll.berekenVerwachtingsBereikVoorSubAfd(2015, subAfds(i), filters)
                     Dim dagA As Bereik = dag.berekenVerwachtingsBereikVoorDag(2015, cboDag.SelectedItem.ToString, filters)
                     Dim merkA As Bereik = merk.berekenVerwachtingsBereikVoorMerk(2015, cboMerk.SelectedItem.ToString, filters)
+                    Dim maandA As Bereik = maand.berekenVerwachtingsBereikVoorDatum(2015, dtpStartdatum.Value.Month.ToString, filters)
+                    Dim uitvCenA As Bereik = uitvCentrum.berekenVerwachtingsBereik(2015, cboUitvoerendCentrum.SelectedItem.ToString, filters)
+                    'TODO: berekn bereik van Maand en uitvoerend centrum
                     Dim min As Double = 100
                     Dim cursCount As Double = 0
                     Dim max As Double = 0
                     Dim bereiken As New ArrayList()
-                    bereiken.AddRange({subA, dagA, merkA})
+                    bereiken.AddRange({subA, dagA, merkA, maandA, uitvCenA})
                     For j As Integer = 0 To bereiken.Count - 1
                         Dim ber As Bereik = bereiken(j)
                         If ber.getBovengrens > max Then
@@ -85,11 +92,11 @@
                     lvi.SubItems.Add(bereik.ToString)
                     Dim dick As Dictionary(Of String, Parameter)
                     If filters Is Nothing Then
-                        dick = sql.getDictionary("SELECT YEAR(c.startdatum) as jaar,count(*) as totaal,(SELECT count(*) FROM [SyntraTest].[dbo].[Cursussen] as cc WHERE cc.CodeIngetrokken = 'nee' AND CodeSubafdeling = '" + subAfds(i) + "' AND year(cc.StartDatum) = year(c.StartDatum) AND Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "') as nietGeschrapt FROM [SyntraTest].[dbo].[Cursussen] as c WHERE CodeSubafdeling = '" + subAfds(i) + "' AND year(c.StartDatum) =  2015 and Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' group by year(startdatum)")
+                        dick = sql.getDictionary("SELECT YEAR(c.startdatum) as jaar,count(*) as totaal,(SELECT count(*) FROM [SyntraTest].[dbo].[Cursussen] as cc WHERE cc.CodeIngetrokken = 'nee' AND CodeSubafdeling = '" + subAfds(i) + "' AND year(cc.StartDatum) = year(c.StartDatum) AND Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' and month(startdatum)=" + dtpStartdatum.Value.Month.ToString + " and UitvCentrumOmsch='" + cboUitvoerendCentrum.SelectedItem + "') as nietGeschrapt FROM [SyntraTest].[dbo].[Cursussen] as c WHERE CodeSubafdeling = '" + subAfds(i) + "' AND year(c.StartDatum) =  2015 and Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' and month(startdatum)=" + dtpStartdatum.Value.Month.ToString + " and UitvCentrumOmsch='" + cboUitvoerendCentrum.SelectedItem + "' group by year(startdatum)")
                     Else
                         ' Voorkomen dat filterlijst opnieuw moet doorlopen worden, dit voorkomt de for each loop binnen deze for eacht loop
                         ' nu worden alle filters  keer doorlopen boven aan in de methode
-                        dick = sql.getDictionary("SELECT YEAR(c.startdatum) as jaar,count(*) as totaal,(SELECT count(*) FROM [SyntraTest].[dbo].[Cursussen] as cc WHERE cc.CodeIngetrokken = 'nee' AND CodeSubafdeling = '" + subAfds(i) + "' AND year(cc.StartDatum) = year(c.StartDatum) AND Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' " + fil + ") as nietGeschrapt FROM [SyntraTest].[dbo].[Cursussen] as c WHERE CodeSubafdeling = '" + subAfds(i) + "' AND year(c.StartDatum) =  2015 and Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' " + fil + " group by year(startdatum)")
+                        dick = sql.getDictionary("SELECT YEAR(c.startdatum) as jaar,count(*) as totaal,(SELECT count(*) FROM [SyntraTest].[dbo].[Cursussen] as cc WHERE cc.CodeIngetrokken = 'nee' AND CodeSubafdeling = '" + subAfds(i) + "' AND year(cc.StartDatum) = year(c.StartDatum) AND Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' and month(startdatum)=" + dtpStartdatum.Value.Month.ToString + " and UitvCentrumOmsch='" + cboUitvoerendCentrum.SelectedItem + "' " + fil + ") as nietGeschrapt FROM [SyntraTest].[dbo].[Cursussen] as c WHERE CodeSubafdeling = '" + subAfds(i) + "' AND year(c.StartDatum) =  2015 and Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' and month(startdatum)=" + dtpStartdatum.Value.Month.ToString + " and UitvCentrumOmsch='" + cboUitvoerendCentrum.SelectedItem + "'" + fil + " group by year(startdatum)")
                     End If
 
 
@@ -197,5 +204,69 @@
             End If
         Next
 
+    End Sub
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        lvResult.Clear()
+        lvResult.Columns.Add("Merken", 75)
+        lvResult.Columns.Add("Uitvoerend centrum", 150)
+        lvResult.Columns.Add("Sub afdeling", 150)
+        lvResult.Columns.Add("Maand", 50)
+        lvResult.Columns.Add("Dag", 75)
+        Dim merken As New MerkBLL
+        Dim totalCounter = 0
+        Dim filters = root.getFilters()
+        Dim tijdelijkefilters As New ArrayList
+        Dim merkFilter As New FilterItem()
+        pgb.Minimum = 0
+        pgb.Maximum = merken.getAll(2015, filters).Count
+        For Each merk In merken.getAll(2015, filters)
+            Dim merkBereik = merken.berekenVerwachtingsBereikVoorMerk(2015, merk.ToString, filters)
+            Dim uitvCentrum As New ParameterParent("UitvCentrumOmsch")
+            merkFilter = New FilterItem("merk", "=", "'" + merk.ToString + "'")
+            filters.Add(merkFilter)
+            pgb.Maximum += uitvCentrum.getAall(2015, filters).Count
+            For Each centrum In uitvCentrum.getAall(2015, filters)
+                Dim centrumBereik = uitvCentrum.berekenVerwachtingsBereik(2015, centrum.ToString, filters)
+                Dim centrumFilter = New FilterItem("UitvCentrumOmsch", "=", "'" + centrum.ToString + "'")
+                filters.Add(centrumFilter)
+                Dim subafds As New subAfdBll
+                pgb.Maximum += subafds.getAallSubAfds(2015, filters).Count
+                For Each subafd In subafds.getAallSubAfds(2015, filters)
+                    Dim subafdelingBereik = subafds.berekenVerwachtingsBereikVoorSubAfd(2015, subafd.ToString, filters)
+                    Dim subafdFilter As New FilterItem("CodeSubafdeling", "=", "'" + subafd.ToString + "'")
+                    filters.Add(subafdFilter)
+                    Dim startmaand As New ParameterParent("month(startdatum)")
+                    pgb.Maximum += startmaand.getAall(2015, filters).Count
+                    For Each maand In startmaand.getAall(2015, filters)
+                        Dim maandBereik = startmaand.berekenVerwachtingsBereik(2015, maand.ToString, filters)
+                        Dim lesdag As New DagBll()
+                        Dim maandFilters As New FilterItem("month(startdatum)", "=", "'" + maand.ToString + "'")
+                        filters.Add(maandFilters)
+                        pgb.Maximum += lesdag.getAll(2015, filters).Count
+                        For Each dag In lesdag.getAll(2015, filters)
+                            Dim lvi As New ListViewItem(merk.ToString)
+                            lvi.SubItems.Add(centrum.ToString)
+                            lvi.SubItems.Add(subafd.ToString)
+                            lvi.SubItems.Add(maand.ToString)
+                            lvi.SubItems.Add(dag.ToString)
+
+                            lvResult.Items.AddRange(New ListViewItem() {lvi})
+                            totalCounter += 1
+                            pgb.Value += 1
+                        Next
+                        filters.Remove(maandFilters)
+                        pgb.Value += 1
+                    Next
+                    filters.Remove(subafdFilter)
+                    pgb.Value += 1
+                Next
+                filters.Remove(centrumFilter)
+                pgb.Value += 1
+            Next
+            filters.Remove(merkFilter)
+            pgb.Value += 1
+        Next
+        Label1.Text = "Totaam: " + totalCounter.ToString
     End Sub
 End Class
