@@ -414,6 +414,7 @@ Public Class Test
         MessageBox.Show("Waarde voor X = " + berekenX.ToString + " is " + y.ToString)
 
     End Sub
+
 End Class
 
 
