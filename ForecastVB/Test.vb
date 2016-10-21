@@ -435,19 +435,49 @@ Public Class Test
     End Sub
 
     Private Sub dataMiningPrediction()
+
+        ' http://www.cs.ccsu.edu/~markov/ccsu_courses/DataMining-8.html
+
+        ' Kolom naam aanmaken
         lvResult.Clear()
         lvResult.Columns.Add("Merken", 75)
         lvResult.Columns.Add("Uitvoerend centrum", 150)
         lvResult.Columns.Add("Sub afdeling", 150)
         lvResult.Columns.Add("Maand", 50)
         lvResult.Columns.Add("Dag", 75)
+
+
+
         Dim merken As New MerkBLL
         Dim totalCounter = 0
         Dim filters = root.getFilters()
         Dim tijdelijkefilters As New ArrayList
         Dim merkFilter As New FilterItem()
+
+        ' Is er een item in de dropdown list geselecteerd? voeg hem dan toe aan de filter
+        If (cboMerk.SelectedItem <> Nothing) Then
+            filters.Add(New FilterItem("Merk", "=", ("'" + cboMerk.SelectedItem.ToString) + "'"))
+        End If
+
+        If (cboDag.SelectedItem <> Nothing) Then
+            filters.Add(New FilterItem("Dag", "=", ("'" + cboDag.SelectedItem.ToString) + "'"))
+        End If
+
+        If (cboUitvoerendCentrum.SelectedItem <> Nothing) Then
+            filters.Add(New FilterItem("UitvCentrumOmsch", "=", ("'" + cboUitvoerendCentrum.SelectedItem.ToString) + "'"))
+        End If
+
+        If ((cbbMonth.SelectedItem).Value <> Nothing) Then
+            filters.Add(New FilterItem("month(startdatum)", "=", ("'" + (cbbMonth.SelectedItem).Value) + "'"))
+        End If
+
+
+
+
         pgb.Minimum = 0
         pgb.Maximum = merken.getAll(2015, filters).Count
+
+
         For Each merk In merken.getAll(2015, filters)
             My.Application.Log.WriteEntry(merk.ToString)
             Dim merkBereik = merken.berekenVerwachtingsBereikVoorMerk(2015, merk.ToString, filters)
@@ -455,6 +485,8 @@ Public Class Test
             merkFilter = New FilterItem("merk", "=", "'" + merk.ToString + "'")
             filters.Add(merkFilter)
             pgb.Maximum += uitvCentrum.getAall(2015, filters).Count
+
+
             For Each centrum In uitvCentrum.getAall(2015, filters)
                 My.Application.Log.WriteEntry(merk.ToString + " " + centrum.ToString)
                 Dim centrumBereik = uitvCentrum.berekenVerwachtingsBereik(2015, centrum.ToString, filters)
@@ -462,6 +494,8 @@ Public Class Test
                 filters.Add(centrumFilter)
                 Dim subafds As New subAfdBll
                 pgb.Maximum += subafds.getAallSubAfds(2015, filters).Count
+
+
                 For Each subafd In subafds.getAallSubAfds(2015, filters)
                     My.Application.Log.WriteEntry(merk.ToString + " " + centrum.ToString + " " + subafd.ToString)
                     Dim subafdelingBereik = subafds.berekenVerwachtingsBereikVoorSubAfd(2015, subafd.ToString, filters)
@@ -469,13 +503,17 @@ Public Class Test
                     filters.Add(subafdFilter)
                     Dim startmaand As New ParameterParent("month(startdatum)")
                     pgb.Maximum += startmaand.getAall(2015, filters).Count
+
+
                     For Each maand In startmaand.getAall(2015, filters)
                         My.Application.Log.WriteEntry(merk.ToString + " " + centrum.ToString + " " + subafd.ToString + " " + maand.ToString)
                         Dim maandBereik = startmaand.berekenVerwachtingsBereik(2015, maand.ToString, filters)
                         Dim lesdag As New DagBll()
-                        Dim maandFilters As New FilterItem("month(startdatum)", "=", "'" + maand.ToString + "'")
+                        Dim maandFilters As New FilterItem("month(startdatum)", "=", ("'" + (cbbMonth.SelectedItem).Value + "'"))
                         filters.Add(maandFilters)
                         pgb.Maximum += lesdag.getAll(2015, filters).Count
+
+
                         For Each dag In lesdag.getAll(2015, filters)
                             My.Application.Log.WriteEntry(merk.ToString + " " + centrum.ToString + " " + subafd.ToString + " " + maand.ToString + " " + dag.ToString)
                             Dim lvi As New ListViewItem(merk.ToString)
@@ -488,21 +526,24 @@ Public Class Test
                             totalCounter += 1
                             pgb.Value += 1
                         Next
+
                         filters.Remove(maandFilters)
                         pgb.Value += 1
                     Next
+
                     filters.Remove(subafdFilter)
                     pgb.Value += 1
                 Next
+
                 filters.Remove(centrumFilter)
                 pgb.Value += 1
             Next
+
             filters.Remove(merkFilter)
             pgb.Value += 1
         Next
+
+
         Label1.Text = "Totaal: " + totalCounter.ToString
     End Sub
 End Class
-
-
-' TODO lees dit eens morgen: http://www.cs.ccsu.edu/~markov/ccsu_courses/DataMining-8.html
