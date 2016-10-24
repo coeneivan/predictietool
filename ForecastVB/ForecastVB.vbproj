@@ -13,6 +13,7 @@
     <MyType>WindowsForms</MyType>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -25,7 +26,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -136,6 +136,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Model\Bereik.vb" />
+    <Compile Include="Model\DataMiningPrediction2.vb" />
     <Compile Include="Model\FilterItem.vb" />
     <Compile Include="Model\Parameter.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -208,7 +209,9 @@
     <None Include="Resources\defaultList.json" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="conn.txt" />
+    <Content Include="conn.txt">
+      <SubType>Form</SubType>
+    </Content>
     <None Include="Resources\1476721606_Close.png" />
     <None Include="Resources\1476715277_add.png" />
     <None Include="Resources\1476715262_multimedia-27.png" />

@@ -46,6 +46,8 @@ Public Class Test
 
             If (ComboBox1.SelectedItem.Equals("Data mining algorithms: Prediction")) Then
                 dataMiningPrediction()
+            ElseIf (ComboBox1.SelectedItem.Equals("Data mining algorithms: Prediction poging 2")) Then
+                dataMiningPrediction2()
             Else
 
 
@@ -439,7 +441,7 @@ Public Class Test
 
     Private Sub dataMiningPrediction()
 
-        ' http://www.cs.ccsu.edu/~markov/ccsu_courses/DataMining-8.html
+        ' http://www.cs.ccsu.edu/~markov/ccsu_courses/g-8.html
 
         ' Kolom naam aanmaken
         lvResult.Clear()
@@ -451,11 +453,14 @@ Public Class Test
 
 
 
+        pgb.Value = 0
         Dim merken As New MerkBLL
         Dim totalCounter = 0
         Dim filters = root.getFilters()
         Dim tijdelijkefilters As New ArrayList
         Dim merkFilter As New FilterItem()
+        Dim startTime = Now
+        Dim everyMerk = merken.getAll(2015, filters)
 
         ' Is er een item in de dropdown list geselecteerd? voeg hem dan toe aan de filter
         If (cboMerk.SelectedItem <> Nothing) Then
@@ -470,55 +475,60 @@ Public Class Test
             filters.Add(New FilterItem("UitvCentrumOmsch", "=", ("'" + cboUitvoerendCentrum.SelectedItem.ToString) + "'"))
         End If
 
-        If ((cbbMonth.SelectedItem).Value <> Nothing) Then
+        If ((cbbMonth.SelectedItem) IsNot Nothing) Then
             filters.Add(New FilterItem("month(startdatum)", "=", ("'" + (cbbMonth.SelectedItem).Value) + "'"))
         End If
+
 
 
         ' TODO Niet telkens verbinding naar database leggen, eens proberen grote hoeveelheden data af te halen en daar mee te werken
         ' Misschien werkt dit rapper om resultaten te bereken
 
         pgb.Minimum = 0
-        pgb.Maximum = merken.getAll(2015, filters).Count
+        pgb.Maximum = everyMerk.Count
 
 
-        For Each merk In merken.getAll(2015, filters)
+        For Each merk In everyMerk
             My.Application.Log.WriteEntry(merk.ToString)
             Dim merkBereik = merken.berekenVerwachtingsBereikVoorMerk(2015, merk.ToString, filters)
             Dim uitvCentrum As New ParameterParent("UitvCentrumOmsch")
+            Dim everyUitv = uitvCentrum.getAall(2015, filters)
             merkFilter = New FilterItem("merk", "=", "'" + merk.ToString + "'")
             filters.Add(merkFilter)
-            pgb.Maximum += uitvCentrum.getAall(2015, filters).Count
+            pgb.Maximum += everyUitv.Count
 
 
-            For Each centrum In uitvCentrum.getAall(2015, filters)
+            For Each centrum In everyUitv
                 My.Application.Log.WriteEntry(merk.ToString + " " + centrum.ToString)
                 Dim centrumBereik = uitvCentrum.berekenVerwachtingsBereik(2015, centrum.ToString, filters)
                 Dim centrumFilter = New FilterItem("UitvCentrumOmsch", "=", "'" + centrum.ToString + "'")
                 filters.Add(centrumFilter)
                 Dim subafds As New subAfdBll
-                pgb.Maximum += subafds.getAallSubAfds(2015, filters).Count
+                Dim everySub = subafds.getAallSubAfds(2015, filters)
+                pgb.Maximum += everySub.Count
 
 
-                For Each subafd In subafds.getAallSubAfds(2015, filters)
+                For Each subafd In everySub
                     My.Application.Log.WriteEntry(merk.ToString + " " + centrum.ToString + " " + subafd.ToString)
                     Dim subafdelingBereik = subafds.berekenVerwachtingsBereikVoorSubAfd(2015, subafd.ToString, filters)
                     Dim subafdFilter As New FilterItem("CodeSubafdeling", "=", "'" + subafd.ToString + "'")
                     filters.Add(subafdFilter)
                     Dim startmaand As New ParameterParent("month(startdatum)")
-                    pgb.Maximum += startmaand.getAall(2015, filters).Count
+                    Dim everyMonth = startmaand.getAall(2015, filters)
+                    pgb.Maximum += everyMonth.Count
 
 
-                    For Each maand In startmaand.getAall(2015, filters)
+                    For Each maand In everyMonth
                         My.Application.Log.WriteEntry(merk.ToString + " " + centrum.ToString + " " + subafd.ToString + " " + maand.ToString)
                         Dim maandBereik = startmaand.berekenVerwachtingsBereik(2015, maand.ToString, filters)
                         Dim lesdag As New DagBll()
-                        Dim maandFilters As New FilterItem("month(startdatum)", "=", ("'" + (cbbMonth.SelectedItem).Value + "'"))
+                        Dim allDay = lesdag.getAll(2015, filters)
+                        Dim maandFilters As New FilterItem("month(startdatum)", "=", ("'" + maand.ToString + "'"))
                         filters.Add(maandFilters)
-                        pgb.Maximum += lesdag.getAll(2015, filters).Count
+                        pgb.Maximum += allDay.Count
 
 
-                        For Each dag In lesdag.getAll(2015, filters)
+                        For Each dag In allDay
                             My.Application.Log.WriteEntry(merk.ToString + " " + centrum.ToString + " " + subafd.ToString + " " + maand.ToString + " " + dag.ToString)
                             Dim lvi As New ListViewItem(merk.ToString)
                             lvi.SubItems.Add(centrum.ToString)
@@ -547,7 +557,197 @@ Public Class Test
             pgb.Value += 1
         Next
 
-
+        MessageBox.Show("Tijd verstreken = " + (Now - startTime).ToString)
         Label1.Text = "Totaal: " + totalCounter.ToString
+    End Sub
+
+
+
+    Private Sub dataMiningPrediction2()
+        Dim filters = root.getFilters()
+        Dim f As String = ""
+        Dim listOfAllItems As New List(Of DataMiningPrediction2)
+        Dim startTime = Now
+
+        ' Lijst om te tellen hoeveel cursussen van elk item niet geschrapt werden
+        Dim dicMerkW As New Dictionary(Of String, Int32)
+        Dim dicUitvW As New Dictionary(Of String, Int32)
+        Dim dicMaandW As New Dictionary(Of Int16, Int32)
+        Dim dicDagW As New Dictionary(Of String, Int32)
+        Dim dicSubW As New Dictionary(Of String, Int32)
+
+        ' Lijst om te tellen hoeveel cursussen van elk item wel geschrapt werden
+        Dim dicMerkN As New Dictionary(Of String, Int32)
+        Dim dicUitvN As New Dictionary(Of String, Int32)
+        Dim dicMaandN As New Dictionary(Of Int16, Int32)
+        Dim dicDagN As New Dictionary(Of String, Int32)
+        Dim dicSubN As New Dictionary(Of String, Int32)
+
+        Dim atlDoorgg As Int32
+        Dim atlNietDgg As Int32
+
+        ' Kolom naam aanmaken
+        lvResult.Clear()
+        lvResult.Columns.Add("Merken", 75)
+        lvResult.Columns.Add("Uitvoerend centrum", 125)
+        lvResult.Columns.Add("Sub afdeling", 75)
+        lvResult.Columns.Add("Maand", 50)
+        lvResult.Columns.Add("Dag", 75)
+        lvResult.Columns.Add("Totaal", 75)
+        lvResult.Columns.Add("% Doorgeg", 75)
+        lvResult.Columns.Add("% Berekend", 75)
+
+
+        For Each s As FilterItem In filters
+            If f.Equals("") Then
+                f = s.kolom + " " + s.factor + " " + s.filter
+            Else
+                f += " and " + s.kolom + " " + s.factor + " " + s.filter
+            End If
+        Next
+
+        listOfAllItems = TestBLL.GetAllCursForAllVar(f)
+
+
+        pgb.Value = 0
+        pgb.Minimum = 0
+        pgb.Maximum = (listOfAllItems.Count) * 2
+
+
+        ' Steek het aantal doorgegaan en aantal niet doorgegaan van ieder item in een dictionary
+        For Each item As DataMiningPrediction2 In listOfAllItems
+            Dim merk = item.getMerk()
+            Dim uitvCentr = item.getUitvoerCentrum
+            Dim maand = item.getMaand
+            Dim dag = item.getDag
+            Dim codeSubAfd = item.getCodeSubAfdeling
+            Dim nietDoor = item.getTotaal - item.getDoorgegaan
+            Dim doorgegaan = item.getDoorgegaan
+
+            ' Lijst per merk aanvullen
+            If Not dicMerkW.ContainsKey(merk) Then
+                dicMerkW.Add(merk, doorgegaan)
+
+                ' Som van aantal doorgegane cursussen
+                atlDoorgg = doorgegaan
+            Else
+                dicMerkW(merk) += doorgegaan
+
+                ' Som van aantal doorgegane cursussen
+                atlDoorgg += doorgegaan
+            End If
+
+            ' Lijst per merk aanvullen
+            If Not dicMerkN.ContainsKey(merk) Then
+                dicMerkN.Add(merk, nietDoor)
+
+                ' Som van aantal doorgegane cursussen
+                atlNietDgg = nietDoor
+            Else
+                dicMerkN(merk) += nietDoor
+
+                ' Som van aantal doorgegane cursussen
+                atlNietDgg += nietDoor
+            End If
+
+            ' Lijst per uitvoercentrum aanvullen
+            If Not dicUitvW.ContainsKey(uitvCentr) Then
+                dicUitvW.Add(uitvCentr, doorgegaan)
+            Else
+                dicUitvW(uitvCentr) += doorgegaan
+            End If
+
+            If Not dicUitvN.ContainsKey(uitvCentr) Then
+                dicUitvN.Add(uitvCentr, nietDoor)
+            Else
+                dicUitvN(uitvCentr) += nietDoor
+            End If
+
+
+            ' Lijst per maand aanvullen
+            If Not dicMaandW.ContainsKey(maand) Then
+                dicMaandW.Add(maand, doorgegaan)
+            Else
+                dicMaandW(maand) += doorgegaan
+            End If
+
+            If Not dicMaandN.ContainsKey(maand) Then
+                dicMaandN.Add(maand, nietDoor)
+            Else
+                dicMaandN(maand) += nietDoor
+            End If
+
+
+            ' Lijst per Dag aanvullen
+            If Not dicDagW.ContainsKey(dag) Then
+                dicDagW.Add(dag, doorgegaan)
+            Else
+                dicDagW(dag) += doorgegaan
+            End If
+
+            If Not dicDagN.ContainsKey(dag) Then
+                dicDagN.Add(dag, nietDoor)
+            Else
+                dicDagN(dag) += nietDoor
+            End If
+
+
+            ' Lijst per subafdeling aanvullen
+            If Not dicSubW.ContainsKey(codeSubAfd) Then
+                dicSubW.Add(codeSubAfd, doorgegaan)
+            Else
+                dicSubW(codeSubAfd) += doorgegaan
+            End If
+
+            If Not dicSubN.ContainsKey(codeSubAfd) Then
+                dicSubN.Add(codeSubAfd, nietDoor)
+            Else
+                dicSubN(codeSubAfd) += nietDoor
+            End If
+
+            pgb.Value += 1
+        Next
+
+
+        ' berekend kans van iedere entry dat deze door gaat en plaatst dit vervolgens in de listview
+        For Each item As DataMiningPrediction2 In listOfAllItems
+            Dim j1, j2, j3, j4, j5, j6 As Double
+            Dim n1, n2, n3, n4, n5, n6 As Double
+
+            j1 = (dicMerkW(item.getMerk) / atlDoorgg)
+            j2 = (dicSubW(item.getCodeSubAfdeling) / atlDoorgg)
+            j3 = (dicMaandW(item.getMaand) / atlDoorgg)
+            j4 = (dicDagW(item.getDag) / atlDoorgg)
+            j5 = (dicUitvW(item.getUitvoerCentrum) / atlDoorgg)
+            j6 = (atlDoorgg / (atlDoorgg + atlNietDgg))
+
+            n1 = (dicMerkN(item.getMerk) / atlNietDgg)
+            n2 = (dicSubN(item.getCodeSubAfdeling) / atlNietDgg)
+            n3 = (dicMaandN(item.getMaand) / atlNietDgg)
+            n4 = (dicDagN(item.getDag) / atlNietDgg)
+            n5 = (dicUitvN(item.getUitvoerCentrum) / atlNietDgg)
+            n6 = (atlNietDgg / (atlDoorgg + atlNietDgg))
+
+            Dim wel = ((dicMerkW(item.getMerk) / atlDoorgg) * (dicSubW(item.getCodeSubAfdeling) / atlDoorgg) * (dicMaandW(item.getMaand) / atlDoorgg) * (dicDagW(item.getDag) / atlDoorgg) * (dicUitvW(item.getUitvoerCentrum) / atlDoorgg) * (atlDoorgg / (atlDoorgg + atlNietDgg)))
+            Dim niet = ((dicMerkN(item.getMerk) / atlNietDgg) * (dicSubN(item.getCodeSubAfdeling) / atlNietDgg) * (dicMaandN(item.getMaand) / atlNietDgg) * (dicDagN(item.getDag) / atlNietDgg) * (dicUitvN(item.getUitvoerCentrum) / atlNietDgg) * (atlNietDgg / (atlDoorgg + atlNietDgg)))
+
+            item.setKans(wel / (wel + niet))
+
+            Dim lvi As New ListViewItem(item.getMerk)
+            lvi.SubItems.Add(item.getUitvoerCentrum)
+            lvi.SubItems.Add(item.getCodeSubAfdeling)
+            lvi.SubItems.Add(item.getMaand.ToString)
+            lvi.SubItems.Add(item.getDag)
+            lvi.SubItems.Add(item.getTotaal.ToString)
+            lvi.SubItems.Add((Math.Round(((item.getDoorgegaan / item.getTotaal) * 10000)) / 100).ToString)
+            lvi.SubItems.Add((Math.Round((item.getKans) * 10000) / 100).ToString)
+
+            lvResult.Items.AddRange(New ListViewItem() {lvi})
+
+            pgb.Value += 1
+        Next
+
+
+        MessageBox.Show("Verstreken tijd: " + (Now - startTime).ToString)
     End Sub
 End Class

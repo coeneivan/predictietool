@@ -29,14 +29,41 @@ Public Class TestDAO
         Return sql.getParameterForYear(script)
     End Function
 
+    Friend Shared Function GetAllCursForAllVar(s As String) As List(Of DataMiningPrediction2)
+        Dim query As String = ""
+        query += "Select Distinct Merk"
+        query += ", UitvCentrumOmsch"
+        query += ", Month(StartDatum) as Maand"
+        query += ", dag as Dag"
+        query += ", CodeSubafdeling"
+        query += ", count(*) as totaal"
+        query += ", SUM(CASE WHEN CodeIngetrokken='Nee' THEN 1 ELSE 0 END) as doorgegaan "
+        query += "From Cursussen "
+
+        If s IsNot Nothing Then
+            query += "WHERE " + s
+        End If
+
+        query += "group by "
+        query += "Merk"
+        query += ", UitvCentrumOmsch"
+        query += ", Month(StartDatum)"
+        query += ", dag"
+        query += ", CodeSubafdeling "
+        query += "Having count(*) > 5"
+
+        Dim sql As New SQLUtil
+        Return Sql.GetAllCursForAllVar(query)
+    End Function
+
     Friend Function GetAantalCursussen(v As String) As Integer
         Throw New NotImplementedException()
     End Function
 
     Public Function GetAantalCursussen(v As String, fil As String) As Integer
-        Dim script As String = "Select count(*) as totaal "
-        script += "from SyntraTest.dbo.Cursussen "
-        script += "where CodeSubafdeling = '" + v + "' "
+        Dim script As String = "Select count(*) As totaal "
+        script += "From SyntraTest.dbo.Cursussen "
+        script += "Where CodeSubafdeling = '" + v + "' "
         script += fil + " "
         script += "group by CodeSubafdeling"
 

@@ -108,7 +108,7 @@ Partial Class Test
         'ComboBox1
         '
         Me.ComboBox1.FormattingEnabled = True
-        Me.ComboBox1.Items.AddRange(New Object() {"Linear regression", "Decision tree", "Lagrange Interpolating Polynomial", "Data mining algorithms: Prediction"})
+        Me.ComboBox1.Items.AddRange(New Object() {"Linear regression", "Decision tree", "Lagrange Interpolating Polynomial", "Data mining algorithms: Prediction", "Data mining algorithms: Prediction poging 2"})
         Me.ComboBox1.Location = New System.Drawing.Point(393, 21)
         Me.ComboBox1.Name = "ComboBox1"
         Me.ComboBox1.Size = New System.Drawing.Size(167, 21)
@@ -167,25 +167,14 @@ Partial Class Test
         '
         'cbbMonth
         '
+        Me.cbbMonth.DisplayMember = "Key"
         Me.cbbMonth.FormattingEnabled = True
+        Me.cbbMonth.Items.AddRange(New Object() {CType(resources.GetObject("cbbMonth.Items"), Object), CType(resources.GetObject("cbbMonth.Items1"), Object), CType(resources.GetObject("cbbMonth.Items2"), Object), CType(resources.GetObject("cbbMonth.Items3"), Object), CType(resources.GetObject("cbbMonth.Items4"), Object), CType(resources.GetObject("cbbMonth.Items5"), Object), CType(resources.GetObject("cbbMonth.Items6"), Object), CType(resources.GetObject("cbbMonth.Items7"), Object), CType(resources.GetObject("cbbMonth.Items8"), Object), CType(resources.GetObject("cbbMonth.Items9"), Object), CType(resources.GetObject("cbbMonth.Items10"), Object), CType(resources.GetObject("cbbMonth.Items11"), Object)})
         Me.cbbMonth.Location = New System.Drawing.Point(213, 35)
         Me.cbbMonth.Name = "cbbMonth"
         Me.cbbMonth.Size = New System.Drawing.Size(136, 21)
         Me.cbbMonth.TabIndex = 4
         Me.cbbMonth.Text = "Maand"
-        Me.cbbMonth.Items.Add(New DictionaryEntry("Januari", "1"))
-        Me.cbbMonth.Items.Add(New DictionaryEntry("Februari", "2"))
-        Me.cbbMonth.Items.Add(New DictionaryEntry("Maart", "3"))
-        Me.cbbMonth.Items.Add(New DictionaryEntry("April", "4"))
-        Me.cbbMonth.Items.Add(New DictionaryEntry("Mei", "5"))
-        Me.cbbMonth.Items.Add(New DictionaryEntry("Juni", "6"))
-        Me.cbbMonth.Items.Add(New DictionaryEntry("Juli", "7"))
-        Me.cbbMonth.Items.Add(New DictionaryEntry("Augustus", "8"))
-        Me.cbbMonth.Items.Add(New DictionaryEntry("September", "9"))
-        Me.cbbMonth.Items.Add(New DictionaryEntry("October", "10"))
-        Me.cbbMonth.Items.Add(New DictionaryEntry("November", "11"))
-        Me.cbbMonth.Items.Add(New DictionaryEntry("December", "12"))
-        Me.cbbMonth.DisplayMember = "Key"
         Me.cbbMonth.ValueMember = "Value"
         '
         'Test

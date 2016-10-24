@@ -117,6 +117,78 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="cbbMonth.Items" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAEAQAAACJTeXN0ZW0uQ29sbGVjdGlvbnMuRGljdGlvbmFyeUVudHJ5AgAA
+        AARfa2V5Bl92YWx1ZQICBgIAAAAHSmFudWFyaQYDAAAAATEL
+</value>
+  </data>
+  <data name="cbbMonth.Items1" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAEAQAAACJTeXN0ZW0uQ29sbGVjdGlvbnMuRGljdGlvbmFyeUVudHJ5AgAA
+        AARfa2V5Bl92YWx1ZQICBgIAAAAIRmVicnVhcmkGAwAAAAEyCw==
+</value>
+  </data>
+  <data name="cbbMonth.Items2" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAEAQAAACJTeXN0ZW0uQ29sbGVjdGlvbnMuRGljdGlvbmFyeUVudHJ5AgAA
+        AARfa2V5Bl92YWx1ZQICBgIAAAAFTWFhcnQGAwAAAAEzCw==
+</value>
+  </data>
+  <data name="cbbMonth.Items3" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAEAQAAACJTeXN0ZW0uQ29sbGVjdGlvbnMuRGljdGlvbmFyeUVudHJ5AgAA
+        AARfa2V5Bl92YWx1ZQICBgIAAAAFQXByaWwGAwAAAAE0Cw==
+</value>
+  </data>
+  <data name="cbbMonth.Items4" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAEAQAAACJTeXN0ZW0uQ29sbGVjdGlvbnMuRGljdGlvbmFyeUVudHJ5AgAA
+        AARfa2V5Bl92YWx1ZQICBgIAAAADTWVpBgMAAAABNQs=
+</value>
+  </data>
+  <data name="cbbMonth.Items5" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAEAQAAACJTeXN0ZW0uQ29sbGVjdGlvbnMuRGljdGlvbmFyeUVudHJ5AgAA
+        AARfa2V5Bl92YWx1ZQICBgIAAAAESnVuaQYDAAAAATYL
+</value>
+  </data>
+  <data name="cbbMonth.Items6" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAEAQAAACJTeXN0ZW0uQ29sbGVjdGlvbnMuRGljdGlvbmFyeUVudHJ5AgAA
+        AARfa2V5Bl92YWx1ZQICBgIAAAAESnVsaQYDAAAAATcL
+</value>
+  </data>
+  <data name="cbbMonth.Items7" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAEAQAAACJTeXN0ZW0uQ29sbGVjdGlvbnMuRGljdGlvbmFyeUVudHJ5AgAA
+        AARfa2V5Bl92YWx1ZQICBgIAAAAIQXVndXN0dXMGAwAAAAE4Cw==
+</value>
+  </data>
+  <data name="cbbMonth.Items8" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAEAQAAACJTeXN0ZW0uQ29sbGVjdGlvbnMuRGljdGlvbmFyeUVudHJ5AgAA
+        AARfa2V5Bl92YWx1ZQICBgIAAAAJU2VwdGVtYmVyBgMAAAABOQs=
+</value>
+  </data>
+  <data name="cbbMonth.Items9" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAEAQAAACJTeXN0ZW0uQ29sbGVjdGlvbnMuRGljdGlvbmFyeUVudHJ5AgAA
+        AARfa2V5Bl92YWx1ZQICBgIAAAAHT2N0b2JlcgYDAAAAAjEwCw==
+</value>
+  </data>
+  <data name="cbbMonth.Items10" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAEAQAAACJTeXN0ZW0uQ29sbGVjdGlvbnMuRGljdGlvbmFyeUVudHJ5AgAA
+        AARfa2V5Bl92YWx1ZQICBgIAAAAITm92ZW1iZXIGAwAAAAIxMQs=
+</value>
+  </data>
+  <data name="cbbMonth.Items11" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAEAQAAACJTeXN0ZW0uQ29sbGVjdGlvbnMuRGljdGlvbmFyeUVudHJ5AgAA
+        AARfa2V5Bl92YWx1ZQICBgIAAAAIRGVjZW1iZXIGAwAAAAIxMgs=
+</value>
+  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
