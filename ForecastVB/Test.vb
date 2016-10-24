@@ -465,6 +465,8 @@ Public Class Test
         Dim sql As New SQLUtil
         Dim trues = 0
         Dim falses = 0
+        Dim startTime = Now
+        Dim everyMerk = merken.getAll(2015, filters)
 
         ' Is er een item in de dropdown list geselecteerd? voeg hem dan toe aan de filter
 
@@ -526,7 +528,6 @@ Public Class Test
                         'filters.Add(maandFilters)
                         pgb.Maximum += lesdag.getAll(2015, filters).Count
                         Dim allDay = lesdag.getAll(2015, filters)
-                        Dim maandFilters As New FilterItem("month(startdatum)", "=", ("'" + maand.ToString + "'"))
                         filters.Add(maandFilters)
                         pgb.Maximum += allDay.Count
 
@@ -789,9 +790,9 @@ Public Class Test
             pgb.Value += 1
         Next
 
-
-        Label1.Text = "Totaal: " + totalCounter.ToString
+        MessageBox.Show("Verstreken tijd: " + (Now - startTime).ToString)
     End Sub
+
     Private Function addIfNotNaN(value As Double) As Double
         If Double.IsNaN(value) Then
             Return 1
