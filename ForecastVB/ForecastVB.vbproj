@@ -107,6 +107,7 @@
     <Compile Include="AddFile.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="BLL\AllDataBLL.vb" />
     <Compile Include="BLL\Apriori.vb" />
     <Compile Include="BLL\DagBll.vb" />
     <Compile Include="BLL\DatumBLL.vb" />
@@ -118,6 +119,7 @@
     <Compile Include="BLL\Prospect.vb" />
     <Compile Include="BLL\SubAfdBLL.vb" />
     <Compile Include="BLL\TestBLL.vb" />
+    <Compile Include="DAO\AllDataDAO.vb" />
     <Compile Include="DAO\FiltersDAO.vb" />
     <Compile Include="DAO\ParametersDAO.vb" />
     <Compile Include="DAO\SQLUtil.vb" />
@@ -137,6 +139,7 @@
     </Compile>
     <Compile Include="Model\Bereik.vb" />
     <Compile Include="Model\FilterItem.vb" />
+    <Compile Include="Model\FilterVerzameling.vb" />
     <Compile Include="Model\Parameter.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">

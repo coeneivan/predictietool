@@ -3,7 +3,6 @@
 ''' </summary>
 Public Class ParameterParent
     Private parameternaam As String
-    Private distinct = True
     ''' <summary>
     ''' Initialisaitie van klasse
     ''' </summary>
@@ -11,15 +10,7 @@ Public Class ParameterParent
     Public Sub New(pParameternaam As String)
         parameternaam = pParameternaam
     End Sub
-    ''' <summary>
-    ''' Initialisaitie van klasse
-    ''' </summary>
-    ''' <param name="pParameternaam">String met de naam van de paramater</param>
-    ''' <param name="dist">Moet de uitkomst uniek zijn? (default = true)</param>
-    Public Sub New(pParameternaam As String, dist As Boolean)
-        parameternaam = pParameternaam
-        distinct = dist
-    End Sub
+
     ''' <summary>
     ''' Geeft een arraylist weer met de data van de gekozen paramater
     ''' Ideaal voor in een Dropdownlist of dergelijken
@@ -28,7 +19,7 @@ Public Class ParameterParent
     ''' <returns>Arraylist met 1 kolom, de gekende data</returns>
     Public Function getAall(jaar As Integer, filters As ArrayList) As ArrayList
         Dim dao As New ParametersDAO
-        Return dao.getAll(jaar, parameternaam, filters, distinct)
+        Return dao.getAll(jaar, parameternaam, filters)
     End Function
     ''' <summary>
     ''' Geeft een inschatting van de realisatiegraad voor een bepaalde parameter

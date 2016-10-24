@@ -444,35 +444,27 @@ Public Class Test
         ' Kolom naam aanmaken
         lvResult.Clear()
         lvResult.Columns.Add("Merken", 75)
-        lvResult.Columns.Add("Uitvoerend centrum", 150)
-        lvResult.Columns.Add("Sub afdeling", 150)
+        lvResult.Columns.Add("Uitvoerend centrum", 100)
+        lvResult.Columns.Add("Sub afdeling", 75)
         lvResult.Columns.Add("Maand", 50)
         lvResult.Columns.Add("Dag", 75)
+        lvResult.Columns.Add("Voorspelling", 100)
+        lvResult.Columns.Add("Echt", 50)
+        lvResult.Columns.Add("Klopt voorpelling", 50)
 
 
 
         Dim merken As New MerkBLL
         Dim totalCounter = 0
         Dim filters = root.getFilters()
-        Dim tijdelijkefilters As New ArrayList
+        Dim tijdelijkefilters As new ArrayList
         Dim merkFilter As New FilterItem()
+        Dim sql As New SQLUtil
+        Dim trues = 0
+        Dim falses = 0
 
         ' Is er een item in de dropdown list geselecteerd? voeg hem dan toe aan de filter
-        If (cboMerk.SelectedItem <> Nothing) Then
-            filters.Add(New FilterItem("Merk", "=", ("'" + cboMerk.SelectedItem.ToString) + "'"))
-        End If
 
-        If (cboDag.SelectedItem <> Nothing) Then
-            filters.Add(New FilterItem("Dag", "=", ("'" + cboDag.SelectedItem.ToString) + "'"))
-        End If
-
-        If (cboUitvoerendCentrum.SelectedItem <> Nothing) Then
-            filters.Add(New FilterItem("UitvCentrumOmsch", "=", ("'" + cboUitvoerendCentrum.SelectedItem.ToString) + "'"))
-        End If
-
-        If ((cbbMonth.SelectedItem).Value <> Nothing) Then
-            filters.Add(New FilterItem("month(startdatum)", "=", ("'" + (cbbMonth.SelectedItem).Value) + "'"))
-        End If
 
 
         ' TODO Niet telkens verbinding naar database leggen, eens proberen grote hoeveelheden data af te halen en daar mee te werken
@@ -484,48 +476,92 @@ Public Class Test
 
         For Each merk In merken.getAll(2015, filters)
             My.Application.Log.WriteEntry(merk.ToString)
-            Dim merkBereik = merken.berekenVerwachtingsBereikVoorMerk(2015, merk.ToString, filters)
+            Dim AllData As New AllDataBLL
+            Dim merkJA = AllData.getPercentageJa(2015, "merk", merk.ToString, filters)
+            Dim merkNEE = AllData.getPErcentageNee(2015, "merk", merk.ToString, filters)
             Dim uitvCentrum As New ParameterParent("UitvCentrumOmsch")
             merkFilter = New FilterItem("merk", "=", "'" + merk.ToString + "'")
-            filters.Add(merkFilter)
+            'filters.Add(merkFilter)
             pgb.Maximum += uitvCentrum.getAall(2015, filters).Count
 
 
             For Each centrum In uitvCentrum.getAall(2015, filters)
                 My.Application.Log.WriteEntry(merk.ToString + " " + centrum.ToString)
-                Dim centrumBereik = uitvCentrum.berekenVerwachtingsBereik(2015, centrum.ToString, filters)
+                Dim centrumJA = AllData.getPercentageJa(2015, "UitvCentrumOmsch", centrum.ToString, filters)
+                Dim centrumNEE = AllData.getPErcentageNee(2015, "UitvCentrumOmsch", centrum.ToString, filters)
                 Dim centrumFilter = New FilterItem("UitvCentrumOmsch", "=", "'" + centrum.ToString + "'")
-                filters.Add(centrumFilter)
+                'filters.Add(centrumFilter)
                 Dim subafds As New subAfdBll
                 pgb.Maximum += subafds.getAallSubAfds(2015, filters).Count
 
 
                 For Each subafd In subafds.getAallSubAfds(2015, filters)
                     My.Application.Log.WriteEntry(merk.ToString + " " + centrum.ToString + " " + subafd.ToString)
-                    Dim subafdelingBereik = subafds.berekenVerwachtingsBereikVoorSubAfd(2015, subafd.ToString, filters)
+                    Dim subafdJA = AllData.getPercentageJa(2015, "CodeSubafdeling", subafd.ToString, filters)
+                    Dim subafdNEE = AllData.getPErcentageNee(2015, "CodeSubafdeling", subafd.ToString, filters)
                     Dim subafdFilter As New FilterItem("CodeSubafdeling", "=", "'" + subafd.ToString + "'")
-                    filters.Add(subafdFilter)
+                    'filters.Add(subafdFilter)
                     Dim startmaand As New ParameterParent("month(startdatum)")
                     pgb.Maximum += startmaand.getAall(2015, filters).Count
 
 
                     For Each maand In startmaand.getAall(2015, filters)
                         My.Application.Log.WriteEntry(merk.ToString + " " + centrum.ToString + " " + subafd.ToString + " " + maand.ToString)
-                        Dim maandBereik = startmaand.berekenVerwachtingsBereik(2015, maand.ToString, filters)
+                        Dim maandJA = AllData.getPercentageJa(2015, "month(startdatum)", maand.ToString, filters)
+                        Dim maandNEE = AllData.getPErcentageNee(2015, "month(startdatum)", maand.ToString, filters)
                         Dim lesdag As New DagBll()
                         Dim maandFilters As New FilterItem("month(startdatum)", "=", ("'" + (cbbMonth.SelectedItem).Value + "'"))
-                        filters.Add(maandFilters)
+                        'filters.Add(maandFilters)
                         pgb.Maximum += lesdag.getAll(2015, filters).Count
 
 
                         For Each dag In lesdag.getAll(2015, filters)
+                            Dim dagJA = AllData.getPercentageJa(2015, "dag", dag.ToString, filters)
+                            Dim dagNEE = AllData.getPErcentageNee(2015, "dag", dag.ToString, filters)
                             My.Application.Log.WriteEntry(merk.ToString + " " + centrum.ToString + " " + subafd.ToString + " " + maand.ToString + " " + dag.ToString)
                             Dim lvi As New ListViewItem(merk.ToString)
                             lvi.SubItems.Add(centrum.ToString)
                             lvi.SubItems.Add(subafd.ToString)
                             lvi.SubItems.Add(maand.ToString)
                             lvi.SubItems.Add(dag.ToString)
+                            'BEREKEN VERWACHTE WAARDE
 
+                            Dim berekendJa = addIfNotNaN(merkJA) * addIfNotNaN(centrumJA) * addIfNotNaN(subafdJA) * addIfNotNaN(maandJA) * addIfNotNaN(dagJA) * addIfNotNaN(AllData.getAllJa(2015, filters))
+                            Dim berekendNee = addIfNotNaN(merkNEE) * addIfNotNaN(centrumNEE) * addIfNotNaN(subafdNEE) * addIfNotNaN(maandNEE) * addIfNotNaN(dagNEE) * addIfNotNaN(AllData.getAllNee(2015, filters))
+                            Dim gaatdoor = berekendNee / (berekendJa + berekendNee)
+                            Dim prospector As New Prospect
+                            Dim alleNees As New ArrayList({merkNEE, centrumNEE, subafdNEE, maandNEE, dagNEE, AllData.getAllNee(2015, filters)})
+                            Dim bereikNee = prospector.certainty(alleNees, gaatdoor)
+                            lvi.SubItems.Add(bereikNee.ToString)
+                            'BEREKEN ECHTE WAARDE
+                            Dim dick As Dictionary(Of String, Parameter)
+                            If filters Is Nothing Then
+                                dick = sql.getDictionary("SELECT YEAR(c.startdatum) as jaar,count(*) as totaal,(SELECT count(*) FROM [SyntraTest].[dbo].[Cursussen] as cc WHERE cc.CodeIngetrokken = 'nee' AND year(cc.StartDatum) = year(c.StartDatum)) as nietGeschrapt FROM [SyntraTest].[dbo].[Cursussen] as c WHERE year(c.StartDatum) =  2015 group by year(startdatum)")
+                            Else
+                                Dim fil = ""
+                                For Each filIt As FilterItem In filters
+                                    fil += " AND " + filIt.kolom + " " + filIt.factor + " " + filIt.filter
+                                Next
+                                dick = sql.getDictionary("SELECT YEAR(c.startdatum) as jaar,count(*) as totaal,(SELECT count(*) FROM [SyntraTest].[dbo].[Cursussen] as cc WHERE cc.CodeIngetrokken = 'nee' AND year(cc.StartDatum) = year(c.StartDatum) " + fil + ") as nietGeschrapt FROM [SyntraTest].[dbo].[Cursussen] as c WHERE year(c.StartDatum) =  2015  " + fil + " group by year(startdatum)")
+                            End If
+                            Dim y As Double
+                            If dick IsNot Nothing Then
+                                For Each kvp As KeyValuePair(Of String, Parameter) In dick
+                                    y = CDbl(kvp.Value.berekenPercentage)
+                                Next
+
+                                lvi.SubItems.Add(y.ToString)
+                            End If
+                            Dim kloptHet = bereikNee.valtTussen(y)
+                            If kloptHet Then
+                                trues += 1
+                            Else
+                                falses += 1
+                            End If
+                            lvi.SubItems.Add(kloptHet.ToString)
+
+
+                            'VALT WERKELIJKE WAARDE TUSSEN VOORSPELD BEREIK
                             lvResult.Items.AddRange(New ListViewItem() {lvi})
                             totalCounter += 1
                             pgb.Value += 1
@@ -548,6 +584,13 @@ Public Class Test
         Next
 
 
-        Label1.Text = "Totaal: " + totalCounter.ToString
+        Label1.Text = "Totaal: " + totalCounter.ToString + " warvan " + trues.ToString + " voorspellingen klopten en " + falses.ToString + " niet"
     End Sub
+    Private Function addIfNotNaN(value As Double) As Double
+        If Double.IsNaN(value) Then
+            Return 1
+        Else
+            Return value
+        End If
+    End Function
 End Class
