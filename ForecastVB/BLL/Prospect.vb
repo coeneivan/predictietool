@@ -52,7 +52,11 @@
         Dim sumOfSquaresOfDifferences As Double
         Dim n = values.Count
         For Each value In values
-            sumOfSquaresOfDifferences += (value - average) ^ 2
+            If Not Double.IsNaN(value) Then
+                sumOfSquaresOfDifferences += (value - average) ^ 2
+            Else
+                n -= 1
+            End If
         Next
         Dim sd As Double = Math.Sqrt(sumOfSquaresOfDifferences / n)
         Dim difference As Double = 1.96 * (sd / Math.Sqrt(n))

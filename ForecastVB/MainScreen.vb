@@ -8,6 +8,8 @@ Public Class MainScreen
     Private selectedFilterList As String
     Private saveDirectory As String = SpecialDirectories.MyDocuments + "//Predictie Filters//"
     Private m, d, s, sd, c As Double
+    Private jm, jd, js, jsd, jc As Double
+    Private allData As AllDataBLL
     Private Sub MainScreen_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         'Load all cursussen
         Dim subafds As New subAfdBll
@@ -22,6 +24,7 @@ Public Class MainScreen
         Dim para As New ParameterParent("uitvCentrumOmsch")
         cboUitvCent.Items.AddRange(para.getAall(jaar, filters).ToArray)
         refreshFilterList()
+        allData = New AllDataBLL()
     End Sub
     Public Sub refreshFilterList()
         Try
@@ -42,29 +45,34 @@ Public Class MainScreen
     Private Sub cboSubAfd_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboSubAfd.SelectedIndexChanged
         Dim subafd As New subAfdBll
         Dim sb = subafd.berekenVerwachtingsBereikVoorSubAfd(jaar, cboSubAfd.SelectedItem, filters)
+
         txtResultSubAfd.Text = sb.ToString()
-        s = sb.getAvg
+        s = allData.getPErcentageNee(jaar, "codesubafdeling", cboSubAfd.SelectedItem.ToString, filters)
+        js = allData.getPercentageJa(jaar, "codesubafdeling", cboSubAfd.SelectedItem.ToString, filters)
     End Sub
 
     Private Sub cboMerk_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboMerk.SelectedIndexChanged
         Dim merken As New MerkBLL
         Dim mb = merken.berekenVerwachtingsBereikVoorMerk(jaar, cboMerk.SelectedItem, filters)
         txtResultMerk.Text = mb.ToString
-        m = mb.getAvg
+        m = allData.getPErcentageNee(jaar, "merk", cboMerk.SelectedItem.ToString, filters)
+        jm = allData.getPercentageJa(jaar, "merk", cboMerk.SelectedItem.ToString, filters)
     End Sub
 
     Private Sub cboLesdag_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboLesdag.SelectedIndexChanged
         Dim dag As New DagBll
         Dim db = dag.berekenVerwachtingsBereikVoorDag(jaar, cboLesdag.SelectedItem, filters)
         txtRestultLesDag.Text = db.ToString
-        d = db.getAvg.ToString
+        d = allData.getPErcentageNee(jaar, "dag", cboLesdag.SelectedItem.ToString, filters)
+        jd = allData.getPercentageJa(jaar, "dag", cboLesdag.SelectedItem.ToString, filters)
     End Sub
 
     Private Sub dtpStartcursus_ValueChanged(sender As Object, e As EventArgs) Handles dtpStartcursus.ValueChanged
         Dim datum As New DatumBLL
         Dim sdb = datum.berekenVerwachtingsBereikVoorDatum(jaar, dtpStartcursus.Value.Month.ToString, filters)
         txtResultDatum.Text = sdb.ToString
-        sd = sdb.getAvg
+        sd = allData.getPErcentageNee(jaar, "month(startdatum)", dtpStartcursus.Value.Month.ToString, filters)
+        jsd = allData.getPercentageJa(jaar, "month(startdatum)", dtpStartcursus.Value.Month.ToString, filters)
     End Sub
 
     Private Sub btnFilter_Click(sender As Object, e As EventArgs) Handles btnFilter.Click
@@ -92,33 +100,25 @@ Public Class MainScreen
         Dim centrum As New ParameterParent("UitvCentrumOmsch")
         Dim cb = centrum.berekenVerwachtingsBereik(jaar, cboUitvCent.SelectedItem, filters)
         txtResultCentrum.Text = cb.ToString
-        c = cb.getAvg
+        c = allData.getPErcentageNee(jaar, "UitvCentrumOmsch", cboUitvCent.SelectedItem.ToString, filters)
+        jc = allData.getPercentageJa(jaar, "UitvCentrumOmsch", cboUitvCent.SelectedItem.ToString, filters)
     End Sub
-
-    Private Sub BackgroundWorker1_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs)
-
-    End Sub
-
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         Dim t As New Test(Me)
         t.Show()
     End Sub
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
-        Dim sql As New SQLUtil
-        Dim sqlcommand = "SELECT YEAR(c.startdatum) as jaar,count(*) as totaal,(SELECT count(*) FROM [SyntraTest].[dbo].[Cursussen] as cc WHERE cc.CodeIngetrokken = 'nee'  AND year(cc.StartDatum) = year(c.StartDatum)) as nietGeschrapt FROM [SyntraTest].[dbo].[Cursussen] as c WHERE  year(c.StartDatum) < 2015 GROUP BY year(c.startDatum)"
-        Dim a = sql.getDictionary(sqlcommand)
         Dim p As New Prospect
-        Dim pros = p.prospect(a, 2015)
-
-
-        ' TODO Wegings factor aanpassen, yes bij kollom is aantal keer dat het resultaat ja was
-        ' http://www.cs.ccsu.edu/~markov/ccsu_courses/DataMining-8.html
-        ' hoeveel keer was resultaat ja als outlook sunny was? 2 keer van de 9 ja's
-
-        Dim pNee = ((d / 100) * (m / 100) * (s / 100) * (sd / 100) * (c / 100) * (pros / 100))
-        Dim pJa = (1 - (d / 100)) * (1 - (m / 100)) * (1 - (s / 100)) * (1 - (sd / 100)) * (1 - (c / 100)) * (1 - (pros / 100))
-        Dim values As New ArrayList({d / 100, m / 100, s / 100, sd / 100, c / 100, pros / 100})
+        'TODO Wegings factor aanpassen, yes bij kollom is aantal keer dat het resultaat ja was
+        'http://www.cs.ccsu.edu/~markov/ccsu_courses/DataMining-8.html
+        'hoeveel keer was resultaat ja als outlook sunny was? 2 keer van de 9 ja's
+        Dim globalNee = allData.getAllNee(jaar, filters) / allData.getTotaalAantal(jaar, filters)
+        Dim globalJa = allData.getAllJa(jaar, filters) / allData.getTotaalAantal(jaar, filters)
+        Dim pNee = m * c * s * d * sd * globalNee
+        Dim pJa = jm * jc * js * jd * jsd * globalJa
+        'Dim pJa = (1 - (d / 100)) * (1 - (m / 100)) * (1 - (s / 100)) * (1 - (sd / 100)) * (1 - (c / 100)) * (1 - (pros / 100))
+        Dim values As New ArrayList({d, m, s, sd, c, globalNee})
         Dim range = p.certainty(values, pNee / (pNee + pJa))
         txtTotaal.Text = range.ToString
     End Sub
