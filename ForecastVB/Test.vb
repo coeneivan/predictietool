@@ -813,7 +813,7 @@ Public Class Test
             lvi.SubItems.Add((Math.Round((item.getKans) * 10000) / 100).ToString)
 
             ' Verschil
-            Dim verschil = (Math.Round(((item.getDoorgegaan / item.getTotaal) * 10000)) / 100 - (Math.Round(item.getKans) * 10000) / 100).ToString
+            Dim verschil = Math.Round((((item.getDoorgegaan / item.getTotaal) - (item.getKans)) * 100), 2).ToString
 
             lvi.SubItems.Add(verschil)
 
