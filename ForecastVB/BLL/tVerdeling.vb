@@ -8,7 +8,7 @@ Public Class tVerdeling
     ''' </summary>
     ''' <param name="betrouwbaarheidspercentage">Welk percentage? 0.995/0.99/0.975/0.95/0.9</param>
     ''' <param name="aantal">Met hoeveel data heb je te maken?</param>
-    ''' <returns></returns>
+    ''' <returns>Double, tWaarde waarmee er gewerkt moet worden</returns>
     Public Function getTwaarde(betrouwbaarheidspercentage As Double, aantal As Double) As Double
         Dim x, y As Integer
         Select Case betrouwbaarheidspercentage
