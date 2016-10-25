@@ -834,8 +834,6 @@ Public Class Test
         chartBerekend.Titles.Clear()
         chartBerekend.Series.Clear()
 
-        Dim t = versch.Values
-
         For Each s As KeyValuePair(Of Double, Integer) In versch
             ver.Points.AddXY(s.Key, s.Value)
         Next
@@ -854,7 +852,9 @@ Public Class Test
         Me.chartBerekend.Titles.Add(Title1)
         Me.chartBerekend.Titles.Add(Title2)
         Me.Width = 1460
-        chartBerekend.ChartAreas(0).AxisX.Interval = 10
+        chartBerekend.ChartAreas(0).AxisX.Minimum = -100
+        chartBerekend.ChartAreas(0).AxisX.Maximum = 100
+        chartBerekend.ChartAreas(0).AxisX.Interval = 20
         MessageBox.Show("Verstreken tijd: " + (Now - startTime).ToString)
     End Sub
 
