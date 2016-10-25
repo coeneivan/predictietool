@@ -40,8 +40,8 @@ Public Class TestDAO
         query += ", SUM(CASE WHEN CodeIngetrokken='Nee' THEN 1 ELSE 0 END) as doorgegaan "
         query += "From Cursussen "
 
-        If s IsNot Nothing Then
-            query += "WHERE " + s
+        If Not s.Equals("") Then
+            query += "WHERE YEAR(Startdatum) < 2015 and " + s
         End If
 
         query += "group by "

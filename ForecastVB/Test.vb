@@ -469,8 +469,17 @@ Public Class Test
         Dim everyMerk = merken.getAll(2015, filters)
 
         ' Is er een item in de dropdown list geselecteerd? voeg hem dan toe aan de filter
+        If (cboMerk.SelectedItem <> Nothing) Then
+            filters.Add(New FilterItem("Merk", "=", ("'" + cboMerk.SelectedItem.ToString) + "'"))
+        End If
 
+        If (cboDag.SelectedItem <> Nothing) Then
+            filters.Add(New FilterItem("Dag", "=", ("'" + cboDag.SelectedItem.ToString) + "'"))
+        End If
 
+        If (cboUitvoerendCentrum.SelectedItem <> Nothing) Then
+            filters.Add(New FilterItem("UitvCentrumOmsch", "=", ("'" + cboUitvoerendCentrum.SelectedItem.ToString) + "'"))
+        End If
 
         If ((cbbMonth.SelectedItem) IsNot Nothing) Then
             filters.Add(New FilterItem("month(startdatum)", "=", ("'" + (cbbMonth.SelectedItem).Value) + "'"))
@@ -611,6 +620,7 @@ Public Class Test
         Dim f As String = ""
         Dim listOfAllItems As New List(Of DataMiningPrediction2)
         Dim startTime = Now
+        Dim versch As New Dictionary(Of Double, Integer)
 
         ' Lijst om te tellen hoeveel cursussen van elk item niet geschrapt werden
         Dim dicMerkW As New Dictionary(Of String, Int32)
@@ -631,14 +641,15 @@ Public Class Test
 
         ' Kolom naam aanmaken
         lvResult.Clear()
-        lvResult.Columns.Add("Merken", 75)
+        lvResult.Columns.Add("Merken", 55)
         lvResult.Columns.Add("Uitvoerend centrum", 125)
         lvResult.Columns.Add("Sub afdeling", 75)
         lvResult.Columns.Add("Maand", 50)
         lvResult.Columns.Add("Dag", 75)
-        lvResult.Columns.Add("Totaal", 75)
+        lvResult.Columns.Add("Totaal", 50)
         lvResult.Columns.Add("% Doorgeg", 75)
         lvResult.Columns.Add("% Berekend", 75)
+        lvResult.Columns.Add("verschil", 50)
 
 
         For Each s As FilterItem In filters
@@ -672,7 +683,7 @@ Public Class Test
                 dicMerkW.Add(merk, doorgegaan)
 
                 ' Som van aantal doorgegane cursussen
-                atlDoorgg = doorgegaan
+                atlDoorgg += doorgegaan
             Else
                 dicMerkW(merk) += doorgegaan
 
@@ -685,7 +696,7 @@ Public Class Test
                 dicMerkN.Add(merk, nietDoor)
 
                 ' Som van aantal doorgegane cursussen
-                atlNietDgg = nietDoor
+                atlNietDgg += nietDoor
             Else
                 dicMerkN(merk) += nietDoor
 
@@ -785,10 +796,35 @@ Public Class Test
             lvi.SubItems.Add((Math.Round(((item.getDoorgegaan / item.getTotaal) * 10000)) / 100).ToString)
             lvi.SubItems.Add((Math.Round((item.getKans) * 10000) / 100).ToString)
 
+            ' Verschil
+            Dim verschil = (Math.Round(((item.getDoorgegaan / item.getTotaal) * 10000)) / 100 - (Math.Round(item.getKans) * 10000) / 100).ToString
+
+            lvi.SubItems.Add(verschil)
+
             lvResult.Items.AddRange(New ListViewItem() {lvi})
+
+
+            verschil = (Math.Round(item.getDoorgegaan / item.getTotaal * 100) - Math.Round(item.getKans * 100))
+            If Not versch.ContainsKey(verschil) Then
+                versch.Add(verschil, 1)
+            Else
+                versch(verschil) += 1
+            End If
 
             pgb.Value += 1
         Next
+
+        Dim ver As New Series
+        chartBerekend.Titles.Clear()
+        chartBerekend.Series.Clear()
+
+        Dim t = versch.Values
+
+        For Each s As KeyValuePair(Of Double, Integer) In versch
+            ver.Points.AddXY(s.Key, s.Value)
+        Next
+
+        chartBerekend.Series.Add(ver)
 
         MessageBox.Show("Verstreken tijd: " + (Now - startTime).ToString)
     End Sub
