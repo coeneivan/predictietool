@@ -23,11 +23,9 @@ Partial Class Test
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim ChartArea1 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend1 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
         Dim Series1 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim ChartArea2 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend2 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series2 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim Title1 As System.Windows.Forms.DataVisualization.Charting.Title = New System.Windows.Forms.DataVisualization.Charting.Title()
+        Dim Title2 As System.Windows.Forms.DataVisualization.Charting.Title = New System.Windows.Forms.DataVisualization.Charting.Title()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Test))
         Me.cboMerk = New System.Windows.Forms.ComboBox()
         Me.cboDag = New System.Windows.Forms.ComboBox()
@@ -36,11 +34,9 @@ Partial Class Test
         Me.pgb = New System.Windows.Forms.ProgressBar()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.ComboBox1 = New System.Windows.Forms.ComboBox()
-        Me.cursusChart = New System.Windows.Forms.DataVisualization.Charting.Chart()
         Me.chartBerekend = New System.Windows.Forms.DataVisualization.Charting.Chart()
         Me.cboUitvoerendCentrum = New System.Windows.Forms.ComboBox()
         Me.cbbMonth = New System.Windows.Forms.ComboBox()
-        CType(Me.cursusChart, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chartBerekend, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -114,37 +110,28 @@ Partial Class Test
         Me.ComboBox1.TabIndex = 5
         Me.ComboBox1.Text = "Algoritme"
         '
-        'cursusChart
-        '
-        ChartArea1.Name = "ChartArea1"
-        Me.cursusChart.ChartAreas.Add(ChartArea1)
-        Legend1.Name = "Legend1"
-        Me.cursusChart.Legends.Add(Legend1)
-        Me.cursusChart.Location = New System.Drawing.Point(660, 10)
-        Me.cursusChart.Name = "cursusChart"
-        Series1.ChartArea = "ChartArea1"
-        Series1.Legend = "Legend1"
-        Series1.Name = "Series1"
-        Me.cursusChart.Series.Add(Series1)
-        Me.cursusChart.Size = New System.Drawing.Size(772, 400)
-        Me.cursusChart.TabIndex = 9
-        Me.cursusChart.Text = "Chart1"
-        '
         'chartBerekend
         '
-        ChartArea2.Name = "ChartArea1"
-        Me.chartBerekend.ChartAreas.Add(ChartArea2)
-        Legend2.Name = "Legend1"
-        Me.chartBerekend.Legends.Add(Legend2)
-        Me.chartBerekend.Location = New System.Drawing.Point(660, 416)
+        ChartArea1.Name = "ChartArea1"
+        Me.chartBerekend.ChartAreas.Add(ChartArea1)
+        Me.chartBerekend.Location = New System.Drawing.Point(660, 10)
         Me.chartBerekend.Name = "chartBerekend"
-        Series2.ChartArea = "ChartArea1"
-        Series2.Legend = "Legend1"
-        Series2.Name = "Series1"
-        Me.chartBerekend.Series.Add(Series2)
-        Me.chartBerekend.Size = New System.Drawing.Size(772, 400)
+        Series1.ChartArea = "ChartArea1"
+        Series1.Name = "Series1"
+        Me.chartBerekend.Series.Add(Series1)
+        Me.chartBerekend.Size = New System.Drawing.Size(772, 806)
         Me.chartBerekend.TabIndex = 7
         Me.chartBerekend.Text = "Chart1"
+        Title1.BackImageAlignment = System.Windows.Forms.DataVisualization.Charting.ChartImageAlignmentStyle.Left
+        Title1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Left
+        Title1.Name = "Aantal"
+        Title1.Text = "Aantal"
+        Title2.Alignment = System.Drawing.ContentAlignment.BottomCenter
+        Title2.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom
+        Title2.Name = "Verschil"
+        Title2.Text = "Verschil"
+        Me.chartBerekend.Titles.Add(Title1)
+        Me.chartBerekend.Titles.Add(Title2)
         '
         'cboUitvoerendCentrum
         '
@@ -173,10 +160,9 @@ Partial Class Test
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
-        Me.ClientSize = New System.Drawing.Size(1444, 851)
+        Me.ClientSize = New System.Drawing.Size(661, 851)
         Me.Controls.Add(Me.cbbMonth)
         Me.Controls.Add(Me.chartBerekend)
-        Me.Controls.Add(Me.cursusChart)
         Me.Controls.Add(Me.ComboBox1)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.pgb)
@@ -190,7 +176,6 @@ Partial Class Test
         Me.Margin = New System.Windows.Forms.Padding(2)
         Me.Name = "Test"
         Me.Text = "Test"
-        CType(Me.cursusChart, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chartBerekend, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -205,7 +190,6 @@ Partial Class Test
     Friend WithEvents Label1 As Label
     Friend WithEvents ComboBox1 As ComboBox
     Friend WithEvents cboUitvoerendCentrum As ComboBox
-    Friend WithEvents cursusChart As DataVisualization.Charting.Chart
     Friend WithEvents chartBerekend As DataVisualization.Charting.Chart
     Friend WithEvents cbbMonth As ComboBox
 End Class

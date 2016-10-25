@@ -217,10 +217,10 @@ Public Class Test
         lvResult.Clear()
 
         chartBerekend.Titles.Clear()
-        cursusChart.Titles.Clear()
+        'cursusChart.Titles.Clear()
         chartBerekend.Series.Clear()
-        cursusChart.Series.Clear()
-        cursusChart.Titles.Add("Werkelijk")
+        'cursusChart.Series.Clear()
+        'cursusChart.Titles.Add("Werkelijk")
         chartBerekend.Titles.Add("Berekend")
         'Create a new series and add data points to it.
 
@@ -302,7 +302,7 @@ Public Class Test
                 Next
                 chartBerekend.Series.Add(a)
                 'Add the series to the Chart1 control.
-                cursusChart.Series.Add(r)
+                'cursusChart.Series.Add(r)
             End If
 
 
@@ -841,7 +841,20 @@ Public Class Test
         Next
 
         chartBerekend.Series.Add(ver)
-
+        Dim Title1 As New Title
+        Dim Title2 As New Title
+        Title1.BackImageAlignment = System.Windows.Forms.DataVisualization.Charting.ChartImageAlignmentStyle.Left
+        Title1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Left
+        Title1.Name = "Aantal"
+        Title1.Text = "Aantal"
+        Title2.Alignment = System.Drawing.ContentAlignment.BottomCenter
+        Title2.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom
+        Title2.Name = "Verschil"
+        Title2.Text = "Verschil"
+        Me.chartBerekend.Titles.Add(Title1)
+        Me.chartBerekend.Titles.Add(Title2)
+        Me.Width = 1460
+        chartBerekend.ChartAreas(0).AxisX.Interval = 10
         MessageBox.Show("Verstreken tijd: " + (Now - startTime).ToString)
     End Sub
 
