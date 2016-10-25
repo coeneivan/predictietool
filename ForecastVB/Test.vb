@@ -752,6 +752,23 @@ Public Class Test
 
         ' berekend kans van iedere entry dat deze door gaat en plaatst dit vervolgens in de listview
         For Each item As DataMiningPrediction2 In listOfAllItems
+            Dim j1, j2, j3, j4, j5, j6 As Double
+            Dim n1, n2, n3, n4, n5, n6 As Double
+
+            j1 = (dicMerkW(item.getMerk) / atlDoorgg)
+            j2 = (dicSubW(item.getCodeSubAfdeling) / atlDoorgg)
+            j3 = (dicMaandW(item.getMaand) / atlDoorgg)
+            j4 = (dicDagW(item.getDag) / atlDoorgg)
+            j5 = (dicUitvW(item.getUitvoerCentrum) / atlDoorgg)
+            j6 = (atlDoorgg / (atlDoorgg + atlNietDgg))
+
+            n1 = (dicMerkN(item.getMerk) / atlNietDgg)
+            n2 = (dicSubN(item.getCodeSubAfdeling) / atlNietDgg)
+            n3 = (dicMaandN(item.getMaand) / atlNietDgg)
+            n4 = (dicDagN(item.getDag) / atlNietDgg)
+            n5 = (dicUitvN(item.getUitvoerCentrum) / atlNietDgg)
+            n6 = (atlNietDgg / (atlDoorgg + atlNietDgg))
+
 
             Dim wel = ((dicMerkW(item.getMerk) / atlDoorgg) * (dicSubW(item.getCodeSubAfdeling) / atlDoorgg) * (dicMaandW(item.getMaand) / atlDoorgg) * (dicDagW(item.getDag) / atlDoorgg) * (dicUitvW(item.getUitvoerCentrum) / atlDoorgg) * (atlDoorgg / (atlDoorgg + atlNietDgg)))
             Dim niet = ((dicMerkN(item.getMerk) / atlNietDgg) * (dicSubN(item.getCodeSubAfdeling) / atlNietDgg) * (dicMaandN(item.getMaand) / atlNietDgg) * (dicDagN(item.getDag) / atlNietDgg) * (dicUitvN(item.getUitvoerCentrum) / atlNietDgg) * (atlNietDgg / (atlDoorgg + atlNietDgg)))
