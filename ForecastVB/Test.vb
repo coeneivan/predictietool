@@ -766,7 +766,6 @@ Public Class Test
             pgb.Value += 1
         Next
 
-
         ' berekend kans van iedere entry dat deze door gaat en plaatst dit vervolgens in de listview
         For Each item As DataMiningPrediction2 In listOfAllItems
             Dim j1, j2, j3, j4, j5, j6 As Double
@@ -786,31 +785,28 @@ Public Class Test
             n5 = (dicUitvN(item.getUitvoerCentrum) / atlNietDgg)
             n6 = (atlNietDgg / (atlDoorgg + atlNietDgg))
 
+            Dim wel As Double = 0
+            Dim niet As Double = 0
+            If (item.getTotaal > 12) Then
+                wel = ((dicMerkW(item.getMerk) / atlDoorgg) * (dicSubW(item.getCodeSubAfdeling) / atlDoorgg) * (dicMaandW(item.getMaand) / atlDoorgg) * (dicDagW(item.getDag) / atlDoorgg) * (dicUitvW(item.getUitvoerCentrum) / atlDoorgg) * (atlDoorgg / (atlDoorgg + atlNietDgg)))
+                niet = ((dicMerkN(item.getMerk) / atlNietDgg) * (dicSubN(item.getCodeSubAfdeling) / atlNietDgg) * (dicMaandN(item.getMaand) / atlNietDgg) * (dicDagN(item.getDag) / atlNietDgg) * (dicUitvN(item.getUitvoerCentrum) / atlNietDgg) * (atlNietDgg / (atlDoorgg + atlNietDgg)))
+            Else
+                wel = ((dicSubW(item.getCodeSubAfdeling) / atlDoorgg) * (dicMaandW(item.getMaand) / atlDoorgg) * (dicDagW(item.getDag) / atlDoorgg) * (dicUitvW(item.getUitvoerCentrum) / atlDoorgg) * (atlDoorgg / (atlDoorgg + atlNietDgg)))
+                niet = ((dicSubN(item.getCodeSubAfdeling) / atlNietDgg) * (dicMaandN(item.getMaand) / atlNietDgg) * (dicDagN(item.getDag) / atlNietDgg) * (dicUitvN(item.getUitvoerCentrum) / atlNietDgg) * (atlNietDgg / (atlDoorgg + atlNietDgg)))
+            End If
 
             Dim wel = ((dicMerkW(item.getMerk) / atlDoorgg) * (dicSubW(item.getCodeSubAfdeling) / atlDoorgg) * (dicMaandW(item.getMaand) / atlDoorgg) * (dicDagW(item.getDag) / atlDoorgg) * (dicUitvW(item.getUitvoerCentrum) / atlDoorgg) * (atlDoorgg / (atlDoorgg + atlNietDgg)))
-            'Dim wel = ((dicSubW(item.getCodeSubAfdeling) / atlDoorgg) * (dicMaandW(item.getMaand) / atlDoorgg) * (dicDagW(item.getDag) / atlDoorgg) * (dicUitvW(item.getUitvoerCentrum) / atlDoorgg) * (atlDoorgg / (atlDoorgg + atlNietDgg)))
             Dim niet = ((dicMerkN(item.getMerk) / atlNietDgg) * (dicSubN(item.getCodeSubAfdeling) / atlNietDgg) * (dicMaandN(item.getMaand) / atlNietDgg) * (dicDagN(item.getDag) / atlNietDgg) * (dicUitvN(item.getUitvoerCentrum) / atlNietDgg) * (atlNietDgg / (atlDoorgg + atlNietDgg)))
-            'Dim niet = ((dicSubN(item.getCodeSubAfdeling) / atlNietDgg) * (dicMaandN(item.getMaand) / atlNietDgg) * (dicDagN(item.getDag) / atlNietDgg) * (dicUitvN(item.getUitvoerCentrum) / atlNietDgg) * (atlNietDgg / (atlDoorgg + atlNietDgg)))
             Dim totaal = wel + niet
             item.setKans(wel / (wel + niet))
 
 
 
-            Dim echt = (Math.Round(((item.getDoorgegaan / item.getTotaal) * 10000)) / 100)
-            Dim p As New Prospect
-            Dim values As New ArrayList({j1, j2, j3, j4, j5, j6})
-            Dim bereik = p.certainty(values, item.getKans)
-            If bereik.valtTussen(echt) Then
-                trues += 1
-            Else
-                falses += 1
-            End If
+
             ' Verschil
             Dim verschil = Math.Round((((item.getDoorgegaan / item.getTotaal) - (item.getKans)) * 100), 2)
 
-            dgvResult.Rows.Add(item.getMerk, item.getUitvoerCentrum, item.getCodeSubAfdeling, item.getMaand.ToString, item.getDag, item.getTotaal.ToString, echt.ToString, bereik.ToString, verschil.ToString)
-
-            standaardAfwijking.Add(verschil)
+            standaardAfwijking.Add(Math.Round((((item.getDoorgegaan / item.getTotaal) - (item.getKans)) * 100), 2))
 
             verschil = (Math.Round(item.getDoorgegaan / item.getTotaal * 100) - Math.Round(item.getKans * 100))
             If Not versch.ContainsKey(verschil) Then
@@ -839,7 +835,35 @@ Public Class Test
 
         ' Standaard afwijking berekenen
         Dim deviatie = Math.Round(CalculateStandardDeviation(standaardAfwijking), 3)
+        Dim remove As Double = 0
 
+        For Each item As DataMiningPrediction2 In listOfAllItems
+            Dim afw = 2.58 * deviatie / Math.Sqrt(item.getTotaal)
+            remove += afw
+
+            Dim verschil = Math.Round((((item.getDoorgegaan / item.getTotaal) - (item.getKans)) * 100), 2)
+
+            Dim echt = (Math.Round(((item.getDoorgegaan / item.getTotaal) * 10000)) / 100)
+
+            ' Bereken de top waarde en onderste waarde van de afwijking, controlleer of deze boven 100 of onder 0 zit en pas deze aan indien nodig
+            Dim bEdge = Math.Round(item.getKans * 100 - afw, 2)
+            Dim tEdge = Math.Round(item.getKans * 100 + afw, 2)
+            If bEdge < 0 Then bEdge = 0
+            If tEdge > 100 Then tEdge = 100
+
+            Dim result = "[" + bEdge.ToString + " - " + Math.Round(item.getKans * 100, 2).ToString + " - " + tEdge.ToString + "]"
+
+            If echt <= item.getKans * 100 + afw And echt >= item.getKans * 100 - afw Then
+                trues += 1
+            Else
+                falses += 1
+            End If
+
+            dgvResult.Rows.Add(item.getMerk, item.getUitvoerCentrum, item.getCodeSubAfdeling, item.getMaand.ToString, item.getDag, item.getTotaal.ToString, echt.ToString, result, verschil.ToString)
+
+        Next
+
+        Dim remove2 = remove / listOfAllItems.Count
 
         chartBerekend.Series.Add(ver)
         Dim Title1 As New Title

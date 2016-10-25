@@ -41,7 +41,7 @@ Public Class TestDAO
         query += "From Cursussen "
 
         If Not s.Equals("") Then
-            query += "WHERE year(startdatum) < 2015 and " + s
+            query += "WHERE YEAR(Startdatum) <2015 AND " + s
         End If
 
         query += "group by "
@@ -53,7 +53,7 @@ Public Class TestDAO
         query += "Having count(*) > 5"
 
         Dim sql As New SQLUtil
-        Return Sql.GetAllCursForAllVar(query)
+        Return sql.GetAllCursForAllVar(query)
     End Function
 
     Friend Function GetAantalCursussen(v As String) As Integer
