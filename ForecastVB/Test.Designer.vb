@@ -29,6 +29,7 @@ Partial Class Test
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Test))
         Me.cboMerk = New System.Windows.Forms.ComboBox()
         Me.cboDag = New System.Windows.Forms.ComboBox()
+        Me.lvResult = New System.Windows.Forms.ListView()
         Me.btnCheck = New System.Windows.Forms.Button()
         Me.pgb = New System.Windows.Forms.ProgressBar()
         Me.Label1 = New System.Windows.Forms.Label()
@@ -36,9 +37,7 @@ Partial Class Test
         Me.chartBerekend = New System.Windows.Forms.DataVisualization.Charting.Chart()
         Me.cboUitvoerendCentrum = New System.Windows.Forms.ComboBox()
         Me.cbbMonth = New System.Windows.Forms.ComboBox()
-        Me.dgvResult = New System.Windows.Forms.DataGridView()
         CType(Me.chartBerekend, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.dgvResult, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'cboMerk
@@ -60,6 +59,18 @@ Partial Class Test
         Me.cboDag.Size = New System.Drawing.Size(136, 21)
         Me.cboDag.TabIndex = 2
         Me.cboDag.Text = "Dag"
+        '
+        'lvResult
+        '
+        Me.lvResult.GridLines = True
+        Me.lvResult.HoverSelection = True
+        Me.lvResult.Location = New System.Drawing.Point(8, 60)
+        Me.lvResult.Margin = New System.Windows.Forms.Padding(2)
+        Me.lvResult.Name = "lvResult"
+        Me.lvResult.Size = New System.Drawing.Size(646, 683)
+        Me.lvResult.TabIndex = 0
+        Me.lvResult.UseCompatibleStateImageBehavior = False
+        Me.lvResult.View = System.Windows.Forms.View.Details
         '
         'btnCheck
         '
@@ -148,27 +159,19 @@ Partial Class Test
         Me.cbbMonth.Text = "Maand"
         Me.cbbMonth.ValueMember = "Value"
         '
-        'dgvResult
-        '
-        Me.dgvResult.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dgvResult.Location = New System.Drawing.Point(11, 62)
-        Me.dgvResult.Name = "dgvResult"
-        Me.dgvResult.Size = New System.Drawing.Size(642, 705)
-        Me.dgvResult.TabIndex = 8
-        '
         'Test
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.ClientSize = New System.Drawing.Size(662, 851)
-        Me.Controls.Add(Me.dgvResult)
         Me.Controls.Add(Me.cbbMonth)
         Me.Controls.Add(Me.chartBerekend)
         Me.Controls.Add(Me.ComboBox1)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.pgb)
         Me.Controls.Add(Me.btnCheck)
+        Me.Controls.Add(Me.lvResult)
         Me.Controls.Add(Me.cboDag)
         Me.Controls.Add(Me.cboUitvoerendCentrum)
         Me.Controls.Add(Me.cboMerk)
@@ -178,7 +181,6 @@ Partial Class Test
         Me.Name = "Test"
         Me.Text = "Test"
         CType(Me.chartBerekend, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.dgvResult, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -186,6 +188,7 @@ Partial Class Test
 
     Friend WithEvents cboMerk As ComboBox
     Friend WithEvents cboDag As ComboBox
+    Friend WithEvents lvResult As ListView
     Friend WithEvents btnCheck As Button
     Friend WithEvents pgb As ProgressBar
     Friend WithEvents Label1 As Label
@@ -193,5 +196,4 @@ Partial Class Test
     Friend WithEvents cboUitvoerendCentrum As ComboBox
     Friend WithEvents chartBerekend As DataVisualization.Charting.Chart
     Friend WithEvents cbbMonth As ComboBox
-    Friend WithEvents dgvResult As DataGridView
 End Class
