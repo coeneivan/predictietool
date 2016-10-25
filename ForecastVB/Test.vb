@@ -26,15 +26,6 @@ Public Class Test
         cboDag.Items.AddRange({"Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag", "Zaterdag", "Zondag"})
         Dim para As New ParameterParent("uitvCentrumOmsch")
         cboUitvoerendCentrum.Items.AddRange(para.getAall(2015, root.getFilters).ToArray)
-        startUp()
-    End Sub
-    Private Sub startUp()
-        lvResult.Clear()
-        lvResult.Columns.Add("SubAfdeling", 100)
-        lvResult.Columns.Add("Voorspeld", 150)
-        lvResult.Columns.Add("Echt", 100)
-        lvResult.Columns.Add("Check", 50)
-        lvResult.Columns.Add("aantal", 50)
     End Sub
 
     Private Sub btnCheck_Click(sender As Object, e As EventArgs) Handles btnCheck.Click
@@ -61,7 +52,7 @@ Public Class Test
                     Throw New ApplicationException("Gelieve een maand te kiezen")
                 End If
 
-                startUp()
+                dgvResult.DataSource = Nothing 'CLEAR indien er andere data aanwezig was
 
                 If ComboBox1.SelectedItem.Equals("Linear regression") Then
                     Dim sql As New SQLUtil
@@ -72,7 +63,11 @@ Public Class Test
                     Dim nee = 0
                     Dim filters = root.getFilters
                     Dim fil As String = ""
-
+                    dgvResult.Columns.Add("Subafdeling", "Subafdeling")
+                    dgvResult.Columns.Add("Range", "Range")
+                    dgvResult.Columns.Add("Echt", "Echt")
+                    dgvResult.Columns.Add("Klopt het", "Klopt het")
+                    dgvResult.Columns.Add("Aantal", "Aantal")
 
                     If filters Is Nothing Then
                         subAfds.AddRange(sql.getArrayList("select distinct CodeSubafdeling from Cursussen where Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' and month(startdatum)=" + (cbbMonth.SelectedItem).Value + " and UitvCentrumOmsch='" + cboUitvoerendCentrum.SelectedItem + "' and year(StartDatum) = 2015 group by codesubafdeling having count(*) > 5").ToArray())
@@ -96,7 +91,6 @@ Public Class Test
                         Dim dag As New DagBll
                         Dim maand As New DatumBLL
                         Dim uitvCentrum As New ParameterParent("UitvCentrumOmsch")
-                        Dim lvi As New ListViewItem(subAfds(i).ToString)
                         Dim subA As Bereik = subBll.berekenVerwachtingsBereikVoorSubAfd(2015, subAfds(i), filters)
                         Dim dagA As Bereik = dag.berekenVerwachtingsBereikVoorDag(2015, cboDag.SelectedItem.ToString, filters)
                         Dim merkA As Bereik = merk.berekenVerwachtingsBereikVoorMerk(2015, cboMerk.SelectedItem.ToString, filters)
@@ -115,8 +109,6 @@ Public Class Test
                             pJa *= (1 - (a))
                         Next
                         Dim range = p.certainty(averages, pNee / (pNee + pJa))
-
-                        lvi.SubItems.Add(range.ToString)
                         Dim dick As Dictionary(Of String, Parameter)
                         If filters Is Nothing Then
                             dick = sql.getDictionary("SELECT YEAR(c.startdatum) as jaar,count(*) as totaal,(SELECT count(*) FROM [SyntraTest].[dbo].[Cursussen] as cc WHERE cc.CodeIngetrokken = 'nee' AND CodeSubafdeling = '" + subAfds(i) + "' AND year(cc.StartDatum) = year(c.StartDatum) AND Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' and month(startdatum)=" + (cbbMonth.SelectedItem).Value + " and UitvCentrumOmsch='" + cboUitvoerendCentrum.SelectedItem + "') as nietGeschrapt FROM [SyntraTest].[dbo].[Cursussen] as c WHERE CodeSubafdeling = '" + subAfds(i) + "' AND year(c.StartDatum) =  2015 and Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' and month(startdatum)=" + (cbbMonth.SelectedItem).Value + " and UitvCentrumOmsch='" + cboUitvoerendCentrum.SelectedItem + "' group by year(startdatum)")
@@ -137,22 +129,17 @@ Public Class Test
                                 y = CDbl(kvp.Value.berekenPercentage)
                             Next
 
-                            lvi.SubItems.Add(y.ToString)
+
                         End If
                         Dim tf = range.valtTussen(y)
                         If tf Then
-                            lvi.BackColor = Color.FromArgb(255, 46, 204, 113)
                             ja += 1
                         ElseIf range.getBovengrens < y Then
-                            lvi.BackColor = Color.FromArgb(255, 231, 76, 60)
                             boven += 1
                         Else
-                            lvi.BackColor = Color.Orange
                             nee += 1
                         End If
-                        lvi.SubItems.Add(tf)
-                        lvi.SubItems.Add(cursCount)
-                        lvResult.Items.AddRange(New ListViewItem() {lvi})
+                        dgvResult.Rows.Add(subAfds(i).ToString, range.ToString, y.ToString, tf.ToString, cursCount.ToString)
 
                         pgb.Value = i
                     Next
@@ -169,30 +156,28 @@ Public Class Test
                     For i As Integer = 0 To subafds.Count - 1
                         Dim predictor As New newPredictor
                         Dim tempList = subafds(i)
-                        Dim lvi = New ListViewItem(tempList(0))
                         Dim p = Not (predictor.predict(tempList(1), tempList(2), tempList(3), tempList(4), tempList(5), tempList(6), tempList(7), tempList(8)))
-                        lvi.SubItems.Add(p.ToString)
                         Dim sql2 = sql.getArrayList("SELECT codeingetrokken from cursussen where Opleidingsnr = " + tempList(0))(0).ToString
-                        lvi.SubItems.Add(sql2)
                         If (p = True And sql2.Equals("Ja")) Or (p = False And sql2.Equals("Nee")) Then
                             cor += 1
                         End If
-                        lvi.SubItems.Add((p = True And sql2.Equals("Ja")) Or (p = False And sql2.Equals("Nee")))
-                        lvResult.Items.AddRange(New ListViewItem() {lvi})
+                        dgvResult.Rows.Add(tempList(0), p.ToString, sql2, (p = True And sql2.Equals("Ja")) Or (p = False And sql2.Equals("Nee")))
+
                     Next
                     Label1.Text = cor.ToString
                 ElseIf ComboBox1.SelectedItem.Equals("Apriori (association Rule Learning)") Then
-                    Dim data = {{1, 3, 4, 0}, {2, 3, 5, 0}, {1, 2, 3, 5}, {2, 5, 0, 0}}
-                    Dim ap As New Apriori(data)
-                    For Each i In ap.joinTwo()
-                        Dim lviTXT = ""
-                        For Each a In i
-                            ap.scanD(0.5)
-                            lviTXT += a.ToString
-                        Next
-                        Dim lvi = New ListViewItem(lviTXT)
-                        lvResult.Items.AddRange(New ListViewItem() {lvi})
-                    Next
+                    MessageBox.Show("Sorry, dit werkt niet")
+                    'Dim data = {{1, 3, 4, 0}, {2, 3, 5, 0}, {1, 2, 3, 5}, {2, 5, 0, 0}}
+                    'Dim ap As New Apriori(data)
+                    'For Each i In ap.joinTwo()
+                    '    Dim lviTXT = ""
+                    '    For Each a In i
+                    '        ap.scanD(0.5)
+                    '        lviTXT += a.ToString
+                    '    Next
+                    '    Dim lvi = New ListViewItem(lviTXT)
+                    'lvResult.Items.AddRange(New ListViewItem() {lvi})
+                    'Next
                 End If
             End If
 
@@ -214,7 +199,10 @@ Public Class Test
         Dim berekenJaar As Int16 = 2015
         Dim minAantalCurs As Integer = 5
 
-        lvResult.Clear()
+        dgvResult.DataSource = Nothing
+        dgvResult.Columns.Add("Subafdeling", "Subafdeling")
+        dgvResult.Columns.Add("Voorspeld", "Voorspeld")
+        dgvResult.Columns.Add("Echt", "Echt")
 
         chartBerekend.Titles.Clear()
         'cursusChart.Titles.Clear()
@@ -223,14 +211,6 @@ Public Class Test
         'cursusChart.Titles.Add("Werkelijk")
         chartBerekend.Titles.Add("Berekend")
         'Create a new series and add data points to it.
-
-
-
-        ' Kolom koppen opstellen
-        lvResult.Columns.Add("SubAfdeling", 100)
-        lvResult.Columns.Add("Voorspeld", 150)
-        lvResult.Columns.Add("Echt", 100)
-        'lvResult.Columns.Add("aantal", 50)
 
 
         ' Zijn er filters ingesteld?
@@ -309,18 +289,15 @@ Public Class Test
 
             Dim voorspelling As Double = berekenJaarVoor((berekenJaar - cursus.First.Key + 1), y_data, x_data)
 
-            Dim lvi As New ListViewItem(subAfds(i).ToString)
-            lvi.SubItems.Add(voorspelling)
             Dim cursusPara As Parameter = TestBLL.GetAantalCursussenPerSubAfdelingVoorJaar(subAfds(i), fil, berekenJaar)
 
-
+            Dim toAdd = ""
             If (cursusPara IsNot Nothing) Then
-                lvi.SubItems.Add(cursusPara.getNietGeschrapt)
+                toAdd = cursusPara.getNietGeschrapt
             Else
-                lvi.SubItems.Add("Geen data voor berekend jaar")
+                toAdd = "Geen data voor berekend jaar"
             End If
-
-            lvResult.Items.AddRange(New ListViewItem() {lvi})
+            dgvResult.Rows.Add(subAfds(i).ToString, voorspelling.ToString, toAdd)
             pgb.Value = i
         Next
 
@@ -444,16 +421,15 @@ Public Class Test
         ' http://www.cs.ccsu.edu/~markov/ccsu_courses/DataMining-8.html
 
         ' Kolom naam aanmaken
-        lvResult.Clear()
-        lvResult.Columns.Add("Merken", 75)
-        lvResult.Columns.Add("Uitvoerend centrum", 100)
-        lvResult.Columns.Add("Sub afdeling", 75)
-        lvResult.Columns.Add("Maand", 50)
-        lvResult.Columns.Add("Dag", 75)
-        lvResult.Columns.Add("Voorspelling", 100)
-        lvResult.Columns.Add("Echt", 50)
-        lvResult.Columns.Add("Klopt voorpelling", 50)
-
+        dgvResult.DataSource = Nothing
+        dgvResult.Columns.Add("Merken", "Merken")
+        dgvResult.Columns.Add("Uitvoerend centrum", "Uitvoerend centrum")
+        dgvResult.Columns.Add("Sub afdeling", "Sub afdeling")
+        dgvResult.Columns.Add("Maand", "Maand")
+        dgvResult.Columns.Add("Dag", "Dag")
+        dgvResult.Columns.Add("Voorspelling", "Voorspelling")
+        dgvResult.Columns.Add("Echt", "Echt")
+        dgvResult.Columns.Add("Klopt voorpelling", "Klopt voorpelling")
 
 
         pgb.Value = 0
@@ -548,11 +524,7 @@ Public Class Test
                             Dim dagJA = AllData.getPercentageJa(2015, "dag", dag.ToString, filters)
                             Dim dagNEE = AllData.getPErcentageNee(2015, "dag", dag.ToString, filters)
                             My.Application.Log.WriteEntry(merk.ToString + " " + centrum.ToString + " " + subafd.ToString + " " + maand.ToString + " " + dag.ToString)
-                            Dim lvi As New ListViewItem(merk.ToString)
-                            lvi.SubItems.Add(centrum.ToString)
-                            lvi.SubItems.Add(subafd.ToString)
-                            lvi.SubItems.Add(maand.ToString)
-                            lvi.SubItems.Add(dag.ToString)
+
                             'BEREKEN VERWACHTE WAARDE
 
                             Dim berekendJa = addIfNotNaN(merkJA) * addIfNotNaN(centrumJA) * addIfNotNaN(subafdJA) * addIfNotNaN(maandJA) * addIfNotNaN(dagJA) * addIfNotNaN(AllData.getAllJa(2015, filters))
@@ -561,7 +533,6 @@ Public Class Test
                             Dim prospector As New Prospect
                             Dim alleNees As New ArrayList({merkNEE, centrumNEE, subafdNEE, maandNEE, dagNEE, AllData.getAllNee(2015, filters)})
                             Dim bereikNee = prospector.certainty(alleNees, gaatdoor)
-                            lvi.SubItems.Add(bereikNee.ToString)
                             'BEREKEN ECHTE WAARDE
                             Dim dick As Dictionary(Of String, Parameter)
                             If filters Is Nothing Then
@@ -578,8 +549,6 @@ Public Class Test
                                 For Each kvp As KeyValuePair(Of String, Parameter) In dick
                                     y = CDbl(kvp.Value.berekenPercentage)
                                 Next
-
-                                lvi.SubItems.Add(y.ToString)
                             End If
                             Dim kloptHet = bereikNee.valtTussen(y)
                             If kloptHet Then
@@ -587,11 +556,8 @@ Public Class Test
                             Else
                                 falses += 1
                             End If
-                            lvi.SubItems.Add(kloptHet.ToString)
 
-
-                            'VALT WERKELIJKE WAARDE TUSSEN VOORSPELD BEREIK
-                            lvResult.Items.AddRange(New ListViewItem() {lvi})
+                            dgvResult.Rows.Add(merk.ToString, centrum.ToString, subafd.ToString, maand.ToString, dag.ToString, bereikNee.ToString, y.ToString, kloptHet.ToString)
                             totalCounter += 1
                             pgb.Value += 1
                         Next
@@ -633,6 +599,9 @@ Public Class Test
 
 
     Private Sub dataMiningPrediction2()
+
+        Dim trues = 0
+        Dim falses = 0
         Dim filters = root.getFilters()
         Dim f As String = ""
         Dim listOfAllItems As New List(Of DataMiningPrediction2)
@@ -661,16 +630,16 @@ Public Class Test
         Dim ligtTussen As Integer = 10
 
         ' Kolom naam aanmaken
-        lvResult.Clear()
-        lvResult.Columns.Add("Merken", 55)
-        lvResult.Columns.Add("Uitvoerend centrum", 125)
-        lvResult.Columns.Add("Sub afdeling", 75)
-        lvResult.Columns.Add("Maand", 50)
-        lvResult.Columns.Add("Dag", 75)
-        lvResult.Columns.Add("Totaal", 50)
-        lvResult.Columns.Add("% Doorgeg", 75)
-        lvResult.Columns.Add("% Berekend", 75)
-        lvResult.Columns.Add("verschil", 50)
+        dgvResult.DataSource = Nothing
+        dgvResult.Columns.Add("merk", "Merk")
+        dgvResult.Columns.Add("Uitvoerend centrum", "Uitvoerend centrum")
+        dgvResult.Columns.Add("Sub afdeling", "Sub afdeling")
+        dgvResult.Columns.Add("Maand", "Maand")
+        dgvResult.Columns.Add("Dag", "Dag")
+        dgvResult.Columns.Add("Totaal", "Totaal")
+        dgvResult.Columns.Add("% Doorgeg", "% Doorgeg")
+        dgvResult.Columns.Add("% Berekend", "% Berekend")
+        dgvResult.Columns.Add("verschil", "verschil")
 
         For Each s As FilterItem In filters
             If f.Equals("") Then
@@ -687,7 +656,6 @@ Public Class Test
         pgb.Minimum = 0
         pgb.Maximum = (listOfAllItems.Count) * 2
 
-
         ' Steek het aantal doorgegaan en aantal niet doorgegaan van ieder item in een dictionary
         For Each item As DataMiningPrediction2 In listOfAllItems
             Dim merk = item.getMerk()
@@ -697,7 +665,6 @@ Public Class Test
             Dim codeSubAfd = item.getCodeSubAfdeling
             Dim nietDoor = item.getTotaal - item.getDoorgegaan
             Dim doorgegaan = item.getDoorgegaan
-
             ' Lijst per merk aanvullen
             If Not dicMerkW.ContainsKey(merk) Then
                 dicMerkW.Add(merk, doorgegaan)
@@ -791,21 +758,22 @@ Public Class Test
             Dim totaal = wel + niet
             item.setKans(wel / (wel + niet))
 
-            Dim lvi As New ListViewItem(item.getMerk)
-            lvi.SubItems.Add(item.getUitvoerCentrum)
-            lvi.SubItems.Add(item.getCodeSubAfdeling)
-            lvi.SubItems.Add(item.getMaand.ToString)
-            lvi.SubItems.Add(item.getDag)
-            lvi.SubItems.Add(item.getTotaal.ToString)
-            lvi.SubItems.Add((Math.Round(((item.getDoorgegaan / item.getTotaal) * 10000)) / 100).ToString)
-            lvi.SubItems.Add((Math.Round((item.getKans) * 10000) / 100).ToString)
 
+
+            Dim echt = (Math.Round(((item.getDoorgegaan / item.getTotaal) * 10000)) / 100)
+            Dim p As New Prospect
+            Dim values As New ArrayList({j1, j2, j3, j4, j5, j6})
+            Dim bereik = p.certainty(values, item.getKans)
+            If bereik.valtTussen(echt) Then
+                trues += 1
+            Else
+                falses += 1
+            End If
             ' Verschil
             Dim verschil = Math.Round((((item.getDoorgegaan / item.getTotaal) - (item.getKans)) * 100), 2).ToString
 
-            lvi.SubItems.Add(verschil)
+            dgvResult.Rows.Add(item.getMerk, item.getUitvoerCentrum, item.getCodeSubAfdeling, item.getMaand.ToString, item.getDag, item.getTotaal.ToString, echt.ToString, bereik.ToString, verschil)
 
-            lvResult.Items.AddRange(New ListViewItem() {lvi})
 
 
             verschil = (Math.Round(item.getDoorgegaan / item.getTotaal * 100) - Math.Round(item.getKans * 100))
@@ -846,14 +814,15 @@ Public Class Test
         Me.chartBerekend.Titles.Add(Title1)
         Me.chartBerekend.Titles.Add(Title2)
         Me.Width = 1460
-        chartBerekend.ChartAreas(0).AxisX.Interval = 10
-        chartBerekend.ChartAreas(0).AxisY.Interval = 5
+        chartBerekend.ChartAreas(0).AxisX.Interval = 20
+        chartBerekend.ChartAreas(0).AxisY.Interval = 10
         chartBerekend.ChartAreas(0).AxisX.Minimum = -100
         chartBerekend.ChartAreas(0).AxisX.Maximum = 100
 
 
         Label1.Text = "Binnen -" + ligtTussen.ToString + " en " + ligtTussen.ToString + ": " + cIn.ToString + "    Buiten -" + ligtTussen.ToString + " en " + ligtTussen.ToString + ": " + cOut.ToString
         MessageBox.Show("Verstreken tijd: " + (Now - startTime).ToString)
+        Label1.Text = "Totaal = " + listOfAllItems.Count.ToString + " waarvan " + trues.ToString + " correct voorspeld waren en " + falses.ToString + " niet"
     End Sub
 
     Private Function addIfNotNaN(value As Double) As Double
