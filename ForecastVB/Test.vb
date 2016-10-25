@@ -794,9 +794,6 @@ Public Class Test
                 wel = ((dicSubW(item.getCodeSubAfdeling) / atlDoorgg) * (dicMaandW(item.getMaand) / atlDoorgg) * (dicDagW(item.getDag) / atlDoorgg) * (dicUitvW(item.getUitvoerCentrum) / atlDoorgg) * (atlDoorgg / (atlDoorgg + atlNietDgg)))
                 niet = ((dicSubN(item.getCodeSubAfdeling) / atlNietDgg) * (dicMaandN(item.getMaand) / atlNietDgg) * (dicDagN(item.getDag) / atlNietDgg) * (dicUitvN(item.getUitvoerCentrum) / atlNietDgg) * (atlNietDgg / (atlDoorgg + atlNietDgg)))
             End If
-
-            Dim wel = ((dicMerkW(item.getMerk) / atlDoorgg) * (dicSubW(item.getCodeSubAfdeling) / atlDoorgg) * (dicMaandW(item.getMaand) / atlDoorgg) * (dicDagW(item.getDag) / atlDoorgg) * (dicUitvW(item.getUitvoerCentrum) / atlDoorgg) * (atlDoorgg / (atlDoorgg + atlNietDgg)))
-            Dim niet = ((dicMerkN(item.getMerk) / atlNietDgg) * (dicSubN(item.getCodeSubAfdeling) / atlNietDgg) * (dicMaandN(item.getMaand) / atlNietDgg) * (dicDagN(item.getDag) / atlNietDgg) * (dicUitvN(item.getUitvoerCentrum) / atlNietDgg) * (atlNietDgg / (atlDoorgg + atlNietDgg)))
             Dim totaal = wel + niet
             item.setKans(wel / (wel + niet))
 
@@ -836,9 +833,10 @@ Public Class Test
         ' Standaard afwijking berekenen
         Dim deviatie = Math.Round(CalculateStandardDeviation(standaardAfwijking), 3)
         Dim remove As Double = 0
+        Dim tVerd As New tVerdeling
 
         For Each item As DataMiningPrediction2 In listOfAllItems
-            Dim afw = 2.58 * deviatie / Math.Sqrt(item.getTotaal)
+            Dim afw = tVerd.getTwaarde(0.995, item.getTotaal) * deviatie / Math.Sqrt(item.getTotaal)
             remove += afw
 
             Dim verschil = Math.Round((((item.getDoorgegaan / item.getTotaal) - (item.getKans)) * 100), 2)
@@ -853,15 +851,20 @@ Public Class Test
 
             Dim result = "[" + bEdge.ToString + " - " + Math.Round(item.getKans * 100, 2).ToString + " - " + tEdge.ToString + "]"
 
+            Dim kleur As Color
             If echt <= item.getKans * 100 + afw And echt >= item.getKans * 100 - afw Then
                 trues += 1
+                kleur = Color.LightGreen
             Else
                 falses += 1
+                kleur = Color.OrangeRed
             End If
 
             dgvResult.Rows.Add(item.getMerk, item.getUitvoerCentrum, item.getCodeSubAfdeling, item.getMaand.ToString, item.getDag, item.getTotaal.ToString, echt.ToString, result, verschil.ToString)
-
+            dgvResult.Rows(dgvResult.RowCount - 1).DefaultCellStyle.BackColor = kleur
         Next
+
+        dgvResult.Refresh()
 
         Dim remove2 = remove / listOfAllItems.Count
 
