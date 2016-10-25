@@ -39,7 +39,6 @@ Partial Class Test
         Me.cursusChart = New System.Windows.Forms.DataVisualization.Charting.Chart()
         Me.chartBerekend = New System.Windows.Forms.DataVisualization.Charting.Chart()
         Me.cboUitvoerendCentrum = New System.Windows.Forms.ComboBox()
-        Me.ComboBox2 = New System.Windows.Forms.ComboBox()
         Me.cbbMonth = New System.Windows.Forms.ComboBox()
         CType(Me.cursusChart, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chartBerekend, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -157,14 +156,6 @@ Partial Class Test
         Me.cboUitvoerendCentrum.TabIndex = 3
         Me.cboUitvoerendCentrum.Text = "Uitvoerend centrum"
         '
-        'ComboBox2
-        '
-        Me.ComboBox2.FormattingEnabled = True
-        Me.ComboBox2.Location = New System.Drawing.Point(668, 424)
-        Me.ComboBox2.Name = "ComboBox2"
-        Me.ComboBox2.Size = New System.Drawing.Size(121, 21)
-        Me.ComboBox2.TabIndex = 10
-        '
         'cbbMonth
         '
         Me.cbbMonth.DisplayMember = "Key"
@@ -184,7 +175,6 @@ Partial Class Test
         Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.ClientSize = New System.Drawing.Size(1444, 851)
         Me.Controls.Add(Me.cbbMonth)
-        Me.Controls.Add(Me.ComboBox2)
         Me.Controls.Add(Me.chartBerekend)
         Me.Controls.Add(Me.cursusChart)
         Me.Controls.Add(Me.ComboBox1)
@@ -217,6 +207,5 @@ Partial Class Test
     Friend WithEvents cboUitvoerendCentrum As ComboBox
     Friend WithEvents cursusChart As DataVisualization.Charting.Chart
     Friend WithEvents chartBerekend As DataVisualization.Charting.Chart
-    Friend WithEvents ComboBox2 As ComboBox
     Friend WithEvents cbbMonth As ComboBox
 End Class

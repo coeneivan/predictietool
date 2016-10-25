@@ -113,14 +113,15 @@ Public Class MainScreen
         'TODO Wegings factor aanpassen, yes bij kollom is aantal keer dat het resultaat ja was
         'http://www.cs.ccsu.edu/~markov/ccsu_courses/DataMining-8.html
         'hoeveel keer was resultaat ja als outlook sunny was? 2 keer van de 9 ja's
-        Dim globalNee = allData.getAllNee(jaar, filters) / allData.getTotaalAantal(jaar, filters)
-        Dim globalJa = allData.getAllJa(jaar, filters) / allData.getTotaalAantal(jaar, filters)
+        Dim totaal = allData.getTotaalAantal(jaar, filters)
+        Dim globalNee = allData.getAllNee(jaar, filters) / totaal
+        Dim globalJa = allData.getAllJa(jaar, filters) / totaal
         Dim pNee = m * c * s * d * sd * globalNee
         Dim pJa = jm * jc * js * jd * jsd * globalJa
         'Dim pJa = (1 - (d / 100)) * (1 - (m / 100)) * (1 - (s / 100)) * (1 - (sd / 100)) * (1 - (c / 100)) * (1 - (pros / 100))
-        Dim values As New ArrayList({d, m, s, sd, c, globalNee})
-        Dim range = p.certainty(values, pNee / (pNee + pJa))
-        txtTotaal.Text = range.ToString
+        'Dim values As New ArrayList({d, m, s, sd, c, globalNee})
+        'Dim range = p.certainty(values, pNee / (pNee + pJa))
+        txtTotaal.Text = (pNee / (pNee + pJa)).ToString
     End Sub
 
     Public Function getSelectedList() As String

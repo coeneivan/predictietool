@@ -467,16 +467,28 @@ Public Class Test
         Dim falses = 0
         Dim startTime = Now
         Dim everyMerk = merken.getAll(2015, filters)
+        Dim gekozenMerk, gekozenDag, gekozenCentrum, gekozenMaand As FilterItem
 
         ' Is er een item in de dropdown list geselecteerd? voeg hem dan toe aan de filter
-
-
-
-        If ((cbbMonth.SelectedItem) IsNot Nothing) Then
-            filters.Add(New FilterItem("month(startdatum)", "=", ("'" + (cbbMonth.SelectedItem).Value) + "'"))
+        If (cboMerk.SelectedItem <> Nothing) Then
+            gekozenMerk = New FilterItem("Merk", "=", ("'" + cboMerk.SelectedItem.ToString) + "'")
+            filters.Add(gekozenMerk)
         End If
 
+        If (cboDag.SelectedItem <> Nothing) Then
+            gekozenDag = New FilterItem("Dag", "=", ("'" + cboDag.SelectedItem.ToString) + "'")
+            filters.Add(gekozenDag)
+        End If
 
+        If (cboUitvoerendCentrum.SelectedItem <> Nothing) Then
+            gekozenCentrum = New FilterItem("UitvCentrumOmsch", "=", ("'" + cboUitvoerendCentrum.SelectedItem.ToString) + "'")
+            filters.Add(gekozenCentrum)
+        End If
+
+        If ((cbbMonth.SelectedItem).Value <> Nothing) Then
+            gekozenMaand = New FilterItem("month(startdatum)", "=", ("'" + (cbbMonth.SelectedItem).Value) + "'")
+            filters.Add(gekozenMaand)
+        End If
 
         ' TODO Niet telkens verbinding naar database leggen, eens proberen grote hoeveelheden data af te halen en daar mee te werken
         ' Misschien werkt dit rapper om resultaten te bereken
@@ -502,7 +514,7 @@ Public Class Test
                 Dim centrumJA = AllData.getPercentageJa(2015, "UitvCentrumOmsch", centrum.ToString, filters)
                 Dim centrumNEE = AllData.getPErcentageNee(2015, "UitvCentrumOmsch", centrum.ToString, filters)
                 Dim centrumFilter = New FilterItem("UitvCentrumOmsch", "=", "'" + centrum.ToString + "'")
-                'filters.Add(centrumFilter)
+                filters.Add(centrumFilter)
                 Dim subafds As New subAfdBll
                 Dim everySub = subafds.getAallSubAfds(2015, filters)
                 pgb.Maximum += everySub.Count
@@ -513,7 +525,7 @@ Public Class Test
                     Dim subafdJA = AllData.getPercentageJa(2015, "CodeSubafdeling", subafd.ToString, filters)
                     Dim subafdNEE = AllData.getPErcentageNee(2015, "CodeSubafdeling", subafd.ToString, filters)
                     Dim subafdFilter As New FilterItem("CodeSubafdeling", "=", "'" + subafd.ToString + "'")
-                    'filters.Add(subafdFilter)
+                    filters.Add(subafdFilter)
                     Dim startmaand As New ParameterParent("month(startdatum)")
                     Dim everyMonth = startmaand.getAall(2015, filters)
                     pgb.Maximum += everyMonth.Count
@@ -525,7 +537,7 @@ Public Class Test
                         Dim maandNEE = AllData.getPErcentageNee(2015, "month(startdatum)", maand.ToString, filters)
                         Dim lesdag As New DagBll()
                         Dim maandFilters As New FilterItem("month(startdatum)", "=", ("'" + (cbbMonth.SelectedItem).Value + "'"))
-                        'filters.Add(maandFilters)
+                        filters.Add(maandFilters)
                         pgb.Maximum += lesdag.getAll(2015, filters).Count
                         Dim allDay = lesdag.getAll(2015, filters)
                         filters.Add(maandFilters)
@@ -599,6 +611,20 @@ Public Class Test
             filters.Remove(merkFilter)
             pgb.Value += 1
         Next
+        'gekozenMerk, gekozenDag, gekozenCentrum, gekozenMaand
+        If gekozenMerk IsNot Nothing Then
+            filters.Remove(gekozenMerk)
+        End If
+        If gekozenDag IsNot Nothing Then
+            filters.Remove(gekozenDag)
+        End If
+        If gekozenCentrum IsNot Nothing Then
+            filters.Remove(gekozenCentrum)
+        End If
+        If gekozenMaand IsNot Nothing Then
+            filters.Remove(gekozenMaand)
+        End If
+
 
         MessageBox.Show("Tijd verstreken = " + (Now - startTime).ToString)
         Label1.Text = "Totaal: " + totalCounter.ToString
@@ -640,7 +666,6 @@ Public Class Test
         lvResult.Columns.Add("% Doorgeg", 75)
         lvResult.Columns.Add("% Berekend", 75)
 
-
         For Each s As FilterItem In filters
             If f.Equals("") Then
                 f = s.kolom + " " + s.factor + " " + s.filter
@@ -672,7 +697,7 @@ Public Class Test
                 dicMerkW.Add(merk, doorgegaan)
 
                 ' Som van aantal doorgegane cursussen
-                atlDoorgg = doorgegaan
+                atlDoorgg += doorgegaan
             Else
                 dicMerkW(merk) += doorgegaan
 
@@ -685,7 +710,7 @@ Public Class Test
                 dicMerkN.Add(merk, nietDoor)
 
                 ' Som van aantal doorgegane cursussen
-                atlNietDgg = nietDoor
+                atlNietDgg += nietDoor 'HIER WAS ER GEEN +
             Else
                 dicMerkN(merk) += nietDoor
 
@@ -773,7 +798,7 @@ Public Class Test
 
             Dim wel = ((dicMerkW(item.getMerk) / atlDoorgg) * (dicSubW(item.getCodeSubAfdeling) / atlDoorgg) * (dicMaandW(item.getMaand) / atlDoorgg) * (dicDagW(item.getDag) / atlDoorgg) * (dicUitvW(item.getUitvoerCentrum) / atlDoorgg) * (atlDoorgg / (atlDoorgg + atlNietDgg)))
             Dim niet = ((dicMerkN(item.getMerk) / atlNietDgg) * (dicSubN(item.getCodeSubAfdeling) / atlNietDgg) * (dicMaandN(item.getMaand) / atlNietDgg) * (dicDagN(item.getDag) / atlNietDgg) * (dicUitvN(item.getUitvoerCentrum) / atlNietDgg) * (atlNietDgg / (atlDoorgg + atlNietDgg)))
-
+            Dim totaal = wel + niet
             item.setKans(wel / (wel + niet))
 
             Dim lvi As New ListViewItem(item.getMerk)

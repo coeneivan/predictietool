@@ -44,7 +44,7 @@
                 fil += " AND "
                 fil += filIt.kolom + " " + filIt.factor + " " + filIt.filter
             Next
-            Return CDbl(s.getArrayList("SELECT distinct count(*) FROM [SyntraTest].[dbo].[Cursussen] where codeingetrokken ='" + janee + "'  " + fil + " AND year(startdatum) < " + jaar.ToString)(0))
+            Return CDbl(s.getArrayList("SELECT distinct count(*) FROM [SyntraTest].[dbo].[Cursussen] where codeingetrokken ='" + janee + "'  " + fil + " AND year(startdatum) < " + jaar.ToString + " " + fil)(0))
         End If
     End Function
     Public Function getTotaalAantal(jaar As Integer, filters As ArrayList) As Double
@@ -61,9 +61,8 @@
 
                 fil += " AND "
                 fil += filIt.kolom + " " + filIt.factor + " " + filIt.filter
-                'FIX ME: filters worden mommenteel niet mee gegeven door error...
             Next
-            Return CDbl(s.getArrayList("SELECT distinct count(*) FROM [SyntraTest].[dbo].[Cursussen] where year(startdatum) < " + jaar.ToString)(0))
+            Return CDbl(s.getArrayList("SELECT distinct count(*) FROM [SyntraTest].[dbo].[Cursussen] where year(startdatum) < " + jaar.ToString + " " + fil)(0))
         End If
     End Function
 End Class
