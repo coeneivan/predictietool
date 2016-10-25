@@ -656,6 +656,10 @@ Public Class Test
         Dim atlDoorgg As Int32
         Dim atlNietDgg As Int32
 
+        Dim cIn As Integer = 0
+        Dim cOut As Integer = 0
+        Dim ligtTussen As Integer = 10
+
         ' Kolom naam aanmaken
         lvResult.Clear()
         lvResult.Columns.Add("Merken", 55)
@@ -781,22 +785,6 @@ Public Class Test
 
         ' berekend kans van iedere entry dat deze door gaat en plaatst dit vervolgens in de listview
         For Each item As DataMiningPrediction2 In listOfAllItems
-            Dim j1, j2, j3, j4, j5, j6 As Double
-            Dim n1, n2, n3, n4, n5, n6 As Double
-
-            j1 = (dicMerkW(item.getMerk) / atlDoorgg)
-            j2 = (dicSubW(item.getCodeSubAfdeling) / atlDoorgg)
-            j3 = (dicMaandW(item.getMaand) / atlDoorgg)
-            j4 = (dicDagW(item.getDag) / atlDoorgg)
-            j5 = (dicUitvW(item.getUitvoerCentrum) / atlDoorgg)
-            j6 = (atlDoorgg / (atlDoorgg + atlNietDgg))
-
-            n1 = (dicMerkN(item.getMerk) / atlNietDgg)
-            n2 = (dicSubN(item.getCodeSubAfdeling) / atlNietDgg)
-            n3 = (dicMaandN(item.getMaand) / atlNietDgg)
-            n4 = (dicDagN(item.getDag) / atlNietDgg)
-            n5 = (dicUitvN(item.getUitvoerCentrum) / atlNietDgg)
-            n6 = (atlNietDgg / (atlDoorgg + atlNietDgg))
 
             Dim wel = ((dicMerkW(item.getMerk) / atlDoorgg) * (dicSubW(item.getCodeSubAfdeling) / atlDoorgg) * (dicMaandW(item.getMaand) / atlDoorgg) * (dicDagW(item.getDag) / atlDoorgg) * (dicUitvW(item.getUitvoerCentrum) / atlDoorgg) * (atlDoorgg / (atlDoorgg + atlNietDgg)))
             Dim niet = ((dicMerkN(item.getMerk) / atlNietDgg) * (dicSubN(item.getCodeSubAfdeling) / atlNietDgg) * (dicMaandN(item.getMaand) / atlNietDgg) * (dicDagN(item.getDag) / atlNietDgg) * (dicUitvN(item.getUitvoerCentrum) / atlNietDgg) * (atlNietDgg / (atlDoorgg + atlNietDgg)))
@@ -827,6 +815,12 @@ Public Class Test
                 versch(verschil) += 1
             End If
 
+            If verschil > ligtTussen Or verschil < -ligtTussen Then
+                cOut += 1
+            Else
+                cIn += 1
+            End If
+
             pgb.Value += 1
         Next
 
@@ -852,10 +846,13 @@ Public Class Test
         Me.chartBerekend.Titles.Add(Title1)
         Me.chartBerekend.Titles.Add(Title2)
         Me.Width = 1460
-        chartBerekend.ChartAreas(0).AxisX.Interval = 10
-        chartBerekend.ChartAreas(0).AxisY.Interval = 5
+        chartBerekend.ChartAreas(0).AxisX.Interval = 20
+        chartBerekend.ChartAreas(0).AxisY.Interval = 10
         chartBerekend.ChartAreas(0).AxisX.Minimum = -100
         chartBerekend.ChartAreas(0).AxisX.Maximum = 100
+
+
+        Label1.Text = "Binnen -" + ligtTussen.ToString + " en " + ligtTussen.ToString + ": " + cIn.ToString + "    Buiten -" + ligtTussen.ToString + " en " + ligtTussen.ToString + ": " + cOut.ToString
         MessageBox.Show("Verstreken tijd: " + (Now - startTime).ToString)
     End Sub
 
