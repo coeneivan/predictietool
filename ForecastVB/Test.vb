@@ -600,9 +600,7 @@ Public Class Test
         Label1.Text = "Totaal: " + totalCounter.ToString
     End Sub
 
-    Private Sub ContextMenuStrip1_Opening(sender As Object, e As System.ComponentModel.CancelEventArgs)
 
-    End Sub
 
     Private Sub dataMiningPrediction2()
 
@@ -630,9 +628,15 @@ Public Class Test
 
         Dim atlDoorgg As Int32
         Dim atlNietDgg As Int32
+        Dim standaardAfwijking As New List(Of Double)
+
+        Dim cIn As Integer = 0
+        Dim cOut As Integer = 0
+        Dim ligtTussen As Integer = 10
 
         ' Kolom naam aanmaken
         dgvResult.DataSource = Nothing
+        dgvResult.Columns.Clear
         dgvResult.Columns.Add("merk", "Merk")
         dgvResult.Columns.Add("Uitvoerend centrum", "Uitvoerend centrum")
         dgvResult.Columns.Add("Sub afdeling", "Sub afdeling")
@@ -642,6 +646,16 @@ Public Class Test
         dgvResult.Columns.Add("% Doorgeg", "% Doorgeg")
         dgvResult.Columns.Add("% Berekend", "% Berekend")
         dgvResult.Columns.Add("verschil", "verschil")
+
+        dgvResult.Columns(0).Width = 65
+        dgvResult.Columns(1).Width = 100
+        dgvResult.Columns(2).Width = 50
+        dgvResult.Columns(3).Width = 50
+        dgvResult.Columns(4).Width = 50
+        dgvResult.Columns(5).Width = 40
+        dgvResult.Columns(6).Width = 50
+        dgvResult.Columns(7).Width = 115
+        dgvResult.Columns(8).Width = 50
 
         For Each s As FilterItem In filters
             If f.Equals("") Then
@@ -771,6 +785,7 @@ Public Class Test
             n5 = (dicUitvN(item.getUitvoerCentrum) / atlNietDgg)
             n6 = (atlNietDgg / (atlDoorgg + atlNietDgg))
 
+
             Dim wel = ((dicMerkW(item.getMerk) / atlDoorgg) * (dicSubW(item.getCodeSubAfdeling) / atlDoorgg) * (dicMaandW(item.getMaand) / atlDoorgg) * (dicDagW(item.getDag) / atlDoorgg) * (dicUitvW(item.getUitvoerCentrum) / atlDoorgg) * (atlDoorgg / (atlDoorgg + atlNietDgg)))
             Dim niet = ((dicMerkN(item.getMerk) / atlNietDgg) * (dicSubN(item.getCodeSubAfdeling) / atlNietDgg) * (dicMaandN(item.getMaand) / atlNietDgg) * (dicDagN(item.getDag) / atlNietDgg) * (dicUitvN(item.getUitvoerCentrum) / atlNietDgg) * (atlNietDgg / (atlDoorgg + atlNietDgg)))
             Dim totaal = wel + niet
@@ -788,17 +803,23 @@ Public Class Test
                 falses += 1
             End If
             ' Verschil
-            Dim verschil = Math.Round((((item.getDoorgegaan / item.getTotaal) - (item.getKans)) * 100), 2).ToString
+            Dim verschil = Math.Round((((item.getDoorgegaan / item.getTotaal) - (item.getKans)) * 100), 2)
 
-            dgvResult.Rows.Add(item.getMerk, item.getUitvoerCentrum, item.getCodeSubAfdeling, item.getMaand.ToString, item.getDag, item.getTotaal.ToString, echt.ToString, bereik.ToString, verschil)
+            dgvResult.Rows.Add(item.getMerk, item.getUitvoerCentrum, item.getCodeSubAfdeling, item.getMaand.ToString, item.getDag, item.getTotaal.ToString, echt.ToString, bereik.ToString, verschil.ToString)
 
-
+            standaardAfwijking.Add(verschil)
 
             verschil = (Math.Round(item.getDoorgegaan / item.getTotaal * 100) - Math.Round(item.getKans * 100))
             If Not versch.ContainsKey(verschil) Then
                 versch.Add(verschil, 1)
             Else
                 versch(verschil) += 1
+            End If
+
+            If verschil > ligtTussen Or verschil < -ligtTussen Then
+                cOut += 1
+            Else
+                cIn += 1
             End If
 
             pgb.Value += 1
@@ -811,6 +832,11 @@ Public Class Test
         For Each s As KeyValuePair(Of Double, Integer) In versch
             ver.Points.AddXY(s.Key, s.Value)
         Next
+
+
+        ' Standaard afwijking berekenen
+        Dim deviatie = Math.Round(CalculateStandardDeviation(standaardAfwijking), 3)
+
 
         chartBerekend.Series.Add(ver)
         Dim Title1 As New Title
@@ -830,6 +856,9 @@ Public Class Test
         chartBerekend.ChartAreas(0).AxisY.Interval = 10
         chartBerekend.ChartAreas(0).AxisX.Minimum = -100
         chartBerekend.ChartAreas(0).AxisX.Maximum = 100
+
+
+        lblInfo2.Text = "Binnen -" + ligtTussen.ToString + " en " + ligtTussen.ToString + ": " + cIn.ToString + "    Buiten -" + ligtTussen.ToString + " en " + ligtTussen.ToString + ": " + cOut.ToString + "      Standaardafwijking: " + deviatie.ToString
         MessageBox.Show("Verstreken tijd: " + (Now - startTime).ToString)
         Label1.Text = "Totaal = " + listOfAllItems.Count.ToString + " waarvan " + trues.ToString + " correct voorspeld waren en " + falses.ToString + " niet"
     End Sub
@@ -842,10 +871,17 @@ Public Class Test
         End If
     End Function
 
-    Private Sub dgvResult_ColumnHeaderMouseDoubleClick(sender As Object, e As DataGridViewCellMouseEventArgs) Handles dgvResult.ColumnHeaderMouseDoubleClick
-        'MessageBox.Show("Selected column: " + )
-        Select Case dgvResult.Columns(e.ColumnIndex).HeaderText
-            Case "Dag"
-        End Select
-    End Sub
+    Private Function CalculateStandardDeviation(data As List(Of Double)) As Double
+        Dim mean As Double = data.Average()
+        Dim squares As New List(Of Double)
+        Dim squareAvg As Double
+
+        For Each value As Double In data
+            squares.Add(Math.Pow(value - mean, 2))
+        Next
+
+        squareAvg = squares.Average()
+
+        Return Math.Sqrt(squareAvg)
+    End Function
 End Class
