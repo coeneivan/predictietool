@@ -22,6 +22,7 @@ Public Class Test
 
 
     Private Sub Test_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        dataMiningPrediction2() 'AUTO START Bayes theorem
         Dim m As New MerkBLL
         alleMerken = m.getAll(2015, Nothing)
         cboMerk.Items.AddRange(alleMerken.ToArray)
@@ -636,7 +637,7 @@ Public Class Test
 
         ' Kolom naam aanmaken
         dgvResult.DataSource = Nothing
-        dgvResult.Columns.Clear
+        dgvResult.Columns.Clear()
         dgvResult.Columns.Add("merk", "Merk")
         dgvResult.Columns.Add("Uitvoerend centrum", "Uitvoerend centrum")
         dgvResult.Columns.Add("Sub afdeling", "Sub afdeling")
@@ -787,7 +788,9 @@ Public Class Test
 
 
             Dim wel = ((dicMerkW(item.getMerk) / atlDoorgg) * (dicSubW(item.getCodeSubAfdeling) / atlDoorgg) * (dicMaandW(item.getMaand) / atlDoorgg) * (dicDagW(item.getDag) / atlDoorgg) * (dicUitvW(item.getUitvoerCentrum) / atlDoorgg) * (atlDoorgg / (atlDoorgg + atlNietDgg)))
+            'Dim wel = ((dicSubW(item.getCodeSubAfdeling) / atlDoorgg) * (dicMaandW(item.getMaand) / atlDoorgg) * (dicDagW(item.getDag) / atlDoorgg) * (dicUitvW(item.getUitvoerCentrum) / atlDoorgg) * (atlDoorgg / (atlDoorgg + atlNietDgg)))
             Dim niet = ((dicMerkN(item.getMerk) / atlNietDgg) * (dicSubN(item.getCodeSubAfdeling) / atlNietDgg) * (dicMaandN(item.getMaand) / atlNietDgg) * (dicDagN(item.getDag) / atlNietDgg) * (dicUitvN(item.getUitvoerCentrum) / atlNietDgg) * (atlNietDgg / (atlDoorgg + atlNietDgg)))
+            'Dim niet = ((dicSubN(item.getCodeSubAfdeling) / atlNietDgg) * (dicMaandN(item.getMaand) / atlNietDgg) * (dicDagN(item.getDag) / atlNietDgg) * (dicUitvN(item.getUitvoerCentrum) / atlNietDgg) * (atlNietDgg / (atlDoorgg + atlNietDgg)))
             Dim totaal = wel + niet
             item.setKans(wel / (wel + niet))
 

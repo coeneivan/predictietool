@@ -41,7 +41,7 @@ Public Class TestDAO
         query += "From Cursussen "
 
         If Not s.Equals("") Then
-            query += "WHERE " + s
+            query += "WHERE year(startdatum) < 2015 and " + s
         End If
 
         query += "group by "

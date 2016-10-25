@@ -119,6 +119,7 @@
     <Compile Include="BLL\Prospect.vb" />
     <Compile Include="BLL\SubAfdBLL.vb" />
     <Compile Include="BLL\TestBLL.vb" />
+    <Compile Include="BLL\tVerdeling.vb" />
     <Compile Include="DAO\AllDataDAO.vb" />
     <Compile Include="DAO\FiltersDAO.vb" />
     <Compile Include="DAO\ParametersDAO.vb" />
