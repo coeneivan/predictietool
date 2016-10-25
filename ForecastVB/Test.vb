@@ -624,6 +624,7 @@ Public Class Test
 
         Dim atlDoorgg As Int32
         Dim atlNietDgg As Int32
+        Dim standaardAfwijking As New List(Of Double)
 
         Dim cIn As Integer = 0
         Dim cOut As Integer = 0
@@ -631,7 +632,7 @@ Public Class Test
 
         ' Kolom naam aanmaken
         dgvResult.DataSource = Nothing
-        dgvResult.Columns.Clear()
+        dgvResult.Columns.Clear
         dgvResult.Columns.Add("merk", "Merk")
         dgvResult.Columns.Add("Uitvoerend centrum", "Uitvoerend centrum")
         dgvResult.Columns.Add("Sub afdeling", "Sub afdeling")
@@ -798,11 +799,11 @@ Public Class Test
                 falses += 1
             End If
             ' Verschil
-            Dim verschil = Math.Round((((item.getDoorgegaan / item.getTotaal) - (item.getKans)) * 100), 2).ToString
+            Dim verschil = Math.Round((((item.getDoorgegaan / item.getTotaal) - (item.getKans)) * 100), 2)
 
-            dgvResult.Rows.Add(item.getMerk, item.getUitvoerCentrum, item.getCodeSubAfdeling, item.getMaand.ToString, item.getDag, item.getTotaal.ToString, echt.ToString, bereik.ToString, verschil)
+            dgvResult.Rows.Add(item.getMerk, item.getUitvoerCentrum, item.getCodeSubAfdeling, item.getMaand.ToString, item.getDag, item.getTotaal.ToString, echt.ToString, bereik.ToString, verschil.ToString)
 
-
+            standaardAfwijking.Add(verschil)
 
             verschil = (Math.Round(item.getDoorgegaan / item.getTotaal * 100) - Math.Round(item.getKans * 100))
             If Not versch.ContainsKey(verschil) Then
@@ -828,6 +829,11 @@ Public Class Test
             ver.Points.AddXY(s.Key, s.Value)
         Next
 
+
+        ' Standaard afwijking berekenen
+        Dim deviatie = Math.Round(CalculateStandardDeviation(standaardAfwijking), 3)
+
+
         chartBerekend.Series.Add(ver)
         Dim Title1 As New Title
         Dim Title2 As New Title
@@ -848,7 +854,7 @@ Public Class Test
         chartBerekend.ChartAreas(0).AxisX.Maximum = 100
 
 
-        Label1.Text = "Binnen -" + ligtTussen.ToString + " en " + ligtTussen.ToString + ": " + cIn.ToString + "    Buiten -" + ligtTussen.ToString + " en " + ligtTussen.ToString + ": " + cOut.ToString
+        lblInfo2.Text = "Binnen -" + ligtTussen.ToString + " en " + ligtTussen.ToString + ": " + cIn.ToString + "    Buiten -" + ligtTussen.ToString + " en " + ligtTussen.ToString + ": " + cOut.ToString + "      Standaardafwijking: " + deviatie.ToString
         MessageBox.Show("Verstreken tijd: " + (Now - startTime).ToString)
         Label1.Text = "Totaal = " + listOfAllItems.Count.ToString + " waarvan " + trues.ToString + " correct voorspeld waren en " + falses.ToString + " niet"
     End Sub
@@ -859,5 +865,19 @@ Public Class Test
         Else
             Return value
         End If
+    End Function
+
+    Private Function CalculateStandardDeviation(data As List(Of Double)) As Double
+        Dim mean As Double = data.Average()
+        Dim squares As New List(Of Double)
+        Dim squareAvg As Double
+
+        For Each value As Double In data
+            squares.Add(Math.Pow(value - mean, 2))
+        Next
+
+        squareAvg = squares.Average()
+
+        Return Math.Sqrt(squareAvg)
     End Function
 End Class

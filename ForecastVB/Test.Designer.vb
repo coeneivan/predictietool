@@ -37,6 +37,7 @@ Partial Class Test
         Me.cboUitvoerendCentrum = New System.Windows.Forms.ComboBox()
         Me.cbbMonth = New System.Windows.Forms.ComboBox()
         Me.dgvResult = New System.Windows.Forms.DataGridView()
+        Me.lblInfo2 = New System.Windows.Forms.Label()
         CType(Me.chartBerekend, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dgvResult, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -82,7 +83,7 @@ Partial Class Test
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(10, 816)
+        Me.Label1.Location = New System.Drawing.Point(8, 802)
         Me.Label1.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(39, 13)
@@ -156,12 +157,21 @@ Partial Class Test
         Me.dgvResult.Size = New System.Drawing.Size(642, 705)
         Me.dgvResult.TabIndex = 8
         '
+        'lblInfo2
+        '
+        Me.lblInfo2.AutoSize = True
+        Me.lblInfo2.Location = New System.Drawing.Point(8, 815)
+        Me.lblInfo2.Name = "lblInfo2"
+        Me.lblInfo2.Size = New System.Drawing.Size(0, 13)
+        Me.lblInfo2.TabIndex = 9
+        '
         'Test
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.ClientSize = New System.Drawing.Size(662, 851)
+        Me.Controls.Add(Me.lblInfo2)
         Me.Controls.Add(Me.dgvResult)
         Me.Controls.Add(Me.cbbMonth)
         Me.Controls.Add(Me.chartBerekend)
@@ -194,4 +204,5 @@ Partial Class Test
     Friend WithEvents chartBerekend As DataVisualization.Charting.Chart
     Friend WithEvents cbbMonth As ComboBox
     Friend WithEvents dgvResult As DataGridView
+    Friend WithEvents lblInfo2 As Label
 End Class
