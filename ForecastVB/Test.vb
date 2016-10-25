@@ -631,6 +631,7 @@ Public Class Test
 
         ' Kolom naam aanmaken
         dgvResult.DataSource = Nothing
+        dgvResult.Columns.Clear()
         dgvResult.Columns.Add("merk", "Merk")
         dgvResult.Columns.Add("Uitvoerend centrum", "Uitvoerend centrum")
         dgvResult.Columns.Add("Sub afdeling", "Sub afdeling")
@@ -640,6 +641,16 @@ Public Class Test
         dgvResult.Columns.Add("% Doorgeg", "% Doorgeg")
         dgvResult.Columns.Add("% Berekend", "% Berekend")
         dgvResult.Columns.Add("verschil", "verschil")
+
+        dgvResult.Columns(0).Width = 65
+        dgvResult.Columns(1).Width = 100
+        dgvResult.Columns(2).Width = 50
+        dgvResult.Columns(3).Width = 50
+        dgvResult.Columns(4).Width = 50
+        dgvResult.Columns(5).Width = 40
+        dgvResult.Columns(6).Width = 50
+        dgvResult.Columns(7).Width = 115
+        dgvResult.Columns(8).Width = 50
 
         For Each s As FilterItem In filters
             If f.Equals("") Then
