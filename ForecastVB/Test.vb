@@ -8,6 +8,7 @@ Public Class Test
     Dim b As Double = 1
     Dim c As Double = 1
     Dim som As Double = 0
+    Dim alleMerken, alleDagen, alleMaanden, alleCentra As ArrayList
 
     Public Sub New(main As MainScreen)
         ' This call is required by the designer.
@@ -22,12 +23,15 @@ Public Class Test
 
     Private Sub Test_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim m As New MerkBLL
-        cboMerk.Items.AddRange(m.getAll(2015, Nothing).ToArray)
-        cboDag.Items.AddRange({"Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag", "Zaterdag", "Zondag"})
+        alleMerken = m.getAll(2015, Nothing)
+        cboMerk.Items.AddRange(alleMerken.ToArray)
+        alleDagen = New ArrayList({"Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag", "Zaterdag", "Zondag"})
+        cboDag.Items.AddRange(alleDagen.ToArray)
         Dim para As New ParameterParent("uitvCentrumOmsch")
-        cboUitvoerendCentrum.Items.AddRange(para.getAall(2015, root.getFilters).ToArray)
-    End Sub
+        alleCentra = para.getAall(2015, root.getFilters)
+        cboUitvoerendCentrum.Items.AddRange(alleCentra.ToArray)
 
+    End Sub
     Private Sub btnCheck_Click(sender As Object, e As EventArgs) Handles btnCheck.Click
         Try
 
@@ -596,7 +600,9 @@ Public Class Test
         Label1.Text = "Totaal: " + totalCounter.ToString
     End Sub
 
+    Private Sub ContextMenuStrip1_Opening(sender As Object, e As System.ComponentModel.CancelEventArgs)
 
+    End Sub
 
     Private Sub dataMiningPrediction2()
 
@@ -835,4 +841,11 @@ Public Class Test
             Return value
         End If
     End Function
+
+    Private Sub dgvResult_ColumnHeaderMouseDoubleClick(sender As Object, e As DataGridViewCellMouseEventArgs) Handles dgvResult.ColumnHeaderMouseDoubleClick
+        'MessageBox.Show("Selected column: " + )
+        Select Case dgvResult.Columns(e.ColumnIndex).HeaderText
+            Case "Dag"
+        End Select
+    End Sub
 End Class
