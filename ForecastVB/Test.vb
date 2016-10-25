@@ -834,8 +834,6 @@ Public Class Test
         chartBerekend.Titles.Clear()
         chartBerekend.Series.Clear()
 
-        Dim t = versch.Values
-
         For Each s As KeyValuePair(Of Double, Integer) In versch
             ver.Points.AddXY(s.Key, s.Value)
         Next
