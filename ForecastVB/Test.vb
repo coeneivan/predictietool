@@ -46,7 +46,7 @@ Public Class Test
 
             If (ComboBox1.SelectedItem.Equals("Data mining algorithms: Prediction")) Then
                 dataMiningPrediction()
-            ElseIf (ComboBox1.SelectedItem.Equals("Data mining algorithms: Prediction poging 2")) Then
+            ElseIf (ComboBox1.SelectedItem.Equals("Bayes' theorem")) Then
                 dataMiningPrediction2()
             Else
 
@@ -855,6 +855,9 @@ Public Class Test
         Me.chartBerekend.Titles.Add(Title2)
         Me.Width = 1460
         chartBerekend.ChartAreas(0).AxisX.Interval = 10
+        chartBerekend.ChartAreas(0).AxisY.Interval = 5
+        chartBerekend.ChartAreas(0).AxisX.Minimum = -100
+        chartBerekend.ChartAreas(0).AxisX.Maximum = 100
         MessageBox.Show("Verstreken tijd: " + (Now - startTime).ToString)
     End Sub
 

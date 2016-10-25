@@ -103,7 +103,7 @@ Partial Class Test
         'ComboBox1
         '
         Me.ComboBox1.FormattingEnabled = True
-        Me.ComboBox1.Items.AddRange(New Object() {"Linear regression", "Decision tree", "Lagrange Interpolating Polynomial", "Data mining algorithms: Prediction", "Data mining algorithms: Prediction poging 2"})
+        Me.ComboBox1.Items.AddRange(New Object() {"Linear regression", "Decision tree", "Lagrange Interpolating Polynomial", "Data mining algorithms: Prediction", "Bayes' theorem"})
         Me.ComboBox1.Location = New System.Drawing.Point(355, 21)
         Me.ComboBox1.Name = "ComboBox1"
         Me.ComboBox1.Size = New System.Drawing.Size(205, 21)
@@ -112,14 +112,18 @@ Partial Class Test
         '
         'chartBerekend
         '
+        Me.chartBerekend.BackColor = System.Drawing.Color.Transparent
         ChartArea1.Name = "ChartArea1"
         Me.chartBerekend.ChartAreas.Add(ChartArea1)
-        Me.chartBerekend.Location = New System.Drawing.Point(660, 10)
+        Me.chartBerekend.ImeMode = System.Windows.Forms.ImeMode.NoControl
+        Me.chartBerekend.Location = New System.Drawing.Point(658, 0)
+        Me.chartBerekend.Margin = New System.Windows.Forms.Padding(0)
         Me.chartBerekend.Name = "chartBerekend"
+        Me.chartBerekend.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.None
         Series1.ChartArea = "ChartArea1"
         Series1.Name = "Series1"
         Me.chartBerekend.Series.Add(Series1)
-        Me.chartBerekend.Size = New System.Drawing.Size(772, 806)
+        Me.chartBerekend.Size = New System.Drawing.Size(772, 854)
         Me.chartBerekend.TabIndex = 7
         Me.chartBerekend.Text = "Chart1"
         Title1.BackImageAlignment = System.Windows.Forms.DataVisualization.Charting.ChartImageAlignmentStyle.Left
@@ -160,7 +164,7 @@ Partial Class Test
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
-        Me.ClientSize = New System.Drawing.Size(661, 851)
+        Me.ClientSize = New System.Drawing.Size(662, 851)
         Me.Controls.Add(Me.cbbMonth)
         Me.Controls.Add(Me.chartBerekend)
         Me.Controls.Add(Me.ComboBox1)
