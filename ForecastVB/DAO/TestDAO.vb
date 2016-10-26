@@ -29,6 +29,34 @@ Public Class TestDAO
         Return sql.getParameterForYear(script)
     End Function
 
+    Friend Shared Function GetAllCursForAllVarWithYear(f As String) As List(Of DataMiningPrediction2)
+        Dim query As String = ""
+        query += "Select Distinct Merk"
+        query += ", UitvCentrumOmsch"
+        query += ", Month(StartDatum) as Maand"
+        query += ", dag as Dag"
+        query += ", CodeSubafdeling"
+        query += ", count(*) as totaal"
+        query += ", SUM(CASE WHEN CodeIngetrokken='Nee' THEN 1 ELSE 0 END) as doorgegaan "
+        query += ", YEAR(StartDatum) as Jaar "
+        query += "From SyntraTest.dbo.Cursussen "
+
+        If Not f.Equals("") Then
+            query += "WHERE YEAR(Startdatum) <2015 AND " + f
+        End If
+
+        query += "group by "
+        query += "Merk"
+        query += ", UitvCentrumOmsch"
+        query += ", Month(StartDatum)"
+        query += ", YEAR(StartDatum)"
+        query += ", dag"
+        query += ", CodeSubafdeling "
+
+        Dim sql As New SQLUtil
+        Return sql.GetAllCursForAllVarWithYear(query)
+    End Function
+
     Friend Shared Function GetAllCursForAllVar(s As String) As List(Of DataMiningPrediction2)
         Dim query As String = ""
         query += "Select Distinct Merk"

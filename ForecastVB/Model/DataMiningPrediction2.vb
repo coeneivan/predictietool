@@ -7,6 +7,7 @@
     Dim totaal As Int32
     Dim doorgegaan As Int32
     Dim kans As Double
+    Dim jaar As Double
 
     Public Sub New(mer As String, u As String, ma As Int16, da As String, subAf As String, tot As Int32, doorg As Int32)
         merk = mer
@@ -16,6 +17,16 @@
         codeSubAfd = subAf
         totaal = tot
         doorgegaan = doorg
+    End Sub
+    Public Sub New(mer As String, u As String, ma As Int16, da As String, subAf As String, tot As Int32, doorg As Int32, j As Integer)
+        merk = mer
+        uitvCentr = u
+        maand = ma
+        dag = da
+        codeSubAfd = subAf
+        totaal = tot
+        doorgegaan = doorg
+        jaar = j
     End Sub
 
     Public Function getMerk() As String
@@ -53,4 +64,22 @@
     Public Function getKans() As Double
         Return kans
     End Function
+
+    Public Sub setJaar(j As Double)
+        jaar = j
+    End Sub
+
+    Public Function getJaar() As Double
+        Return jaar
+    End Function
+
+    Private t As Double
+    Public Property temp() As Double
+        Get
+            Return t
+        End Get
+        Set(ByVal value As Double)
+            t = value
+        End Set
+    End Property
 End Class

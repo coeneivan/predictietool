@@ -22,7 +22,9 @@ Public Class Test
 
 
     Private Sub Test_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        dataMiningPrediction2() 'AUTO START Bayes theorem
+        'bayesAndLinear() 'AUTO START Bayes' theorem & Linear
+        ComboBox1.Text() = "Bayes' theorem with year"
+
         Dim m As New MerkBLL
         alleMerken = m.getAll(2015, Nothing)
         cboMerk.Items.AddRange(alleMerken.ToArray)
@@ -33,6 +35,9 @@ Public Class Test
         cboUitvoerendCentrum.Items.AddRange(alleCentra.ToArray)
 
     End Sub
+
+
+#Region "Old Algorithms and methodes"
     Private Sub btnCheck_Click(sender As Object, e As EventArgs) Handles btnCheck.Click
         Try
 
@@ -44,6 +49,10 @@ Public Class Test
                 dataMiningPrediction()
             ElseIf (ComboBox1.SelectedItem.Equals("Bayes' theorem")) Then
                 dataMiningPrediction2()
+            ElseIf (ComboBox1.SelectedItem.Equals("Bayes' theorem & Linear")) Then
+                bayesAndLinear()
+            ElseIf (ComboBox1.SelectedItem.Equals("Bayes' theorem with year")) Then
+                BayersWithYear()
             Else
 
 
@@ -607,8 +616,7 @@ Public Class Test
 
         Dim trues = 0
         Dim falses = 0
-        Dim filters = root.getFilters()
-        Dim f As String = ""
+        Dim f As String
         Dim listOfAllItems As New List(Of DataMiningPrediction2)
         Dim startTime = Now
         Dim versch As New Dictionary(Of Double, Integer)
@@ -636,35 +644,10 @@ Public Class Test
         Dim ligtTussen As Integer = 10
 
         ' Kolom naam aanmaken
-        dgvResult.DataSource = Nothing
-        dgvResult.Columns.Clear()
-        dgvResult.Columns.Add("merk", "Merk")
-        dgvResult.Columns.Add("Uitvoerend centrum", "Uitvoerend centrum")
-        dgvResult.Columns.Add("Sub afdeling", "Sub afdeling")
-        dgvResult.Columns.Add("Maand", "Maand")
-        dgvResult.Columns.Add("Dag", "Dag")
-        dgvResult.Columns.Add("Totaal", "Totaal")
-        dgvResult.Columns.Add("% Doorgeg", "% Doorgeg")
-        dgvResult.Columns.Add("% Berekend", "% Berekend")
-        dgvResult.Columns.Add("verschil", "verschil")
+        initDataGridView()
 
-        dgvResult.Columns(0).Width = 65
-        dgvResult.Columns(1).Width = 100
-        dgvResult.Columns(2).Width = 50
-        dgvResult.Columns(3).Width = 50
-        dgvResult.Columns(4).Width = 50
-        dgvResult.Columns(5).Width = 40
-        dgvResult.Columns(6).Width = 50
-        dgvResult.Columns(7).Width = 115
-        dgvResult.Columns(8).Width = 50
 
-        For Each s As FilterItem In filters
-            If f.Equals("") Then
-                f = s.kolom + " " + s.factor + " " + s.filter
-            Else
-                f += " and " + s.kolom + " " + s.factor + " " + s.filter
-            End If
-        Next
+        f = createFilterString(root.getFilters())
 
         listOfAllItems = TestBLL.GetAllCursForAllVar(f)
 
@@ -699,12 +682,12 @@ Public Class Test
             If Not dicMerkN.ContainsKey(merk) Then
                 dicMerkN.Add(merk, nietDoor)
 
-                ' Som van aantal doorgegane cursussen
-                atlNietDgg += nietDoor 'HIER WAS ER GEEN +
+                ' Som van aantal Geschrapte cursussen
+                atlNietDgg += nietDoor
             Else
                 dicMerkN(merk) += nietDoor
 
-                ' Som van aantal doorgegane cursussen
+                ' Som van aantal Geschrapte cursussen
                 atlNietDgg += nietDoor
             End If
 
@@ -787,17 +770,19 @@ Public Class Test
 
             Dim wel As Double = 0
             Dim niet As Double = 0
-            If (item.getTotaal > 12) Then
-                wel = ((dicMerkW(item.getMerk) / atlDoorgg) * (dicSubW(item.getCodeSubAfdeling) / atlDoorgg) * (dicMaandW(item.getMaand) / atlDoorgg) * (dicDagW(item.getDag) / atlDoorgg) * (dicUitvW(item.getUitvoerCentrum) / atlDoorgg) * (atlDoorgg / (atlDoorgg + atlNietDgg)))
-                niet = ((dicMerkN(item.getMerk) / atlNietDgg) * (dicSubN(item.getCodeSubAfdeling) / atlNietDgg) * (dicMaandN(item.getMaand) / atlNietDgg) * (dicDagN(item.getDag) / atlNietDgg) * (dicUitvN(item.getUitvoerCentrum) / atlNietDgg) * (atlNietDgg / (atlDoorgg + atlNietDgg)))
-            Else
+            If (item.getTotaal <= 12) Then
                 wel = ((dicSubW(item.getCodeSubAfdeling) / atlDoorgg) * (dicMaandW(item.getMaand) / atlDoorgg) * (dicDagW(item.getDag) / atlDoorgg) * (dicUitvW(item.getUitvoerCentrum) / atlDoorgg) * (atlDoorgg / (atlDoorgg + atlNietDgg)))
                 niet = ((dicSubN(item.getCodeSubAfdeling) / atlNietDgg) * (dicMaandN(item.getMaand) / atlNietDgg) * (dicDagN(item.getDag) / atlNietDgg) * (dicUitvN(item.getUitvoerCentrum) / atlNietDgg) * (atlNietDgg / (atlDoorgg + atlNietDgg)))
+            ElseIf item.getTotaal <= 15 Then
+                wel = ((dicMerkW(item.getMerk) / atlDoorgg) * (dicSubW(item.getCodeSubAfdeling) / atlDoorgg) * (dicMaandW(item.getMaand) / atlDoorgg) * (dicUitvW(item.getUitvoerCentrum) / atlDoorgg) * (atlDoorgg / (atlDoorgg + atlNietDgg)))
+                niet = ((dicMerkN(item.getMerk) / atlNietDgg) * (dicSubN(item.getCodeSubAfdeling) / atlNietDgg) * (dicMaandN(item.getMaand) / atlNietDgg) * (dicUitvN(item.getUitvoerCentrum) / atlNietDgg) * (atlNietDgg / (atlDoorgg + atlNietDgg)))
+            Else
+                wel = ((dicMerkW(item.getMerk) / atlDoorgg) * (dicSubW(item.getCodeSubAfdeling) / atlDoorgg) * (dicMaandW(item.getMaand) / atlDoorgg) * (dicDagW(item.getDag) / atlDoorgg) * (dicUitvW(item.getUitvoerCentrum) / atlDoorgg) * (atlDoorgg / (atlDoorgg + atlNietDgg)))
+                niet = ((dicMerkN(item.getMerk) / atlNietDgg) * (dicSubN(item.getCodeSubAfdeling) / atlNietDgg) * (dicMaandN(item.getMaand) / atlNietDgg) * (dicDagN(item.getDag) / atlNietDgg) * (dicUitvN(item.getUitvoerCentrum) / atlNietDgg) * (atlNietDgg / (atlDoorgg + atlNietDgg)))
+
             End If
             Dim totaal = wel + niet
             item.setKans(wel / (wel + niet))
-
-
 
 
             ' Verschil
@@ -821,13 +806,391 @@ Public Class Test
             pgb.Value += 1
         Next
 
-        Dim ver As New Series
-        chartBerekend.Titles.Clear()
-        chartBerekend.Series.Clear()
 
+        ' Teken grafiek
+        Dim ver As New Series
         For Each s As KeyValuePair(Of Double, Integer) In versch
             ver.Points.AddXY(s.Key, s.Value)
         Next
+        drawBarGraph(ver)
+
+
+
+        ' Standaard afwijking berekenen
+        Dim deviatie = Math.Round(CalculateStandardDeviation(standaardAfwijking), 3)
+        Dim remove As Double = 0
+        Dim tVerd As New tVerdeling
+
+        For Each item As DataMiningPrediction2 In listOfAllItems
+            Dim afw = tVerd.getTwaarde(0.99, item.getTotaal) * deviatie / Math.Sqrt(item.getTotaal)
+            remove += afw
+
+            Dim verschil = Math.Round((((item.getDoorgegaan / item.getTotaal) - (item.getKans)) * 100), 2)
+
+            Dim echt = (Math.Round(((item.getDoorgegaan / item.getTotaal) * 10000)) / 100)
+
+            ' Bereken de top waarde en onderste waarde van de afwijking, controlleer of deze boven 100 of onder 0 zit en pas deze aan indien nodig
+            Dim bEdge = Math.Round(item.getKans * 100 - afw, 2)
+            Dim tEdge = Math.Round(item.getKans * 100 + afw, 2)
+            If bEdge < 0 Then bEdge = 0
+            If tEdge > 100 Then tEdge = 100
+
+            Dim result = "[" + bEdge.ToString + " - " + Math.Round(item.getKans * 100, 2).ToString + " - " + tEdge.ToString + "]"
+
+            Dim kleur As Color
+            If echt <= item.getKans * 100 + afw And echt >= item.getKans * 100 - afw Then
+                trues += 1
+                kleur = Color.LightGreen
+            Else
+                falses += 1
+                kleur = Color.OrangeRed
+            End If
+
+            dgvResult.Rows.Add(item.getMerk, item.getUitvoerCentrum, item.getCodeSubAfdeling, item.getMaand.ToString, item.getDag, item.getTotaal.ToString, echt.ToString, result, verschil.ToString)
+            dgvResult.Rows(dgvResult.RowCount - 1).DefaultCellStyle.BackColor = kleur
+        Next
+
+        dgvResult.Refresh()
+
+        Dim remove2 = remove / listOfAllItems.Count
+
+        lblInfo2.Text = "Binnen -" + ligtTussen.ToString + " en " + ligtTussen.ToString + ": " + cIn.ToString + "    Buiten -" + ligtTussen.ToString + " en " + ligtTussen.ToString + ": " + cOut.ToString + "      Standaardafwijking: " + deviatie.ToString
+        Label1.Text = "Totaal = " + listOfAllItems.Count.ToString + " waarvan " + trues.ToString + " correct voorspeld waren en " + falses.ToString + " niet"
+    End Sub
+
+    Private Function createFilterString(filters As ArrayList) As String
+        Dim f As String = ""
+        For Each s As FilterItem In filters
+            If f.Equals("") Then
+                f = s.kolom + " " + s.factor + " " + s.filter
+            Else
+                f += " and " + s.kolom + " " + s.factor + " " + s.filter
+            End If
+        Next
+        Return f
+    End Function
+
+    Private Sub initDataGridView()
+        dgvResult.DataSource = Nothing
+        dgvResult.Columns.Clear()
+        dgvResult.Columns.Add("merk", "Merk")
+        dgvResult.Columns.Add("Uitvoerend centrum", "Uitvoerend centrum")
+        dgvResult.Columns.Add("Sub afdeling", "Sub afdeling")
+        dgvResult.Columns.Add("Maand", "Maand")
+        dgvResult.Columns.Add("Dag", "Dag")
+        dgvResult.Columns.Add("Totaal", "Totaal")
+        dgvResult.Columns.Add("% Doorgeg", "% Doorgeg")
+        dgvResult.Columns.Add("% Berekend", "% Berekend")
+        dgvResult.Columns.Add("verschil", "verschil")
+        dgvResult.Columns.Add("Temp", "Temp")
+        dgvResult.Columns.Add("Temp2", "Temp2")
+
+        dgvResult.Columns(0).Width = 65
+        dgvResult.Columns(1).Width = 100
+        dgvResult.Columns(2).Width = 50
+        dgvResult.Columns(3).Width = 50
+        dgvResult.Columns(4).Width = 50
+        dgvResult.Columns(5).Width = 40
+        dgvResult.Columns(6).Width = 50
+        dgvResult.Columns(7).Width = 115
+        dgvResult.Columns(8).Width = 50
+    End Sub
+
+    Private Sub drawBarGraph(ver As Series)
+
+        chartBerekend.Titles.Clear()
+        chartBerekend.Series.Clear()
+
+        chartBerekend.Series.Add(ver)
+        Dim Title1 As New Title
+        Dim Title2 As New Title
+        Title1.BackImageAlignment = System.Windows.Forms.DataVisualization.Charting.ChartImageAlignmentStyle.Left
+        Title1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Left
+        Title1.Name = "Aantal"
+        Title1.Text = "Aantal"
+        Title2.Alignment = System.Drawing.ContentAlignment.BottomCenter
+        Title2.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom
+        Title2.Name = "Verschil"
+        Title2.Text = "Verschil"
+        Me.chartBerekend.Titles.Add(Title1)
+        Me.chartBerekend.Titles.Add(Title2)
+        Me.Width = 1460
+        chartBerekend.ChartAreas(0).AxisX.Interval = 20
+        chartBerekend.ChartAreas(0).AxisY.Interval = 10
+        chartBerekend.ChartAreas(0).AxisX.Minimum = -100
+        chartBerekend.ChartAreas(0).AxisX.Maximum = 100
+    End Sub
+
+    Private Sub TextBox1_TextChanged(sender As Object, e As EventArgs)
+
+    End Sub
+
+    Private Function addIfNotNaN(value As Double) As Double
+        If Double.IsNaN(value) Then
+            Return 1
+        Else
+            Return value
+        End If
+    End Function
+
+    Private Function CalculateStandardDeviation(data As List(Of Double)) As Double
+        Dim mean As Double = data.Average()
+        Dim squares As New List(Of Double)
+        Dim squareAvg As Double
+
+        For Each value As Double In data
+            squares.Add(Math.Pow(value - mean, 2))
+        Next
+
+        squareAvg = squares.Average()
+
+        Return Math.Sqrt(squareAvg)
+    End Function
+
+
+    Private Sub bayesAndLinear()
+        Dim trues = 0
+        Dim falses = 0
+        Dim f As String
+        Dim listOfAllItems As New List(Of DataMiningPrediction2)
+        Dim listOfAllItemsWithYear As New List(Of DataMiningPrediction2)
+        Dim startTime = Now
+        Dim versch As New Dictionary(Of Double, Integer)
+
+        ' Lijst om te tellen hoeveel cursussen van elk item niet geschrapt werden
+        Dim dicMerkW As New Dictionary(Of String, Int32)
+        Dim dicUitvW As New Dictionary(Of String, Int32)
+        Dim dicMaandW As New Dictionary(Of Int16, Int32)
+        Dim dicDagW As New Dictionary(Of String, Int32)
+        Dim dicSubW As New Dictionary(Of String, Int32)
+
+        ' Lijst om te tellen hoeveel cursussen van elk item wel geschrapt werden
+        Dim dicMerkN As New Dictionary(Of String, Int32)
+        Dim dicUitvN As New Dictionary(Of String, Int32)
+        Dim dicMaandN As New Dictionary(Of Int16, Int32)
+        Dim dicDagN As New Dictionary(Of String, Int32)
+        Dim dicSubN As New Dictionary(Of String, Int32)
+
+        Dim atlDoorgg As Int32
+        Dim atlNietDgg As Int32
+        Dim standaardAfwijking As New List(Of Double)
+
+        Dim cIn As Integer = 0
+        Dim cOut As Integer = 0
+        Dim ligtTussen As Integer = 10
+
+        ' Kolom naam aanmaken
+        initDataGridView()
+
+
+        f = createFilterString(root.getFilters())
+
+        listOfAllItems = TestBLL.GetAllCursForAllVar(f)
+        listOfAllItemsWithYear = TestBLL.GetAllCursForAllVarWithYear(f)
+
+        pgb.Value = 0
+        pgb.Minimum = 0
+        pgb.Maximum = (listOfAllItems.Count) * 2
+
+        ' Steek het aantal doorgegaan en aantal niet doorgegaan van ieder item in een dictionary
+        For Each item As DataMiningPrediction2 In listOfAllItems
+            Dim merk = item.getMerk()
+            Dim uitvCentr = item.getUitvoerCentrum
+            Dim maand = item.getMaand
+            Dim dag = item.getDag
+            Dim codeSubAfd = item.getCodeSubAfdeling
+            Dim nietDoor = item.getTotaal - item.getDoorgegaan
+            Dim doorgegaan = item.getDoorgegaan
+            ' Lijst per merk aanvullen
+            If Not dicMerkW.ContainsKey(merk) Then
+                dicMerkW.Add(merk, doorgegaan)
+
+                ' Som van aantal doorgegane cursussen
+                atlDoorgg += doorgegaan
+            Else
+                dicMerkW(merk) += doorgegaan
+
+                ' Som van aantal doorgegane cursussen
+                atlDoorgg += doorgegaan
+            End If
+
+            ' Lijst per merk aanvullen
+            If Not dicMerkN.ContainsKey(merk) Then
+                dicMerkN.Add(merk, nietDoor)
+
+                ' Som van aantal Geschrapte cursussen
+                atlNietDgg += nietDoor
+            Else
+                dicMerkN(merk) += nietDoor
+
+                ' Som van aantal Geschrapte cursussen
+                atlNietDgg += nietDoor
+            End If
+
+            ' Lijst per uitvoercentrum aanvullen
+            If Not dicUitvW.ContainsKey(uitvCentr) Then
+                dicUitvW.Add(uitvCentr, doorgegaan)
+            Else
+                dicUitvW(uitvCentr) += doorgegaan
+            End If
+
+            If Not dicUitvN.ContainsKey(uitvCentr) Then
+                dicUitvN.Add(uitvCentr, nietDoor)
+            Else
+                dicUitvN(uitvCentr) += nietDoor
+            End If
+
+
+            ' Lijst per maand aanvullen
+            If Not dicMaandW.ContainsKey(maand) Then
+                dicMaandW.Add(maand, doorgegaan)
+            Else
+                dicMaandW(maand) += doorgegaan
+            End If
+
+            If Not dicMaandN.ContainsKey(maand) Then
+                dicMaandN.Add(maand, nietDoor)
+            Else
+                dicMaandN(maand) += nietDoor
+            End If
+
+
+            ' Lijst per Dag aanvullen
+            If Not dicDagW.ContainsKey(dag) Then
+                dicDagW.Add(dag, doorgegaan)
+            Else
+                dicDagW(dag) += doorgegaan
+            End If
+
+            If Not dicDagN.ContainsKey(dag) Then
+                dicDagN.Add(dag, nietDoor)
+            Else
+                dicDagN(dag) += nietDoor
+            End If
+
+
+            ' Lijst per subafdeling aanvullen
+            If Not dicSubW.ContainsKey(codeSubAfd) Then
+                dicSubW.Add(codeSubAfd, doorgegaan)
+            Else
+                dicSubW(codeSubAfd) += doorgegaan
+            End If
+
+            If Not dicSubN.ContainsKey(codeSubAfd) Then
+                dicSubN.Add(codeSubAfd, nietDoor)
+            Else
+                dicSubN(codeSubAfd) += nietDoor
+            End If
+
+            pgb.Value += 1
+        Next
+
+        ' berekend kans van iedere entry dat deze door gaat en plaatst dit vervolgens in de listview
+        For Each item As DataMiningPrediction2 In listOfAllItems
+            Dim j1, j2, j3, j4, j5, j6 As Double
+            Dim n1, n2, n3, n4, n5, n6 As Double
+
+            j1 = (dicMerkW(item.getMerk) / atlDoorgg)
+            j2 = (dicSubW(item.getCodeSubAfdeling) / atlDoorgg)
+            j3 = (dicMaandW(item.getMaand) / atlDoorgg)
+            j4 = (dicDagW(item.getDag) / atlDoorgg)
+            j5 = (dicUitvW(item.getUitvoerCentrum) / atlDoorgg)
+            j6 = (atlDoorgg / (atlDoorgg + atlNietDgg))
+
+            n1 = (dicMerkN(item.getMerk) / atlNietDgg)
+            n2 = (dicSubN(item.getCodeSubAfdeling) / atlNietDgg)
+            n3 = (dicMaandN(item.getMaand) / atlNietDgg)
+            n4 = (dicDagN(item.getDag) / atlNietDgg)
+            n5 = (dicUitvN(item.getUitvoerCentrum) / atlNietDgg)
+            n6 = (atlNietDgg / (atlDoorgg + atlNietDgg))
+
+            Dim wel As Double = 0
+            Dim niet As Double = 0
+            If (item.getTotaal <= 12) Then
+                wel = ((dicSubW(item.getCodeSubAfdeling) / atlDoorgg) * (dicMaandW(item.getMaand) / atlDoorgg) * (dicDagW(item.getDag) / atlDoorgg) * (dicUitvW(item.getUitvoerCentrum) / atlDoorgg) * (atlDoorgg / (atlDoorgg + atlNietDgg)))
+                niet = ((dicSubN(item.getCodeSubAfdeling) / atlNietDgg) * (dicMaandN(item.getMaand) / atlNietDgg) * (dicDagN(item.getDag) / atlNietDgg) * (dicUitvN(item.getUitvoerCentrum) / atlNietDgg) * (atlNietDgg / (atlDoorgg + atlNietDgg)))
+            ElseIf item.getTotaal <= 15 Then
+                wel = ((dicMerkW(item.getMerk) / atlDoorgg) * (dicSubW(item.getCodeSubAfdeling) / atlDoorgg) * (dicMaandW(item.getMaand) / atlDoorgg) * (dicUitvW(item.getUitvoerCentrum) / atlDoorgg) * (atlDoorgg / (atlDoorgg + atlNietDgg)))
+                niet = ((dicMerkN(item.getMerk) / atlNietDgg) * (dicSubN(item.getCodeSubAfdeling) / atlNietDgg) * (dicMaandN(item.getMaand) / atlNietDgg) * (dicUitvN(item.getUitvoerCentrum) / atlNietDgg) * (atlNietDgg / (atlDoorgg + atlNietDgg)))
+            Else
+                wel = ((dicMerkW(item.getMerk) / atlDoorgg) * (dicSubW(item.getCodeSubAfdeling) / atlDoorgg) * (dicMaandW(item.getMaand) / atlDoorgg) * (dicDagW(item.getDag) / atlDoorgg) * (dicUitvW(item.getUitvoerCentrum) / atlDoorgg) * (atlDoorgg / (atlDoorgg + atlNietDgg)))
+                niet = ((dicMerkN(item.getMerk) / atlNietDgg) * (dicSubN(item.getCodeSubAfdeling) / atlNietDgg) * (dicMaandN(item.getMaand) / atlNietDgg) * (dicDagN(item.getDag) / atlNietDgg) * (dicUitvN(item.getUitvoerCentrum) / atlNietDgg) * (atlNietDgg / (atlDoorgg + atlNietDgg)))
+
+            End If
+            Dim totaal = wel + niet
+            Dim kansBayes = wel / totaal
+
+            Dim xSum As Double = 0
+            Dim ySum As Double = 0
+            Dim xSquareSum As Double = 1
+            Dim xySum As Double = 1
+            Dim aantal As Integer = 0
+            Dim a As Double
+            Dim b As Double
+
+            For Each itemWithYear As DataMiningPrediction2 In listOfAllItemsWithYear
+                If (item.getCodeSubAfdeling = itemWithYear.getCodeSubAfdeling) Then
+                    If (item.getMaand = itemWithYear.getMaand) Then
+                        If (item.getUitvoerCentrum = itemWithYear.getUitvoerCentrum) Then
+                            If (item.getDag = itemWithYear.getDag) Then
+                                If item.getMerk = itemWithYear.getMerk Then
+                                    Dim x = itemWithYear.getJaar
+                                    Dim y = (itemWithYear.getDoorgegaan / itemWithYear.getTotaal)
+
+                                    aantal += 1
+                                    xySum += (x * y)
+                                    xSum += x
+                                    ySum += y
+                                    xSquareSum += x ^ 2
+
+                                End If
+                            End If
+                        End If
+                    End If
+                End If
+            Next
+
+
+
+            a = (((aantal * xySum) - (xSum * ySum)) / ((aantal * xSquareSum) - xSum ^ 2))
+            b = (((xSquareSum * ySum) - (xSum * xySum)) / ((aantal * xSquareSum) - (xSum ^ 2)))
+
+            item.setKans(((kansBayes * 1) + (a * Now.Year + b) * 1) / (1 + 1))
+            If (item.getKans > 1) Then item.setKans(1)
+            If (item.getKans < 0) Then item.setKans(0)
+            'item.setKans(kansBayes)
+            item.setJaar(a)
+            item.temp = b
+
+            ' Verschil
+            Dim verschil = Math.Round((((item.getDoorgegaan / item.getTotaal) - (item.getKans)) * 100), 2)
+
+            standaardAfwijking.Add(Math.Round((((item.getDoorgegaan / item.getTotaal) - (item.getKans)) * 100), 2))
+
+            verschil = (Math.Round(item.getDoorgegaan / item.getTotaal * 100) - Math.Round(item.getKans * 100))
+            If Not versch.ContainsKey(verschil) Then
+                versch.Add(verschil, 1)
+            Else
+                versch(verschil) += 1
+            End If
+
+            If verschil > ligtTussen Or verschil < -ligtTussen Then
+                cOut += 1
+            Else
+                cIn += 1
+            End If
+
+            pgb.Value += 1
+        Next
+
+
+        ' Teken grafiek
+        Dim ver As New Series
+        For Each s As KeyValuePair(Of Double, Integer) In versch
+            ver.Points.AddXY(s.Key, s.Value)
+        Next
+        drawBarGraph(ver)
+
 
 
         ' Standaard afwijking berekenen
@@ -860,7 +1223,7 @@ Public Class Test
                 kleur = Color.OrangeRed
             End If
 
-            dgvResult.Rows.Add(item.getMerk, item.getUitvoerCentrum, item.getCodeSubAfdeling, item.getMaand.ToString, item.getDag, item.getTotaal.ToString, echt.ToString, result, verschil.ToString)
+            dgvResult.Rows.Add(item.getMerk, item.getUitvoerCentrum, item.getCodeSubAfdeling, item.getMaand.ToString, item.getDag, item.getTotaal.ToString, echt.ToString, result, verschil.ToString, item.getJaar, item.temp)
             dgvResult.Rows(dgvResult.RowCount - 1).DefaultCellStyle.BackColor = kleur
         Next
 
@@ -868,50 +1231,282 @@ Public Class Test
 
         Dim remove2 = remove / listOfAllItems.Count
 
-        chartBerekend.Series.Add(ver)
-        Dim Title1 As New Title
-        Dim Title2 As New Title
-        Title1.BackImageAlignment = System.Windows.Forms.DataVisualization.Charting.ChartImageAlignmentStyle.Left
-        Title1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Left
-        Title1.Name = "Aantal"
-        Title1.Text = "Aantal"
-        Title2.Alignment = System.Drawing.ContentAlignment.BottomCenter
-        Title2.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom
-        Title2.Name = "Verschil"
-        Title2.Text = "Verschil"
-        Me.chartBerekend.Titles.Add(Title1)
-        Me.chartBerekend.Titles.Add(Title2)
-        Me.Width = 1460
-        chartBerekend.ChartAreas(0).AxisX.Interval = 20
-        chartBerekend.ChartAreas(0).AxisY.Interval = 10
-        chartBerekend.ChartAreas(0).AxisX.Minimum = -100
-        chartBerekend.ChartAreas(0).AxisX.Maximum = 100
+        lblInfo2.Text = "Binnen -" + ligtTussen.ToString + " en " + ligtTussen.ToString + ": " + cIn.ToString + "    Buiten -" + ligtTussen.ToString + " en " + ligtTussen.ToString + ": " + cOut.ToString + "      Standaardafwijking: " + deviatie.ToString
+        Label1.Text = "Totaal = " + listOfAllItems.Count.ToString + " waarvan " + trues.ToString + " correct voorspeld waren en " + falses.ToString + " niet"
+    End Sub
+#End Region
 
+
+    Private Sub BayersWithYear()
+
+        Dim trues = 0
+        Dim falses = 0
+        Dim f As String
+        Dim listOfAllItems As New List(Of DataMiningPrediction2)
+        Dim listOfAllItemsPerJaar As New List(Of DataMiningPrediction2)
+        Dim startTime = Now
+        Dim versch As New Dictionary(Of Double, Integer)
+
+        ' Lijst om te tellen hoeveel cursussen van elk item niet geschrapt werden
+        Dim dicMerkW As New Dictionary(Of String, Double)
+        Dim dicUitvW As New Dictionary(Of String, Double)
+        Dim dicMaandW As New Dictionary(Of Int16, Double)
+        Dim dicDagW As New Dictionary(Of String, Double)
+        Dim dicSubW As New Dictionary(Of String, Double)
+        Dim dicJaarW As New Dictionary(Of Double, Double)
+
+        ' Lijst om te tellen hoeveel cursussen van elk item wel geschrapt werden
+        Dim dicMerkN As New Dictionary(Of String, Double)
+        Dim dicUitvN As New Dictionary(Of String, Double)
+        Dim dicMaandN As New Dictionary(Of Int16, Double)
+        Dim dicDagN As New Dictionary(Of String, Double)
+        Dim dicSubN As New Dictionary(Of String, Double)
+        Dim dicJaarN As New Dictionary(Of Double, Double)
+
+        Dim atlDoorgg As Int32
+        Dim atlNietDgg As Int32
+        Dim standaardAfwijking As New List(Of Double)
+
+        Dim cIn As Integer = 0
+        Dim cOut As Integer = 0
+        Dim ligtTussen As Integer = 10
+
+        txtJaarWeging.Text = 1
+
+        ' Kolom naam aanmaken
+        initDataGridView()
+
+        ' Filter string maken
+        f = createFilterString(root.getFilters())
+
+        listOfAllItems = TestBLL.GetAllCursForAllVarWithYear(f)
+
+
+        pgb.Value = 0
+        pgb.Minimum = 0
+        pgb.Maximum = (listOfAllItems.Count) * 2
+
+        ' Steek het aantal doorgegaan en aantal niet doorgegaan van ieder item in een dictionary
+        For Each item As DataMiningPrediction2 In listOfAllItems
+            ' Hoe ver terug kijken?
+            Dim y = Now.Year - 10
+            Dim wegingPerJaar = Convert.ToDouble(Replace(txtJaarWeging.Text, ".", ","))
+            Dim merk = item.getMerk()
+            Dim uitvCentr = item.getUitvoerCentrum
+            Dim maand = item.getMaand
+            Dim dag = item.getDag
+            Dim codeSubAfd = item.getCodeSubAfdeling
+            Dim nietDoor = item.getTotaal - item.getDoorgegaan
+            Dim doorgegaan = item.getDoorgegaan
+            Dim jaar = item.getJaar
+
+            If (jaar > y) Then
+                ' Lijst per merk aanvullen
+                If Not dicMerkW.ContainsKey(merk) Then
+                    dicMerkW.Add(merk, doorgegaan * y * wegingPerJaar)
+
+                    ' Som van aantal doorgegane cursussen
+                    atlDoorgg += doorgegaan
+                Else
+                    dicMerkW(merk) += doorgegaan * y * wegingPerJaar
+
+                    ' Som van aantal doorgegane cursussen
+                    atlDoorgg += doorgegaan
+                End If
+
+                ' Lijst per merk aanvullen
+                If Not dicMerkN.ContainsKey(merk) Then
+                    dicMerkN.Add(merk, nietDoor * y * wegingPerJaar)
+
+                    ' Som van aantal Geschrapte cursussen
+                    atlNietDgg += nietDoor
+                Else
+                    dicMerkN(merk) += nietDoor * y * wegingPerJaar
+
+                    ' Som van aantal Geschrapte cursussen
+                    atlNietDgg += nietDoor
+                End If
+
+                ' Lijst per uitvoercentrum aanvullen
+                If Not dicUitvW.ContainsKey(uitvCentr) Then
+                    dicUitvW.Add(uitvCentr, doorgegaan * y * wegingPerJaar)
+                Else
+                    dicUitvW(uitvCentr) += doorgegaan * y * wegingPerJaar
+                End If
+
+                If Not dicUitvN.ContainsKey(uitvCentr) Then
+                    dicUitvN.Add(uitvCentr, nietDoor * y * wegingPerJaar)
+                Else
+                    dicUitvN(uitvCentr) += nietDoor * y * wegingPerJaar
+                End If
+
+
+                ' Lijst per maand aanvullen
+                If Not dicMaandW.ContainsKey(maand) Then
+                    dicMaandW.Add(maand, doorgegaan * y * wegingPerJaar)
+                Else
+                    dicMaandW(maand) += doorgegaan * y * wegingPerJaar
+                End If
+
+                If Not dicMaandN.ContainsKey(maand) Then
+                    dicMaandN.Add(maand, nietDoor * y * wegingPerJaar)
+                Else
+                    dicMaandN(maand) += nietDoor * y * wegingPerJaar
+                End If
+
+
+                ' Lijst per Dag aanvullen
+                If Not dicDagW.ContainsKey(dag) Then
+                    dicDagW.Add(dag, doorgegaan * y * wegingPerJaar)
+                Else
+                    dicDagW(dag) += doorgegaan * y * wegingPerJaar
+                End If
+
+                If Not dicDagN.ContainsKey(dag) Then
+                    dicDagN.Add(dag, nietDoor * y * wegingPerJaar)
+                Else
+                    dicDagN(dag) += nietDoor * y * wegingPerJaar
+                End If
+
+
+                ' Lijst per subafdeling aanvullen
+                If Not dicSubW.ContainsKey(codeSubAfd) Then
+                    dicSubW.Add(codeSubAfd, doorgegaan * y * wegingPerJaar)
+                Else
+                    dicSubW(codeSubAfd) += doorgegaan * y * wegingPerJaar
+                End If
+
+                If Not dicSubN.ContainsKey(codeSubAfd) Then
+                    dicSubN.Add(codeSubAfd, nietDoor * y * wegingPerJaar)
+                Else
+                    dicSubN(codeSubAfd) += nietDoor * y * wegingPerJaar
+                End If
+
+                listOfAllItemsPerJaar.Add(item)
+            End If
+
+            pgb.Value += 1
+        Next
+
+        listOfAllItems = TestBLL.GetAllCursForAllVar(f)
+
+        ' berekend kans van iedere entry dat deze door gaat en plaatst dit vervolgens in de listview
+        For Each item As DataMiningPrediction2 In listOfAllItems
+            Dim j1, j2, j3, j4, j5, j6 As Double
+            Dim n1, n2, n3, n4, n5, n6 As Double
+
+            j1 = (dicMerkW(item.getMerk) / atlDoorgg)
+            j2 = (dicSubW(item.getCodeSubAfdeling) / atlDoorgg)
+            j3 = (dicMaandW(item.getMaand) / atlDoorgg)
+            j4 = (dicDagW(item.getDag) / atlDoorgg)
+            j5 = (dicUitvW(item.getUitvoerCentrum) / atlDoorgg)
+            j6 = (atlDoorgg / (atlDoorgg + atlNietDgg))
+
+            n1 = (dicMerkN(item.getMerk) / atlNietDgg)
+            n2 = (dicSubN(item.getCodeSubAfdeling) / atlNietDgg)
+            n3 = (dicMaandN(item.getMaand) / atlNietDgg)
+            n4 = (dicDagN(item.getDag) / atlNietDgg)
+            n5 = (dicUitvN(item.getUitvoerCentrum) / atlNietDgg)
+            n6 = (atlNietDgg / (atlDoorgg + atlNietDgg))
+
+            Dim wel As Double = 0
+            Dim niet As Double = 0
+            If (item.getTotaal <= 12) Then
+                wel = ((dicSubW(item.getCodeSubAfdeling) / atlDoorgg) * (dicMaandW(item.getMaand) / atlDoorgg) * (dicDagW(item.getDag) / atlDoorgg) * (dicUitvW(item.getUitvoerCentrum) / atlDoorgg) * (atlDoorgg / (atlDoorgg + atlNietDgg)))
+                niet = ((dicSubN(item.getCodeSubAfdeling) / atlNietDgg) * (dicMaandN(item.getMaand) / atlNietDgg) * (dicDagN(item.getDag) / atlNietDgg) * (dicUitvN(item.getUitvoerCentrum) / atlNietDgg) * (atlNietDgg / (atlDoorgg + atlNietDgg)))
+            ElseIf item.getTotaal <= 15 Then
+                wel = ((dicMerkW(item.getMerk) / atlDoorgg) * (dicSubW(item.getCodeSubAfdeling) / atlDoorgg) * (dicMaandW(item.getMaand) / atlDoorgg) * (dicUitvW(item.getUitvoerCentrum) / atlDoorgg) * (atlDoorgg / (atlDoorgg + atlNietDgg)))
+                niet = ((dicMerkN(item.getMerk) / atlNietDgg) * (dicSubN(item.getCodeSubAfdeling) / atlNietDgg) * (dicMaandN(item.getMaand) / atlNietDgg) * (dicUitvN(item.getUitvoerCentrum) / atlNietDgg) * (atlNietDgg / (atlDoorgg + atlNietDgg)))
+            Else
+                wel = ((dicMerkW(item.getMerk) / atlDoorgg) * (dicSubW(item.getCodeSubAfdeling) / atlDoorgg) * (dicMaandW(item.getMaand) / atlDoorgg) * (dicDagW(item.getDag) / atlDoorgg) * (dicUitvW(item.getUitvoerCentrum) / atlDoorgg) * (atlDoorgg / (atlDoorgg + atlNietDgg)))
+                niet = ((dicMerkN(item.getMerk) / atlNietDgg) * (dicSubN(item.getCodeSubAfdeling) / atlNietDgg) * (dicMaandN(item.getMaand) / atlNietDgg) * (dicDagN(item.getDag) / atlNietDgg) * (dicUitvN(item.getUitvoerCentrum) / atlNietDgg) * (atlNietDgg / (atlDoorgg + atlNietDgg)))
+
+            End If
+            Dim totaal = wel + niet
+            item.setKans(wel / (wel + niet))
+
+
+            ' Verschil
+            Dim verschil = Math.Round((((item.getDoorgegaan / item.getTotaal) - (item.getKans)) * 100), 2)
+
+            standaardAfwijking.Add(Math.Round((((item.getDoorgegaan / item.getTotaal) - (item.getKans)) * 100), 2))
+
+            verschil = (Math.Round(item.getDoorgegaan / item.getTotaal * 100) - Math.Round(item.getKans * 100))
+            If Not versch.ContainsKey(verschil) Then
+                versch.Add(verschil, 1)
+            Else
+                versch(verschil) += 1
+            End If
+
+            If verschil > ligtTussen Or verschil < -ligtTussen Then
+                cOut += 1
+            Else
+                cIn += 1
+            End If
+
+            pgb.Value += 1
+        Next
+
+
+        Dim ver As New Series
+
+        ' Standaard afwijking berekenen
+        Dim deviatie = Math.Round(CalculateStandardDeviation(standaardAfwijking), 3)
+        Dim remove As Double = 0
+        Dim tVerd As New tVerdeling
+
+        For Each item As DataMiningPrediction2 In listOfAllItems
+            Dim afw = tVerd.getTwaarde(0.995, item.getTotaal) * deviatie / Math.Sqrt(item.getTotaal)
+            remove += afw
+
+            Dim verschil As Double
+
+            Dim echt = (Math.Round(((item.getDoorgegaan / item.getTotaal) * 10000)) / 100)
+
+            ' Bereken de top waarde en onderste waarde van de afwijking, controlleer of deze boven 100 of onder 0 zit en pas deze aan indien nodig
+            Dim bEdge = Math.Round(item.getKans * 100 - afw, 2)
+            Dim tEdge = Math.Round(item.getKans * 100 + afw, 2)
+            If bEdge < 0 Then bEdge = 0
+            If tEdge > 100 Then tEdge = 100
+
+            Dim result = "[" + bEdge.ToString + " - " + Math.Round(item.getKans * 100, 2).ToString + " - " + tEdge.ToString + "]"
+
+            Dim kleur As Color
+            If echt <= item.getKans * 100 + afw And echt >= item.getKans * 100 - afw Then
+                trues += 1
+                kleur = Color.LightGreen
+            Else
+                falses += 1
+                kleur = Color.OrangeRed
+
+                If echt < bEdge Then
+                    verschil = bEdge - echt
+                Else
+                    verschil = tEdge - echt
+                End If
+
+                ' TODO Fix grafiek
+                ' Teken grafiek
+                For Each s As KeyValuePair(Of Double, Integer) In versch
+                    ver.Points.AddXY(s.Key, verschil)
+                Next
+            End If
+
+            dgvResult.Rows.Add(item.getMerk, item.getUitvoerCentrum, item.getCodeSubAfdeling, item.getMaand.ToString, item.getDag, item.getTotaal.ToString, echt.ToString, result, verschil.ToString)
+            dgvResult.Rows(dgvResult.RowCount - 1).DefaultCellStyle.BackColor = kleur
+        Next
+
+        ' teken grafiek
+        drawBarGraph(ver)
+
+        dgvResult.Refresh()
+
+        Dim remove2 = remove / listOfAllItems.Count
+
+        pgb.Value = pgb.Maximum
 
         lblInfo2.Text = "Binnen -" + ligtTussen.ToString + " en " + ligtTussen.ToString + ": " + cIn.ToString + "    Buiten -" + ligtTussen.ToString + " en " + ligtTussen.ToString + ": " + cOut.ToString + "      Standaardafwijking: " + deviatie.ToString
-        MessageBox.Show("Verstreken tijd: " + (Now - startTime).ToString)
         Label1.Text = "Totaal = " + listOfAllItems.Count.ToString + " waarvan " + trues.ToString + " correct voorspeld waren en " + falses.ToString + " niet"
     End Sub
 
-    Private Function addIfNotNaN(value As Double) As Double
-        If Double.IsNaN(value) Then
-            Return 1
-        Else
-            Return value
-        End If
-    End Function
-
-    Private Function CalculateStandardDeviation(data As List(Of Double)) As Double
-        Dim mean As Double = data.Average()
-        Dim squares As New List(Of Double)
-        Dim squareAvg As Double
-
-        For Each value As Double In data
-            squares.Add(Math.Pow(value - mean, 2))
-        Next
-
-        squareAvg = squares.Average()
-
-        Return Math.Sqrt(squareAvg)
-    End Function
 End Class
