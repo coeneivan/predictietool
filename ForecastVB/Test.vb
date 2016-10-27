@@ -1521,7 +1521,6 @@ Public Class Test
                 End If
 
 
-                ' TODO Fix grafiek
                 ' Voeg punten toe aan grafiek
                 If Not versch.ContainsKey(verschil) Then
                     versch.Add(verschil, 1)
