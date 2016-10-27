@@ -66,9 +66,13 @@
             Next
 uitdeloopstappen:
             dgvResult.Rows.Add(key(0), key(1), key(2), item.Value.Count.ToString, Math.Round((doorgegaan / item.Value.Count * 100), 2).ToString, bereik.ToString, percentage2015.ToString)
-
+            If bereik.valtTussen(percentage2015) Then
+                juist += 1
+            Else
+                fout += 1
+            End If
         Next
-        'MessageBox.Show("Totaal : " + (juist + fout).ToString + " waarvan " + juist.ToString + " juist geschat", "Klaar")
+        MessageBox.Show("Totaal : " + (juist + fout).ToString + " waarvan " + juist.ToString + " juist geschat", "Klaar")
     End Sub
     Private Function createFilterString(filters As ArrayList) As String
         Dim f As String = ""
