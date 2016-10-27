@@ -56,7 +56,7 @@ Public Class Test
             ElseIf (ComboBox1.SelectedItem.Equals("Bayes' theorem with year")) Then
                 BayersWithYear()
             Else
-
+                ' TODO Lineair algoritme aanpassen om alle gegevens in 1 keer van databank te halen
 
                 If cboMerk.SelectedItem Is Nothing Then
                     Throw New ApplicationException("Gelieve een merk te kiezen")
@@ -1482,6 +1482,7 @@ Public Class Test
         ' Standaard afwijking berekenen
         Dim deviatie = Math.Round(CalculateStandardDeviation(standaardAfwijking), 3)
         Dim remove As Double = 0
+        Dim remove2 As Double = 0
         Dim tVerd As New tVerdeling
 
         For Each item As DataMiningPrediction2 In listOfAllItems
@@ -1506,9 +1507,12 @@ Public Class Test
                 kleur = Color.LightGreen
 
                 verschil = item.getKans * 100 - echt
+
+                remove += (afw * 2)
             Else
                 falses += 1
                 kleur = Color.OrangeRed
+                remove2 += (afw * 2)
 
                 If echt < bEdge Then
                     verschil = bEdge - echt
@@ -1541,8 +1545,9 @@ Public Class Test
         Next
         drawBarGraph(ver)
 
-
-        Dim remove2 = remove / listOfAllItems.Count
+        remove = remove / trues
+        remove2 = remove2 / falses
+        'remove2 = remove / listOfAllItems.Count
 
         pgb.Value = pgb.Maximum
 
