@@ -55,18 +55,20 @@
             Dim p = prospector.prospect(dicToPass, 2015)
             Dim bereik = prospector.certainty(dicToPass, p)
             'TODO get werkelijke waarde
+            'System.Diagnostics.Debug.WriteLine("---------------------")
             Dim percentage2015 = 0
             For Each i In data2015
-                If i(0) = key(0) And i(1) = key(1) And i(2) = key(2) Then
+                'System.Diagnostics.Debug.WriteLine(i(0) + "-" + key(0) + " - " + i(1) + "-" + key(1) + " - " + i(2) + "-" + key(2))
+                If i(0).ToString.ToUpper.Trim = key(0).ToString.ToUpper.Trim And i(1).ToString.ToUpper.Trim = key(1).ToString.ToUpper.Trim And i(2).ToString.ToUpper.Trim = key(2).ToString.ToUpper.Trim Then
                     percentage2015 = (i(4) / i(3)) * 100
-                    'GoTo uitdeloopstappen
+                    GoTo uitdeloopstappen
                 End If
             Next
-            'uitdeloopstappen:
+uitdeloopstappen:
             dgvResult.Rows.Add(key(0), key(1), key(2), item.Value.Count.ToString, Math.Round((doorgegaan / item.Value.Count * 100), 2).ToString, bereik.ToString, percentage2015.ToString)
 
         Next
-        MessageBox.Show("Totaal : " + (juist + fout).ToString + " waarvan " + juist.ToString + " juist geschat", "Klaar")
+        'MessageBox.Show("Totaal : " + (juist + fout).ToString + " waarvan " + juist.ToString + " juist geschat", "Klaar")
     End Sub
     Private Function createFilterString(filters As ArrayList) As String
         Dim f As String = ""
