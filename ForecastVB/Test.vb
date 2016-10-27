@@ -841,12 +841,18 @@ Public Class Test
             If echt <= item.getKans * 100 + afw And echt >= item.getKans * 100 - afw Then
                 trues += 1
                 kleur = Color.LightGreen
+                verschil = 0
             Else
                 falses += 1
                 kleur = Color.OrangeRed
+                If echt < bEdge Then
+                    verschil = bEdge - echt
+                Else
+                    verschil = tEdge - echt
+                End If
             End If
 
-            dgvResult.Rows.Add(item.getMerk, item.getUitvoerCentrum, item.getCodeSubAfdeling, item.getMaand.ToString, item.getDag, item.getTotaal.ToString, echt.ToString, result, verschil.ToString)
+            dgvResult.Rows.Add(item.getMerk, item.getUitvoerCentrum, item.getCodeSubAfdeling, item.getMaand.ToString, item.getDag, item.getTotaal.ToString, echt.ToString, result, Math.Round(verschil, 2).ToString)
             dgvResult.Rows(dgvResult.RowCount - 1).DefaultCellStyle.BackColor = kleur
         Next
 
@@ -1221,6 +1227,11 @@ Public Class Test
             Else
                 falses += 1
                 kleur = Color.OrangeRed
+                If echt < bEdge Then
+                    verschil = bEdge - echt
+                Else
+                    verschil = tEdge - echt
+                End If
             End If
 
             dgvResult.Rows.Add(item.getMerk, item.getUitvoerCentrum, item.getCodeSubAfdeling, item.getMaand.ToString, item.getDag, item.getTotaal.ToString, echt.ToString, result, verschil.ToString, item.getJaar, item.temp)

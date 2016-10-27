@@ -86,6 +86,12 @@ Public Class MainScreen
     Public Sub addFilter(filter As FilterItem)
         filters.Add(filter)
     End Sub
+
+    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
+        Dim ont As New PerOntwikkelaar(Me)
+        ont.Show()
+    End Sub
+
     Public Function getFilters() As ArrayList
         Return filters
     End Function

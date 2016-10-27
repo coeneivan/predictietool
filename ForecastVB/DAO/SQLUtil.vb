@@ -44,7 +44,24 @@ Public Class SQLUtil
             myConn.Close()
         End Try
     End Function
-
+    Public Function getArrayList2(command As String) As ArrayList
+        myConn = New SqlConnection(sDatabaseLocatie)
+        myCmd = myConn.CreateCommand
+        myCmd.CommandText = command
+        Try
+            Dim arr As New ArrayList
+            myConn.Open()
+            myReader = myCmd.ExecuteReader()
+            While myReader.Read()
+                arr.Add({myReader.GetValue(0), myReader.GetValue(1), myReader.GetValue(2), myReader.GetValue(3), myReader.GetValue(4)})
+            End While
+            Return arr
+        Catch ex As Exception
+            Throw New Exception
+        Finally
+            myConn.Close()
+        End Try
+    End Function
     Friend Function getParameterForYear(script As String) As Parameter
         myConn = New SqlConnection(sDatabaseLocatie)
         myCmd = myConn.CreateCommand
@@ -108,7 +125,27 @@ Public Class SQLUtil
             myConn.Close()
         End Try
     End Function
+    Friend Function GetAllCursForAllVarWithOnt(query As String) As List(Of DataMiningPrediction2)
+        myConn = New SqlConnection(sDatabaseLocatie)
+        myCmd = myConn.CreateCommand
+        myCmd.CommandText = query
 
+        Try
+            Dim predic As New List(Of DataMiningPrediction2)
+            Dim arr As New Dictionary(Of String, Parameter)
+            myConn.Open()
+            myReader = myCmd.ExecuteReader()
+
+            While myReader.Read()
+                Dim param As New DataMiningPrediction2(myReader.GetValue(0), myReader.GetValue(1), myReader.GetValue(2), myReader.GetValue(3), myReader.GetValue(4))
+                predic.Add(param)
+            End While
+
+            Return predic
+        Finally
+            myConn.Close()
+        End Try
+    End Function
     ''' <summary>
     ''' Geeft het aantal entries terug die geteld worden in de connection string (voorzie de count functie in de connectionstring)
     ''' </summary>

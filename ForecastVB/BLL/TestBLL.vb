@@ -20,4 +20,7 @@ Public Class TestBLL
     Friend Shared Function GetAllCursForAllVarWithYear(f As String) As List(Of DataMiningPrediction2)
         Return TestDAO.GetAllCursForAllVarWithYear(f)
     End Function
+    Public Function GetAllCursForAllVarByOnt(f As String) As List(Of DataMiningPrediction2)
+        Return TestDAO.GetAllCursForAllVarByOnt(f)
+    End Function
 End Class

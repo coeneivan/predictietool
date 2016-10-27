@@ -45,6 +45,7 @@ Partial Class MainScreen
         Me.cboUitvCent = New System.Windows.Forms.ComboBox()
         Me.txtResultCentrum = New System.Windows.Forms.TextBox()
         Me.dtpStartcursus = New System.Windows.Forms.DateTimePicker()
+        Me.Button3 = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
         'Label3
@@ -263,12 +264,22 @@ Partial Class MainScreen
         Me.dtpStartcursus.Size = New System.Drawing.Size(158, 20)
         Me.dtpStartcursus.TabIndex = 4
         '
+        'Button3
+        '
+        Me.Button3.Location = New System.Drawing.Point(32, 684)
+        Me.Button3.Name = "Button3"
+        Me.Button3.Size = New System.Drawing.Size(282, 41)
+        Me.Button3.TabIndex = 16
+        Me.Button3.Text = "Per ontwikkelaar"
+        Me.Button3.UseVisualStyleBackColor = True
+        '
         'MainScreen
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.Control
         Me.ClientSize = New System.Drawing.Size(356, 737)
+        Me.Controls.Add(Me.Button3)
         Me.Controls.Add(Me.Button2)
         Me.Controls.Add(Me.txtTotaal)
         Me.Controls.Add(Me.Button1)
@@ -321,4 +332,5 @@ Partial Class MainScreen
     Friend WithEvents cboUitvCent As ComboBox
     Friend WithEvents txtResultCentrum As TextBox
     Friend WithEvents dtpStartcursus As DateTimePicker
+    Friend WithEvents Button3 As Button
 End Class

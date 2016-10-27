@@ -84,6 +84,24 @@ Public Class TestDAO
         Return sql.GetAllCursForAllVar(query)
     End Function
 
+    Friend Shared Function GetAllCursForAllVarByOnt(s As String) As List(Of DataMiningPrediction2)
+        Dim query As String = ""
+        query += "Select Ont"
+        query += ", Merk"
+        query += ", CodeSubafdeling"
+        query += ", (CASE WHEN CodeIngetrokken='Nee' THEN 1 ELSE 0 END) as ingetrokken"
+        query += ", YEAR(Startdatum) as jaar"
+        query += " From Cursussen "
+
+        If Not s.Equals("") Then
+            query += "WHERE YEAR(Startdatum) <2015 AND " + s
+        End If
+        query += " AND ont is not null "
+
+        Dim sql As New SQLUtil
+        Return sql.GetAllCursForAllVarWithOnt(query)
+    End Function
+
     Friend Function GetAantalCursussen(v As String) As Integer
         Throw New NotImplementedException()
     End Function

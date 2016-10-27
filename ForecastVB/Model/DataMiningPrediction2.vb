@@ -1,4 +1,5 @@
 ﻿Public Class DataMiningPrediction2
+    Dim ont As String
     Dim merk As String
     Dim uitvCentr As String
     Dim maand As Int16
@@ -28,7 +29,16 @@
         doorgegaan = doorg
         jaar = j
     End Sub
-
+    Public Sub New(o As String, mer As String, subAf As String, doorg As Int32, j As String)
+        jaar = j
+        merk = mer
+        codeSubAfd = subAf
+        doorgegaan = doorg
+        ont = o
+    End Sub
+    Public Function getOnt() As String
+        Return ont
+    End Function
     Public Function getMerk() As String
         Return merk
     End Function
