@@ -39,6 +39,7 @@ Partial Class Test
         Me.dgvResult = New System.Windows.Forms.DataGridView()
         Me.lblInfo2 = New System.Windows.Forms.Label()
         Me.txtJaarWeging = New System.Windows.Forms.TextBox()
+        Me.txtJaar = New System.Windows.Forms.TextBox()
         CType(Me.chartBerekend, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dgvResult, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -172,10 +173,17 @@ Partial Class Test
         '
         'txtJaarWeging
         '
-        Me.txtJaarWeging.Location = New System.Drawing.Point(581, 815)
+        Me.txtJaarWeging.Location = New System.Drawing.Point(581, 819)
         Me.txtJaarWeging.Name = "txtJaarWeging"
         Me.txtJaarWeging.Size = New System.Drawing.Size(69, 20)
         Me.txtJaarWeging.TabIndex = 10
+        '
+        'txtJaar
+        '
+        Me.txtJaar.Location = New System.Drawing.Point(581, 799)
+        Me.txtJaar.Name = "txtJaar"
+        Me.txtJaar.Size = New System.Drawing.Size(69, 20)
+        Me.txtJaar.TabIndex = 11
         '
         'Test
         '
@@ -183,6 +191,7 @@ Partial Class Test
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.ClientSize = New System.Drawing.Size(662, 851)
+        Me.Controls.Add(Me.txtJaar)
         Me.Controls.Add(Me.txtJaarWeging)
         Me.Controls.Add(Me.lblInfo2)
         Me.Controls.Add(Me.dgvResult)
@@ -219,4 +228,5 @@ Partial Class Test
     Friend WithEvents dgvResult As DataGridView
     Friend WithEvents lblInfo2 As Label
     Friend WithEvents txtJaarWeging As TextBox
+    Friend WithEvents txtJaar As TextBox
 End Class
