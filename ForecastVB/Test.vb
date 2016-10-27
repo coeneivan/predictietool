@@ -24,6 +24,8 @@ Public Class Test
     Private Sub Test_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         'bayesAndLinear() 'AUTO START Bayes' theorem & Linear
         ComboBox1.Text() = "Bayes' theorem with year"
+        txtJaar.Text = 10
+        txtJaarWeging.Text = -1
 
         Dim m As New MerkBLL
         alleMerken = m.getAll(2015, Nothing)
@@ -1239,6 +1241,15 @@ Public Class Test
 
     Private Sub BayersWithYear()
 
+        Dim escalTot As Double = 0
+        Dim EVWTot As Double = 0
+        Dim SBMTot As Double = 0
+        Dim SyntraTot As Double = 0
+        Dim escalAant As Integer = 0
+        Dim evwAant As Integer = 0
+        Dim sbmAant As Integer = 0
+        Dim SyntraAant As Integer = 0
+
         Dim trues = 0
         Dim falses = 0
         Dim f As String
@@ -1271,8 +1282,6 @@ Public Class Test
         Dim cOut As Integer = 0
         Dim ligtTussen As Integer = 10
 
-        txtJaarWeging.Text = 1
-
         ' Kolom naam aanmaken
         initDataGridView()
 
@@ -1289,7 +1298,7 @@ Public Class Test
         ' Steek het aantal doorgegaan en aantal niet doorgegaan van ieder item in een dictionary
         For Each item As DataMiningPrediction2 In listOfAllItems
             ' Hoe ver terug kijken?
-            Dim y = Now.Year - 10
+            Dim y = Now.Year - Convert.ToDouble(Replace(txtJaar.Text, ".", ","))
             Dim wegingPerJaar = Convert.ToDouble(Replace(txtJaarWeging.Text, ".", ","))
             Dim merk = item.getMerk()
             Dim uitvCentr = item.getUitvoerCentrum
@@ -1303,12 +1312,12 @@ Public Class Test
             If (jaar > y) Then
                 ' Lijst per merk aanvullen
                 If Not dicMerkW.ContainsKey(merk) Then
-                    dicMerkW.Add(merk, doorgegaan * y * wegingPerJaar)
+                    dicMerkW.Add(merk, doorgegaan * (jaar - y) ^ wegingPerJaar)
 
                     ' Som van aantal doorgegane cursussen
                     atlDoorgg += doorgegaan
                 Else
-                    dicMerkW(merk) += doorgegaan * y * wegingPerJaar
+                    dicMerkW(merk) += doorgegaan * (jaar - y) ^ wegingPerJaar
 
                     ' Som van aantal doorgegane cursussen
                     atlDoorgg += doorgegaan
@@ -1316,12 +1325,12 @@ Public Class Test
 
                 ' Lijst per merk aanvullen
                 If Not dicMerkN.ContainsKey(merk) Then
-                    dicMerkN.Add(merk, nietDoor * y * wegingPerJaar)
+                    dicMerkN.Add(merk, nietDoor * (jaar - y) ^ wegingPerJaar)
 
                     ' Som van aantal Geschrapte cursussen
                     atlNietDgg += nietDoor
                 Else
-                    dicMerkN(merk) += nietDoor * y * wegingPerJaar
+                    dicMerkN(merk) += nietDoor * (jaar - y) ^ wegingPerJaar
 
                     ' Som van aantal Geschrapte cursussen
                     atlNietDgg += nietDoor
@@ -1329,57 +1338,57 @@ Public Class Test
 
                 ' Lijst per uitvoercentrum aanvullen
                 If Not dicUitvW.ContainsKey(uitvCentr) Then
-                    dicUitvW.Add(uitvCentr, doorgegaan * y * wegingPerJaar)
+                    dicUitvW.Add(uitvCentr, doorgegaan * (jaar - y) ^ wegingPerJaar)
                 Else
-                    dicUitvW(uitvCentr) += doorgegaan * y * wegingPerJaar
+                    dicUitvW(uitvCentr) += doorgegaan * (jaar - y) ^ wegingPerJaar
                 End If
 
                 If Not dicUitvN.ContainsKey(uitvCentr) Then
-                    dicUitvN.Add(uitvCentr, nietDoor * y * wegingPerJaar)
+                    dicUitvN.Add(uitvCentr, nietDoor * (jaar - y) ^ wegingPerJaar)
                 Else
-                    dicUitvN(uitvCentr) += nietDoor * y * wegingPerJaar
+                    dicUitvN(uitvCentr) += nietDoor * (jaar - y) ^ wegingPerJaar
                 End If
 
 
                 ' Lijst per maand aanvullen
                 If Not dicMaandW.ContainsKey(maand) Then
-                    dicMaandW.Add(maand, doorgegaan * y * wegingPerJaar)
+                    dicMaandW.Add(maand, doorgegaan * (jaar - y) ^ wegingPerJaar)
                 Else
-                    dicMaandW(maand) += doorgegaan * y * wegingPerJaar
+                    dicMaandW(maand) += doorgegaan * (jaar - y) ^ wegingPerJaar
                 End If
 
                 If Not dicMaandN.ContainsKey(maand) Then
-                    dicMaandN.Add(maand, nietDoor * y * wegingPerJaar)
+                    dicMaandN.Add(maand, nietDoor * (jaar - y) ^ wegingPerJaar)
                 Else
-                    dicMaandN(maand) += nietDoor * y * wegingPerJaar
+                    dicMaandN(maand) += nietDoor * (jaar - y) ^ wegingPerJaar
                 End If
 
 
                 ' Lijst per Dag aanvullen
                 If Not dicDagW.ContainsKey(dag) Then
-                    dicDagW.Add(dag, doorgegaan * y * wegingPerJaar)
+                    dicDagW.Add(dag, doorgegaan * (jaar - y) ^ wegingPerJaar)
                 Else
-                    dicDagW(dag) += doorgegaan * y * wegingPerJaar
+                    dicDagW(dag) += doorgegaan * (jaar - y) ^ wegingPerJaar
                 End If
 
                 If Not dicDagN.ContainsKey(dag) Then
-                    dicDagN.Add(dag, nietDoor * y * wegingPerJaar)
+                    dicDagN.Add(dag, nietDoor * (jaar - y) ^ wegingPerJaar)
                 Else
-                    dicDagN(dag) += nietDoor * y * wegingPerJaar
+                    dicDagN(dag) += nietDoor * (jaar - y) ^ wegingPerJaar
                 End If
 
 
                 ' Lijst per subafdeling aanvullen
                 If Not dicSubW.ContainsKey(codeSubAfd) Then
-                    dicSubW.Add(codeSubAfd, doorgegaan * y * wegingPerJaar)
+                    dicSubW.Add(codeSubAfd, doorgegaan * (jaar - y) ^ wegingPerJaar)
                 Else
-                    dicSubW(codeSubAfd) += doorgegaan * y * wegingPerJaar
+                    dicSubW(codeSubAfd) += doorgegaan * (jaar - y) ^ wegingPerJaar
                 End If
 
                 If Not dicSubN.ContainsKey(codeSubAfd) Then
-                    dicSubN.Add(codeSubAfd, nietDoor * y * wegingPerJaar)
+                    dicSubN.Add(codeSubAfd, nietDoor * (jaar - y) ^ wegingPerJaar)
                 Else
-                    dicSubN(codeSubAfd) += nietDoor * y * wegingPerJaar
+                    dicSubN(codeSubAfd) += nietDoor * (jaar - y) ^ wegingPerJaar
                 End If
 
                 listOfAllItemsPerJaar.Add(item)
@@ -1395,31 +1404,46 @@ Public Class Test
             Dim j1, j2, j3, j4, j5, j6 As Double
             Dim n1, n2, n3, n4, n5, n6 As Double
 
-            j1 = (dicMerkW(item.getMerk) / atlDoorgg)
-            j2 = (dicSubW(item.getCodeSubAfdeling) / atlDoorgg)
-            j3 = (dicMaandW(item.getMaand) / atlDoorgg)
-            j4 = (dicDagW(item.getDag) / atlDoorgg)
-            j5 = (dicUitvW(item.getUitvoerCentrum) / atlDoorgg)
+            j1 = 1
+            j2 = 1
+            j3 = 1
+            j4 = 1
+            j5 = 1
+            j6 = 1
+
+            n1 = 1
+            n2 = 1
+            n3 = 1
+            n4 = 1
+            n5 = 1
+            n6 = 1
+
+
+            If dicMerkW.ContainsKey(item.getMerk) Then j1 = (dicMerkW(item.getMerk) / atlDoorgg)
+            If dicSubW.ContainsKey(item.getCodeSubAfdeling) Then j2 = (dicSubW(item.getCodeSubAfdeling) / atlDoorgg)
+            If dicMaandW.ContainsKey(item.getMaand) Then j3 = (dicMaandW(item.getMaand) / atlDoorgg)
+            If dicDagW.ContainsKey(item.getDag) Then j4 = (dicDagW(item.getDag) / atlDoorgg)
+            If dicUitvW.ContainsKey(item.getUitvoerCentrum) Then j5 = (dicUitvW(item.getUitvoerCentrum) / atlDoorgg)
             j6 = (atlDoorgg / (atlDoorgg + atlNietDgg))
 
-            n1 = (dicMerkN(item.getMerk) / atlNietDgg)
-            n2 = (dicSubN(item.getCodeSubAfdeling) / atlNietDgg)
-            n3 = (dicMaandN(item.getMaand) / atlNietDgg)
-            n4 = (dicDagN(item.getDag) / atlNietDgg)
-            n5 = (dicUitvN(item.getUitvoerCentrum) / atlNietDgg)
-            n6 = (atlNietDgg / (atlDoorgg + atlNietDgg))
+            If dicMerkN.ContainsKey(item.getMerk) Then n1 = (dicMerkN(item.getMerk) / atlDoorgg)
+            If dicSubN.ContainsKey(item.getCodeSubAfdeling) Then n2 = (dicSubN(item.getCodeSubAfdeling) / atlDoorgg)
+            If dicMaandN.ContainsKey(item.getMaand) Then n3 = (dicMaandN(item.getMaand) / atlDoorgg)
+            If dicDagN.ContainsKey(item.getDag) Then n4 = (dicDagN(item.getDag) / atlDoorgg)
+            If dicUitvN.ContainsKey(item.getUitvoerCentrum) Then n5 = (dicUitvN(item.getUitvoerCentrum) / atlDoorgg)
+            n6 = (atlDoorgg / (atlDoorgg + atlNietDgg))
 
             Dim wel As Double = 0
             Dim niet As Double = 0
             If (item.getTotaal <= 12) Then
-                wel = ((dicSubW(item.getCodeSubAfdeling) / atlDoorgg) * (dicMaandW(item.getMaand) / atlDoorgg) * (dicDagW(item.getDag) / atlDoorgg) * (dicUitvW(item.getUitvoerCentrum) / atlDoorgg) * (atlDoorgg / (atlDoorgg + atlNietDgg)))
-                niet = ((dicSubN(item.getCodeSubAfdeling) / atlNietDgg) * (dicMaandN(item.getMaand) / atlNietDgg) * (dicDagN(item.getDag) / atlNietDgg) * (dicUitvN(item.getUitvoerCentrum) / atlNietDgg) * (atlNietDgg / (atlDoorgg + atlNietDgg)))
+                wel = ((j2 / atlDoorgg) * (j3 / atlDoorgg) * (j4 / atlDoorgg) * (j5 / atlDoorgg) * (atlDoorgg / (atlDoorgg + atlNietDgg)))
+                niet = ((n2 / atlNietDgg) * (n3 / atlNietDgg) * (n4 / atlNietDgg) * (n5 / atlNietDgg) * (atlNietDgg / (atlDoorgg + atlNietDgg)))
             ElseIf item.getTotaal <= 15 Then
-                wel = ((dicMerkW(item.getMerk) / atlDoorgg) * (dicSubW(item.getCodeSubAfdeling) / atlDoorgg) * (dicMaandW(item.getMaand) / atlDoorgg) * (dicUitvW(item.getUitvoerCentrum) / atlDoorgg) * (atlDoorgg / (atlDoorgg + atlNietDgg)))
-                niet = ((dicMerkN(item.getMerk) / atlNietDgg) * (dicSubN(item.getCodeSubAfdeling) / atlNietDgg) * (dicMaandN(item.getMaand) / atlNietDgg) * (dicUitvN(item.getUitvoerCentrum) / atlNietDgg) * (atlNietDgg / (atlDoorgg + atlNietDgg)))
+                wel = ((j1 / atlDoorgg) * (j2 / atlDoorgg) * (j3 / atlDoorgg) * (j5 / atlDoorgg) * (atlDoorgg / (atlDoorgg + atlNietDgg)))
+                niet = ((n1 / atlNietDgg) * (n2 / atlNietDgg) * (n3 / atlNietDgg) * (n5 / atlNietDgg) * (atlNietDgg / (atlDoorgg + atlNietDgg)))
             Else
-                wel = ((dicMerkW(item.getMerk) / atlDoorgg) * (dicSubW(item.getCodeSubAfdeling) / atlDoorgg) * (dicMaandW(item.getMaand) / atlDoorgg) * (dicDagW(item.getDag) / atlDoorgg) * (dicUitvW(item.getUitvoerCentrum) / atlDoorgg) * (atlDoorgg / (atlDoorgg + atlNietDgg)))
-                niet = ((dicMerkN(item.getMerk) / atlNietDgg) * (dicSubN(item.getCodeSubAfdeling) / atlNietDgg) * (dicMaandN(item.getMaand) / atlNietDgg) * (dicDagN(item.getDag) / atlNietDgg) * (dicUitvN(item.getUitvoerCentrum) / atlNietDgg) * (atlNietDgg / (atlDoorgg + atlNietDgg)))
+                wel = ((j1 / atlDoorgg) * (j2 / atlDoorgg) * (j3 / atlDoorgg) * (j4 / atlDoorgg) * (j5 / atlDoorgg) * (atlDoorgg / (atlDoorgg + atlNietDgg)))
+                niet = ((n1 / atlNietDgg) * (n2 / atlNietDgg) * (n3 / atlNietDgg) * (n4 / atlNietDgg) * (n5 / atlNietDgg) * (atlNietDgg / (atlDoorgg + atlNietDgg)))
 
             End If
             Dim totaal = wel + niet
@@ -1428,21 +1452,15 @@ Public Class Test
 
             ' Verschil
             Dim verschil = Math.Round((((item.getDoorgegaan / item.getTotaal) - (item.getKans)) * 100), 2)
-
             standaardAfwijking.Add(Math.Round((((item.getDoorgegaan / item.getTotaal) - (item.getKans)) * 100), 2))
-
             verschil = (Math.Round(item.getDoorgegaan / item.getTotaal * 100) - Math.Round(item.getKans * 100))
-            If Not versch.ContainsKey(verschil) Then
-                versch.Add(verschil, 1)
-            Else
-                versch(verschil) += 1
-            End If
 
             If verschil > ligtTussen Or verschil < -ligtTussen Then
                 cOut += 1
             Else
                 cIn += 1
             End If
+
 
             pgb.Value += 1
         Next
@@ -1475,6 +1493,8 @@ Public Class Test
             If echt <= item.getKans * 100 + afw And echt >= item.getKans * 100 - afw Then
                 trues += 1
                 kleur = Color.LightGreen
+
+                verschil = item.getKans * 100 - echt
             Else
                 falses += 1
                 kleur = Color.OrangeRed
@@ -1485,21 +1505,31 @@ Public Class Test
                     verschil = tEdge - echt
                 End If
 
+
                 ' TODO Fix grafiek
-                ' Teken grafiek
-                For Each s As KeyValuePair(Of Double, Integer) In versch
-                    ver.Points.AddXY(s.Key, verschil)
-                Next
+                ' Voeg punten toe aan grafiek
+                If Not versch.ContainsKey(verschil) Then
+                    versch.Add(verschil, 1)
+                Else
+                    versch(verschil) += 1
+                End If
+
             End If
+
 
             dgvResult.Rows.Add(item.getMerk, item.getUitvoerCentrum, item.getCodeSubAfdeling, item.getMaand.ToString, item.getDag, item.getTotaal.ToString, echt.ToString, result, verschil.ToString)
             dgvResult.Rows(dgvResult.RowCount - 1).DefaultCellStyle.BackColor = kleur
         Next
 
+        dgvResult.Refresh()
+
+
         ' teken grafiek
+        For Each s As KeyValuePair(Of Double, Integer) In versch
+            ver.Points.AddXY(s.Key, s.Value)
+        Next
         drawBarGraph(ver)
 
-        dgvResult.Refresh()
 
         Dim remove2 = remove / listOfAllItems.Count
 

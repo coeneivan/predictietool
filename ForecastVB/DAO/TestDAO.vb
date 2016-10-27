@@ -42,7 +42,7 @@ Public Class TestDAO
         query += "From SyntraTest.dbo.Cursussen "
 
         If Not f.Equals("") Then
-            query += "WHERE YEAR(Startdatum) <2015 AND " + f
+            query += "WHERE startdatum < CAST('2016-10-01' AS DATETIME) AND " + f
         End If
 
         query += "group by "
@@ -69,7 +69,7 @@ Public Class TestDAO
         query += "From Cursussen "
 
         If Not s.Equals("") Then
-            query += "WHERE YEAR(Startdatum) <2015 AND " + s
+            query += "WHERE startdatum < CAST('2016-10-01' AS DATETIME) AND " + s
         End If
 
         query += "group by "
