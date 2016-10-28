@@ -38,6 +38,7 @@ Public Class MainScreen
             cboFiltersList.Items.AddRange(filterlist.ToArray)
         Catch ex As Exception
             'TODO: catch it!
+            Throw ex
         End Try
         selectedFilterList = My.Settings.selectedFilterList
         cboFiltersList.SelectedItem = selectedFilterList
