@@ -842,7 +842,7 @@ Public Class Test
             If echt <= item.getKans * 100 + afw And echt >= item.getKans * 100 - afw Then
                 trues += 1
                 kleur = Color.LightGreen
-                verschil = 0
+                verschil = item.getKans * 100 - echt
             Else
                 falses += 1
                 kleur = Color.OrangeRed
@@ -1463,7 +1463,7 @@ Public Class Test
 
             ' Verschil
             Dim verschil = Math.Round((((item.getDoorgegaan / item.getTotaal) - (item.getKans)) * 100), 2)
-            standaardAfwijking.Add(Math.Round((((item.getDoorgegaan / item.getTotaal) - (item.getKans)) * 100), 2))
+            standaardAfwijking.Add(Math.Abs(((item.getDoorgegaan / item.getTotaal) - (item.getKans)) * 100))
             verschil = (Math.Round(item.getDoorgegaan / item.getTotaal * 100) - Math.Round(item.getKans * 100))
 
             If verschil > ligtTussen Or verschil < -ligtTussen Then
@@ -1483,6 +1483,7 @@ Public Class Test
         Dim deviatie = Math.Round(CalculateStandardDeviation(standaardAfwijking), 3)
         Dim remove As Double = 0
         Dim remove2 As Double = 0
+        Dim remove3 As String = ""
         Dim tVerd As New tVerdeling
 
         For Each item As DataMiningPrediction2 In listOfAllItems
@@ -1528,6 +1529,9 @@ Public Class Test
                     versch(verschil) += 1
                 End If
 
+
+                remove3 += " or (Merk = '" + item.getMerk + "' and UitvCentrumOmsch = '" + item.getUitvoerCentrum + "' and CodeSubafdeling = '" + item.getCodeSubAfdeling + "' "
+                remove3 += " and Month(StartDatum) = " + item.getMaand.ToString + " and dag = '" + item.getDag + "')"
             End If
 
 

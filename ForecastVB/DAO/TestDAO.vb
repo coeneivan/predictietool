@@ -35,7 +35,7 @@ Public Class TestDAO
         query += ", UitvCentrumOmsch"
         query += ", Month(StartDatum) as Maand"
         query += ", dag as Dag"
-        query += ", CodeSubafdeling"
+        query += ", [CodeSubafdeling]"
         query += ", count(*) as totaal"
         query += ", SUM(CASE WHEN CodeIngetrokken='Nee' THEN 1 ELSE 0 END) as doorgegaan "
         query += ", YEAR(StartDatum) as Jaar "
@@ -52,6 +52,11 @@ Public Class TestDAO
         query += ", YEAR(StartDatum)"
         query += ", dag"
         query += ", CodeSubafdeling "
+        'query += " Having "
+        'query += "SUM(case when year(StartDatum) = 2016 then 1 else 0 end) <> 0"
+        'query += " And SUM(case when year(StartDatum) = 2015 then 1 else 0 end) <> 0"
+        'query += " And SUM(case when year(StartDatum) = 2014 then 1 else 0 end) <> 0"
+        'query += " And SUM(case when year(StartDatum) = 2013 then 1 else 0 end) <> 0"
 
         Dim sql As New SQLUtil
         Return sql.GetAllCursForAllVarWithYear(query)
@@ -63,7 +68,7 @@ Public Class TestDAO
         query += ", UitvCentrumOmsch"
         query += ", Month(StartDatum) as Maand"
         query += ", dag as Dag"
-        query += ", CodeSubafdeling"
+        query += ", [CodeSubafdeling]"
         query += ", count(*) as totaal"
         query += ", SUM(CASE WHEN CodeIngetrokken='Nee' THEN 1 ELSE 0 END) as doorgegaan "
         query += "From Cursussen "
@@ -77,9 +82,12 @@ Public Class TestDAO
         query += ", UitvCentrumOmsch"
         query += ", Month(StartDatum)"
         query += ", dag"
-        query += ", CodeSubafdeling "
+        query += ", [CodeSubafdeling] "
         query += "Having count(*) > 5"
-
+        'query += " and SUM(case when year(StartDatum) = 2016 then 1 else 0 end) <> 0"
+        'query += " And SUM(case when year(StartDatum) = 2015 then 1 else 0 end) <> 0"
+        'query += " And SUM(case when year(StartDatum) = 2014 then 1 else 0 end) <> 0"
+        'query += " And SUM(case when year(StartDatum) = 2013 then 1 else 0 end) <> 0"
         Dim sql As New SQLUtil
         Return sql.GetAllCursForAllVar(query)
     End Function
