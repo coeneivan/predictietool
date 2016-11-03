@@ -1133,14 +1133,14 @@ Public Class Test
             Dim wel As Double = 0
             Dim niet As Double = 0
             If (item.getTotaal <= 12) Then
-                wel = ((dicSubW(item.getCodeSubAfdeling) / atlDoorgg) * (dicMaandW(item.getMaand) / atlDoorgg) * (dicDagW(item.getDag) / atlDoorgg) * (dicUitvW(item.getUitvoerCentrum) / atlDoorgg) * (atlDoorgg / (atlDoorgg + atlNietDgg)))
-                niet = ((dicSubN(item.getCodeSubAfdeling) / atlNietDgg) * (dicMaandN(item.getMaand) / atlNietDgg) * (dicDagN(item.getDag) / atlNietDgg) * (dicUitvN(item.getUitvoerCentrum) / atlNietDgg) * (atlNietDgg / (atlDoorgg + atlNietDgg)))
+                wel = ((dicSubW(item.getCodeSubAfdeling) / atlDoorgg) * (dicMaandW(item.getMaand) / atlDoorgg) * (dicUitvW(item.getUitvoerCentrum) / atlDoorgg) * (atlDoorgg / (atlDoorgg + atlNietDgg)))
+                niet = ((dicSubN(item.getCodeSubAfdeling) / atlNietDgg) * (dicMaandN(item.getMaand) / atlNietDgg) * (dicUitvN(item.getUitvoerCentrum) / atlNietDgg) * (atlNietDgg / (atlDoorgg + atlNietDgg)))
             ElseIf item.getTotaal <= 15 Then
                 wel = ((dicMerkW(item.getMerk) / atlDoorgg) * (dicSubW(item.getCodeSubAfdeling) / atlDoorgg) * (dicMaandW(item.getMaand) / atlDoorgg) * (dicUitvW(item.getUitvoerCentrum) / atlDoorgg) * (atlDoorgg / (atlDoorgg + atlNietDgg)))
                 niet = ((dicMerkN(item.getMerk) / atlNietDgg) * (dicSubN(item.getCodeSubAfdeling) / atlNietDgg) * (dicMaandN(item.getMaand) / atlNietDgg) * (dicUitvN(item.getUitvoerCentrum) / atlNietDgg) * (atlNietDgg / (atlDoorgg + atlNietDgg)))
             Else
-                wel = ((dicMerkW(item.getMerk) / atlDoorgg) * (dicSubW(item.getCodeSubAfdeling) / atlDoorgg) * (dicMaandW(item.getMaand) / atlDoorgg) * (dicDagW(item.getDag) / atlDoorgg) * (dicUitvW(item.getUitvoerCentrum) / atlDoorgg) * (atlDoorgg / (atlDoorgg + atlNietDgg)))
-                niet = ((dicMerkN(item.getMerk) / atlNietDgg) * (dicSubN(item.getCodeSubAfdeling) / atlNietDgg) * (dicMaandN(item.getMaand) / atlNietDgg) * (dicDagN(item.getDag) / atlNietDgg) * (dicUitvN(item.getUitvoerCentrum) / atlNietDgg) * (atlNietDgg / (atlDoorgg + atlNietDgg)))
+                wel = ((dicMerkW(item.getMerk) / atlDoorgg) * (dicSubW(item.getCodeSubAfdeling) / atlDoorgg) * (dicMaandW(item.getMaand) / atlDoorgg) * (dicUitvW(item.getUitvoerCentrum) / atlDoorgg) * (atlDoorgg / (atlDoorgg + atlNietDgg)))
+                niet = ((dicMerkN(item.getMerk) / atlNietDgg) * (dicSubN(item.getCodeSubAfdeling) / atlNietDgg) * (dicMaandN(item.getMaand) / atlNietDgg) * (dicUitvN(item.getUitvoerCentrum) / atlNietDgg) * (atlNietDgg / (atlDoorgg + atlNietDgg)))
 
             End If
             Dim totaal = wel + niet
@@ -1280,7 +1280,7 @@ Public Class Test
 
     Private Sub dgvResult_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvResult.CellClick
         '    If (e.ColumnIndex == dataGridViewSoftware.Columns["uninstall_button"].Index)
-        If e.ColumnIndex = 0 Then
+        If e.ColumnIndex = 0 And grouped IsNot Nothing Then
             Dim theKey = dgvResult(e.ColumnIndex, e.RowIndex).Value.ToString
             Dim groep = grouped(theKey)
             Dim toDraw = New SortedDictionary(Of Double, Parameter)
@@ -1290,11 +1290,17 @@ Public Class Test
             Dim ver3 As New Series
             Dim verB As New Series
             Dim verO As New Series
+            Dim verR As New Series
+            verB.Color = Color.Black
+            verO.Color = Color.Black
+            verR.Color = Color.Red
             For Each s As KeyValuePair(Of Double, Parameter) In toDraw
-                ver3.Points.AddXY(CDbl(s.Key), s.Value.berekenPercentage)
+                verR.Points.AddXY(CDbl(s.Key), s.Value.berekenPercentage)
                 If (s.Key = (2015 - 1)) Then
                     verB.Points.AddXY(s.Key, s.Value.berekenPercentage)
                     verO.Points.AddXY(s.Key, s.Value.berekenPercentage)
+                    verR.Points.AddXY(s.Key, s.Value.berekenPercentage)
+                    ver3.Points.AddXY(s.Key, s.Value.berekenPercentage)
                 End If
             Next
             Dim lin As New Linear
@@ -1315,16 +1321,18 @@ Public Class Test
                 'End If
             Next
             'Next
-            ver3.Points.AddXY(2016, (ec3 / et3))
+            verR.Points.AddXY(2015, (ec3 / et3))
             ver3.ChartType = SeriesChartType.FastLine
             verB.ChartType = SeriesChartType.FastLine
             verO.ChartType = SeriesChartType.FastLine
+            verR.ChartType = SeriesChartType.FastLine
             chartBerekend.Titles.Clear()
             chartBerekend.Series.Clear()
 
             chartBerekend.Series.Add(ver3)
             chartBerekend.Series.Add(verB)
             chartBerekend.Series.Add(verO)
+            chartBerekend.Series.Add(verR)
             Dim Title1 As New Title
             Dim Title2 As New Title
             Title1.BackImageAlignment = System.Windows.Forms.DataVisualization.Charting.ChartImageAlignmentStyle.Left
