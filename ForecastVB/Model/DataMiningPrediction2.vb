@@ -92,4 +92,8 @@
             t = value
         End Set
     End Property
+
+    Friend Sub setMaand(m As Int32)
+        maand = m
+    End Sub
 End Class
