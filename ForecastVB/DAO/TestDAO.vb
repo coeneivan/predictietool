@@ -31,7 +31,7 @@ Public Class TestDAO
 
     Public Function ALL(f As String) As List(Of Cursus)
         Dim query As String
-        query = "SELECT [Opleidingsnr], [dag],[StartDatum] ,[Merk] ,[UitvCentrumOmsch] ,[CodeSubafdeling] ,[CodeIngetrokken]"
+        query = "SELECT [Opleidingsnr], [dag],[StartDatum] ,[Merk] ,[UitvCentrumOmsch] ,[CodeAnalytischPlanSubafdeling] ,[CodeIngetrokken]"
         query += " FROM Cursussen"
         query += " WHERE " + f
         query += " AND year(startdatum)<2016 "
@@ -46,7 +46,7 @@ Public Class TestDAO
             cursus.lesdag = row.Item("dag")
             cursus.merkVanCursus = row.Item("Merk")
             cursus.uitvoerendCentrum = row.Item("UitvCentrumOmsch")
-            cursus.codeSubafdeling = row.Item("CodeSubafdeling")
+            cursus.codeSubafdeling = row.Item("CodeAnalytischPlanSubafdeling")
             cursus.codeIngetrokken = row.Item("CodeIngetrokken") = "Ja"
             theList.Add(cursus)
         Next row

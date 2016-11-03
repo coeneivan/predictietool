@@ -1292,21 +1292,22 @@ Public Class Test
                 ver3.Points.AddXY(CDbl(s.Key), s.Value.berekenPercentage)
             Next
             Dim lin As New Linear
-            ver3.Points.AddXY(2015, lin.berekenVoor(2015, toDraw))
+            'ver3.Points.AddXY(2015, lin.berekenVoor(2015, toDraw))
+            ver3.Points.AddXY(2015, voorspellingen(theKey).getAvg / 100)
             'ECHTE WAARDES
-            'Dim ec3 As Double = 0
-            'Dim et3 As Double = 0
+            Dim ec3 As Double = 0
+            Dim et3 As Double = 0
             'For Each c As KeyValuePair(Of String, List(Of Cursus)) In echteWaardes
-            '    For Each cc In c.Value
-            '        If cc.merkVanCursus = ftd3 Then
-            '            et3 += 1
-            '            If Not cc.codeIngetrokken Then
-            '                ec3 += 1
-            '            End If
-            '        End If
-            '    Next
+            For Each cc In echteWaardes(theKey)
+                'If cc.merkVanCursus = ftd3 Then
+                et3 += 1
+                If Not cc.codeIngetrokken Then
+                    ec3 += 1
+                End If
+                'End If
+            Next
             'Next
-            'ver3.Points.AddXY(2016, (ec3 / et3))
+            ver3.Points.AddXY(2016, (ec3 / et3))
             ver3.ChartType = SeriesChartType.FastLine
             chartBerekend.Titles.Clear()
             chartBerekend.Series.Clear()
@@ -1643,7 +1644,10 @@ Public Class Test
         Label1.Text = "Totaal = " + listOfAllItems.Count.ToString + " waarvan " + trues.ToString + " correct voorspeld waren en " + falses.ToString + " niet"
     End Sub
     Private grouped As Dictionary(Of String, Dictionary(Of String, Parameter))
+    Private echteWaardes As Dictionary(Of String, List(Of Cursus))
+    Private voorspellingen As Dictionary(Of String, Bereik)
     Private Sub linear()
+        voorspellingen = New Dictionary(Of String, Bereik)
         Dim versch As New Dictionary(Of Double, Integer)
         Dim toDraw As New SortedDictionary(Of Double, Parameter)
         Dim toDraw2 As New SortedDictionary(Of Double, Parameter)
@@ -1656,7 +1660,7 @@ Public Class Test
         Dim gemAfw = 0
         Dim vallentussen = 0
         Dim sumDerSummen = 0
-        addColumns(New ArrayList({"Teken", "Merk", "Centrum", "Subafdeling", "Maand", "Dag", "Aantal", "Doorgegaan", "Voor 2015", "Echt voor 2015", "Aaantal", "Valt tussen"}))
+        addColumns(New ArrayList({"Teken", "Merk", "Centrum", "Subafdeling", "Maand", "Aantal", "Doorgegaan", "Voor 2015", "Echt voor 2015", "Aaantal", "Valt tussen"}))
         Dim test As New TestBLL
         Dim listOfAllItems = test.getALL(createFilterString(root.getFilters))
         Dim lin As New Linear
@@ -1664,9 +1668,9 @@ Public Class Test
         Dim groupedbyMerk = lin.groupbyMerk(listOfAllItems)
         Dim groupedbyCentrum = lin.groupbyCentrum(listOfAllItems)
         Dim groupedbyMaand = lin.groupbyMaand(listOfAllItems)
-        Dim groupedbyDag = lin.groupbyDag(listOfAllItems)
+        'Dim groupedbyDag = lin.groupbyDag(listOfAllItems)
         Dim groupedbySubAfd = lin.groupbySubAfdeling(listOfAllItems)
-        Dim echteWaardes = lin.getEchteWaardes
+        echteWaardes = lin.getEchteWaardes
         pgb.Minimum = 0
         pgb.Maximum = grouped.Count
         Dim dicks As New Dictionary(Of String, Dictionary(Of String, Parameter))
@@ -1718,34 +1722,34 @@ Public Class Test
             Else
                 kansMaandByYear = dicks(keys(3))
             End If
-            Dim kansDagByYear
-            If Not dicks.ContainsKey(keys(4)) Then
-                kansDagByYear = lin.groupByYear(groupedbyDag(keys(4)))
-                dicks.Add(keys(4), kansDagByYear)
-            Else
-                kansDagByYear = dicks(keys(4))
+            'Dim kansDagByYear
+            'If Not dicks.ContainsKey(keys(4)) Then
+            '    kansDagByYear = lin.groupByYear(groupedbyDag(keys(4)))
+            '    dicks.Add(keys(4), kansDagByYear)
+            'Else
+            '    kansDagByYear = dicks(keys(4))
 
-            End If
+            'End If
             Dim algemeenj = 0.75 'TODO: veranderen naar algemene slagpercentage voor dat jaar
             Dim algemeenn = 0.25
             Dim kansMerkj = lin.berekenVoor(2015, kansMerkByYear, True)
             Dim kansCentrumj = lin.berekenVoor(2015, kansCentrumByYear, True)
             Dim kansSufAfdelingj = lin.berekenVoor(2015, kansSufAfdelingByYear, True)
             Dim kansMaandj = lin.berekenVoor(2015, kansMaandByYear, True)
-            Dim kansDagj = lin.berekenVoor(2015, kansDagByYear, True)
+            'Dim kansDagj = lin.berekenVoor(2015, kansDagByYear, True)
             Dim kansMerkn = lin.berekenVoor(2015, kansMerkByYear, False)
             Dim kansCentrumn = lin.berekenVoor(2015, kansCentrumByYear, False)
             Dim kansSufAfdelingn = lin.berekenVoor(2015, kansSufAfdelingByYear, False)
             Dim kansMaandn = lin.berekenVoor(2015, kansMaandByYear, False)
-            Dim kansDagn = lin.berekenVoor(2015, kansDagByYear, False)
+            'Dim kansDagn = lin.berekenVoor(2015, kansDagByYear, False)
 
             Dim merkBereik = lin.certainty(kansMerkByYear)
             Dim centrumBereik = lin.certainty(kansCentrumByYear)
             Dim subAfdBereik = lin.certainty(kansSufAfdelingByYear)
             Dim maandBereik = lin.certainty(kansMaandByYear)
-            Dim dagBereik = lin.certainty(kansDagByYear)
+            'Dim dagBereik = lin.certainty(kansDagByYear)
 
-            Dim bereiken As New ArrayList({merkBereik, centrumBereik, dagBereik, maandBereik, merkBereik, subAfdBereik})
+            Dim bereiken As New ArrayList({merkBereik, centrumBereik, maandBereik, merkBereik, subAfdBereik})
 
 
             Dim s = 0
@@ -1755,8 +1759,8 @@ Public Class Test
 
             s /= bereiken.Count
             gemAfw += s
-            Dim kansj = kansMerkj * kansCentrumj * kansSufAfdelingj * kansMaandj * kansDagj * algemeenj
-            Dim kansn = kansMerkn * kansCentrumn * kansSufAfdelingn * kansMaandn * kansDagn * algemeenn
+            Dim kansj = kansMerkj * kansCentrumj * kansSufAfdelingj * kansMaandj * algemeenj
+            Dim kansn = kansMerkn * kansCentrumn * kansSufAfdelingn * kansMaandn * algemeenn
             Dim k = kansj / (kansn + kansj)
             Dim kans As New Bereik(k * 100 - s, k * 100, k * 100 + s)
             'TODO berekenen van kans voor codeingetrokken ="nee"
@@ -1794,8 +1798,9 @@ Public Class Test
             End If
 
             If Not echt = "-1" Then
-                dgvResult.Rows.Add(groep.Key, keys(0), keys(1), keys(2), keys(3), keys(4), totaal.ToString, Math.Round((doorgegaan / totaal) * 100, 2).ToString, kans.ToString, echt, aantalEcht, kans.valtTussen(echt).ToString)
+                dgvResult.Rows.Add(groep.Key, keys(0), keys(1), keys(2), keys(3), totaal.ToString, Math.Round((doorgegaan / totaal) * 100, 2).ToString, kans.ToString, echt, aantalEcht, kans.valtTussen(echt).ToString)
                 dgvResult.Rows(dgvResult.RowCount - 1).DefaultCellStyle.BackColor = kleur
+                voorspellingen.Add(groep.Key, kans)
             End If
             Dim v As Double
             If kans.valtTussen(echt) Then
@@ -1905,5 +1910,4 @@ Public Class Test
             Me.dgvResult.Columns.Add(item.ToString, item.ToString)
         Next
     End Sub
-#End Region
 End Class

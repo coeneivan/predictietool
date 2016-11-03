@@ -15,7 +15,7 @@ Public Class Linear
         For Each cursus In theList
             If Year(cursus.datum) < 2016 Then
                 Dim arr As New List(Of Cursus)
-                Dim theKey As String = cursus.merkVanCursus + "|" + cursus.uitvoerendCentrum + "|" + cursus.codeSubafdeling + "|" + Month(cursus.datum).ToString + "|" + cursus.lesdag
+                Dim theKey As String = cursus.merkVanCursus + "|" + cursus.uitvoerendCentrum + "|" + cursus.codeSubafdeling + "|" + Month(cursus.datum).ToString
                 If Not grouped.ContainsKey(theKey) Then
                     arr.Add(cursus)
                     grouped.Add(theKey, arr)
@@ -100,22 +100,22 @@ Public Class Linear
         Next
         Return grouped
     End Function
-    Public Function groupbyDag(theList As List(Of Cursus)) As Dictionary(Of String, List(Of Cursus))
-        Dim grouped As New Dictionary(Of String, List(Of Cursus))
-        For Each cursus In theList
-            Dim arr As New List(Of Cursus)
-            Dim theKey As String = cursus.lesdag
-            If Not grouped.ContainsKey(theKey) Then
-                arr.Add(cursus)
-                grouped.Add(theKey, arr)
-            Else
-                arr = grouped(theKey)
-                arr.Add(cursus)
-                grouped(theKey) = arr
-            End If
-        Next
-        Return grouped
-    End Function
+    'Public Function groupbyDag(theList As List(Of Cursus)) As Dictionary(Of String, List(Of Cursus))
+    '    Dim grouped As New Dictionary(Of String, List(Of Cursus))
+    '    For Each cursus In theList
+    '        Dim arr As New List(Of Cursus)
+    '        Dim theKey As String = cursus.lesdag
+    '        If Not grouped.ContainsKey(theKey) Then
+    '            arr.Add(cursus)
+    '            grouped.Add(theKey, arr)
+    '        Else
+    '            arr = grouped(theKey)
+    '            arr.Add(cursus)
+    '            grouped(theKey) = arr
+    '        End If
+    '    Next
+    '    Return grouped
+    'End Function
     Public Function groupByYear(theList As List(Of Cursus)) As Dictionary(Of String, Parameter)
         Dim grouped As New Dictionary(Of String, List(Of Cursus))
 
@@ -229,7 +229,7 @@ Public Class Linear
         Dim grouped As New Dictionary(Of String, List(Of Cursus))
         For Each cursus In echteWaardes
             Dim arr As New List(Of Cursus)
-            Dim theKey As String = cursus.merkVanCursus + "|" + cursus.uitvoerendCentrum + "|" + cursus.codeSubafdeling + "|" + Month(cursus.datum).ToString + "|" + cursus.lesdag
+            Dim theKey As String = cursus.merkVanCursus + "|" + cursus.uitvoerendCentrum + "|" + cursus.codeSubafdeling + "|" + Month(cursus.datum).ToString
             If Not grouped.ContainsKey(theKey) Then
                 arr.Add(cursus)
                 grouped.Add(theKey, arr)
