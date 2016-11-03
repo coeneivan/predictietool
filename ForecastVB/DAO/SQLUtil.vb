@@ -62,6 +62,23 @@ Public Class SQLUtil
             myConn.Close()
         End Try
     End Function
+
+    Public Function getAlles(script As String) As DataTable
+        myConn = New SqlConnection(sDatabaseLocatie)
+        myCmd = myConn.CreateCommand
+        myCmd.CommandText = script
+        Dim dt As New DataTable
+
+        Try
+            myConn.Open()
+            myReader = myCmd.ExecuteReader()
+            dt.Load(myReader)
+            Return dt
+        Finally
+            myConn.Close()
+        End Try
+    End Function
+
     Friend Function getParameterForYear(script As String) As Parameter
         myConn = New SqlConnection(sDatabaseLocatie)
         myCmd = myConn.CreateCommand

@@ -95,7 +95,7 @@ Partial Class Test
         'ComboBox1
         '
         Me.ComboBox1.FormattingEnabled = True
-        Me.ComboBox1.Items.AddRange(New Object() {"Linear regression", "Decision tree", "Lagrange Interpolating Polynomial", "Data mining algorithms: Prediction", "Bayes' theorem", "Bayes' theorem & Linear", "Bayes' theorem with year"})
+        Me.ComboBox1.Items.AddRange(New Object() {"Logistic regression", "ALLE DATA LINEAR", "Linear regression", "Decision tree", "Lagrange Interpolating Polynomial", "Data mining algorithms: Prediction", "Bayes' theorem", "Bayes' theorem & Linear", "Bayes' theorem with year"})
         Me.ComboBox1.Location = New System.Drawing.Point(355, 21)
         Me.ComboBox1.Name = "ComboBox1"
         Me.ComboBox1.Size = New System.Drawing.Size(205, 21)

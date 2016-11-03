@@ -10,9 +10,21 @@ Public Class Bereik
     ''' <param name="pAverage">Double met de waarde van het gemiddelde</param>
     ''' <param name="pBovengrens">Double met de waarde van de bovengrens</param>
     Public Sub New(pOndergrens As Double, pAverage As Double, pBovengrens As Double)
-        ondergrens = pOndergrens
-        bovengrens = pBovengrens
-        average = pAverage
+        If Not Double.IsNaN(pOndergrens) Then
+            ondergrens = pOndergrens
+        Else
+            ondergrens = 0
+        End If
+        If Not Double.IsNaN(pBovengrens) Then
+            bovengrens = pBovengrens
+        Else
+            bovengrens = 100
+        End If
+        If Not Double.IsNaN(pAverage) Then
+            average = pAverage
+        Else
+            average = 0
+        End If
     End Sub
     ''' <summary>
     ''' Een stringweergave van het bereik

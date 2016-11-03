@@ -23,4 +23,8 @@ Public Class TestBLL
     Public Function GetAllCursForAllVarByOnt(f As String) As List(Of DataMiningPrediction2)
         Return TestDAO.GetAllCursForAllVarByOnt(f)
     End Function
+    Public Function getALL(f As String) As List(Of Cursus)
+        Dim test As New TestDAO
+        Return test.ALL(f)
+    End Function
 End Class
