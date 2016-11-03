@@ -90,6 +90,7 @@ Public Class Settings
             End If
         Catch ex As Exception
             'TODO: catch null exception
+            Throw ex
         End Try
 
 

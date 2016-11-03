@@ -24,7 +24,7 @@ Public Class Test
         'bayesAndLinear() 'AUTO START Bayes' theorem & Linear
         ComboBox1.Text() = "ALLE DATA LINEAR"
         txtJaar.Text = 10
-        txtJaarWeging.Text = -1
+        txtJaarWeging.Text = -0.75
 
         Dim m As New MerkBLL
         alleMerken = m.getAll(2015, Nothing)
@@ -58,7 +58,7 @@ Public Class Test
             ElseIf (ComboBox1.SelectedItem.Equals("Logistic regression")) Then
                 Logistic()
             Else
-                ' TODO Lineair algoritme aanpassen om alle gegevens in 1 keer van databank te halen
+
 
                 If cboMerk.SelectedItem Is Nothing Then
                     Throw New ApplicationException("Gelieve een merk te kiezen")
@@ -89,7 +89,6 @@ Public Class Test
 
                     If filters Is Nothing Then
                         subAfds.AddRange(sql.getArrayList("select distinct CodeSubafdeling from Cursussen where Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' and month(startdatum)=" + (cbbMonth.SelectedItem).Value + " and UitvCentrumOmsch='" + cboUitvoerendCentrum.SelectedItem + "' and year(StartDatum) = 2015 group by codesubafdeling having count(*) > 5").ToArray())
-                        'TODO: catch empty arraylist
                     Else
                         For Each filIt As FilterItem In filters
                             fil += " AND " + filIt.kolom + " " + filIt.factor + " " + filIt.filter
@@ -253,7 +252,6 @@ Public Class Test
         If filters Is Nothing Then
             'Haal alle subafdelingen op waar er, zonder filters, meer minAantalCurs dan cursussen zijn (voor preciesere meting worden onder  cursussen niet in rekening gebracht)
             subAfds.AddRange(Sql.getArrayList("select distinct CodeSubafdeling from Cursussen where Merk = '" + cboMerk.SelectedItem.ToString + "' and dag='" + cboDag.SelectedItem.ToString + "' and year(StartDatum) = 2015 group by codesubafdeling having count(*) > " + minAantalCurs.ToString).ToArray())
-            'TODO: catch empty arraylist
         Else
             For Each filIt As FilterItem In filters
                 fil += " AND " + filIt.kolom + " " + filIt.factor + " " + filIt.filter
@@ -502,8 +500,9 @@ Public Class Test
             filters.Add(gekozenMaand)
         End If
 
-        ' TODO Niet telkens verbinding naar database leggen, eens proberen grote hoeveelheden data af te halen en daar mee te werken
+        ' TO/DO Niet telkens verbinding naar database leggen, eens proberen grote hoeveelheden data af te halen en daar mee te werken
         ' Misschien werkt dit rapper om resultaten te bereken
+        ' Ja dus, zie dataMiningPrediction2()
 
         pgb.Minimum = 0
         pgb.Maximum = everyMerk.Count
@@ -975,7 +974,6 @@ Public Class Test
         Return Math.Sqrt(squareAvg)
     End Function
 
-
     Private Sub bayesAndLinear()
         Dim trues = 0
         Dim falses = 0
@@ -1407,15 +1405,18 @@ Public Class Test
             Dim doorgegaan = item.getDoorgegaan
             Dim jaar = item.getJaar
 
-            If (jaar > y) Then
+            If (jaar >= y) Then
+                Dim jaarDiff As Integer = jaar - y
+                If jaarDiff = 0 Then jaarDiff = 1
+
                 ' Lijst per merk aanvullen
                 If Not dicMerkW.ContainsKey(merk) Then
-                    dicMerkW.Add(merk, doorgegaan * (jaar - y) ^ wegingPerJaar)
+                    dicMerkW.Add(merk, doorgegaan * jaarDiff ^ wegingPerJaar)
 
                     ' Som van aantal doorgegane cursussen
                     atlDoorgg += doorgegaan
                 Else
-                    dicMerkW(merk) += doorgegaan * (jaar - y) ^ wegingPerJaar
+                    dicMerkW(merk) += doorgegaan * jaarDiff ^ wegingPerJaar
 
                     ' Som van aantal doorgegane cursussen
                     atlDoorgg += doorgegaan
@@ -1423,12 +1424,12 @@ Public Class Test
 
                 ' Lijst per merk aanvullen
                 If Not dicMerkN.ContainsKey(merk) Then
-                    dicMerkN.Add(merk, nietDoor * (jaar - y) ^ wegingPerJaar)
+                    dicMerkN.Add(merk, nietDoor * jaarDiff ^ wegingPerJaar)
 
                     ' Som van aantal Geschrapte cursussen
                     atlNietDgg += nietDoor
                 Else
-                    dicMerkN(merk) += nietDoor * (jaar - y) ^ wegingPerJaar
+                    dicMerkN(merk) += nietDoor * jaarDiff ^ wegingPerJaar
 
                     ' Som van aantal Geschrapte cursussen
                     atlNietDgg += nietDoor
@@ -1436,57 +1437,57 @@ Public Class Test
 
                 ' Lijst per uitvoercentrum aanvullen
                 If Not dicUitvW.ContainsKey(uitvCentr) Then
-                    dicUitvW.Add(uitvCentr, doorgegaan * (jaar - y) ^ wegingPerJaar)
+                    dicUitvW.Add(uitvCentr, doorgegaan * jaarDiff ^ wegingPerJaar)
                 Else
-                    dicUitvW(uitvCentr) += doorgegaan * (jaar - y) ^ wegingPerJaar
+                    dicUitvW(uitvCentr) += doorgegaan * jaarDiff ^ wegingPerJaar
                 End If
 
                 If Not dicUitvN.ContainsKey(uitvCentr) Then
-                    dicUitvN.Add(uitvCentr, nietDoor * (jaar - y) ^ wegingPerJaar)
+                    dicUitvN.Add(uitvCentr, nietDoor * jaarDiff ^ wegingPerJaar)
                 Else
-                    dicUitvN(uitvCentr) += nietDoor * (jaar - y) ^ wegingPerJaar
+                    dicUitvN(uitvCentr) += nietDoor * jaarDiff ^ wegingPerJaar
                 End If
 
 
                 ' Lijst per maand aanvullen
                 If Not dicMaandW.ContainsKey(maand) Then
-                    dicMaandW.Add(maand, doorgegaan * (jaar - y) ^ wegingPerJaar)
+                    dicMaandW.Add(maand, doorgegaan * jaarDiff ^ wegingPerJaar)
                 Else
-                    dicMaandW(maand) += doorgegaan * (jaar - y) ^ wegingPerJaar
+                    dicMaandW(maand) += doorgegaan * jaarDiff ^ wegingPerJaar
                 End If
 
                 If Not dicMaandN.ContainsKey(maand) Then
-                    dicMaandN.Add(maand, nietDoor * (jaar - y) ^ wegingPerJaar)
+                    dicMaandN.Add(maand, nietDoor * jaarDiff ^ wegingPerJaar)
                 Else
-                    dicMaandN(maand) += nietDoor * (jaar - y) ^ wegingPerJaar
+                    dicMaandN(maand) += nietDoor * jaarDiff ^ wegingPerJaar
                 End If
 
 
                 ' Lijst per Dag aanvullen
                 If Not dicDagW.ContainsKey(dag) Then
-                    dicDagW.Add(dag, doorgegaan * (jaar - y) ^ wegingPerJaar)
+                    dicDagW.Add(dag, doorgegaan * jaarDiff ^ wegingPerJaar)
                 Else
-                    dicDagW(dag) += doorgegaan * (jaar - y) ^ wegingPerJaar
+                    dicDagW(dag) += doorgegaan * jaarDiff ^ wegingPerJaar
                 End If
 
                 If Not dicDagN.ContainsKey(dag) Then
-                    dicDagN.Add(dag, nietDoor * (jaar - y) ^ wegingPerJaar)
+                    dicDagN.Add(dag, nietDoor * jaarDiff ^ wegingPerJaar)
                 Else
-                    dicDagN(dag) += nietDoor * (jaar - y) ^ wegingPerJaar
+                    dicDagN(dag) += nietDoor * jaarDiff ^ wegingPerJaar
                 End If
 
 
                 ' Lijst per subafdeling aanvullen
                 If Not dicSubW.ContainsKey(codeSubAfd) Then
-                    dicSubW.Add(codeSubAfd, doorgegaan * (jaar - y) ^ wegingPerJaar)
+                    dicSubW.Add(codeSubAfd, doorgegaan * jaarDiff ^ wegingPerJaar)
                 Else
-                    dicSubW(codeSubAfd) += doorgegaan * (jaar - y) ^ wegingPerJaar
+                    dicSubW(codeSubAfd) += doorgegaan * jaarDiff ^ wegingPerJaar
                 End If
 
                 If Not dicSubN.ContainsKey(codeSubAfd) Then
-                    dicSubN.Add(codeSubAfd, nietDoor * (jaar - y) ^ wegingPerJaar)
+                    dicSubN.Add(codeSubAfd, nietDoor * jaarDiff ^ wegingPerJaar)
                 Else
-                    dicSubN(codeSubAfd) += nietDoor * (jaar - y) ^ wegingPerJaar
+                    dicSubN(codeSubAfd) += nietDoor * jaarDiff ^ wegingPerJaar
                 End If
 
                 listOfAllItemsPerJaar.Add(item)
@@ -1904,4 +1905,5 @@ Public Class Test
             Me.dgvResult.Columns.Add(item.ToString, item.ToString)
         Next
     End Sub
+#End Region
 End Class
