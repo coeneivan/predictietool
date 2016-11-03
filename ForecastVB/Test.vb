@@ -1,6 +1,4 @@
-﻿
-
-Imports System.Windows.Forms.DataVisualization.Charting
+﻿Imports System.Windows.Forms.DataVisualization.Charting
 
 Public Class Test
     Private root As MainScreen
@@ -9,6 +7,7 @@ Public Class Test
     Dim c As Double = 1
     Dim som As Double = 0
     Dim alleMerken, alleDagen, alleMaanden, alleCentra As ArrayList
+    Dim nodata As Double
 
     Public Sub New(main As MainScreen)
         ' This call is required by the designer.
@@ -23,7 +22,7 @@ Public Class Test
 
     Private Sub Test_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         'bayesAndLinear() 'AUTO START Bayes' theorem & Linear
-        ComboBox1.Text() = "Bayes' theorem with year"
+        ComboBox1.Text() = "ALLE DATA LINEAR"
         txtJaar.Text = 10
         txtJaarWeging.Text = -1
 
@@ -37,7 +36,6 @@ Public Class Test
         cboUitvoerendCentrum.Items.AddRange(alleCentra.ToArray)
 
     End Sub
-
 
 #Region "Old Algorithms and methodes"
     Private Sub btnCheck_Click(sender As Object, e As EventArgs) Handles btnCheck.Click
@@ -55,6 +53,10 @@ Public Class Test
                 bayesAndLinear()
             ElseIf (ComboBox1.SelectedItem.Equals("Bayes' theorem with year")) Then
                 BayersWithYear()
+            ElseIf (ComboBox1.SelectedItem.Equals("ALLE DATA LINEAR")) Then
+                linear()
+            ElseIf (ComboBox1.SelectedItem.Equals("Logistic regression")) Then
+                Logistic()
             Else
                 ' TODO Lineair algoritme aanpassen om alle gegevens in 1 keer van databank te halen
 
@@ -202,6 +204,24 @@ Public Class Test
         End Try
     End Sub
 
+    Private Sub Logistic()
+        Dim inputs As Double()() = New Double(3)() {New Double() {1, 2}, New Double() {1, 3}, New Double() {1, 4}, New Double() {1, 5}}
+        'double[][] inputs = LogisticRegression.ReadInputFromFile("exe1data1.txt");
+        Dim outputs As Double() = New Double() {1, 1, 1, 0}
+        'double[] outputs = LogisticRegression.ReadDataFromFile("
+        Dim alpha As Double = 0.03
+        Dim theta As Double() = New Double() {1, 1}
+        Dim lr As New LogisticRegression()
+        Dim newtheta As Double() = lr.Learn(inputs, outputs, theta, alpha)
+        DisplayArray(newtheta)
+
+    End Sub
+
+    Private Shared Sub DisplayArray(arr As Double())
+        For Each elem As Double In arr
+            System.Diagnostics.Debug.WriteLine(elem.ToString + " ")
+        Next
+    End Sub
     Private Sub nonLinearRegressionTest()
 
         ' Toon grafiek voor i
@@ -1247,6 +1267,73 @@ Public Class Test
         lblInfo2.Text = "Binnen -" + ligtTussen.ToString + " en " + ligtTussen.ToString + ": " + cIn.ToString + "    Buiten -" + ligtTussen.ToString + " en " + ligtTussen.ToString + ": " + cOut.ToString + "      Standaardafwijking: " + deviatie.ToString
         Label1.Text = "Totaal = " + listOfAllItems.Count.ToString + " waarvan " + trues.ToString + " correct voorspeld waren en " + falses.ToString + " niet"
     End Sub
+
+    Private Sub dgvResult_SortCompare(sender As Object, e As DataGridViewSortCompareEventArgs) Handles dgvResult.SortCompare
+        If e.Column.Index = 5 Or e.Column.Index = 8 Or e.Column.Index = 9 Then
+            Try
+                e.SortResult = If(CInt(e.CellValue1) < CInt(e.CellValue2), -1, 1)
+                e.Handled = True
+            Catch
+                Throw New Exception()
+                'TODO catch!
+            End Try
+        End If
+    End Sub
+
+    Private Sub dgvResult_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvResult.CellClick
+        '    If (e.ColumnIndex == dataGridViewSoftware.Columns["uninstall_button"].Index)
+        If e.ColumnIndex = 0 Then
+            Dim theKey = dgvResult(e.ColumnIndex, e.RowIndex).Value.ToString
+            Dim groep = grouped(theKey)
+            Dim toDraw = New SortedDictionary(Of Double, Parameter)
+            For Each item In groep
+                toDraw.Add(CDbl(item.Key), item.Value)
+            Next
+            Dim ver3 As New Series
+            For Each s As KeyValuePair(Of Double, Parameter) In toDraw
+                ver3.Points.AddXY(CDbl(s.Key), s.Value.berekenPercentage)
+            Next
+            Dim lin As New Linear
+            ver3.Points.AddXY(2015, lin.berekenVoor(2015, toDraw))
+            'ECHTE WAARDES
+            'Dim ec3 As Double = 0
+            'Dim et3 As Double = 0
+            'For Each c As KeyValuePair(Of String, List(Of Cursus)) In echteWaardes
+            '    For Each cc In c.Value
+            '        If cc.merkVanCursus = ftd3 Then
+            '            et3 += 1
+            '            If Not cc.codeIngetrokken Then
+            '                ec3 += 1
+            '            End If
+            '        End If
+            '    Next
+            'Next
+            'ver3.Points.AddXY(2016, (ec3 / et3))
+            ver3.ChartType = SeriesChartType.FastLine
+            chartBerekend.Titles.Clear()
+            chartBerekend.Series.Clear()
+
+            chartBerekend.Series.Add(ver3)
+            Dim Title1 As New Title
+            Dim Title2 As New Title
+            Title1.BackImageAlignment = System.Windows.Forms.DataVisualization.Charting.ChartImageAlignmentStyle.Left
+            Title1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Left
+            Title1.Name = "Aantal"
+            Title1.Text = "Aantal"
+            Title2.Alignment = System.Drawing.ContentAlignment.BottomCenter
+            Title2.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom
+            Title2.Name = "Verschil"
+            Title2.Text = "Verschil"
+            Me.chartBerekend.Titles.Add(Title1)
+            Me.chartBerekend.Titles.Add(Title2)
+            Me.Width = 1460
+            chartBerekend.ChartAreas(0).AxisY.Maximum = 1
+            chartBerekend.ChartAreas(0).AxisY.Interval = 0.05
+        End If
+        '{
+        '    //Do Something with your button.
+        '}
+    End Sub
 #End Region
 
 
@@ -1539,6 +1626,7 @@ Public Class Test
 
 
         ' teken grafiek
+
         For Each s As KeyValuePair(Of Double, Integer) In versch
             ver.Points.AddXY(s.Key, s.Value)
         Next
@@ -1553,5 +1641,267 @@ Public Class Test
         lblInfo2.Text = "Binnen -" + ligtTussen.ToString + " en " + ligtTussen.ToString + ": " + cIn.ToString + "    Buiten -" + ligtTussen.ToString + " en " + ligtTussen.ToString + ": " + cOut.ToString + "      Standaardafwijking: " + deviatie.ToString
         Label1.Text = "Totaal = " + listOfAllItems.Count.ToString + " waarvan " + trues.ToString + " correct voorspeld waren en " + falses.ToString + " niet"
     End Sub
+    Private grouped As Dictionary(Of String, Dictionary(Of String, Parameter))
+    Private Sub linear()
+        Dim versch As New Dictionary(Of Double, Integer)
+        Dim toDraw As New SortedDictionary(Of Double, Parameter)
+        Dim toDraw2 As New SortedDictionary(Of Double, Parameter)
+        Dim toDraw3 As New SortedDictionary(Of Double, Parameter)
+        Dim ftd = "Syntra West"
+        Dim ftd2 = "SBM"
+        Dim ftd3 = "Escala"
+        pgb.Value = 0
+        nodata = 0
+        Dim gemAfw = 0
+        Dim vallentussen = 0
+        Dim sumDerSummen = 0
+        addColumns(New ArrayList({"Teken", "Merk", "Centrum", "Subafdeling", "Maand", "Dag", "Aantal", "Doorgegaan", "Voor 2015", "Echt voor 2015", "Aaantal", "Valt tussen"}))
+        Dim test As New TestBLL
+        Dim listOfAllItems = test.getALL(createFilterString(root.getFilters))
+        Dim lin As New Linear
+        grouped = lin.groupIt(listOfAllItems)
+        Dim groupedbyMerk = lin.groupbyMerk(listOfAllItems)
+        Dim groupedbyCentrum = lin.groupbyCentrum(listOfAllItems)
+        Dim groupedbyMaand = lin.groupbyMaand(listOfAllItems)
+        Dim groupedbyDag = lin.groupbyDag(listOfAllItems)
+        Dim groupedbySubAfd = lin.groupbySubAfdeling(listOfAllItems)
+        Dim echteWaardes = lin.getEchteWaardes
+        pgb.Minimum = 0
+        pgb.Maximum = grouped.Count
+        Dim dicks As New Dictionary(Of String, Dictionary(Of String, Parameter))
+        For Each groep In grouped
+            Dim keys = groep.Key.Split("|")
+            Dim kansMerkByYear
+            If Not dicks.ContainsKey(keys(0)) Then
+                kansMerkByYear = lin.groupByYear(groupedbyMerk(keys(0)))
+                dicks.Add(keys(0), kansMerkByYear)
+            Else
+                kansMerkByYear = dicks(keys(0))
+            End If
+            If keys(0) = ftd Then
+                toDraw = New SortedDictionary(Of Double, Parameter)
+                For Each a As KeyValuePair(Of String, Parameter) In kansMerkByYear
+                    toDraw.Add(CDbl(a.Key), a.Value)
+                Next
+            End If
+            If keys(0) = ftd2 Then
+                toDraw2 = New SortedDictionary(Of Double, Parameter)
+                For Each a As KeyValuePair(Of String, Parameter) In kansMerkByYear
+                    toDraw2.Add(CDbl(a.Key), a.Value)
+                Next
+            End If
+            If keys(0) = ftd3 Then
+                toDraw3 = New SortedDictionary(Of Double, Parameter)
+                For Each a As KeyValuePair(Of String, Parameter) In kansMerkByYear
+                    toDraw3.Add(CDbl(a.Key), a.Value)
+                Next
+            End If
+            Dim kansCentrumByYear
+            If Not dicks.ContainsKey(keys(1)) Then
+                kansCentrumByYear = lin.groupByYear(groupedbyCentrum(keys(1)))
+                dicks.Add(keys(1), kansCentrumByYear)
+            Else
+                kansCentrumByYear = dicks(keys(1))
+            End If
+            Dim kansSufAfdelingByYear
+            If Not dicks.ContainsKey(keys(2)) Then
+                kansSufAfdelingByYear = lin.groupByYear(groupedbySubAfd(keys(2)))
+                dicks.Add(keys(2), kansSufAfdelingByYear)
+            Else
+                kansSufAfdelingByYear = dicks(keys(2))
+            End If
+            Dim kansMaandByYear
+            If Not dicks.ContainsKey(keys(3)) Then
+                kansMaandByYear = lin.groupByYear(groupedbyMaand(keys(3)))
+                dicks.Add(keys(3), kansMaandByYear)
+            Else
+                kansMaandByYear = dicks(keys(3))
+            End If
+            Dim kansDagByYear
+            If Not dicks.ContainsKey(keys(4)) Then
+                kansDagByYear = lin.groupByYear(groupedbyDag(keys(4)))
+                dicks.Add(keys(4), kansDagByYear)
+            Else
+                kansDagByYear = dicks(keys(4))
 
+            End If
+            Dim algemeenj = 0.75 'TODO: veranderen naar algemene slagpercentage voor dat jaar
+            Dim algemeenn = 0.25
+            Dim kansMerkj = lin.berekenVoor(2015, kansMerkByYear, True)
+            Dim kansCentrumj = lin.berekenVoor(2015, kansCentrumByYear, True)
+            Dim kansSufAfdelingj = lin.berekenVoor(2015, kansSufAfdelingByYear, True)
+            Dim kansMaandj = lin.berekenVoor(2015, kansMaandByYear, True)
+            Dim kansDagj = lin.berekenVoor(2015, kansDagByYear, True)
+            Dim kansMerkn = lin.berekenVoor(2015, kansMerkByYear, False)
+            Dim kansCentrumn = lin.berekenVoor(2015, kansCentrumByYear, False)
+            Dim kansSufAfdelingn = lin.berekenVoor(2015, kansSufAfdelingByYear, False)
+            Dim kansMaandn = lin.berekenVoor(2015, kansMaandByYear, False)
+            Dim kansDagn = lin.berekenVoor(2015, kansDagByYear, False)
+
+            Dim merkBereik = lin.certainty(kansMerkByYear)
+            Dim centrumBereik = lin.certainty(kansCentrumByYear)
+            Dim subAfdBereik = lin.certainty(kansSufAfdelingByYear)
+            Dim maandBereik = lin.certainty(kansMaandByYear)
+            Dim dagBereik = lin.certainty(kansDagByYear)
+
+            Dim bereiken As New ArrayList({merkBereik, centrumBereik, dagBereik, maandBereik, merkBereik, subAfdBereik})
+
+
+            Dim s = 0
+            For Each ber As Bereik In bereiken
+                s += ber.getBovengrens - ber.getAvg
+            Next
+
+            s /= bereiken.Count
+            gemAfw += s
+            Dim kansj = kansMerkj * kansCentrumj * kansSufAfdelingj * kansMaandj * kansDagj * algemeenj
+            Dim kansn = kansMerkn * kansCentrumn * kansSufAfdelingn * kansMaandn * kansDagn * algemeenn
+            Dim k = kansj / (kansn + kansj)
+            Dim kans As New Bereik(k * 100 - s, k * 100, k * 100 + s)
+            'TODO berekenen van kans voor codeingetrokken ="nee"
+            Dim echt As String
+            Dim aantalEcht As String = ""
+            Dim kleur As Color
+
+            Dim doorgegaan = 0
+            Dim totaal = 0
+            For Each cursus In groep.Value
+                doorgegaan += cursus.Value.getNietGeschrapt
+                totaal += cursus.Value.getTotaal
+
+            Next
+            If echteWaardes.ContainsKey(groep.Key) Then
+                Dim echtDoorgegaan = 0
+                For Each c As Cursus In echteWaardes(groep.Key)
+                    If Not c.codeIngetrokken Then
+                        echtDoorgegaan += 1
+                    End If
+                Next
+                echt = Math.Round(echtDoorgegaan / echteWaardes(groep.Key).Count * 100, 2).ToString
+
+                If kans.valtTussen(echt) Then
+                    vallentussen += 1
+                    kleur = Color.LightGreen
+                Else
+                    kleur = Color.OrangeRed
+                End If
+                aantalEcht = echteWaardes(groep.Key).Count.ToString
+            Else
+                echt = "-1"
+                nodata += 1
+                kleur = Color.Gray
+            End If
+
+            If Not echt = "-1" Then
+                dgvResult.Rows.Add(groep.Key, keys(0), keys(1), keys(2), keys(3), keys(4), totaal.ToString, Math.Round((doorgegaan / totaal) * 100, 2).ToString, kans.ToString, echt, aantalEcht, kans.valtTussen(echt).ToString)
+                dgvResult.Rows(dgvResult.RowCount - 1).DefaultCellStyle.BackColor = kleur
+            End If
+            Dim v As Double
+            If kans.valtTussen(echt) Then
+                'v = 0
+            Else
+                If CDbl(echt) < kans.getOndergrens Then
+                    v = kans.getOndergrens - CDbl(echt)
+                Else
+                    v = kans.getBovengrens - CDbl(echt)
+                End If
+                If versch.ContainsKey(v) Then
+                    versch(v) += 1
+                Else
+                    versch.Add(v, 1)
+                End If
+            End If
+
+            pgb.Value += 1
+        Next
+        Dim ver As New Series
+        For Each s As KeyValuePair(Of Double, Parameter) In toDraw
+            ver.Points.AddXY(CDbl(s.Key), s.Value.berekenPercentage)
+        Next
+        ver.Points.AddXY(2015, lin.berekenVoor(2015, toDraw))
+        Dim ec As Double = 0
+        Dim et As Double = 0
+        For Each c As KeyValuePair(Of String, List(Of Cursus)) In echteWaardes
+            For Each cc In c.Value
+                If cc.merkVanCursus = ftd Then
+                    et += 1
+                    If Not cc.codeIngetrokken Then
+                        ec += 1
+                    End If
+                End If
+            Next
+        Next
+        ver.Points.AddXY(2016, (ec / et))
+        ver.ChartType = SeriesChartType.FastLine
+
+        Dim ver2 As New Series
+        For Each s As KeyValuePair(Of Double, Parameter) In toDraw2
+            ver2.Points.AddXY(CDbl(s.Key), s.Value.berekenPercentage)
+        Next
+        ver2.Points.AddXY(2015, lin.berekenVoor(2015, toDraw2))
+        Dim ec2 As Double = 0
+        Dim et2 As Double = 0
+        For Each c As KeyValuePair(Of String, List(Of Cursus)) In echteWaardes
+            For Each cc In c.Value
+                If cc.merkVanCursus = ftd2 Then
+                    et2 += 1
+                    If Not cc.codeIngetrokken Then
+                        ec2 += 1
+                    End If
+                End If
+            Next
+        Next
+        ver2.Points.AddXY(2016, (ec2 / et2))
+        ver2.ChartType = SeriesChartType.FastLine
+
+        Dim ver3 As New Series
+        For Each s As KeyValuePair(Of Double, Parameter) In toDraw3
+            ver3.Points.AddXY(CDbl(s.Key), s.Value.berekenPercentage)
+        Next
+        ver3.Points.AddXY(2015, lin.berekenVoor(2015, toDraw3))
+        Dim ec3 As Double = 0
+        Dim et3 As Double = 0
+        For Each c As KeyValuePair(Of String, List(Of Cursus)) In echteWaardes
+            For Each cc In c.Value
+                If cc.merkVanCursus = ftd3 Then
+                    et3 += 1
+                    If Not cc.codeIngetrokken Then
+                        ec3 += 1
+                    End If
+                End If
+            Next
+        Next
+        ver3.Points.AddXY(2016, (ec3 / et3))
+        ver3.ChartType = SeriesChartType.FastLine
+        ver.Name = ftd
+        ver2.Name = ftd2
+        ver2.Name = ftd3
+        Label1.Text = "Wel data: " + (grouped.Count - nodata).ToString + " vallen tussen : " + vallentussen.ToString + " dus " + Math.Round((vallentussen / (grouped.Count - nodata)) * 100, 2).ToString + "% met gemAfw = " + (gemAfw / grouped.Count).ToString
+        chartBerekend.Titles.Clear()
+        chartBerekend.Series.Clear()
+
+        chartBerekend.Series.Add(ver)
+        chartBerekend.Series.Add(ver2)
+        chartBerekend.Series.Add(ver3)
+        Dim Title1 As New Title
+        Dim Title2 As New Title
+        Title1.BackImageAlignment = System.Windows.Forms.DataVisualization.Charting.ChartImageAlignmentStyle.Left
+        Title1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Left
+        Title1.Name = "Aantal"
+        Title1.Text = "Aantal"
+        Title2.Alignment = System.Drawing.ContentAlignment.BottomCenter
+        Title2.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom
+        Title2.Name = "Verschil"
+        Title2.Text = "Verschil"
+        Me.chartBerekend.Titles.Add(Title1)
+        Me.chartBerekend.Titles.Add(Title2)
+        Me.Width = 1460
+        chartBerekend.ChartAreas(0).AxisY.Maximum = 1
+        chartBerekend.ChartAreas(0).AxisY.Interval = 0.05
+    End Sub
+    Private Sub addColumns(list As ArrayList)
+        For Each item In list
+            Me.dgvResult.Columns.Add(item.ToString, item.ToString)
+        Next
+    End Sub
 End Class

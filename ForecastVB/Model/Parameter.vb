@@ -3,6 +3,7 @@
 ''' </summary>
 Public Class Parameter
     Private totaalAantal, nietGeschrapt As Double
+    Private totaalAantalGeschrapt, totaalAantalDoorgegaan, geschrapt, doorgegaan As Double
     ''' <summary>
     ''' Initialiseert de klasse
     ''' </summary>
@@ -12,7 +13,14 @@ Public Class Parameter
         totaalAantal = pTotaal
         nietGeschrapt = pNietGeschrapt
     End Sub
-
+    Public Sub New(aantalGeschrapt As Double, aantaldoorgegaan As Double, pGeschrapt As Double, pDoorgegaan As Double)
+        totaalAantalGeschrapt = aantalGeschrapt
+        totaalAantalDoorgegaan = aantaldoorgegaan
+        geschrapt = pGeschrapt
+        doorgegaan = pDoorgegaan
+        nietGeschrapt = pDoorgegaan
+        totaalAantal = doorgegaan + geschrapt
+    End Sub
     Public Sub New()
 
     End Sub
@@ -21,7 +29,13 @@ Public Class Parameter
     ''' </summary>
     ''' <returns>Double met een percentage waarde bv: 100</returns>
     Public Function berekenPercentage() As Double
-        Return Math.Round((nietGeschrapt / totaalAantal * 100), 2)
+        Return CDbl(nietGeschrapt / totaalAantal)
+    End Function
+    Public Function percentageDoorgegaan() As Double
+        Return doorgegaan / totaalAantalDoorgegaan
+    End Function
+    Public Function percentageGeschrapt() As Double
+        Return geschrapt / totaalAantalGeschrapt
     End Function
 
     Public Function getTotaal() As Double

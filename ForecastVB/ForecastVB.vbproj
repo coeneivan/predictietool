@@ -112,6 +112,8 @@
     <Compile Include="BLL\DagBll.vb" />
     <Compile Include="BLL\DatumBLL.vb" />
     <Compile Include="BLL\FiltersBLL.vb" />
+    <Compile Include="BLL\Linear.vb" />
+    <Compile Include="BLL\LogisticRegression.vb" />
     <Compile Include="BLL\MerkBLL.vb" />
     <Compile Include="BLL\newPredictor.vb" />
     <Compile Include="BLL\ParameterParent.vb" />
@@ -139,6 +141,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Model\Bereik.vb" />
+    <Compile Include="Model\Cursus.vb" />
     <Compile Include="Model\DataMiningPrediction2.vb" />
     <Compile Include="Model\FilterItem.vb" />
     <Compile Include="Model\FilterVerzameling.vb" />
