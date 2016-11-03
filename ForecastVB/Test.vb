@@ -1288,12 +1288,20 @@ Public Class Test
                 toDraw.Add(CDbl(item.Key), item.Value)
             Next
             Dim ver3 As New Series
+            Dim verB As New Series
+            Dim verO As New Series
             For Each s As KeyValuePair(Of Double, Parameter) In toDraw
                 ver3.Points.AddXY(CDbl(s.Key), s.Value.berekenPercentage)
+                If (s.Key = (2015 - 1)) Then
+                    verB.Points.AddXY(s.Key, s.Value.berekenPercentage)
+                    verO.Points.AddXY(s.Key, s.Value.berekenPercentage)
+                End If
             Next
             Dim lin As New Linear
             'ver3.Points.AddXY(2015, lin.berekenVoor(2015, toDraw))
             ver3.Points.AddXY(2015, voorspellingen(theKey).getAvg / 100)
+            verB.Points.AddXY(2015, voorspellingen(theKey).getBovengrens / 100)
+            verO.Points.AddXY(2015, voorspellingen(theKey).getOndergrens / 100)
             'ECHTE WAARDES
             Dim ec3 As Double = 0
             Dim et3 As Double = 0
@@ -1309,10 +1317,14 @@ Public Class Test
             'Next
             ver3.Points.AddXY(2016, (ec3 / et3))
             ver3.ChartType = SeriesChartType.FastLine
+            verB.ChartType = SeriesChartType.FastLine
+            verO.ChartType = SeriesChartType.FastLine
             chartBerekend.Titles.Clear()
             chartBerekend.Series.Clear()
 
             chartBerekend.Series.Add(ver3)
+            chartBerekend.Series.Add(verB)
+            chartBerekend.Series.Add(verO)
             Dim Title1 As New Title
             Dim Title2 As New Title
             Title1.BackImageAlignment = System.Windows.Forms.DataVisualization.Charting.ChartImageAlignmentStyle.Left
