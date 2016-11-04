@@ -35,6 +35,7 @@
         codeSubAfd = subAf
         doorgegaan = doorg
         ont = o
+        Correct = True
     End Sub
     Public Function getOnt() As String
         Return ont
@@ -90,6 +91,16 @@
         End Get
         Set(ByVal value As Double)
             t = value
+        End Set
+    End Property
+
+    Private Correct As Boolean
+    Public Property isCorrect() As Boolean
+        Get
+            Return Correct
+        End Get
+        Set(ByVal value As Boolean)
+            Correct = value
         End Set
     End Property
 
