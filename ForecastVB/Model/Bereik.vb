@@ -33,6 +33,9 @@ Public Class Bereik
     Public Overrides Function ToString() As String
         Return "[" + IIf(ondergrens > 0, Math.Round(ondergrens, 2), 0).ToString + " - " + IIf(Math.Round(average, 2) > 0, IIf(Math.Round(average, 2) < 100, Math.Round(average, 2).ToString, 100), 0).ToString + " - " + IIf(bovengrens < 100, Math.Round(bovengrens, 2), 100).ToString + "]"
     End Function
+    Public Function percentageToString() As String
+        Return "[" + IIf(ondergrens > 0, Math.Round(ondergrens, 2) * 100, 0).ToString + " - " + IIf(Math.Round(average, 2) > 0, IIf(Math.Round(average, 2) < 100, Math.Round(average, 2) * 100.ToString, 100), 0).ToString + " - " + IIf(bovengrens < 100, Math.Round(bovengrens, 2) * 100, 100).ToString + "]"
+    End Function
     Public Function valtTussen(x As Double) As Boolean
         Return x >= ondergrens And x <= bovengrens
     End Function

@@ -51,7 +51,7 @@
         Dim sd As Double = Math.Sqrt(sumOfSquaresOfDifferences / n)
         Dim t As New tVerdeling
         Dim difference As Double = t.getTwaarde(0.975, n) * (sd / Math.Sqrt(n))
-        Return New Bereik(average - difference, average, average + difference)
+        Return New Bereik((average - difference) * 100, average * 100, (average + difference) * 100)
     End Function
     Public Function certainty(values As ArrayList, average As Double) As Bereik
         Dim sumOfSquaresOfDifferences As Double

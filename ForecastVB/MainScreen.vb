@@ -47,7 +47,7 @@ Public Class MainScreen
         Dim subafd As New subAfdBll
         Dim sb = subafd.berekenVerwachtingsBereikVoorSubAfd(jaar, cboSubAfd.SelectedItem, filters)
 
-        txtResultSubAfd.Text = sb.ToString()
+        txtResultSubAfd.Text = sb.ToString
         s = allData.getPErcentageNee(jaar, "codesubafdeling", cboSubAfd.SelectedItem.ToString, filters)
         js = allData.getPercentageJa(jaar, "codesubafdeling", cboSubAfd.SelectedItem.ToString, filters)
     End Sub
@@ -55,6 +55,7 @@ Public Class MainScreen
     Private Sub cboMerk_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboMerk.SelectedIndexChanged
         Dim merken As New MerkBLL
         Dim mb = merken.berekenVerwachtingsBereikVoorMerk(jaar, cboMerk.SelectedItem, filters)
+        
         txtResultMerk.Text = mb.ToString
         m = allData.getPErcentageNee(jaar, "merk", cboMerk.SelectedItem.ToString, filters)
         jm = allData.getPercentageJa(jaar, "merk", cboMerk.SelectedItem.ToString, filters)
@@ -128,7 +129,7 @@ Public Class MainScreen
         'Dim pJa = (1 - (d / 100)) * (1 - (m / 100)) * (1 - (s / 100)) * (1 - (sd / 100)) * (1 - (c / 100)) * (1 - (pros / 100))
         'Dim values As New ArrayList({d, m, s, sd, c, globalNee})
         'Dim range = p.certainty(values, pNee / (pNee + pJa))
-        txtTotaal.Text = (pNee / (pNee + pJa)).ToString
+        txtTotaal.Text = Math.Round(((pNee / (pNee + pJa)) * 100), 2).ToString
     End Sub
 
     Public Function getSelectedList() As String

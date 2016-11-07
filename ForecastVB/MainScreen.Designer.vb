@@ -51,7 +51,7 @@ Partial Class MainScreen
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(61, 267)
+        Me.Label3.Location = New System.Drawing.Point(61, 212)
         Me.Label3.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(69, 13)
@@ -61,7 +61,7 @@ Partial Class MainScreen
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(82, 314)
+        Me.Label4.Location = New System.Drawing.Point(82, 259)
         Me.Label4.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(48, 13)
@@ -71,7 +71,7 @@ Partial Class MainScreen
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(28, 361)
+        Me.Label5.Location = New System.Drawing.Point(28, 306)
         Me.Label5.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(102, 13)
@@ -81,7 +81,7 @@ Partial Class MainScreen
         'cboSubAfd
         '
         Me.cboSubAfd.FormattingEnabled = True
-        Me.cboSubAfd.Location = New System.Drawing.Point(156, 264)
+        Me.cboSubAfd.Location = New System.Drawing.Point(156, 209)
         Me.cboSubAfd.Margin = New System.Windows.Forms.Padding(2)
         Me.cboSubAfd.Name = "cboSubAfd"
         Me.cboSubAfd.Size = New System.Drawing.Size(158, 21)
@@ -90,7 +90,7 @@ Partial Class MainScreen
         'cboLesdag
         '
         Me.cboLesdag.FormattingEnabled = True
-        Me.cboLesdag.Location = New System.Drawing.Point(156, 311)
+        Me.cboLesdag.Location = New System.Drawing.Point(156, 256)
         Me.cboLesdag.Margin = New System.Windows.Forms.Padding(2)
         Me.cboLesdag.Name = "cboLesdag"
         Me.cboLesdag.Size = New System.Drawing.Size(158, 21)
@@ -99,7 +99,7 @@ Partial Class MainScreen
         'Label6
         '
         Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(140, 423)
+        Me.Label6.Location = New System.Drawing.Point(140, 376)
         Me.Label6.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(52, 13)
@@ -109,7 +109,7 @@ Partial Class MainScreen
         '
         'txtResultMerk
         '
-        Me.txtResultMerk.Location = New System.Drawing.Point(32, 443)
+        Me.txtResultMerk.Location = New System.Drawing.Point(32, 396)
         Me.txtResultMerk.Margin = New System.Windows.Forms.Padding(2)
         Me.txtResultMerk.Name = "txtResultMerk"
         Me.txtResultMerk.ReadOnly = True
@@ -119,7 +119,7 @@ Partial Class MainScreen
         '
         'txtResultSubAfd
         '
-        Me.txtResultSubAfd.Location = New System.Drawing.Point(32, 485)
+        Me.txtResultSubAfd.Location = New System.Drawing.Point(32, 438)
         Me.txtResultSubAfd.Margin = New System.Windows.Forms.Padding(2)
         Me.txtResultSubAfd.Name = "txtResultSubAfd"
         Me.txtResultSubAfd.ReadOnly = True
@@ -129,7 +129,7 @@ Partial Class MainScreen
         '
         'txtRestultLesDag
         '
-        Me.txtRestultLesDag.Location = New System.Drawing.Point(32, 506)
+        Me.txtRestultLesDag.Location = New System.Drawing.Point(32, 459)
         Me.txtRestultLesDag.Margin = New System.Windows.Forms.Padding(2)
         Me.txtRestultLesDag.Name = "txtRestultLesDag"
         Me.txtRestultLesDag.ReadOnly = True
@@ -139,7 +139,7 @@ Partial Class MainScreen
         '
         'txtResultDatum
         '
-        Me.txtResultDatum.Location = New System.Drawing.Point(32, 527)
+        Me.txtResultDatum.Location = New System.Drawing.Point(32, 480)
         Me.txtResultDatum.Margin = New System.Windows.Forms.Padding(2)
         Me.txtResultDatum.Name = "txtResultDatum"
         Me.txtResultDatum.ReadOnly = True
@@ -150,7 +150,7 @@ Partial Class MainScreen
         'cboMerk
         '
         Me.cboMerk.FormattingEnabled = True
-        Me.cboMerk.Location = New System.Drawing.Point(156, 170)
+        Me.cboMerk.Location = New System.Drawing.Point(156, 115)
         Me.cboMerk.Margin = New System.Windows.Forms.Padding(2)
         Me.cboMerk.Name = "cboMerk"
         Me.cboMerk.Size = New System.Drawing.Size(158, 21)
@@ -159,7 +159,7 @@ Partial Class MainScreen
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(96, 173)
+        Me.Label2.Location = New System.Drawing.Point(96, 118)
         Me.Label2.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(34, 13)
@@ -201,7 +201,7 @@ Partial Class MainScreen
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(32, 618)
+        Me.Button1.Location = New System.Drawing.Point(32, 603)
         Me.Button1.Margin = New System.Windows.Forms.Padding(2)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(282, 55)
@@ -211,7 +211,7 @@ Partial Class MainScreen
         '
         'txtTotaal
         '
-        Me.txtTotaal.Location = New System.Drawing.Point(32, 572)
+        Me.txtTotaal.Location = New System.Drawing.Point(32, 525)
         Me.txtTotaal.Name = "txtTotaal"
         Me.txtTotaal.ReadOnly = True
         Me.txtTotaal.Size = New System.Drawing.Size(282, 20)
@@ -220,7 +220,7 @@ Partial Class MainScreen
         '
         'Button2
         '
-        Me.Button2.Location = New System.Drawing.Point(32, 548)
+        Me.Button2.Location = New System.Drawing.Point(32, 501)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(282, 23)
         Me.Button2.TabIndex = 5
@@ -230,7 +230,7 @@ Partial Class MainScreen
         'Label7
         '
         Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(27, 220)
+        Me.Label7.Location = New System.Drawing.Point(27, 165)
         Me.Label7.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(103, 13)
@@ -240,7 +240,7 @@ Partial Class MainScreen
         'cboUitvCent
         '
         Me.cboUitvCent.FormattingEnabled = True
-        Me.cboUitvCent.Location = New System.Drawing.Point(156, 217)
+        Me.cboUitvCent.Location = New System.Drawing.Point(156, 162)
         Me.cboUitvCent.Margin = New System.Windows.Forms.Padding(2)
         Me.cboUitvCent.Name = "cboUitvCent"
         Me.cboUitvCent.Size = New System.Drawing.Size(158, 21)
@@ -248,7 +248,7 @@ Partial Class MainScreen
         '
         'txtResultCentrum
         '
-        Me.txtResultCentrum.Location = New System.Drawing.Point(32, 464)
+        Me.txtResultCentrum.Location = New System.Drawing.Point(32, 417)
         Me.txtResultCentrum.Margin = New System.Windows.Forms.Padding(2)
         Me.txtResultCentrum.Name = "txtResultCentrum"
         Me.txtResultCentrum.ReadOnly = True
@@ -258,7 +258,7 @@ Partial Class MainScreen
         '
         'dtpStartcursus
         '
-        Me.dtpStartcursus.Location = New System.Drawing.Point(156, 355)
+        Me.dtpStartcursus.Location = New System.Drawing.Point(156, 300)
         Me.dtpStartcursus.Margin = New System.Windows.Forms.Padding(2)
         Me.dtpStartcursus.Name = "dtpStartcursus"
         Me.dtpStartcursus.Size = New System.Drawing.Size(158, 20)
@@ -266,7 +266,7 @@ Partial Class MainScreen
         '
         'Button3
         '
-        Me.Button3.Location = New System.Drawing.Point(32, 684)
+        Me.Button3.Location = New System.Drawing.Point(32, 669)
         Me.Button3.Name = "Button3"
         Me.Button3.Size = New System.Drawing.Size(282, 41)
         Me.Button3.TabIndex = 16
