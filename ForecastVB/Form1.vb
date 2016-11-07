@@ -98,6 +98,28 @@
         Next
         txtCalculateY.Text = ""
     End Sub
+
+    Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
+        OpenFileDialog1.Filter = "JSON file|*.json"
+        OpenFileDialog1.Title = "Open a JSON File"
+        OpenFileDialog1.ShowDialog()
+        Dim j As New JSONParser()
+        Dim filters = j.read(OpenFileDialog1.FileName)
+    End Sub
+
+    Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
+        SaveFileDialog1.Filter = "JSON file|*.json"
+        SaveFileDialog1.Title = "Save a JSON File"
+        SaveFileDialog1.ShowDialog()
+
+        If SaveFileDialog1.FileName <> "" Then
+            Dim j As New JSONParser()
+            Dim filters As New ArrayList
+            filters.Add(New FilterItem("testkolom", "=", "waarde"))
+            My.Computer.FileSystem.WriteAllText(SaveFileDialog1.FileName, j.save(filters), True)
+        End If
+    End Sub
+
     Private Sub clearList()
         knownY.Clear()
         knownX.Clear()

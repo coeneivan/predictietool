@@ -12,7 +12,7 @@
         Dim avgY, avgX, avgXY, avgXX As Double
         For Each kvp As KeyValuePair(Of String, Parameter) In allValuesAndKeys
             Dim x = CDbl(kvp.Key)
-            Dim y = Math.Log(CDbl(kvp.Value.berekenPercentage))
+            Dim y = Math.Log(kvp.Value.berekenPercentage)
             avgY += y
             avgX += x
             avgXY += x * y
@@ -26,8 +26,12 @@
         'Linear regression coefficients
         Dim beta As Double = (avgXY - avgX * avgY) / (avgXX - avgX * avgX)
         Dim alpha = avgY - beta * avgX
+        If Not Double.IsNaN(Math.Exp(alpha + beta * toEstimate)) Then
+            Return Math.Exp(alpha + beta * toEstimate)
+        Else
+            Return 1
+        End If
 
-        Return Math.Exp(alpha + beta * toEstimate)
     End Function
     ''' <summary>
     ''' Berekent een bereik waar het gemiddelde zich zal bevinden.
@@ -45,7 +49,22 @@
             sumOfSquaresOfDifferences += (kvp.Value.berekenPercentage - average) ^ 2
         Next
         Dim sd As Double = Math.Sqrt(sumOfSquaresOfDifferences / n)
-        Dim difference As Double = 1.96 * (sd / Math.Sqrt(n))
+        Dim t As New tVerdeling
+        Dim difference As Double = t.getTwaarde(0.975, n) * (sd / Math.Sqrt(n))
         Return New Bereik(average - difference, average, average + difference)
+    End Function
+    Public Function certainty(values As ArrayList, average As Double) As Bereik
+        Dim sumOfSquaresOfDifferences As Double
+        Dim n = values.Count
+        For Each value In values
+            If Not Double.IsNaN(value) Then
+                sumOfSquaresOfDifferences += (value - average) ^ 2
+            Else
+                n -= 1
+            End If
+        Next
+        Dim sd As Double = Math.Sqrt(sumOfSquaresOfDifferences / n)
+        Dim difference As Double = 1.96 * (sd / Math.Sqrt(n))
+        Return New Bereik((average - difference) * 100, (average) * 100, (average + difference) * 100)
     End Function
 End Class
