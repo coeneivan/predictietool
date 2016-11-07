@@ -107,6 +107,7 @@
     <Compile Include="AddFile.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="BLL\Bayes-Bayes-Linear.vb" />
     <Compile Include="BLL\FiltersBLL.vb" />
     <Compile Include="BLL\TestBLL.vb" />
     <Compile Include="BLL\tVerdeling.vb" />

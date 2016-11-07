@@ -9,6 +9,7 @@
     Dim doorgegaan As Int32
     Dim kans As Double
     Dim jaar As Double
+    Dim afwijkingValue As Double
 
     Public Sub New(mer As String, u As String, ma As Int16, da As String, subAf As String, tot As Int32, doorg As Int32)
         merk = mer
@@ -107,4 +108,13 @@
     Friend Sub setMaand(m As Int32)
         maand = m
     End Sub
+
+    Public Property afwijking() As Double
+        Get
+            Return afwijkingValue
+        End Get
+        Set(ByVal value As Double)
+            afwijkingValue = value
+        End Set
+    End Property
 End Class
