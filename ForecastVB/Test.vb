@@ -18,7 +18,6 @@ Public Class Test
     End Sub
 
     Private Sub Test_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        'TODO: misschien beter om filters toe te passen (bv. Merk/centrum/...) om enkel daar de data van te tonen
         Dim b As New Bayes_Bayes_Linear(root.getFilters)
         cbbMerk.Items.AddRange(b.getMerken.ToArray)
         cbbCentrum.Items.AddRange(b.getCentra.ToArray)
