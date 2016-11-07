@@ -23,7 +23,7 @@
 
     Dim atlDoorgg As Integer
     Dim atlNietDgg As Integer
-    Dim standaardAfwijking As New List(Of Double)
+    Dim listMetAfwijking As New List(Of Double)
 
     Dim cIn As Integer = 0
     Dim cOut As Integer = 0
@@ -40,15 +40,31 @@
         berekenAantalDoorgegaanEnNietDoorgegaan()
 
         berekenBayesVoorIederItem()
-
-        getdeviatie = Math.Round(CalculateStandardDeviation(standaardAfwijking), 3)
-        standaardAfwijking = New List(Of Double)
+        getdeviatie = Math.Round(CalculateStandardDeviation(listMetAfwijking), 3)
+        afwijkingBerekenen()
+        isVoorspellingCorrect()
+        listMetAfwijking = New List(Of Double)
 
         calcBayesWithLinear()
 
-        getdeviatie = Math.Round(CalculateStandardDeviation(standaardAfwijking), 3)
+        getdeviatie = Math.Round(CalculateStandardDeviation(listMetAfwijking), 3)
 
         afwijkingBerekenen()
+    End Sub
+
+    Private Sub isVoorspellingCorrect()
+        For Each item As DataMiningPrediction2 In listOfAllItems
+            Dim echt = Math.Round((item.getDoorgegaan / item.getTotaal), 2) * 100
+            Dim schatting = item.getKans
+            Dim afwijking = item.afwijking
+
+
+            If echt <= item.getKans * 100 + item.afwijking And echt >= item.getKans * 100 - item.afwijking Then
+                item.isCorrect = True
+            Else
+                item.isCorrect = False
+            End If
+        Next
     End Sub
 
     Private Sub afwijkingBerekenen()
@@ -59,9 +75,12 @@
     End Sub
 
     Private Sub calcBayesWithLinear()
-        'berekend kans van iedere entry dat deze door gaat en plaatst dit vervolgens in de listview
+        ' berekend kans van iedere entry dat deze door gaat en plaatst dit vervolgens in de listview
+
+        Dim i As Integer = 0
         For Each item As DataMiningPrediction2 In listOfAllItems
             If Not item.isCorrect Then
+                i += 1
 
                 Dim kansBayes = item.getKans
 
@@ -108,7 +127,7 @@
                 item.temp = b
 
 
-                standaardAfwijking.Add(Math.Round((((item.getDoorgegaan / item.getTotaal) - (item.getKans)) * 100), 2))
+                listMetAfwijking.Add(Math.Round((((item.getDoorgegaan / item.getTotaal) - (item.getKans)) * 100), 2))
 
 
 
@@ -244,7 +263,7 @@
             Dim totaal = wel + niet
             item.setKans(wel / (wel + niet))
 
-            standaardAfwijking.Add(Math.Round((((item.getDoorgegaan / item.getTotaal) - (item.getKans)) * 100), 2))
+            listMetAfwijking.Add(Math.Round((((item.getDoorgegaan / item.getTotaal) - (item.getKans)) * 100), 2))
         Next
     End Sub
 
@@ -279,6 +298,7 @@
 
         Return Math.Sqrt(squareAvg)
     End Function
+
     Public Property deviatie() As Double
         Get
             Return deviatie
@@ -287,10 +307,7 @@
             getdeviatie = dev
         End Set
     End Property
-    ''' <summary>
-    ''' Geeft alle items terug 
-    ''' </summary>
-    ''' <returns>Geeft een list terug met alle items</returns>
+
     Public Function getItems() As List(Of DataMiningPrediction2)
         Return listOfAllItems
     End Function
