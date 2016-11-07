@@ -22,17 +22,16 @@ Partial Class Test
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim ChartArea2 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Series2 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim Title3 As System.Windows.Forms.DataVisualization.Charting.Title = New System.Windows.Forms.DataVisualization.Charting.Title()
-        Dim Title4 As System.Windows.Forms.DataVisualization.Charting.Title = New System.Windows.Forms.DataVisualization.Charting.Title()
+        Dim ChartArea1 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Series1 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim Title1 As System.Windows.Forms.DataVisualization.Charting.Title = New System.Windows.Forms.DataVisualization.Charting.Title()
+        Dim Title2 As System.Windows.Forms.DataVisualization.Charting.Title = New System.Windows.Forms.DataVisualization.Charting.Title()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Test))
         Me.pgb = New System.Windows.Forms.ProgressBar()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.chartBerekend = New System.Windows.Forms.DataVisualization.Charting.Chart()
         Me.dgvResult = New System.Windows.Forms.DataGridView()
         Me.lblInfo2 = New System.Windows.Forms.Label()
-        Me.bgwDataLoader = New System.ComponentModel.BackgroundWorker()
         CType(Me.chartBerekend, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dgvResult, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -57,29 +56,29 @@ Partial Class Test
         'chartBerekend
         '
         Me.chartBerekend.BackColor = System.Drawing.Color.Transparent
-        ChartArea2.Name = "ChartArea1"
-        Me.chartBerekend.ChartAreas.Add(ChartArea2)
+        ChartArea1.Name = "ChartArea1"
+        Me.chartBerekend.ChartAreas.Add(ChartArea1)
         Me.chartBerekend.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.chartBerekend.Location = New System.Drawing.Point(658, 0)
         Me.chartBerekend.Margin = New System.Windows.Forms.Padding(0)
         Me.chartBerekend.Name = "chartBerekend"
         Me.chartBerekend.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.None
-        Series2.ChartArea = "ChartArea1"
-        Series2.Name = "Series1"
-        Me.chartBerekend.Series.Add(Series2)
+        Series1.ChartArea = "ChartArea1"
+        Series1.Name = "Series1"
+        Me.chartBerekend.Series.Add(Series1)
         Me.chartBerekend.Size = New System.Drawing.Size(772, 854)
         Me.chartBerekend.TabIndex = 7
         Me.chartBerekend.Text = "Chart1"
-        Title3.BackImageAlignment = System.Windows.Forms.DataVisualization.Charting.ChartImageAlignmentStyle.Left
-        Title3.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Left
-        Title3.Name = "Aantal"
-        Title3.Text = "Aantal"
-        Title4.Alignment = System.Drawing.ContentAlignment.BottomCenter
-        Title4.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom
-        Title4.Name = "Verschil"
-        Title4.Text = "Verschil"
-        Me.chartBerekend.Titles.Add(Title3)
-        Me.chartBerekend.Titles.Add(Title4)
+        Title1.BackImageAlignment = System.Windows.Forms.DataVisualization.Charting.ChartImageAlignmentStyle.Left
+        Title1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Left
+        Title1.Name = "Aantal"
+        Title1.Text = "Aantal"
+        Title2.Alignment = System.Drawing.ContentAlignment.BottomCenter
+        Title2.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom
+        Title2.Name = "Verschil"
+        Title2.Text = "Verschil"
+        Me.chartBerekend.Titles.Add(Title1)
+        Me.chartBerekend.Titles.Add(Title2)
         '
         'dgvResult
         '
@@ -100,9 +99,6 @@ Partial Class Test
         Me.lblInfo2.Name = "lblInfo2"
         Me.lblInfo2.Size = New System.Drawing.Size(0, 13)
         Me.lblInfo2.TabIndex = 9
-        '
-        'bgwDataLoader
-        '
         '
         'Test
         '
@@ -131,5 +127,4 @@ Partial Class Test
     Friend WithEvents chartBerekend As DataVisualization.Charting.Chart
     Friend WithEvents dgvResult As DataGridView
     Friend WithEvents lblInfo2 As Label
-    Friend WithEvents bgwDataLoader As System.ComponentModel.BackgroundWorker
 End Class

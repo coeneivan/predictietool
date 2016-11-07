@@ -2,9 +2,17 @@
 Imports Newtonsoft.Json.Linq
 Imports System.Web.Script.Serialization
 Imports System.Web
+''' <summary>
+''' Lezen en schrijven van JSONfiles
+''' </summary>
 Public Class JSONParser
     Private fileReader As String
-    Public Function read(filePath As String) As ArrayList
+    ''' <summary>
+    ''' Leest het JSON bestand en geeft een arraylist terug
+    ''' </summary>
+    ''' <param name="filePath">Bestands pad en naam met extensie</param>
+    ''' <returns>Arraylist met alle filter-items uit het bestand</returns>
+    Public Function readFilters(filePath As String) As ArrayList
         'Dim json As String = filePath
         Dim ser As JArray = JArray.Parse(My.Computer.FileSystem.ReadAllText(filePath))
         Dim data As List(Of JToken) = ser.Children().ToList
@@ -20,6 +28,11 @@ Public Class JSONParser
         Return list
     End Function
 
+    ''' <summary>
+    ''' Maakt arraylist klaar om in een JSON bestand op te slaan
+    ''' </summary>
+    ''' <param name="filters">Arraylist met alle filter-items</param>
+    ''' <returns>String die in het bestand zal komen</returns>
     Public Function save(filters As ArrayList) As String
         Dim serializer As New JavaScriptSerializer()
         Return serializer.Serialize(filters.ToArray)

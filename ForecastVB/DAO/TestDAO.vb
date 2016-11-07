@@ -1,5 +1,5 @@
 ﻿Imports ForecastVB
-
+'TODO: clean up!
 Public Class TestDAO
     Friend Shared Function GetAantalCursussenPerSubAfdelingPerJaarTotJaar(v As String, fil As String, j As Int16) As Dictionary(Of Integer, Parameter)
         Dim script As String = "Select year(StartDatum) "

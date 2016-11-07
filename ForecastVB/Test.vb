@@ -6,7 +6,6 @@ Public Class Test
     Dim b As Double = 1
     Dim c As Double = 1
     Dim som As Double = 0
-    Dim alleMerken, alleDagen, alleMaanden, alleCentra As ArrayList
     Dim nodata As Double
 
     Public Sub New(main As MainScreen)
@@ -180,10 +179,6 @@ Public Class Test
         For Each item In list
             Me.dgvResult.Columns.Add(item.ToString, item.ToString)
         Next
-    End Sub
-
-    Private Sub bgwDataLoader_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles bgwDataLoader.DoWork
-
     End Sub
 
     Private Sub bayesAndBayesLinear()
