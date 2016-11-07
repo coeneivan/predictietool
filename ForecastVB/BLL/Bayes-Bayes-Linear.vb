@@ -308,6 +308,10 @@
         End Set
     End Property
 
+    ''' <summary>
+    ''' Geeft alle items terug 
+    ''' </summary>
+    ''' <returns>Geeft een list terug met alle items</returns>
     Public Function getItems() As List(Of DataMiningPrediction2)
         Return listOfAllItems
     End Function
