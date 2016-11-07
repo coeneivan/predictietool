@@ -59,7 +59,7 @@
     End Sub
 
     Private Sub calcBayesWithLinear()
-        ' berekend kans van iedere entry dat deze door gaat en plaatst dit vervolgens in de listview
+        'berekend kans van iedere entry dat deze door gaat en plaatst dit vervolgens in de listview
         For Each item As DataMiningPrediction2 In listOfAllItems
             If Not item.isCorrect Then
 
@@ -279,7 +279,6 @@
 
         Return Math.Sqrt(squareAvg)
     End Function
-
     Public Property deviatie() As Double
         Get
             Return deviatie
@@ -288,7 +287,10 @@
             getdeviatie = dev
         End Set
     End Property
-
+    ''' <summary>
+    ''' Geeft alle items terug 
+    ''' </summary>
+    ''' <returns>Geeft een list terug met alle items</returns>
     Public Function getItems() As List(Of DataMiningPrediction2)
         Return listOfAllItems
     End Function
