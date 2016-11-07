@@ -1,5 +1,11 @@
 ﻿Public Class Bayes_Bayes_Linear
 
+
+    'TODO Hoe houden we bij welk algoritme van de 2 gekozen moet worden voor welke parameters?
+    'TODO Bijde algoritmes testen voor alle te testen parameters en bijhouden welke het beste resultaat geeft?
+    'TODO Uitbreiden voor andere algoritmes?
+    'TODO Controle of er bij filters nog altijd alles wordt weergegeven (Percentages worden op alles berekend, gebeurd dit nog altijd met filters?)
+
     Private root As New MainScreen
 
     Dim f As String = ""
@@ -93,28 +99,18 @@
                 Dim b As Double
 
                 For Each itemWithYear As DataMiningPrediction2 In listOfAllItemsWithYear
-                    If (item.getCodeSubAfdeling = itemWithYear.getCodeSubAfdeling) Then
-                        If (item.getMaand = itemWithYear.getMaand) Then
-                            If (item.getUitvoerCentrum = itemWithYear.getUitvoerCentrum) Then
-                                If (item.getDag = itemWithYear.getDag) Then
-                                    If item.getMerk = itemWithYear.getMerk Then
-                                        Dim x = itemWithYear.getJaar
-                                        Dim y = (itemWithYear.getDoorgegaan / itemWithYear.getTotaal)
+                    If item.getCodeSubAfdeling = itemWithYear.getCodeSubAfdeling And item.getMaand = itemWithYear.getMaand And item.getUitvoerCentrum = itemWithYear.getUitvoerCentrum And item.getDag = itemWithYear.getDag And item.getMerk = itemWithYear.getMerk Then
 
-                                        aantal += 1
-                                        xySum += (x * y)
-                                        xSum += x
-                                        ySum += y
-                                        xSquareSum += x ^ 2
+                        Dim x = itemWithYear.getJaar
+                        Dim y = (itemWithYear.getDoorgegaan / itemWithYear.getTotaal)
 
-                                    End If
-                                End If
-                            End If
-                        End If
+                        aantal += 1
+                        xySum += (x * y)
+                        xSum += x
+                        ySum += y
+                        xSquareSum += x ^ 2
                     End If
                 Next
-
-
 
                 a = (((aantal * xySum) - (xSum * ySum)) / ((aantal * xSquareSum) - xSum ^ 2))
                 b = (((xSquareSum * ySum) - (xSum * xySum)) / ((aantal * xSquareSum) - (xSum ^ 2)))
@@ -126,11 +122,7 @@
                 item.setJaar(a)
                 item.temp = b
 
-
                 listMetAfwijking.Add(Math.Round((((item.getDoorgegaan / item.getTotaal) - (item.getKans)) * 100), 2))
-
-
-
             End If
         Next
     End Sub
@@ -144,6 +136,7 @@
             Dim codeSubAfd = item.getCodeSubAfdeling
             Dim nietDoor = item.getTotaal - item.getDoorgegaan
             Dim doorgegaan = item.getDoorgegaan
+
             ' Lijst per merk aanvullen
             If Not dicMerkW.ContainsKey(merk) Then
                 dicMerkW.Add(merk, doorgegaan)
@@ -322,12 +315,12 @@
     Public Function getMerken() As List(Of String)
         Dim merkenDictionay As New Dictionary(Of String, DataMiningPrediction2)
         For Each cursus In listOfAllItems
-            If Not merkendictionay.ContainsKey(cursus.getMerk) Then
-                merkendictionay.Add(cursus.getMerk, cursus)
+            If Not merkenDictionay.ContainsKey(cursus.getMerk) Then
+                merkenDictionay.Add(cursus.getMerk, cursus)
             End If
         Next
         Dim list As New List(Of String)
-        For Each k In merkendictionay
+        For Each k In merkenDictionay
             list.Add(k.Key)
         Next
         Return list
