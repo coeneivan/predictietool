@@ -1267,7 +1267,7 @@ Public Class Test
     End Sub
 
     Private Sub dgvResult_SortCompare(sender As Object, e As DataGridViewSortCompareEventArgs) Handles dgvResult.SortCompare
-        If e.Column.Index = 5 Or e.Column.Index = 8 Or e.Column.Index = 9 Then
+        If e.Column.Index = 4 Or e.Column.Index = 7 Or e.Column.Index = 8 Then
             Try
                 e.SortResult = If(CInt(e.CellValue1) < CInt(e.CellValue2), -1, 1)
                 e.Handled = True
@@ -1306,6 +1306,10 @@ Public Class Test
             Dim lin As New Linear
             'ver3.Points.AddXY(2015, lin.berekenVoor(2015, toDraw))
             ver3.Points.AddXY(2015, voorspellingen(theKey).getAvg / 100)
+            ver3.Points.AddXY(2016, lin.berekenVoor(2016, toDraw))
+            ver3.Points.AddXY(2017, lin.berekenVoor(2017, toDraw))
+            ver3.Points.AddXY(2018, lin.berekenVoor(2018, toDraw))
+            ver3.Points.AddXY(2019, lin.berekenVoor(2019, toDraw))
             verB.Points.AddXY(2015, voorspellingen(theKey).getBovengrens / 100)
             verO.Points.AddXY(2015, voorspellingen(theKey).getOndergrens / 100)
             'ECHTE WAARDES
@@ -1684,7 +1688,7 @@ Public Class Test
         Dim gemAfw = 0
         Dim vallentussen = 0
         Dim sumDerSummen = 0
-        addColumns(New ArrayList({"Teken", "Merk", "Centrum", "Subafdeling", "Maand", "Aantal", "Doorgegaan", "Voor 2015", "Echt voor 2015", "Aaantal", "Valt tussen"}))
+        addColumns(New ArrayList({"Teken", "Merk", "Centrum", "Subafdeling", "Aantal", "Doorgegaan", "Voor 2015", "Echt voor 2015", "Aaantal", "Valt tussen"}))
         Dim test As New TestBLL
         Dim listOfAllItems = test.getALL(createFilterString(root.getFilters))
         Dim lin As New Linear
@@ -1692,7 +1696,7 @@ Public Class Test
         Dim groupedbyMerk = lin.groupbyMerk(listOfAllItems)
         Dim groupedbyCentrum = lin.groupbyCentrum(listOfAllItems)
         Dim groupedbyMaand = lin.groupbyMaand(listOfAllItems)
-        'Dim groupedbyDag = lin.groupbyDag(listOfAllItems)
+        Dim groupedbyDag = lin.groupbyDag(listOfAllItems)
         Dim groupedbySubAfd = lin.groupbySubAfdeling(listOfAllItems)
         echteWaardes = lin.getEchteWaardes
         pgb.Minimum = 0
@@ -1746,34 +1750,34 @@ Public Class Test
             Else
                 kansMaandByYear = dicks(keys(3))
             End If
-            'Dim kansDagByYear
-            'If Not dicks.ContainsKey(keys(4)) Then
-            '    kansDagByYear = lin.groupByYear(groupedbyDag(keys(4)))
-            '    dicks.Add(keys(4), kansDagByYear)
-            'Else
-            '    kansDagByYear = dicks(keys(4))
+            Dim kansDagByYear
+            If Not dicks.ContainsKey(keys(4)) Then
+                kansDagByYear = lin.groupByYear(groupedbyDag(keys(4)))
+                dicks.Add(keys(4), kansDagByYear)
+            Else
+                kansDagByYear = dicks(keys(4))
 
-            'End If
+            End If
             Dim algemeenj = 0.75 'TODO: veranderen naar algemene slagpercentage voor dat jaar
             Dim algemeenn = 0.25
             Dim kansMerkj = lin.berekenVoor(2015, kansMerkByYear, True)
             Dim kansCentrumj = lin.berekenVoor(2015, kansCentrumByYear, True)
             Dim kansSufAfdelingj = lin.berekenVoor(2015, kansSufAfdelingByYear, True)
             Dim kansMaandj = lin.berekenVoor(2015, kansMaandByYear, True)
-            'Dim kansDagj = lin.berekenVoor(2015, kansDagByYear, True)
+            Dim kansDagj = lin.berekenVoor(2015, kansDagByYear, True)
             Dim kansMerkn = lin.berekenVoor(2015, kansMerkByYear, False)
             Dim kansCentrumn = lin.berekenVoor(2015, kansCentrumByYear, False)
             Dim kansSufAfdelingn = lin.berekenVoor(2015, kansSufAfdelingByYear, False)
             Dim kansMaandn = lin.berekenVoor(2015, kansMaandByYear, False)
-            'Dim kansDagn = lin.berekenVoor(2015, kansDagByYear, False)
+            Dim kansDagn = lin.berekenVoor(2015, kansDagByYear, False)
 
             Dim merkBereik = lin.certainty(kansMerkByYear)
             Dim centrumBereik = lin.certainty(kansCentrumByYear)
             Dim subAfdBereik = lin.certainty(kansSufAfdelingByYear)
             Dim maandBereik = lin.certainty(kansMaandByYear)
-            'Dim dagBereik = lin.certainty(kansDagByYear)
+            Dim dagBereik = lin.certainty(kansDagByYear)
 
-            Dim bereiken As New ArrayList({merkBereik, centrumBereik, maandBereik, merkBereik, subAfdBereik})
+            Dim bereiken As New ArrayList({merkBereik, centrumBereik, merkBereik, subAfdBereik, maandBereik, dagBereik})
 
 
             Dim s = 0
@@ -1783,11 +1787,10 @@ Public Class Test
 
             s /= bereiken.Count
             gemAfw += s
-            Dim kansj = kansMerkj * kansCentrumj * kansSufAfdelingj * kansMaandj * algemeenj
-            Dim kansn = kansMerkn * kansCentrumn * kansSufAfdelingn * kansMaandn * algemeenn
+            Dim kansj = kansMerkj * kansCentrumj * kansSufAfdelingj * algemeenj
+            Dim kansn = kansMerkn * kansCentrumn * kansSufAfdelingn * algemeenn
             Dim k = kansj / (kansn + kansj)
             Dim kans As New Bereik(k * 100 - s, k * 100, k * 100 + s)
-            'TODO berekenen van kans voor codeingetrokken ="nee"
             Dim echt As String
             Dim aantalEcht As String = ""
             Dim kleur As Color
@@ -1822,7 +1825,7 @@ Public Class Test
             End If
 
             If Not echt = "-1" Then
-                dgvResult.Rows.Add(groep.Key, keys(0), keys(1), keys(2), keys(3), totaal.ToString, Math.Round((doorgegaan / totaal) * 100, 2).ToString, kans.ToString, echt, aantalEcht, kans.valtTussen(echt).ToString)
+                dgvResult.Rows.Add(groep.Key, keys(0), keys(1), keys(2), totaal.ToString, Math.Round((doorgegaan / totaal) * 100, 2).ToString, kans.ToString, echt, aantalEcht, kans.valtTussen(echt).ToString)
                 dgvResult.Rows(dgvResult.RowCount - 1).DefaultCellStyle.BackColor = kleur
                 voorspellingen.Add(groep.Key, kans)
             End If
