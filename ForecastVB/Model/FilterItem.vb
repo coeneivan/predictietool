@@ -51,6 +51,6 @@ Public Class FilterItem
     ''' </summary>
     ''' <returns>String weergave van filter om te gebruiken in sql script</returns>
     Public Overrides Function toString() As String
-        Return k + " " + fa + " " + fi
+        Return k + " " + fa + " " + fi + " "
     End Function
 End Class

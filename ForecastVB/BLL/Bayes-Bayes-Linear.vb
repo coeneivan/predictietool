@@ -8,21 +8,21 @@
     Dim startTime = Now
 
     ' Lijst om te tellen hoeveel cursussen van elk item niet geschrapt werden
-    Dim dicMerkW As New Dictionary(Of String, Int32)
-    Dim dicUitvW As New Dictionary(Of String, Int32)
-    Dim dicMaandW As New Dictionary(Of Int16, Int32)
-    Dim dicDagW As New Dictionary(Of String, Int32)
-    Dim dicSubW As New Dictionary(Of String, Int32)
+    Dim dicMerkW As New Dictionary(Of String, Integer)
+    Dim dicUitvW As New Dictionary(Of String, Integer)
+    Dim dicMaandW As New Dictionary(Of Integer, Integer)
+    Dim dicDagW As New Dictionary(Of String, Integer)
+    Dim dicSubW As New Dictionary(Of String, Integer)
 
     ' Lijst om te tellen hoeveel cursussen van elk item wel geschrapt werden
-    Dim dicMerkN As New Dictionary(Of String, Int32)
-    Dim dicUitvN As New Dictionary(Of String, Int32)
-    Dim dicMaandN As New Dictionary(Of Int16, Int32)
-    Dim dicDagN As New Dictionary(Of String, Int32)
-    Dim dicSubN As New Dictionary(Of String, Int32)
+    Dim dicMerkN As New Dictionary(Of String, Integer)
+    Dim dicUitvN As New Dictionary(Of String, Integer)
+    Dim dicMaandN As New Dictionary(Of Integer, Integer)
+    Dim dicDagN As New Dictionary(Of String, Integer)
+    Dim dicSubN As New Dictionary(Of String, Integer)
 
-    Dim atlDoorgg As Int32
-    Dim atlNietDgg As Int32
+    Dim atlDoorgg As Integer
+    Dim atlNietDgg As Integer
     Dim standaardAfwijking As New List(Of Double)
 
     Dim cIn As Integer = 0
@@ -333,8 +333,8 @@
     Public Function getSubafdelingen() As List(Of String)
         Dim subafdelingenDictionay As New Dictionary(Of String, DataMiningPrediction2)
         For Each cursus In listOfAllItems
-            If Not subafdelingenDictionay.ContainsKey(cursus.getCodeSubAfdeling) Then
-                subafdelingenDictionay.Add(cursus.getCodeSubAfdeling, cursus)
+            If Not subafdelingenDictionay.ContainsKey(cursus.getCodeSubAfdeling.ToUpper) Then
+                subafdelingenDictionay.Add(cursus.getCodeSubAfdeling.ToUpper, cursus)
             End If
         Next
         Dim list As New List(Of String)

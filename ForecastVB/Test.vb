@@ -19,29 +19,12 @@ Public Class Test
 
     Private Sub Test_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         'TODO: misschien beter om filters toe te passen (bv. Merk/centrum/...) om enkel daar de data van te tonen
-
+        Dim b As New Bayes_Bayes_Linear(root.getFilters)
+        cbbMerk.Items.AddRange(b.getMerken.ToArray)
+        cbbCentrum.Items.AddRange(b.getCentra.ToArray)
+        cbbSubafdeling.Items.AddRange(b.getSubafdelingen.ToArray)
+        cbbLesdag.Items.AddRange({"Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag", "Zaterdag", "Zondag"})
     End Sub
-
-
-
-    ''' <summary>
-    ''' Berekend de waarde voor het te berekenen jaar wanneer lastYear het laatste jaar is met waarde
-    ''' </summary>
-    ''' <param name="findForX">het te brekenen jaar</param>
-    ''' <param name="y_data">De Y waardes met het aantal cursussen dat is kunnen door gaan</param>
-    ''' <param name="x_data">De X waardes voor het jaar waarin de cursussen zijn doorgegeaan</param>
-    ''' <returns>Geeft de voorspelde waarde terug volgens een niet linaire functie verkregen door de gegeven data</returns>
-    Private Function createFilterString(filters As ArrayList) As String
-        Dim f As String = ""
-        For Each s As FilterItem In filters
-            If f.Equals("") Then
-                f = s.kolom + " " + s.factor + " " + s.filter
-            Else
-                f += " and " + s.kolom + " " + s.factor + " " + s.filter
-            End If
-        Next
-        Return f
-    End Function
 
     Private Sub drawBarGraph(ver As Series)
 
@@ -67,20 +50,6 @@ Public Class Test
         chartBerekend.ChartAreas(0).AxisX.Minimum = -100
         chartBerekend.ChartAreas(0).AxisX.Maximum = 100
     End Sub
-
-    Private Function CalculateStandardDeviation(data As List(Of Double)) As Double
-        Dim mean As Double = data.Average()
-        Dim squares As New List(Of Double)
-        Dim squareAvg As Double
-
-        For Each value As Double In data
-            squares.Add(Math.Pow(value - mean, 2))
-        Next
-
-        squareAvg = squares.Average()
-
-        Return Math.Sqrt(squareAvg)
-    End Function
 
     Private Sub dgvResult_SortCompare(sender As Object, e As DataGridViewSortCompareEventArgs) Handles dgvResult.SortCompare
         If e.Column.Index = 8 Then
@@ -182,13 +151,30 @@ Public Class Test
     End Sub
 
     Private Sub bayesAndBayesLinear()
+        Dim filters = root.getFilters()
+        Dim tijdelijkeFilters As New ArrayList
+        If cbbMerk.SelectedItem IsNot Nothing Then
+            tijdelijkeFilters.Add(New FilterItem("merk", "=", "'" + cbbMerk.SelectedItem + "'"))
+        End If
+        If cbbCentrum.SelectedItem IsNot Nothing Then
+            tijdelijkeFilters.Add(New FilterItem("UitvCentrumOmsch", "=", "'" + cbbCentrum.SelectedItem + "'"))
+        End If
+        If cbbSubafdeling.SelectedItem IsNot Nothing Then
+            tijdelijkeFilters.Add(New FilterItem("CodeSubafdeling", "=", "'" + cbbSubafdeling.SelectedItem + "'"))
+        End If
+        If cbbLesdag.SelectedItem IsNot Nothing Then
+            tijdelijkeFilters.Add(New FilterItem("Dag", "=", "'" + cbbLesdag.SelectedItem + "'"))
+        End If
+        For Each fi In tijdelijkeFilters
+            filters.Add(fi)
+        Next
         Dim trues = 0
         Dim falses = 0
         Dim cIn As Integer = 0
         Dim cOut As Integer = 0
         Dim ligtTussen As Integer = 10
         Dim versch As New Dictionary(Of Double, Integer)
-        Dim bayesBayesLinear As New Bayes_Bayes_Linear(root.getFilters())
+        Dim bayesBayesLinear As New Bayes_Bayes_Linear(filters)
 
 
         ' Standaard afwijking berekenen
@@ -257,6 +243,11 @@ Public Class Test
 
         lblInfo2.Text = "Binnen -" + ligtTussen.ToString + " en " + ligtTussen.ToString + ": " + cIn.ToString + "    Buiten -" + ligtTussen.ToString + " en " + ligtTussen.ToString + ": " + cOut.ToString + "      Standaardafwijking: " + deviatie.ToString
         Label1.Text = "Totaal = " + (trues + falses).ToString + " waarvan " + trues.ToString + " (" + Math.Round((trues / (trues + falses) * 100), 2).ToString + "%) correct voorspeld waren en " + falses.ToString + " (" + Math.Round((falses / (trues + falses) * 100), 2).ToString + "%) niet"
+
+        'Verwijder tijdelijke filters zodat we later geen problemen hebben
+        For Each fi In tijdelijkeFilters
+            filters.Remove(fi)
+        Next
     End Sub
     Private Sub initDataGridView()
         dgvResult.DataSource = Nothing
@@ -273,9 +264,28 @@ Public Class Test
         dgvResult.Columns(8).Width = 50
     End Sub
 
-    Private Sub Test_Shown(sender As Object, e As EventArgs) Handles Me.Shown
-        System.Threading.Thread.Sleep(100)
-        Application.DoEvents()
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        initDataGridView()
         bayesAndBayesLinear()
+    End Sub
+
+    Private Sub btnClearMerk_Click(sender As Object, e As EventArgs) Handles btnClearMerk.Click
+        cbbMerk.SelectedItem = Nothing
+    End Sub
+
+    Private Sub btnClearCenturm_Click(sender As Object, e As EventArgs) Handles btnClearCenturm.Click
+        cbbCentrum.SelectedItem = Nothing
+    End Sub
+
+    Private Sub btnClearSubafdeling_Click(sender As Object, e As EventArgs) Handles btnClearSubafdeling.Click
+        cbbSubafdeling.SelectedItem = Nothing
+    End Sub
+
+    Private Sub btnClearDag_Click(sender As Object, e As EventArgs) Handles btnClearDag.Click
+        cbbLesdag.SelectedItem = Nothing
+    End Sub
+
+    Private Sub btnClearStartdatum_Click(sender As Object, e As EventArgs) Handles btnClearStartdatum.Click
+        'TODO: clear selection date
     End Sub
 End Class
