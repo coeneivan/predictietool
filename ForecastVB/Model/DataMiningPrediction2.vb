@@ -1,4 +1,5 @@
-﻿Public Class DataMiningPrediction2
+﻿'TODO: Naam veranderen naar cursus ipv DataMiningPrediction2 
+Public Class DataMiningPrediction2
     Dim ont As String
     Dim merk As String
     Dim uitvCentr As String
