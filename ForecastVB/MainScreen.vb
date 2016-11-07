@@ -8,7 +8,7 @@ Public Class MainScreen
     Private saveDirectory As String = SpecialDirectories.MyDocuments + "//Predictie Filters//"
 
     Private Sub MainScreen_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
+        refreshFilterList()
 
     End Sub
     Public Sub refreshFilterList()
