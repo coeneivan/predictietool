@@ -10,22 +10,42 @@ Public Class MainScreen
     Private Sub MainScreen_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         refreshFilterList()
     End Sub
+    ''' <summary>
+    ''' Refresht de lijst met filters
+    ''' Indien de map niet bestaat, maakt die aan en steek er de defaultlist in
+    ''' </summary>
     Public Sub refreshFilterList()
 
         filterlist = New ArrayList
         cboFiltersList.Items.Clear()
-        Dim filterFiles As String() = Directory.GetFiles(saveDirectory)
-        'TODO: enkel de JSON files toevoegen
-        'TODO: als map leeg is -> bijgeleverde defaultList gebruiken (zie filters/defaultList.json)
-        For Each file As String In filterFiles
-            Dim filterNames As String = System.IO.Path.GetFileNameWithoutExtension(file)
-            filterlist.Add(filterNames)
-        Next
-        cboFiltersList.Items.AddRange(filterlist.ToArray)
+        Dim filterFiles As String()
+        Try
+            filterFiles = Directory.GetFiles(saveDirectory)
+            'TODO: Controleren als map leeg is
+            If filterFiles.Count > 0 Then
+                For Each file As String In filterFiles
+                    'Enkel json bestanden
+                    If System.IO.Path.GetExtension(file).ToUpper = ".JSON" Then
+                        Dim filterNames As String = System.IO.Path.GetFileNameWithoutExtension(file)
+                        filterlist.Add(filterNames)
+                    End If
+                Next
+            Else
+                'Als map leeg is steek de bijgeleverde defaultList in 
+                Throw New DirectoryNotFoundException
+            End If
 
-        'Auto select last selected list
-        selectedFilterList = My.Settings.selectedFilterList
-        cboFiltersList.SelectedItem = selectedFilterList
+            cboFiltersList.Items.AddRange(filterlist.ToArray)
+            'Auto select last selected list
+            selectedFilterList = My.Settings.selectedFilterList
+            cboFiltersList.SelectedItem = selectedFilterList
+        Catch ex As DirectoryNotFoundException
+            'Als map niet bestaat is -> map aanmaken en bijgeleverde defaultList kopieren 
+            My.Computer.FileSystem.CopyFile("..\..\Filters\defaultList.json", saveDirectory + "\DafaultList.json")
+            refreshFilterList()
+        Catch ex As Exception
+            MessageBox.Show(ex.ToString, "Foutje")
+        End Try
     End Sub
 
     Private Sub cboMerk_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboMerk.SelectedIndexChanged
@@ -59,7 +79,11 @@ Public Class MainScreen
         Dim t As New Test(Me)
         t.Show()
     End Sub
-
+    ''' <summary>
+    ''' Bereken de kans voor de geselecteerde parameters
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
         txtTotaal.Text = "We hebben het algoritme nog nodig"
     End Sub
@@ -99,5 +123,4 @@ Public Class MainScreen
         My.Settings.selectedFilterList = cboFiltersList.SelectedItem
         My.Settings.Save()
     End Sub
-
 End Class

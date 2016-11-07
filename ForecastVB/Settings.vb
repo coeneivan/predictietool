@@ -80,7 +80,6 @@ Public Class Settings
     End Function
 
     Private Sub makeFilterFileList()
-        ' Bestaat directory? bestaat hij niet, maak hem aan
         doesDirectoryExistifNotCreate()
 
         cbbFilterFiles.Items.Clear()
@@ -211,7 +210,6 @@ Public Class Settings
             filters = createFilterList()
             'My.Computer.FileSystem.WriteAllText(SaveFileDialog1.FileName, j.save(filters), False)
 
-            ' Bestaat directory? bestaat hij niet, maak hem aan
             doesDirectoryExistifNotCreate()
 
             My.Computer.FileSystem.WriteAllText(saveDirectory + fileName + ".json", j.save(filters), False)
@@ -270,6 +268,9 @@ Public Class Settings
         End Try
     End Sub
 
+    ''' <summary>
+    ''' Bestaat directory? bestaat hij niet, maak hem aan
+    ''' </summary>
     Private Sub doesDirectoryExistifNotCreate()
         If Not (My.Computer.FileSystem.DirectoryExists(saveDirectory)) Then
             My.Computer.FileSystem.CreateDirectory(saveDirectory)
