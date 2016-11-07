@@ -28,11 +28,6 @@ Partial Class MainScreen
         Me.Label5 = New System.Windows.Forms.Label()
         Me.cboSubAfd = New System.Windows.Forms.ComboBox()
         Me.cboLesdag = New System.Windows.Forms.ComboBox()
-        Me.Label6 = New System.Windows.Forms.Label()
-        Me.txtResultMerk = New System.Windows.Forms.TextBox()
-        Me.txtResultSubAfd = New System.Windows.Forms.TextBox()
-        Me.txtRestultLesDag = New System.Windows.Forms.TextBox()
-        Me.txtResultDatum = New System.Windows.Forms.TextBox()
         Me.cboMerk = New System.Windows.Forms.ComboBox()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.btnFilter = New System.Windows.Forms.Button()
@@ -43,15 +38,13 @@ Partial Class MainScreen
         Me.Button2 = New System.Windows.Forms.Button()
         Me.Label7 = New System.Windows.Forms.Label()
         Me.cboUitvCent = New System.Windows.Forms.ComboBox()
-        Me.txtResultCentrum = New System.Windows.Forms.TextBox()
         Me.dtpStartcursus = New System.Windows.Forms.DateTimePicker()
-        Me.Button3 = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(61, 267)
+        Me.Label3.Location = New System.Drawing.Point(65, 205)
         Me.Label3.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(69, 13)
@@ -61,7 +54,7 @@ Partial Class MainScreen
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(82, 314)
+        Me.Label4.Location = New System.Drawing.Point(86, 252)
         Me.Label4.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(48, 13)
@@ -71,7 +64,7 @@ Partial Class MainScreen
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(28, 361)
+        Me.Label5.Location = New System.Drawing.Point(32, 299)
         Me.Label5.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(102, 13)
@@ -81,7 +74,7 @@ Partial Class MainScreen
         'cboSubAfd
         '
         Me.cboSubAfd.FormattingEnabled = True
-        Me.cboSubAfd.Location = New System.Drawing.Point(156, 264)
+        Me.cboSubAfd.Location = New System.Drawing.Point(160, 202)
         Me.cboSubAfd.Margin = New System.Windows.Forms.Padding(2)
         Me.cboSubAfd.Name = "cboSubAfd"
         Me.cboSubAfd.Size = New System.Drawing.Size(158, 21)
@@ -90,67 +83,16 @@ Partial Class MainScreen
         'cboLesdag
         '
         Me.cboLesdag.FormattingEnabled = True
-        Me.cboLesdag.Location = New System.Drawing.Point(156, 311)
+        Me.cboLesdag.Location = New System.Drawing.Point(160, 249)
         Me.cboLesdag.Margin = New System.Windows.Forms.Padding(2)
         Me.cboLesdag.Name = "cboLesdag"
         Me.cboLesdag.Size = New System.Drawing.Size(158, 21)
         Me.cboLesdag.TabIndex = 3
         '
-        'Label6
-        '
-        Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(140, 423)
-        Me.Label6.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
-        Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(52, 13)
-        Me.Label6.TabIndex = 10
-        Me.Label6.Text = "Resultaat"
-        Me.Label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'txtResultMerk
-        '
-        Me.txtResultMerk.Location = New System.Drawing.Point(32, 443)
-        Me.txtResultMerk.Margin = New System.Windows.Forms.Padding(2)
-        Me.txtResultMerk.Name = "txtResultMerk"
-        Me.txtResultMerk.ReadOnly = True
-        Me.txtResultMerk.Size = New System.Drawing.Size(282, 20)
-        Me.txtResultMerk.TabIndex = 11
-        Me.txtResultMerk.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        '
-        'txtResultSubAfd
-        '
-        Me.txtResultSubAfd.Location = New System.Drawing.Point(32, 485)
-        Me.txtResultSubAfd.Margin = New System.Windows.Forms.Padding(2)
-        Me.txtResultSubAfd.Name = "txtResultSubAfd"
-        Me.txtResultSubAfd.ReadOnly = True
-        Me.txtResultSubAfd.Size = New System.Drawing.Size(282, 20)
-        Me.txtResultSubAfd.TabIndex = 11
-        Me.txtResultSubAfd.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        '
-        'txtRestultLesDag
-        '
-        Me.txtRestultLesDag.Location = New System.Drawing.Point(32, 506)
-        Me.txtRestultLesDag.Margin = New System.Windows.Forms.Padding(2)
-        Me.txtRestultLesDag.Name = "txtRestultLesDag"
-        Me.txtRestultLesDag.ReadOnly = True
-        Me.txtRestultLesDag.Size = New System.Drawing.Size(282, 20)
-        Me.txtRestultLesDag.TabIndex = 11
-        Me.txtRestultLesDag.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        '
-        'txtResultDatum
-        '
-        Me.txtResultDatum.Location = New System.Drawing.Point(32, 527)
-        Me.txtResultDatum.Margin = New System.Windows.Forms.Padding(2)
-        Me.txtResultDatum.Name = "txtResultDatum"
-        Me.txtResultDatum.ReadOnly = True
-        Me.txtResultDatum.Size = New System.Drawing.Size(282, 20)
-        Me.txtResultDatum.TabIndex = 11
-        Me.txtResultDatum.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        '
         'cboMerk
         '
         Me.cboMerk.FormattingEnabled = True
-        Me.cboMerk.Location = New System.Drawing.Point(156, 170)
+        Me.cboMerk.Location = New System.Drawing.Point(160, 108)
         Me.cboMerk.Margin = New System.Windows.Forms.Padding(2)
         Me.cboMerk.Name = "cboMerk"
         Me.cboMerk.Size = New System.Drawing.Size(158, 21)
@@ -159,7 +101,7 @@ Partial Class MainScreen
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(96, 173)
+        Me.Label2.Location = New System.Drawing.Point(100, 111)
         Me.Label2.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(34, 13)
@@ -201,17 +143,17 @@ Partial Class MainScreen
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(32, 618)
+        Me.Button1.Location = New System.Drawing.Point(103, 488)
         Me.Button1.Margin = New System.Windows.Forms.Padding(2)
         Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(282, 55)
+        Me.Button1.Size = New System.Drawing.Size(141, 41)
         Me.Button1.TabIndex = 5
         Me.Button1.Text = "Test it!"
         Me.Button1.UseVisualStyleBackColor = True
         '
         'txtTotaal
         '
-        Me.txtTotaal.Location = New System.Drawing.Point(32, 572)
+        Me.txtTotaal.Location = New System.Drawing.Point(34, 427)
         Me.txtTotaal.Name = "txtTotaal"
         Me.txtTotaal.ReadOnly = True
         Me.txtTotaal.Size = New System.Drawing.Size(282, 20)
@@ -220,9 +162,9 @@ Partial Class MainScreen
         '
         'Button2
         '
-        Me.Button2.Location = New System.Drawing.Point(32, 548)
+        Me.Button2.Location = New System.Drawing.Point(34, 344)
         Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(282, 23)
+        Me.Button2.Size = New System.Drawing.Size(284, 64)
         Me.Button2.TabIndex = 5
         Me.Button2.Text = "Calculate"
         Me.Button2.UseVisualStyleBackColor = True
@@ -230,7 +172,7 @@ Partial Class MainScreen
         'Label7
         '
         Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(27, 220)
+        Me.Label7.Location = New System.Drawing.Point(31, 158)
         Me.Label7.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(103, 13)
@@ -240,46 +182,26 @@ Partial Class MainScreen
         'cboUitvCent
         '
         Me.cboUitvCent.FormattingEnabled = True
-        Me.cboUitvCent.Location = New System.Drawing.Point(156, 217)
+        Me.cboUitvCent.Location = New System.Drawing.Point(160, 155)
         Me.cboUitvCent.Margin = New System.Windows.Forms.Padding(2)
         Me.cboUitvCent.Name = "cboUitvCent"
         Me.cboUitvCent.Size = New System.Drawing.Size(158, 21)
         Me.cboUitvCent.TabIndex = 1
         '
-        'txtResultCentrum
-        '
-        Me.txtResultCentrum.Location = New System.Drawing.Point(32, 464)
-        Me.txtResultCentrum.Margin = New System.Windows.Forms.Padding(2)
-        Me.txtResultCentrum.Name = "txtResultCentrum"
-        Me.txtResultCentrum.ReadOnly = True
-        Me.txtResultCentrum.Size = New System.Drawing.Size(282, 20)
-        Me.txtResultCentrum.TabIndex = 11
-        Me.txtResultCentrum.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        '
         'dtpStartcursus
         '
-        Me.dtpStartcursus.Location = New System.Drawing.Point(156, 355)
+        Me.dtpStartcursus.Location = New System.Drawing.Point(160, 293)
         Me.dtpStartcursus.Margin = New System.Windows.Forms.Padding(2)
         Me.dtpStartcursus.Name = "dtpStartcursus"
         Me.dtpStartcursus.Size = New System.Drawing.Size(158, 20)
         Me.dtpStartcursus.TabIndex = 4
-        '
-        'Button3
-        '
-        Me.Button3.Location = New System.Drawing.Point(32, 684)
-        Me.Button3.Name = "Button3"
-        Me.Button3.Size = New System.Drawing.Size(282, 41)
-        Me.Button3.TabIndex = 16
-        Me.Button3.Text = "Per ontwikkelaar"
-        Me.Button3.UseVisualStyleBackColor = True
         '
         'MainScreen
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.Control
-        Me.ClientSize = New System.Drawing.Size(356, 737)
-        Me.Controls.Add(Me.Button3)
+        Me.ClientSize = New System.Drawing.Size(356, 563)
         Me.Controls.Add(Me.Button2)
         Me.Controls.Add(Me.txtTotaal)
         Me.Controls.Add(Me.Button1)
@@ -287,12 +209,6 @@ Partial Class MainScreen
         Me.Controls.Add(Me.btnFilter)
         Me.Controls.Add(Me.cboUitvCent)
         Me.Controls.Add(Me.cboMerk)
-        Me.Controls.Add(Me.txtResultDatum)
-        Me.Controls.Add(Me.txtRestultLesDag)
-        Me.Controls.Add(Me.txtResultSubAfd)
-        Me.Controls.Add(Me.txtResultCentrum)
-        Me.Controls.Add(Me.txtResultMerk)
-        Me.Controls.Add(Me.Label6)
         Me.Controls.Add(Me.dtpStartcursus)
         Me.Controls.Add(Me.cboLesdag)
         Me.Controls.Add(Me.cboSubAfd)
@@ -315,11 +231,6 @@ Partial Class MainScreen
     Friend WithEvents Label5 As Label
     Friend WithEvents cboSubAfd As ComboBox
     Friend WithEvents cboLesdag As ComboBox
-    Friend WithEvents Label6 As Label
-    Friend WithEvents txtResultMerk As TextBox
-    Friend WithEvents txtResultSubAfd As TextBox
-    Friend WithEvents txtRestultLesDag As TextBox
-    Friend WithEvents txtResultDatum As TextBox
     Friend WithEvents cboMerk As ComboBox
     Friend WithEvents Label2 As Label
     Friend WithEvents btnFilter As Button
@@ -330,7 +241,5 @@ Partial Class MainScreen
     Friend WithEvents Button2 As Button
     Friend WithEvents Label7 As Label
     Friend WithEvents cboUitvCent As ComboBox
-    Friend WithEvents txtResultCentrum As TextBox
     Friend WithEvents dtpStartcursus As DateTimePicker
-    Friend WithEvents Button3 As Button
 End Class
