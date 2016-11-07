@@ -2,9 +2,33 @@
 ''' DB filtreren a.d.h.v. kolom filters
 ''' </summary>
 Public Class FilterItem
-    Public kolom As String
-    Public factor As String
-    Public filter As String
+    Private k As String
+    Public Property kolom() As String
+        Get
+            Return k
+        End Get
+        Set(ByVal value As String)
+            k = value
+        End Set
+    End Property
+    Private fa As String
+    Public Property factor() As String
+        Get
+            Return fa
+        End Get
+        Set(ByVal value As String)
+            fa = value
+        End Set
+    End Property
+    Private fi As String
+    Public Property filter() As String
+        Get
+            Return fi
+        End Get
+        Set(ByVal value As String)
+            fi = value
+        End Set
+    End Property
     ''' <summary>
     ''' DB filtreren a.d.h.v. kolom filters
     ''' </summary>

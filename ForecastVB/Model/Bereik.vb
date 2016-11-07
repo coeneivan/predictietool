@@ -29,19 +29,36 @@ Public Class Bereik
     ''' <summary>
     ''' Een stringweergave van het bereik
     ''' </summary>
-    ''' <returns>Een string om aan de eindgebruike te tonen</returns>
+    ''' <returns>Een string om aan de eindgebruike te tonen afgerond op 2 cijfers na de komma</returns>
     Public Overrides Function ToString() As String
         Return "[" + IIf(ondergrens > 0, Math.Round(ondergrens, 2), 0).ToString + " - " + IIf(Math.Round(average, 2) > 0, IIf(Math.Round(average, 2) < 100, Math.Round(average, 2).ToString, 100), 0).ToString + " - " + IIf(bovengrens < 100, Math.Round(bovengrens, 2), 100).ToString + "]"
     End Function
+    ''' <summary>
+    ''' Controleert of mee geleverde waarde tussen dit bereik valt
+    ''' </summary>
+    ''' <param name="x">Waarde die gecontroleerd moet worden</param>
+    ''' <returns>Ture = waarde valt tussen dit bereik, False = waarde valt er buiten</returns>
     Public Function valtTussen(x As Double) As Boolean
         Return x >= ondergrens And x <= bovengrens
     End Function
+    ''' <summary>
+    ''' Geeft gemiddelde terug
+    ''' </summary>
+    ''' <returns>Gemiddelde van dit bereik</returns>
     Public Function getAvg() As Double
         Return average
     End Function
+    ''' <summary>
+    ''' Geeft ondergrens terug
+    ''' </summary>
+    ''' <returns>Ondergrens van dit bereik</returns>
     Public Function getOndergrens() As Double
         Return ondergrens
     End Function
+    ''' <summary>
+    ''' Geeft bovengrens terug
+    ''' </summary>
+    ''' <returns>Bovengrens van dit bereik</returns>
     Public Function getBovengrens() As Double
         Return bovengrens
     End Function

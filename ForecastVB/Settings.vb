@@ -17,7 +17,7 @@ Public Class Settings
         InitializeComponent()
         ' Add any initialization after the InitializeComponent() call.
         root = main
-        makeFilterFileList()
+
         setKolomNaam()
         setFactorLijst()
         ListViewStarter()
@@ -159,7 +159,7 @@ Public Class Settings
 
 
                     Dim j As New JSONParser()
-                    Dim filters = j.read(OpenFileDialog1.FileName)
+                    Dim filters = j.readFilters(OpenFileDialog1.FileName)
                     readFilterFile(filters)
 
                     My.Computer.FileSystem.WriteAllText(saveDirectory + geefNaamInputbox + ".json", j.save(filters), False)
@@ -237,7 +237,7 @@ Public Class Settings
     Private Sub cbbFilterFiles_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cbbFilterFiles.SelectedIndexChanged
         Dim j As New JSONParser
         If cbbFilterFiles.SelectedItem <> "" Then
-            readFilterFile(j.read(saveDirectory + cbbFilterFiles.SelectedItem.ToString() + ".json"))
+            readFilterFile(j.readFilters(saveDirectory + cbbFilterFiles.SelectedItem.ToString() + ".json"))
         End If
 
     End Sub

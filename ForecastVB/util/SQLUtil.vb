@@ -2,6 +2,7 @@
 Imports System.Configuration
 Imports System.Data.SqlClient
 Imports ForecastVB
+'TODO: CLEAN UP!
 ''' <summary>
 ''' Maakt verbinding met DB
 ''' Zorgt er voor dat sql scripts kunnen uitgevoerd worden
