@@ -180,57 +180,56 @@ Public Class Test
         ' Standaard afwijking berekenen
         Dim deviatie = bayesBayesLinear.deviatie
 
+        Dim remove1 As Double = 0.0
+        Dim remove2 As Double = 0.0
 
         For Each item As DataMiningPrediction2 In bayesBayesLinear.getItems
-            If Not item.isCorrect Then
-                Dim afw = item.afwijking
 
-                ' Verschil
-                Dim verschil = Math.Round((((item.getDoorgegaan / item.getTotaal) - (item.getKans)) * 100), 2)
-                If Not versch.ContainsKey(verschil) Then
-                    versch.Add(verschil, 1)
-                Else
-                    versch(verschil) += 1
-                End If
-
-                If verschil > ligtTussen Or verschil < -ligtTussen Then
-                    cOut += 1
-                Else
-                    cIn += 1
-                End If
-
-                Dim echt = (Math.Round(((item.getDoorgegaan / item.getTotaal) * 10000)) / 100)
-
-                ' Bereken de top waarde en onderste waarde van de afwijking, controlleer of deze boven 100 of onder 0 zit en pas deze aan indien nodig
-                Dim bEdge = Math.Round(item.getKans * 100 - afw, 2)
-                Dim tEdge = Math.Round(item.getKans * 100 + afw, 2)
-                If bEdge < 0 Then bEdge = 0
-                If tEdge > 100 Then tEdge = 100
-
-                Dim result = "[" + bEdge.ToString + " - " + Math.Round(item.getKans * 100, 2).ToString + " - " + tEdge.ToString + "]"
-
-                Dim kleur As Color
-                If echt <= item.getKans * 100 + afw And echt >= item.getKans * 100 - afw Then
-                    trues += 1
-                    kleur = Color.LightGreen
-                    item.isCorrect = True
-                Else
-                    falses += 1
-                    kleur = Color.OrangeRed
-                    If echt < bEdge Then
-                        verschil = bEdge - echt
-                    Else
-                        verschil = tEdge - echt
-                    End If
-                End If
-
-                dgvResult.Rows.Add(item.getMerk, item.getUitvoerCentrum, item.getCodeSubAfdeling, item.getMaand.ToString, item.getDag, item.getTotaal.ToString, echt.ToString, result, verschil.ToString, item.getJaar, item.temp)
-                dgvResult.Rows(dgvResult.RowCount - 1).DefaultCellStyle.BackColor = kleur
+            ' Verschil
+            Dim verschil = Math.Round((((item.getDoorgegaan / item.getTotaal) - (item.getKans)) * 100), 2)
+            If Not versch.ContainsKey(verschil) Then
+                versch.Add(verschil, 1)
+            Else
+                versch(verschil) += 1
             End If
+
+            If verschil > ligtTussen Or verschil < -ligtTussen Then
+                cOut += 1
+            Else
+                cIn += 1
+            End If
+
+            Dim echt = (Math.Round(((item.getDoorgegaan / item.getTotaal) * 10000)) / 100)
+
+            ' Bereken de top waarde en onderste waarde van de afwijking, controlleer of deze boven 100 of onder 0 zit en pas deze aan indien nodig
+            Dim bEdge = Math.Round(item.getKans * 100 - item.afwijking, 2)
+            Dim tEdge = Math.Round(item.getKans * 100 + item.afwijking, 2)
+            If bEdge < 0 Then bEdge = 0
+            If tEdge > 100 Then tEdge = 100
+
+            Dim result = "[" + bEdge.ToString + " - " + Math.Round(item.getKans * 100, 2).ToString + " - " + tEdge.ToString + "]"
+
+            Dim kleur As Color
+            If echt <= tEdge And echt >= bEdge Then
+                trues += 1
+                kleur = Color.LightGreen
+                item.isCorrect = True
+            Else
+                falses += 1
+                kleur = Color.OrangeRed
+                If echt < bEdge Then
+                    verschil = bEdge - echt
+                Else
+                    verschil = tEdge - echt
+                End If
+            End If
+
+            dgvResult.Rows.Add(item.getMerk, item.getUitvoerCentrum, item.getCodeSubAfdeling, item.getMaand.ToString, item.getDag, item.getTotaal.ToString, echt.ToString, result, verschil.ToString, item.getJaar, item.temp)
+            dgvResult.Rows(dgvResult.RowCount - 1).DefaultCellStyle.BackColor = kleur
+
         Next
 
         dgvResult.Refresh()
-
 
         ' Teken grafiek
         Dim ver As New Series
