@@ -99,7 +99,7 @@ Public Class TestDAO
         query += "From Cursussen "
 
         If Not s.Equals("") Then
-            query += "WHERE startdatum < CAST('2016-10-01' AS DATETIME) AND " + s
+            query += "WHERE startdatum < CAST('2016-10-01' AS DATETIME) AND " + s 'TODO: 2016 automatisch aanpassen
         End If
 
         query += "group by "

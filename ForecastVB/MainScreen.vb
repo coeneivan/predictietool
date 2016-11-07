@@ -1,4 +1,5 @@
-﻿Imports System.IO
+﻿Imports System.Globalization
+Imports System.IO
 Imports Microsoft.VisualBasic.FileIO
 
 Public Class MainScreen
@@ -9,6 +10,16 @@ Public Class MainScreen
 
     Private Sub MainScreen_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         refreshFilterList()
+        refreshCombobox()
+    End Sub
+    Public Sub refreshCombobox()
+        Dim b As New Bayes_Bayes_Linear(filters)
+        cboMerk.Items.Clear()
+        cboMerk.Items.AddRange(b.getMerken.ToArray)
+        cboUitvCent.Items.Clear()
+        cboUitvCent.Items.AddRange(b.getCentra.ToArray)
+        cboSubAfd.Items.Clear()
+        cboSubAfd.Items.AddRange(b.getSubafdelingen.ToArray)
     End Sub
     ''' <summary>
     ''' Refresht de lijst met filters
@@ -61,7 +72,7 @@ Public Class MainScreen
         'dtpStartcursus.Value.Month.ToString
         'dtpStartcursus.Value.Year.ToString
     End Sub
-    Private Sub cboLesdag_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboLesdag.SelectedIndexChanged
+    Private Sub cboLesdag_SelectedIndexChanged(sender As Object, e As EventArgs)
 
     End Sub
 
@@ -85,7 +96,20 @@ Public Class MainScreen
     ''' <param name="sender"></param>
     ''' <param name="e"></param>
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
-        txtTotaal.Text = "We hebben het algoritme nog nodig"
+        If cboMerk.SelectedItem Is Nothing Then
+            MessageBox.Show("Gelieve een merk te selecteren aub")
+        Else
+            If cboUitvCent.SelectedItem Is Nothing Then
+                MessageBox.Show("Gelieve een uitvoerend centrum te selecteren aub")
+            Else
+                If cboSubAfd.SelectedItem Is Nothing Then
+                    MessageBox.Show("Gelieve een code subafdeling te selecteren aub")
+                Else
+                    MessageBox.Show("Alles ok")
+                End If
+            End If
+        End If
+        txtTotaal.Text = dtpStartcursus.Value.ToString("dddd", New CultureInfo("nl-BE")) + " " + dtpStartcursus.Value.Month.ToString + " " + dtpStartcursus.Value.Year.ToString
     End Sub
     ''' <summary>
     ''' Voegt filters toe aan active lijst
@@ -122,5 +146,9 @@ Public Class MainScreen
         'Opslaan in my.settings om later automatisch te selecteren
         My.Settings.selectedFilterList = cboFiltersList.SelectedItem
         My.Settings.Save()
+    End Sub
+
+    Private Sub Label5_Click(sender As Object, e As EventArgs) Handles Label5.Click
+
     End Sub
 End Class

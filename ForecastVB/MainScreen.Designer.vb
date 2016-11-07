@@ -24,10 +24,8 @@ Partial Class MainScreen
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MainScreen))
         Me.Label3 = New System.Windows.Forms.Label()
-        Me.Label4 = New System.Windows.Forms.Label()
         Me.Label5 = New System.Windows.Forms.Label()
         Me.cboSubAfd = New System.Windows.Forms.ComboBox()
-        Me.cboLesdag = New System.Windows.Forms.ComboBox()
         Me.cboMerk = New System.Windows.Forms.ComboBox()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.btnFilter = New System.Windows.Forms.Button()
@@ -51,20 +49,10 @@ Partial Class MainScreen
         Me.Label3.TabIndex = 3
         Me.Label3.Text = "Sub afdeling;"
         '
-        'Label4
-        '
-        Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(86, 252)
-        Me.Label4.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
-        Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(48, 13)
-        Me.Label4.TabIndex = 4
-        Me.Label4.Text = "Les dag:"
-        '
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(32, 299)
+        Me.Label5.Location = New System.Drawing.Point(32, 254)
         Me.Label5.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(102, 13)
@@ -79,15 +67,6 @@ Partial Class MainScreen
         Me.cboSubAfd.Name = "cboSubAfd"
         Me.cboSubAfd.Size = New System.Drawing.Size(158, 21)
         Me.cboSubAfd.TabIndex = 2
-        '
-        'cboLesdag
-        '
-        Me.cboLesdag.FormattingEnabled = True
-        Me.cboLesdag.Location = New System.Drawing.Point(160, 249)
-        Me.cboLesdag.Margin = New System.Windows.Forms.Padding(2)
-        Me.cboLesdag.Name = "cboLesdag"
-        Me.cboLesdag.Size = New System.Drawing.Size(158, 21)
-        Me.cboLesdag.TabIndex = 3
         '
         'cboMerk
         '
@@ -143,7 +122,7 @@ Partial Class MainScreen
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(103, 488)
+        Me.Button1.Location = New System.Drawing.Point(103, 441)
         Me.Button1.Margin = New System.Windows.Forms.Padding(2)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(141, 41)
@@ -153,7 +132,7 @@ Partial Class MainScreen
         '
         'txtTotaal
         '
-        Me.txtTotaal.Location = New System.Drawing.Point(34, 427)
+        Me.txtTotaal.Location = New System.Drawing.Point(34, 391)
         Me.txtTotaal.Name = "txtTotaal"
         Me.txtTotaal.ReadOnly = True
         Me.txtTotaal.Size = New System.Drawing.Size(282, 20)
@@ -162,7 +141,7 @@ Partial Class MainScreen
         '
         'Button2
         '
-        Me.Button2.Location = New System.Drawing.Point(34, 344)
+        Me.Button2.Location = New System.Drawing.Point(34, 294)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(284, 64)
         Me.Button2.TabIndex = 5
@@ -190,7 +169,8 @@ Partial Class MainScreen
         '
         'dtpStartcursus
         '
-        Me.dtpStartcursus.Location = New System.Drawing.Point(160, 293)
+        Me.dtpStartcursus.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+        Me.dtpStartcursus.Location = New System.Drawing.Point(160, 248)
         Me.dtpStartcursus.Margin = New System.Windows.Forms.Padding(2)
         Me.dtpStartcursus.Name = "dtpStartcursus"
         Me.dtpStartcursus.Size = New System.Drawing.Size(158, 20)
@@ -201,7 +181,7 @@ Partial Class MainScreen
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.Control
-        Me.ClientSize = New System.Drawing.Size(356, 563)
+        Me.ClientSize = New System.Drawing.Size(356, 508)
         Me.Controls.Add(Me.Button2)
         Me.Controls.Add(Me.txtTotaal)
         Me.Controls.Add(Me.Button1)
@@ -210,10 +190,8 @@ Partial Class MainScreen
         Me.Controls.Add(Me.cboUitvCent)
         Me.Controls.Add(Me.cboMerk)
         Me.Controls.Add(Me.dtpStartcursus)
-        Me.Controls.Add(Me.cboLesdag)
         Me.Controls.Add(Me.cboSubAfd)
         Me.Controls.Add(Me.Label5)
-        Me.Controls.Add(Me.Label4)
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.Label7)
         Me.Controls.Add(Me.Label1)
@@ -227,10 +205,8 @@ Partial Class MainScreen
 
     End Sub
     Friend WithEvents Label3 As Label
-    Friend WithEvents Label4 As Label
     Friend WithEvents Label5 As Label
     Friend WithEvents cboSubAfd As ComboBox
-    Friend WithEvents cboLesdag As ComboBox
     Friend WithEvents cboMerk As ComboBox
     Friend WithEvents Label2 As Label
     Friend WithEvents btnFilter As Button

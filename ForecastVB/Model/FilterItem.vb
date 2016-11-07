@@ -46,4 +46,11 @@ Public Class FilterItem
     Public Sub New()
 
     End Sub
+    ''' <summary>
+    ''' String weergave van filter item
+    ''' </summary>
+    ''' <returns>String weergave van filter om te gebruiken in sql script</returns>
+    Public Overrides Function toString() As String
+        Return k + " " + fa + " " + fi
+    End Function
 End Class

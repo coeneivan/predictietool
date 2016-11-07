@@ -17,7 +17,7 @@ Public Class Settings
         InitializeComponent()
         ' Add any initialization after the InitializeComponent() call.
         root = main
-
+        makeFilterFileList()
         setKolomNaam()
         setFactorLijst()
         ListViewStarter()
@@ -245,7 +245,7 @@ Public Class Settings
             root.addFilters(filters)
         End If
         root.refreshFilterList()
-
+        root.refreshCombobox()
     End Sub
 
     Private Sub btnRemoveFilter_Click(sender As Object, e As EventArgs) Handles btnRemoveFilter.Click

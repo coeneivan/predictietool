@@ -258,9 +258,9 @@
         Dim f As String = ""
         For Each s As FilterItem In filters
             If f.Equals("") Then
-                f = s.kolom + " " + s.factor + " " + s.filter
+                f = s.toString
             Else
-                f += " and " + s.kolom + " " + s.factor + " " + s.filter
+                f += " and " + s.toString
             End If
         Next
         Return f
@@ -291,5 +291,56 @@
 
     Public Function getItems() As List(Of DataMiningPrediction2)
         Return listOfAllItems
+    End Function
+    ''' <summary>
+    ''' Geeft alle merken terug
+    ''' </summary>
+    ''' <returns>List met alle mekern</returns>
+    Public Function getMerken() As List(Of String)
+        Dim merkenDictionay As New Dictionary(Of String, DataMiningPrediction2)
+        For Each cursus In listOfAllItems
+            If Not merkendictionay.ContainsKey(cursus.getMerk) Then
+                merkendictionay.Add(cursus.getMerk, cursus)
+            End If
+        Next
+        Dim list As New List(Of String)
+        For Each k In merkendictionay
+            list.Add(k.Key)
+        Next
+        Return list
+    End Function
+    ''' <summary>
+    ''' Geeft alle centra terug
+    ''' </summary>
+    ''' <returns>List met alle centra</returns>
+    Public Function getCentra() As List(Of String)
+        Dim centraDictionay As New Dictionary(Of String, DataMiningPrediction2)
+        For Each cursus In listOfAllItems
+            If Not centraDictionay.ContainsKey(cursus.getUitvoerCentrum) Then
+                centraDictionay.Add(cursus.getUitvoerCentrum, cursus)
+            End If
+        Next
+        Dim list As New List(Of String)
+        For Each k In centraDictionay
+            list.Add(k.Key)
+        Next
+        Return list
+    End Function
+    ''' <summary>
+    ''' Geeft alle subafdelingen terug
+    ''' </summary>
+    ''' <returns>List met alle subafdelingen</returns>
+    Public Function getSubafdelingen() As List(Of String)
+        Dim subafdelingenDictionay As New Dictionary(Of String, DataMiningPrediction2)
+        For Each cursus In listOfAllItems
+            If Not subafdelingenDictionay.ContainsKey(cursus.getCodeSubAfdeling) Then
+                subafdelingenDictionay.Add(cursus.getCodeSubAfdeling, cursus)
+            End If
+        Next
+        Dim list As New List(Of String)
+        For Each k In subafdelingenDictionay
+            list.Add(k.Key)
+        Next
+        Return list
     End Function
 End Class
