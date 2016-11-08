@@ -20,7 +20,7 @@ Public Class Test
     Private Sub Test_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim b As New Bayes_Bayes_Linear()
         b.setFilters(root.getFilters)
-        b.getData()
+        b.getDataOnlyAllItems()
         cbbMerk.Items.AddRange(b.getMerken.ToArray)
         cbbCentrum.Items.AddRange(b.getCentra.ToArray)
         cbbSubafdeling.Items.AddRange(b.getSubafdelingen.ToArray)

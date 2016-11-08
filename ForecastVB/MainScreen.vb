@@ -11,11 +11,12 @@ Public Class MainScreen
     Private Sub MainScreen_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         refreshFilterList()
         refreshCombobox()
+        Dim a As String = Algoritmes.Bayes.ToString
     End Sub
     Public Sub refreshCombobox()
         Dim b As New Bayes_Bayes_Linear()
         b.setFilters(getFilters)
-        b.getData()
+        b.getDataOnlyAllItems()
         cboMerk.Items.Clear()
         cboMerk.Items.AddRange(b.getMerken.ToArray)
         cboUitvCent.Items.Clear()

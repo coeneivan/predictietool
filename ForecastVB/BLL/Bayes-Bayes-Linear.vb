@@ -59,6 +59,9 @@
         listOfAllItems = TestBLL.GetAllCursForAllVar(f)
         listOfAllItemsWithYear = TestBLL.GetAllCursForAllVarWithYear(f)
     End Sub
+    Public Sub getDataOnlyAllItems()
+        listOfAllItems = TestBLL.GetAllCursForAllVar(f)
+    End Sub
 
     Public Sub setFilters(filterlist As ArrayList)
         f = createFilterString(filterlist)

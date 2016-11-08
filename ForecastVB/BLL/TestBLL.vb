@@ -23,5 +23,5 @@ Public Class TestBLL
     Public Function GetAllCursForAllVarByOnt(f As String) As List(Of Cursus)
         Return TestDAO.GetAllCursForAllVarByOnt(f)
     End Function
-
+    
 End Class
