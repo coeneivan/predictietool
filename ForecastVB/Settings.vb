@@ -26,7 +26,10 @@ Public Class Settings
     Friend Function getSaveDirectory() As String
         Return saveDirectory
     End Function
-
+    ''' <summary>
+    ''' Alle factoren worden in een list gestoken om deze eenvoudig te selecteren.
+    ''' Zo wordt voorkomen dat de gebruiker een verkeerde factor in geeft
+    ''' </summary>
     Private Sub setFactorLijst()
         cbbFactor.Items.Add("=")
         cbbFactor.Items.Add("<>")
@@ -44,7 +47,7 @@ Public Class Settings
 
     ''' <summary>
     ''' Alle kolom koppen van de lijst in de database worden opgehaald en in een dropdown list gestoken om deze eenvoudig te selecteren.
-    ''' Zo wordt voorkomen dat de gebruiker de verkeerde naamin geeft voor een kolomn kop
+    ''' Zo wordt voorkomen dat de gebruiker de verkeerde naam in geeft voor een kolomn kop
     ''' </summary>
     Private Sub setKolomNaam()
         Dim kolommen As New ArrayList
@@ -79,6 +82,9 @@ Public Class Settings
         Return itemList
     End Function
 
+    ''' <summary>
+    ''' Haalt de volledige filterlist en steek ze in de gepaste combobox
+    ''' </summary>
     Private Sub makeFilterFileList()
         doesDirectoryExistifNotCreate()
 
@@ -112,7 +118,9 @@ Public Class Settings
 
         txtOmschrijving.Clear()
     End Sub
-
+    ''' <summary>
+    ''' Slaat lijst op in de huidige filterlist
+    ''' </summary>
     Private Sub saveListToCurrentFilter()
         Dim j As New JSONParser()
         Dim filters As New ArrayList
@@ -141,7 +149,9 @@ Public Class Settings
             saveListToCurrentFilter()
         End If
     End Sub
-
+    ''' <summary>
+    ''' Opent een dialoog venster om een bestand te selecteren en openen
+    ''' </summary>
     Private Sub btnOpen_Click(sender As Object, e As EventArgs) Handles btnOpen.Click
         OpenFileDialog1.Filter = "JSON file|*.json"
         OpenFileDialog1.Title = "Open a JSON File"
@@ -176,7 +186,10 @@ Public Class Settings
         End If
 
     End Sub
-
+    ''' <summary>
+    ''' Leest filters uit het bestand en steekt ze in een listview
+    ''' </summary>
+    ''' <param name="filters">Arraylist van filteritems die in de listview moet komen</param>
     Private Sub readFilterFile(filters As ArrayList)
         lsvFilter.Clear()
         ListViewStarter()
@@ -189,9 +202,10 @@ Public Class Settings
             lsvFilter.Items.Add(lvi)
         Next
 
-        'makeFilterFileList()
     End Sub
-
+    ''' <summary>
+    ''' Slaat huidige lijst op in een bestand
+    ''' </summary>
     Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
 
         Try
@@ -290,13 +304,19 @@ Public Class Settings
     Private Sub Settings_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         cbbFilterFiles.SelectedItem = root.getSelectedList
     End Sub
-
+    ''' <summary>
+    ''' Maakt de listview leeg 
+    ''' Klaar om een nieuwe filter list aan te maken
+    ''' </summary>
     Private Sub btnAddNewList_Click(sender As Object, e As EventArgs) Handles btnAddNewList.Click
         ListViewStarter()
         cbbFilterFiles.Items.Add("")
         cbbFilterFiles.SelectedIndex = cbbFilterFiles.Items.Count - 1
     End Sub
-
+    ''' <summary>
+    ''' Zet de naam van huidige file
+    ''' </summary>
+    ''' <param name="f"></param>
     Public Sub setNewFileName(f As String)
         newFileName = f
     End Sub

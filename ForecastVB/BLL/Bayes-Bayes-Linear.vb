@@ -67,15 +67,11 @@
     Private Sub isVoorspellingCorrect()
         For Each item As Cursus In listOfAllItems
             Dim echt = Math.Round((item.getDoorgegaan / item.getTotaal), 2) * 100
-            Dim schatting = item.getKans
+            Dim schatting = item.getKans * 100
             Dim afwijking = item.afwijking
+            Dim schattingsbereik = New Bereik(afwijking, schatting)
 
-
-            If echt <= item.getKans * 100 + item.afwijking And echt >= item.getKans * 100 - item.afwijking Then
-                item.isCorrect = True
-            Else
-                item.isCorrect = False
-            End If
+            item.isCorrect = schattingsbereik.valtTussen(echt)
         Next
     End Sub
 

@@ -26,6 +26,11 @@ Public Class Bereik
             average = 0
         End If
     End Sub
+    Public Sub New(pAfwijking As Double, pAverage As Double)
+        ondergrens = pAverage - pAfwijking
+        average = pAverage
+        bovengrens = pAverage + pAfwijking
+    End Sub
     ''' <summary>
     ''' Een stringweergave van het bereik
     ''' </summary>
@@ -61,5 +66,27 @@ Public Class Bereik
     ''' <returns>Bovengrens van dit bereik</returns>
     Public Function getBovengrens() As Double
         Return bovengrens
+    End Function
+    ''' <summary>
+    ''' Berekent het verschil met de mee geleverde parameter
+    ''' </summary>
+    ''' <param name="x">Waarde waarmee het verschil berekend moet worden</param>
+    ''' <returns>Als parameter binnen bereik--> verschil met gemiddelde. Als Parameter buiten bereik --> Verschil met dichtste grens</returns>
+    Public Function verschilMet(x As Double) As Double
+        Dim verschil As Double
+        If valtTussen(x) Then
+            If x < average Then
+                verschil = average - x
+            Else
+                verschil = x - average
+            End If
+        Else
+            If x < ondergrens Then
+                verschil = ondergrens - x
+            Else
+                verschil = x - bovengrens
+            End If
+        End If
+        Return Math.Round(verschil, 2)
     End Function
 End Class
