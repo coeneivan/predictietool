@@ -55,7 +55,7 @@ Public Class Test
     Private Sub dgvResult_SortCompare(sender As Object, e As DataGridViewSortCompareEventArgs) Handles dgvResult.SortCompare
         If e.Column.Index = 8 Then
             Try
-                e.SortResult = If(CInt(e.CellValue1) < CInt(e.CellValue2), -1, 1)
+                e.SortResult = If(CDbl(e.CellValue1) < CDbl(e.CellValue2), -1, 1)
                 e.Handled = True
             Catch
                 Throw New Exception()
