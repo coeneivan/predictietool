@@ -117,4 +117,14 @@
             afwijkingValue = value
         End Set
     End Property
+
+    Private algoritmeProp As Algoritmes
+    Public Property algoritme() As Algoritmes
+        Get
+            Return algoritmeProp
+        End Get
+        Set(ByVal value As Algoritmes)
+            algoritmeProp = value
+        End Set
+    End Property
 End Class

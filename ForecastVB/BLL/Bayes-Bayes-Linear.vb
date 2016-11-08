@@ -1,4 +1,6 @@
-﻿Public Class Bayes_Bayes_Linear
+﻿Imports ForecastVB
+
+Public Class Bayes_Bayes_Linear
 
 
     'TODO Hoe houden we bij welk algoritme van de 2 gekozen moet worden voor welke parameters?
@@ -6,6 +8,7 @@
     'TODO Uitbreiden voor andere algoritmes?
     'TODO Controle of er bij filters nog altijd alles wordt weergegeven (Percentages worden op alles berekend, gebeurd dit nog altijd met filters?)
 
+#Region "Global variables"
     Private root As New MainScreen
 
     Dim f As String = ""
@@ -36,6 +39,7 @@
     Dim ligtTussen As Integer = 10
     Private getdeviatie As Double
 
+#End Region
 
     Public Sub BerekenKans()
         getData()
@@ -45,7 +49,7 @@
         berekenBayesVoorIederItem()
         getdeviatie = Math.Round(CalculateStandardDeviation(listMetAfwijking), 3)
         afwijkingBerekenen()
-        isVoorspellingCorrect()
+        isVoorspellingsLijstCorrect()
         listMetAfwijking = New List(Of Double)
 
         calcBayesWithLinear()
@@ -54,22 +58,10 @@
 
         afwijkingBerekenen()
     End Sub
-
-    Public Sub getData()
-        listOfAllItems = TestBLL.GetAllCursForAllVar(f)
-        listOfAllItemsWithYear = TestBLL.GetAllCursForAllVarWithYear(f)
-    End Sub
-    Public Sub getDataOnlyAllItems()
-        listOfAllItems = TestBLL.GetAllCursForAllVar(f)
-    End Sub
-
-    Public Sub setFilters(filterlist As ArrayList)
-        f = createFilterString(filterlist)
-    End Sub
     ''' <summary>
     ''' Checkt als voorspelde waarde overeen komt met echte waarde en bewaart dit in .isCorrect
     ''' </summary>
-    Private Sub isVoorspellingCorrect()
+    Private Sub isVoorspellingsLijstCorrect()
         For Each item As Cursus In listOfAllItems
             Dim echt = Math.Round((item.getDoorgegaan / item.getTotaal), 2) * 100
             Dim schatting = item.getKans * 100
@@ -78,6 +70,18 @@
 
             item.isCorrect = schattingsbereik.valtTussen(echt)
         Next
+    End Sub
+
+    ''' <summary>
+    ''' Checkt als voorspelde waarde overeen komt met echte waarde en bewaart dit in .isCorrect
+    ''' </summary>
+    Private Sub isVoorspellingsCorrect(item As Cursus)
+        Dim echt = Math.Round((item.getDoorgegaan / item.getTotaal), 2) * 100
+        Dim schatting = item.getKans * 100
+        Dim afwijking = item.afwijking
+        Dim schattingsbereik = New Bereik(afwijking, schatting)
+
+        item.isCorrect = schattingsbereik.valtTussen(echt)
     End Sub
 
     Private Sub afwijkingBerekenen()
@@ -94,6 +98,9 @@
         For Each item As Cursus In listOfAllItems
             If Not item.isCorrect Then
                 i += 1
+
+                'Bereken Bayes voor item, mocht Linear eerst worden opgeropen
+                berekenBayes(item)
 
                 Dim kansBayes = item.getKans
 
@@ -128,6 +135,8 @@
                 'item.setKans(kansBayes)
                 item.setJaar(a)
                 item.temp = b
+
+                item.algoritme = Algoritmes.BayesLinear
 
                 listMetAfwijking.Add(Math.Round((((item.getDoorgegaan / item.getTotaal) - (item.getKans)) * 100), 2))
             End If
@@ -230,41 +239,75 @@
     Private Sub berekenBayesVoorIederItem()
         ' berekend kans van iedere entry dat deze door gaat en plaatst dit vervolgens in de listview
         For Each item As Cursus In listOfAllItems
-            Dim j1, j2, j3, j4, j5, j6 As Double
-            Dim n1, n2, n3, n4, n5, n6 As Double
+            berekenBayes(item)
 
-            j1 = (dicMerkW(item.getMerk) / atlDoorgg)
-            j2 = (dicSubW(item.getCodeSubAfdeling) / atlDoorgg)
-            j3 = (dicMaandW(item.getMaand) / atlDoorgg)
-            j4 = (dicDagW(item.getDag) / atlDoorgg)
-            j5 = (dicUitvW(item.getUitvoerCentrum) / atlDoorgg)
-            j6 = (atlDoorgg / (atlDoorgg + atlNietDgg))
-
-            n1 = (dicMerkN(item.getMerk) / atlNietDgg)
-            n2 = (dicSubN(item.getCodeSubAfdeling) / atlNietDgg)
-            n3 = (dicMaandN(item.getMaand) / atlNietDgg)
-            n4 = (dicDagN(item.getDag) / atlNietDgg)
-            n5 = (dicUitvN(item.getUitvoerCentrum) / atlNietDgg)
-            n6 = (atlNietDgg / (atlDoorgg + atlNietDgg))
-
-            Dim wel As Double = 0
-            Dim niet As Double = 0
-            If (item.getTotaal <= 12) Then
-                wel = j2 * j3 * j4 * j5 * j6
-                niet = n2 * n3 * n4 * n5 * n6
-            ElseIf item.getTotaal <= 15 Then
-                wel = j1 * j2 * j3 * j5 * j6
-                niet = n1 * n2 * n3 * n5 * n6
-            Else
-                wel = j1 * j2 * j3 * j4 * j5 * j6
-                niet = n1 * n2 * n3 * n4 * n5 * n6
-
-            End If
-            Dim totaal = wel + niet
-            item.setKans(wel / (wel + niet))
+            item.algoritme = Algoritmes.Bayes
 
             listMetAfwijking.Add(Math.Round((((item.getDoorgegaan / item.getTotaal) - (item.getKans)) * 100), 2))
         Next
+    End Sub
+
+    Private Sub berekenBayes(item As Cursus)
+        Dim j1, j2, j3, j4, j5, j6 As Double
+        Dim n1, n2, n3, n4, n5, n6 As Double
+
+        j1 = (dicMerkW(item.getMerk) / atlDoorgg)
+        j2 = (dicSubW(item.getCodeSubAfdeling) / atlDoorgg)
+        j3 = (dicMaandW(item.getMaand) / atlDoorgg)
+        j4 = (dicDagW(item.getDag) / atlDoorgg)
+        j5 = (dicUitvW(item.getUitvoerCentrum) / atlDoorgg)
+        j6 = (atlDoorgg / (atlDoorgg + atlNietDgg))
+
+        n1 = (dicMerkN(item.getMerk) / atlNietDgg)
+        n2 = (dicSubN(item.getCodeSubAfdeling) / atlNietDgg)
+        n3 = (dicMaandN(item.getMaand) / atlNietDgg)
+        n4 = (dicDagN(item.getDag) / atlNietDgg)
+        n5 = (dicUitvN(item.getUitvoerCentrum) / atlNietDgg)
+        n6 = (atlNietDgg / (atlDoorgg + atlNietDgg))
+
+        Dim wel As Double = 0
+        Dim niet As Double = 0
+        If (item.getTotaal <= 12) Then
+            wel = j2 * j3 * j4 * j5 * j6
+            niet = n2 * n3 * n4 * n5 * n6
+        ElseIf item.getTotaal <= 15 Then
+            wel = j1 * j2 * j3 * j5 * j6
+            niet = n1 * n2 * n3 * n5 * n6
+        Else
+            wel = j1 * j2 * j3 * j4 * j5 * j6
+            niet = n1 * n2 * n3 * n4 * n5 * n6
+        End If
+        Dim totaal = wel + niet
+        item.setKans(wel / (wel + niet))
+    End Sub
+
+    Private Function CalculateStandardDeviation(data As List(Of Double)) As Double
+        Dim mean As Double = data.Average()
+        Dim squares As New List(Of Double)
+        Dim squareAvg As Double
+
+        For Each value As Double In data
+            squares.Add(Math.Pow(value - mean, 2))
+        Next
+
+        squareAvg = squares.Average()
+
+        Return Math.Sqrt(squareAvg)
+    End Function
+
+#Region "Getters/Setters"
+
+
+    Public Sub getData()
+        listOfAllItems = TestBLL.GetAllCursForAllVar(f)
+        listOfAllItemsWithYear = TestBLL.GetAllCursForAllVarWithYear(f)
+    End Sub
+    Public Sub getDataOnlyAllItems()
+        listOfAllItems = TestBLL.GetAllCursForAllVar(f)
+    End Sub
+
+    Public Sub setFilters(filterlist As ArrayList)
+        f = createFilterString(filterlist)
     End Sub
 
     ''' <summary>
@@ -285,19 +328,6 @@
         Return f
     End Function
 
-    Private Function CalculateStandardDeviation(data As List(Of Double)) As Double
-        Dim mean As Double = data.Average()
-        Dim squares As New List(Of Double)
-        Dim squareAvg As Double
-
-        For Each value As Double In data
-            squares.Add(Math.Pow(value - mean, 2))
-        Next
-
-        squareAvg = squares.Average()
-
-        Return Math.Sqrt(squareAvg)
-    End Function
 
     Public Property deviatie() As Double
         Get
@@ -366,4 +396,5 @@
         Next
         Return list
     End Function
+#End Region
 End Class
