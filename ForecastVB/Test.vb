@@ -25,6 +25,7 @@ Public Class Test
         cbbCentrum.Items.AddRange(b.getCentra.ToArray)
         cbbSubafdeling.Items.AddRange(b.getSubafdelingen.ToArray)
         cbbLesdag.Items.AddRange({"Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag", "Zaterdag", "Zondag"})
+        cbbMaand.Items.AddRange({"Januari", "Februari", "Maart", "April", "Mei", "Juni", "Juli", "Augustus", "September", "Oktober", "November", "December"})
     End Sub
 
     Private Sub drawBarGraph(ver As Series)
@@ -168,39 +169,45 @@ Public Class Test
 
 
         For Each item As Cursus In bayesBayesLinear.getItems
+            Dim dag As String = ""
+            If (cbbLesdag.SelectedItem IsNot Nothing) Then dag = cbbLesdag.SelectedItem.ToLower()
 
-            Dim echt = (Math.Round(((item.getDoorgegaan / item.getTotaal) * 10000)) / 100)
+            If (cbbMerk.SelectedItem Is Nothing Or item.getMerk.Equals(cbbMerk.SelectedItem)) And (cbbCentrum.SelectedItem Is Nothing Or item.getUitvoerCentrum.Equals(cbbCentrum.SelectedItem)) And
+            (cbbLesdag.SelectedItem Is Nothing Or item.getDag.Equals(dag)) And (cbbSubafdeling.SelectedItem Is Nothing Or item.getCodeSubAfdeling.Equals(cbbSubafdeling.SelectedItem)) And
+            (cbbMaand.SelectedItem Is Nothing Or item.getMaand = cbbMaand.SelectedIndex + 1) Then
 
-            ' Bereken de top waarde en onderste waarde van de afwijking, controlleer of deze boven 100 of onder 0 zit en pas deze aan indien nodig
-            Dim bereik = New Bereik(item.afwijking, item.getKans * 100)
+                Dim echt = (Math.Round(((item.getDoorgegaan / item.getTotaal) * 10000)) / 100)
 
-            Dim kleur As Color
-            If bereik.valtTussen(echt) Then
-                trues += 1
-                kleur = Color.LightGreen
-                item.isCorrect = True
-            Else
-                falses += 1
-                kleur = Color.OrangeRed
+                ' Bereken de top waarde en onderste waarde van de afwijking, controlleer of deze boven 100 of onder 0 zit en pas deze aan indien nodig
+                Dim bereik = New Bereik(item.afwijking, item.getKans * 100)
+
+                Dim kleur As Color
+                If bereik.valtTussen(echt) Then
+                    trues += 1
+                    kleur = Color.LightGreen
+                    item.isCorrect = True
+                Else
+                    falses += 1
+                    kleur = Color.OrangeRed
+                End If
+
+                'Verschil
+                Dim verschil = Math.Round(((item.getDoorgegaan / item.getTotaal) - (item.getKans)) * 100)
+                If Not versch.ContainsKey(verschil) Then
+                    versch.Add(verschil, 1)
+                Else
+                    versch(verschil) += 1
+                End If
+
+                If verschil > ligtTussen Or verschil < -ligtTussen Then
+                    cOut += 1
+                Else
+                    cIn += 1
+                End If
+
+                dgvResult.Rows.Add(item.getMerk, item.getUitvoerCentrum, item.getCodeSubAfdeling, item.getMaand.ToString, item.getDag, item.getTotaal.ToString, echt.ToString, bereik.ToString, bereik.verschilMet(echt).ToString, item.getJaar, item.temp)
+                dgvResult.Rows(dgvResult.RowCount - 1).DefaultCellStyle.BackColor = kleur
             End If
-
-            'Verschil
-            Dim verschil = Math.Round(((item.getDoorgegaan / item.getTotaal) - (item.getKans)) * 100)
-            If Not versch.ContainsKey(verschil) Then
-                versch.Add(verschil, 1)
-            Else
-                versch(verschil) += 1
-            End If
-
-            If verschil > ligtTussen Or verschil < -ligtTussen Then
-                cOut += 1
-            Else
-                cIn += 1
-            End If
-
-            dgvResult.Rows.Add(item.getMerk, item.getUitvoerCentrum, item.getCodeSubAfdeling, item.getMaand.ToString, item.getDag, item.getTotaal.ToString, echt.ToString, bereik.ToString, bereik.verschilMet(echt).ToString, item.getJaar, item.temp)
-            dgvResult.Rows(dgvResult.RowCount - 1).DefaultCellStyle.BackColor = kleur
-
         Next
 
         dgvResult.Refresh()
@@ -275,7 +282,7 @@ Public Class Test
         cbbLesdag.SelectedItem = Nothing
     End Sub
 
-    Private Sub btnClearStartdatum_Click(sender As Object, e As EventArgs) Handles btnClearStartdatum.Click
-        'TODO: clear selection date
+    Private Sub btnClearMaand_Click(sender As Object, e As EventArgs) Handles btnClearMaand.Click
+        cbbMaand.SelectedItem = Nothing
     End Sub
 End Class
