@@ -174,7 +174,7 @@ Public Class Test
 
             If (cbbMerk.SelectedItem Is Nothing Or item.getMerk.Equals(cbbMerk.SelectedItem)) And (cbbCentrum.SelectedItem Is Nothing Or item.getUitvoerCentrum.Equals(cbbCentrum.SelectedItem)) And
             (cbbLesdag.SelectedItem Is Nothing Or item.getDag.Equals(dag)) And (cbbSubafdeling.SelectedItem Is Nothing Or item.getCodeSubAfdeling.Equals(cbbSubafdeling.SelectedItem)) And
-            (cbbMaand.SelectedItem Is Nothing Or item.getMaand = cbbMaand.SelectedIndex + 1) Then
+            (cbbMaand.SelectedItem Is Nothing Or item.getMaand.Equals(cbbMaand.SelectedIndex + 1)) Then
 
                 Dim echt = (Math.Round(((item.getDoorgegaan / item.getTotaal) * 10000)) / 100)
 
@@ -223,28 +223,6 @@ Public Class Test
 
         lblInfo2.Text = "Binnen -" + ligtTussen.ToString + " en " + ligtTussen.ToString + ": " + cIn.ToString + "    Buiten -" + ligtTussen.ToString + " en " + ligtTussen.ToString + ": " + cOut.ToString + "      Standaardafwijking: " + deviatie.ToString
         Label1.Text = "Totaal = " + (trues + falses).ToString + " waarvan " + trues.ToString + " (" + Math.Round((trues / (trues + falses) * 100), 2).ToString + "%) correct voorspeld waren en " + falses.ToString + " (" + Math.Round((falses / (trues + falses) * 100), 2).ToString + "%) niet"
-
-        'Slechte toepassing van filters
-        'Dim tijdelijkeFilters As New ArrayList
-        'If cbbMerk.SelectedItem IsNot Nothing Then
-        '    tijdelijkeFilters.Add(New FilterItem("merk", "=", "'" + cbbMerk.SelectedItem + "'"))
-        'End If
-        'If cbbCentrum.SelectedItem IsNot Nothing Then
-        '    tijdelijkeFilters.Add(New FilterItem("UitvCentrumOmsch", "=", "'" + cbbCentrum.SelectedItem + "'"))
-        'End If
-        'If cbbSubafdeling.SelectedItem IsNot Nothing Then
-        '    tijdelijkeFilters.Add(New FilterItem("CodeSubafdeling", "=", "'" + cbbSubafdeling.SelectedItem + "'"))
-        'End If
-        'If cbbLesdag.SelectedItem IsNot Nothing Then
-        '    tijdelijkeFilters.Add(New FilterItem("Dag", "=", "'" + cbbLesdag.SelectedItem + "'"))
-        'End If
-        'For Each fi In tijdelijkeFilters
-        '    filters.Add(fi)
-        'Next
-        ''Verwijder tijdelijke filters zodat we later geen problemen hebben
-        'For Each fi In tijdelijkeFilters
-        '    filters.Remove(fi)
-        'Next
     End Sub
     Private Sub initDataGridView()
         dgvResult.DataSource = Nothing

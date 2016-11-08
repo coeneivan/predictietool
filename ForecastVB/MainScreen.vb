@@ -152,6 +152,9 @@ Public Class MainScreen
     End Sub
 
     Private Sub Label5_Click(sender As Object, e As EventArgs) Handles Label5.Click
-
     End Sub
+
+    Public Function getSaveDirectory() As String
+        Return saveDirectory
+    End Function
 End Class
