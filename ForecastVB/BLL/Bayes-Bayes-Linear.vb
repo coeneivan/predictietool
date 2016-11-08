@@ -46,6 +46,7 @@ Public Class Bayes_Bayes_Linear
 
         berekenAantalDoorgegaanEnNietDoorgegaan()
 
+        'calcBayesWithLinear()
         berekenBayesVoorIederItem()
         getdeviatie = Math.Round(CalculateStandardDeviation(listMetAfwijking), 3)
         afwijkingBerekenen()
@@ -53,6 +54,7 @@ Public Class Bayes_Bayes_Linear
         listMetAfwijking = New List(Of Double)
 
         calcBayesWithLinear()
+        'berekenBayesVoorIederItem()
 
         getdeviatie = Math.Round(CalculateStandardDeviation(listMetAfwijking), 3)
 
@@ -239,15 +241,18 @@ Public Class Bayes_Bayes_Linear
     Private Sub berekenBayesVoorIederItem()
         ' berekend kans van iedere entry dat deze door gaat en plaatst dit vervolgens in de listview
         For Each item As Cursus In listOfAllItems
-            berekenBayes(item)
+            If Not item.isCorrect Then
+                berekenBayes(item)
 
-            item.algoritme = Algoritmes.Bayes
+                item.algoritme = Algoritmes.Bayes
 
-            listMetAfwijking.Add(Math.Round((((item.getDoorgegaan / item.getTotaal) - (item.getKans)) * 100), 2))
+                listMetAfwijking.Add(Math.Round((((item.getDoorgegaan / item.getTotaal) - (item.getKans)) * 100), 2))
+            End If
         Next
     End Sub
 
     Private Sub berekenBayes(item As Cursus)
+
         Dim j1, j2, j3, j4, j5, j6 As Double
         Dim n1, n2, n3, n4, n5, n6 As Double
 
