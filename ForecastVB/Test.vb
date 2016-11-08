@@ -151,22 +151,6 @@ Public Class Test
 
     Private Sub bayesAndBayesLinear()
         Dim filters = root.getFilters()
-        Dim tijdelijkeFilters As New ArrayList
-        If cbbMerk.SelectedItem IsNot Nothing Then
-            tijdelijkeFilters.Add(New FilterItem("merk", "=", "'" + cbbMerk.SelectedItem + "'"))
-        End If
-        If cbbCentrum.SelectedItem IsNot Nothing Then
-            tijdelijkeFilters.Add(New FilterItem("UitvCentrumOmsch", "=", "'" + cbbCentrum.SelectedItem + "'"))
-        End If
-        If cbbSubafdeling.SelectedItem IsNot Nothing Then
-            tijdelijkeFilters.Add(New FilterItem("CodeSubafdeling", "=", "'" + cbbSubafdeling.SelectedItem + "'"))
-        End If
-        If cbbLesdag.SelectedItem IsNot Nothing Then
-            tijdelijkeFilters.Add(New FilterItem("Dag", "=", "'" + cbbLesdag.SelectedItem + "'"))
-        End If
-        For Each fi In tijdelijkeFilters
-            filters.Add(fi)
-        Next
         Dim trues = 0
         Dim falses = 0
         Dim cIn As Integer = 0
@@ -180,7 +164,7 @@ Public Class Test
         Dim deviatie = bayesBayesLinear.deviatie
 
 
-        For Each item As DataMiningPrediction2 In bayesBayesLinear.getItems
+        For Each item As Cursus In bayesBayesLinear.getItems
 
             ' Verschil
             Dim verschil = Math.Round(((item.getDoorgegaan / item.getTotaal) - (item.getKans)) * 100)
@@ -243,10 +227,27 @@ Public Class Test
         lblInfo2.Text = "Binnen -" + ligtTussen.ToString + " en " + ligtTussen.ToString + ": " + cIn.ToString + "    Buiten -" + ligtTussen.ToString + " en " + ligtTussen.ToString + ": " + cOut.ToString + "      Standaardafwijking: " + deviatie.ToString
         Label1.Text = "Totaal = " + (trues + falses).ToString + " waarvan " + trues.ToString + " (" + Math.Round((trues / (trues + falses) * 100), 2).ToString + "%) correct voorspeld waren en " + falses.ToString + " (" + Math.Round((falses / (trues + falses) * 100), 2).ToString + "%) niet"
 
-        'Verwijder tijdelijke filters zodat we later geen problemen hebben
-        For Each fi In tijdelijkeFilters
-            filters.Remove(fi)
-        Next
+        'Slechte toepassing van filters
+        'Dim tijdelijkeFilters As New ArrayList
+        'If cbbMerk.SelectedItem IsNot Nothing Then
+        '    tijdelijkeFilters.Add(New FilterItem("merk", "=", "'" + cbbMerk.SelectedItem + "'"))
+        'End If
+        'If cbbCentrum.SelectedItem IsNot Nothing Then
+        '    tijdelijkeFilters.Add(New FilterItem("UitvCentrumOmsch", "=", "'" + cbbCentrum.SelectedItem + "'"))
+        'End If
+        'If cbbSubafdeling.SelectedItem IsNot Nothing Then
+        '    tijdelijkeFilters.Add(New FilterItem("CodeSubafdeling", "=", "'" + cbbSubafdeling.SelectedItem + "'"))
+        'End If
+        'If cbbLesdag.SelectedItem IsNot Nothing Then
+        '    tijdelijkeFilters.Add(New FilterItem("Dag", "=", "'" + cbbLesdag.SelectedItem + "'"))
+        'End If
+        'For Each fi In tijdelijkeFilters
+        '    filters.Add(fi)
+        'Next
+        ''Verwijder tijdelijke filters zodat we later geen problemen hebben
+        'For Each fi In tijdelijkeFilters
+        '    filters.Remove(fi)
+        'Next
     End Sub
     Private Sub initDataGridView()
         dgvResult.DataSource = Nothing

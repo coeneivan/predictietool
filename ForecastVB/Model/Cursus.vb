@@ -1,80 +1,120 @@
 ﻿Public Class Cursus
-    Private opleidingsnr As String
-    Private startDatum As Date
-    Private dag As String
-    Private merk As String
-    Private centrum As String
-    Private subafdeling As String
-    Private ingetrokken As Boolean
-    Public Sub New()
+    Dim ont As String
+    Dim merk As String
+    Dim uitvCentr As String
+    Dim maand As Int16
+    Dim dag As String
+    Dim codeSubAfd As String
+    Dim totaal As Int32
+    Dim doorgegaan As Int32
+    Dim kans As Double
+    Dim jaar As Double
+    Dim afwijkingValue As Double
 
+    Public Sub New(mer As String, u As String, ma As Int16, da As String, subAf As String, tot As Int32, doorg As Int32)
+        merk = mer
+        uitvCentr = u
+        maand = ma
+        dag = da
+        codeSubAfd = subAf
+        totaal = tot
+        doorgegaan = doorg
     End Sub
-    Public Sub New(o As String, sd As Date, d As String, m As String, c As String, sa As String, i As Boolean)
-        opleidingsnr = o
-        startDatum = sd
-        dag = d
-        merk = m
-        centrum = c
-        subafdeling = sa
-        ingetrokken = i
+    Public Sub New(mer As String, u As String, ma As Int16, da As String, subAf As String, tot As Int32, doorg As Int32, j As Integer)
+        merk = mer
+        uitvCentr = u
+        maand = ma
+        dag = da
+        codeSubAfd = subAf
+        totaal = tot
+        doorgegaan = doorg
+        jaar = j
     End Sub
-    Public Property nummer() As String
+    Public Sub New(o As String, mer As String, subAf As String, doorg As Int32, j As String)
+        jaar = j
+        merk = mer
+        codeSubAfd = subAf
+        doorgegaan = doorg
+        ont = o
+        Correct = True
+    End Sub
+    Public Function getOnt() As String
+        Return ont
+    End Function
+    Public Function getMerk() As String
+        Return merk
+    End Function
+
+    Public Function getUitvoerCentrum() As String
+        Return uitvCentr
+    End Function
+
+    Public Function getMaand() As Int16
+        Return maand
+    End Function
+
+    Public Function getDag() As String
+        Return dag
+    End Function
+
+    Public Function getCodeSubAfdeling() As String
+        Return codeSubAfd
+    End Function
+
+    Public Function getTotaal() As Int32
+        Return totaal
+    End Function
+
+    Public Function getDoorgegaan() As Int32
+        Return doorgegaan
+    End Function
+
+    Public Sub setKans(k As Double)
+        kans = k
+    End Sub
+
+    Public Function getKans() As Double
+        Return kans
+    End Function
+
+    Public Sub setJaar(j As Double)
+        jaar = j
+    End Sub
+
+    Public Function getJaar() As Double
+        Return jaar
+    End Function
+
+    Private t As Double
+    Public Property temp() As Double
         Get
-            Return opleidingsnr
+            Return t
         End Get
-        Set(ByVal value As String)
-            opleidingsnr = value
+        Set(ByVal value As Double)
+            t = value
         End Set
     End Property
 
-    Public Property datum() As String
+    Private Correct As Boolean
+    Public Property isCorrect() As Boolean
         Get
-            Return startDatum
-        End Get
-        Set(ByVal value As String)
-            startDatum = value
-        End Set
-    End Property
-    Public Property lesdag() As String
-        Get
-            Return dag
-        End Get
-        Set(ByVal value As String)
-            dag = value
-        End Set
-    End Property
-
-    Public Property merkVanCursus() As String
-        Get
-            Return merk
-        End Get
-        Set(ByVal value As String)
-            merk = value
-        End Set
-    End Property
-    Public Property uitvoerendCentrum() As String
-        Get
-            Return centrum
-        End Get
-        Set(ByVal value As String)
-            centrum = value
-        End Set
-    End Property
-    Public Property codeSubafdeling() As String
-        Get
-            Return subafdeling
-        End Get
-        Set(ByVal value As String)
-            subafdeling = value
-        End Set
-    End Property
-
-    Public Property codeIngetrokken() As Boolean
-        Get
-            Return ingetrokken
+            Return Correct
         End Get
         Set(ByVal value As Boolean)
-            ingetrokken = value
+            Correct = value
+        End Set
+    End Property
+
+    Friend Sub setMaand(m As Int32)
+        maand = m
+    End Sub
+
+    Public Property afwijking() As Double
+        Get
+            Return afwijkingValue
+        End Get
+        Set(ByVal value As Double)
+            afwijkingValue = value
         End Set
     End Property
 End Class

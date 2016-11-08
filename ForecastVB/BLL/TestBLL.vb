@@ -13,18 +13,15 @@ Public Class TestBLL
         Return testDAO.GetAantalCursussen(v)
     End Function
 
-    Friend Shared Function GetAllCursForAllVar(f As String) As List(Of DataMiningPrediction2)
+    Friend Shared Function GetAllCursForAllVar(f As String) As List(Of Cursus)
         Return TestDAO.GetAllCursForAllVar(f)
     End Function
 
-    Friend Shared Function GetAllCursForAllVarWithYear(f As String) As List(Of DataMiningPrediction2)
+    Friend Shared Function GetAllCursForAllVarWithYear(f As String) As List(Of Cursus)
         Return TestDAO.GetAllCursForAllVarWithYear(f)
     End Function
-    Public Function GetAllCursForAllVarByOnt(f As String) As List(Of DataMiningPrediction2)
+    Public Function GetAllCursForAllVarByOnt(f As String) As List(Of Cursus)
         Return TestDAO.GetAllCursForAllVarByOnt(f)
     End Function
-    Public Function getALL(f As String) As List(Of Cursus)
-        Dim test As New TestDAO
-        Return test.ALL(f)
-    End Function
+
 End Class

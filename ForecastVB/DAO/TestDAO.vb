@@ -29,32 +29,9 @@ Public Class TestDAO
         Return sql.getParameterForYear(script)
     End Function
 
-    Public Function ALL(f As String) As List(Of Cursus)
-        Dim query As String
-        query = "SELECT [Opleidingsnr], [dag],[StartDatum] ,[Merk] ,[UitvCentrumOmsch] ,[CodeAnalytischPlanSubafdeling] ,[CodeIngetrokken]"
-        query += " FROM Cursussen"
-        query += " WHERE " + f
-        query += " AND year(startdatum)<2016 "
-        Dim sql As New SQLUtil
-        Dim data = sql.getAlles(query)
-        Dim theList As New List(Of Cursus)
 
-        For Each row As DataRow In data.Rows
-            Dim cursus As New Cursus()
-            cursus.nummer = row.Item("Opleidingsnr")
-            cursus.datum = row.Item("StartDatum")
-            cursus.lesdag = row.Item("dag")
-            cursus.merkVanCursus = row.Item("Merk")
-            cursus.uitvoerendCentrum = row.Item("UitvCentrumOmsch")
-            cursus.codeSubafdeling = row.Item("CodeAnalytischPlanSubafdeling")
-            cursus.codeIngetrokken = row.Item("CodeIngetrokken") = "Ja"
-            theList.Add(cursus)
-        Next row
 
-        Return theList
-    End Function
-
-    Friend Shared Function GetAllCursForAllVarWithYear(f As String) As List(Of DataMiningPrediction2)
+    Friend Shared Function GetAllCursForAllVarWithYear(f As String) As List(Of Cursus)
         Dim query As String = ""
         query += "Select Distinct Merk"
         query += ", UitvCentrumOmsch"
@@ -87,7 +64,7 @@ Public Class TestDAO
         Return sql.GetAllCursForAllVarWithYear(query)
     End Function
 
-    Friend Shared Function GetAllCursForAllVar(s As String) As List(Of DataMiningPrediction2)
+    Friend Shared Function GetAllCursForAllVar(s As String) As List(Of Cursus)
         Dim query As String = ""
         query += "Select Distinct Merk"
         query += ", UitvCentrumOmsch"
@@ -117,7 +94,7 @@ Public Class TestDAO
         Return sql.GetAllCursForAllVar(query)
     End Function
 
-    Friend Shared Function GetAllCursForAllVarByOnt(s As String) As List(Of DataMiningPrediction2)
+    Friend Shared Function GetAllCursForAllVarByOnt(s As String) As List(Of Cursus)
         Dim query As String = ""
         query += "Select Ont"
         query += ", Merk"

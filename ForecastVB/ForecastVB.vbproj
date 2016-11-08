@@ -122,7 +122,6 @@
     </Compile>
     <Compile Include="Model\Bereik.vb" />
     <Compile Include="Model\Cursus.vb" />
-    <Compile Include="Model\DataMiningPrediction2.vb" />
     <Compile Include="Model\FilterItem.vb" />
     <Compile Include="Model\Parameter.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />

@@ -9,8 +9,8 @@
     Private root As New MainScreen
 
     Dim f As String = ""
-    Dim listOfAllItems As New List(Of DataMiningPrediction2)
-    Dim listOfAllItemsWithYear As New List(Of DataMiningPrediction2)
+    Dim listOfAllItems As New List(Of Cursus)
+    Dim listOfAllItemsWithYear As New List(Of Cursus)
     Dim startTime = Now
 
     ' Lijst om te tellen hoeveel cursussen van elk item niet geschrapt werden
@@ -59,7 +59,7 @@
     End Sub
 
     Private Sub isVoorspellingCorrect()
-        For Each item As DataMiningPrediction2 In listOfAllItems
+        For Each item As Cursus In listOfAllItems
             Dim echt = Math.Round((item.getDoorgegaan / item.getTotaal), 2) * 100
             Dim schatting = item.getKans
             Dim afwijking = item.afwijking
@@ -75,7 +75,7 @@
 
     Private Sub afwijkingBerekenen()
         Dim tVerd As New tVerdeling
-        For Each item As DataMiningPrediction2 In listOfAllItems
+        For Each item As Cursus In listOfAllItems
             item.afwijking = tVerd.getTwaarde(0.995, item.getTotaal) * getdeviatie / Math.Sqrt(item.getTotaal)
         Next
     End Sub
@@ -84,7 +84,7 @@
         ' berekend kans van iedere entry dat deze door gaat en plaatst dit vervolgens in de listview
 
         Dim i As Integer = 0
-        For Each item As DataMiningPrediction2 In listOfAllItems
+        For Each item As Cursus In listOfAllItems
             If Not item.isCorrect Then
                 i += 1
 
@@ -98,7 +98,7 @@
                 Dim a As Double
                 Dim b As Double
 
-                For Each itemWithYear As DataMiningPrediction2 In listOfAllItemsWithYear
+                For Each itemWithYear As Cursus In listOfAllItemsWithYear
                     If item.getCodeSubAfdeling = itemWithYear.getCodeSubAfdeling And item.getMaand = itemWithYear.getMaand And item.getUitvoerCentrum = itemWithYear.getUitvoerCentrum And item.getDag = itemWithYear.getDag And item.getMerk = itemWithYear.getMerk Then
 
                         Dim x = itemWithYear.getJaar
@@ -128,7 +128,7 @@
     End Sub
 
     Private Sub berekenAantalDoorgegaanEnNietDoorgegaan()
-        For Each item As DataMiningPrediction2 In listOfAllItems
+        For Each item As Cursus In listOfAllItems
             Dim merk = item.getMerk()
             Dim uitvCentr = item.getUitvoerCentrum
             Dim maand = item.getMaand
@@ -222,7 +222,7 @@
 
     Private Sub berekenBayesVoorIederItem()
         ' berekend kans van iedere entry dat deze door gaat en plaatst dit vervolgens in de listview
-        For Each item As DataMiningPrediction2 In listOfAllItems
+        For Each item As Cursus In listOfAllItems
             Dim j1, j2, j3, j4, j5, j6 As Double
             Dim n1, n2, n3, n4, n5, n6 As Double
 
@@ -305,7 +305,7 @@
     ''' Geeft alle items terug 
     ''' </summary>
     ''' <returns>Geeft een list terug met alle items</returns>
-    Public Function getItems() As List(Of DataMiningPrediction2)
+    Public Function getItems() As List(Of Cursus)
         Return listOfAllItems
     End Function
     ''' <summary>
@@ -313,7 +313,7 @@
     ''' </summary>
     ''' <returns>List met alle mekern</returns>
     Public Function getMerken() As List(Of String)
-        Dim merkenDictionay As New Dictionary(Of String, DataMiningPrediction2)
+        Dim merkenDictionay As New Dictionary(Of String, Cursus)
         For Each cursus In listOfAllItems
             If Not merkenDictionay.ContainsKey(cursus.getMerk) Then
                 merkenDictionay.Add(cursus.getMerk, cursus)
@@ -330,7 +330,7 @@
     ''' </summary>
     ''' <returns>List met alle centra</returns>
     Public Function getCentra() As List(Of String)
-        Dim centraDictionay As New Dictionary(Of String, DataMiningPrediction2)
+        Dim centraDictionay As New Dictionary(Of String, Cursus)
         For Each cursus In listOfAllItems
             If Not centraDictionay.ContainsKey(cursus.getUitvoerCentrum) Then
                 centraDictionay.Add(cursus.getUitvoerCentrum, cursus)
@@ -347,7 +347,7 @@
     ''' </summary>
     ''' <returns>List met alle subafdelingen</returns>
     Public Function getSubafdelingen() As List(Of String)
-        Dim subafdelingenDictionay As New Dictionary(Of String, DataMiningPrediction2)
+        Dim subafdelingenDictionay As New Dictionary(Of String, Cursus)
         For Each cursus In listOfAllItems
             If Not subafdelingenDictionay.ContainsKey(cursus.getCodeSubAfdeling.ToUpper) Then
                 subafdelingenDictionay.Add(cursus.getCodeSubAfdeling.ToUpper, cursus)
