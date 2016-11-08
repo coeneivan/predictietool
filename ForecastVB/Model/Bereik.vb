@@ -62,4 +62,20 @@ Public Class Bereik
     Public Function getBovengrens() As Double
         Return bovengrens
     End Function
+    ''' <summary>
+    ''' Berekent het verschil met de mee geleverde parameter
+    ''' </summary>
+    ''' <param name="x">Waarde waarmee het verschil berekend moet worden</param>
+    ''' <returns>Als parameter binnen bereik--> verschil met gemiddelde. Als Parameter buiten bereik --> Verschil met dichtste grens</returns>
+    Public Function verschilMet(x As Double) As Double
+        If valtTussen(x) Then
+            Return x - average
+        Else
+            If x < ondergrens Then
+                Return ondergrens - x
+            Else
+                Return x - bovengrens
+            End If
+        End If
+    End Function
 End Class
