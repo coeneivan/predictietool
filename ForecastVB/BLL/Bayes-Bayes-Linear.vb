@@ -16,14 +16,14 @@
     ' Lijst om te tellen hoeveel cursussen van elk item niet geschrapt werden
     Dim dicMerkW As New Dictionary(Of String, Integer)
     Dim dicUitvW As New Dictionary(Of String, Integer)
-    Dim dicMaandW As New Dictionary(Of Integer, Integer)
+    Dim dicMaandW As New Dictionary(Of String, Integer)
     Dim dicDagW As New Dictionary(Of String, Integer)
     Dim dicSubW As New Dictionary(Of String, Integer)
 
     ' Lijst om te tellen hoeveel cursussen van elk item wel geschrapt werden
     Dim dicMerkN As New Dictionary(Of String, Integer)
     Dim dicUitvN As New Dictionary(Of String, Integer)
-    Dim dicMaandN As New Dictionary(Of Integer, Integer)
+    Dim dicMaandN As New Dictionary(Of String, Integer)
     Dim dicDagN As New Dictionary(Of String, Integer)
     Dim dicSubN As New Dictionary(Of String, Integer)
 

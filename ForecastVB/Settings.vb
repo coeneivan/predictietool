@@ -5,7 +5,7 @@ Imports Microsoft.VisualBasic.FileIO
 Public Class Settings
 
     ' Directory waar alle filter bestanden worden in opgeslaan
-    Dim saveDirectory As String = SpecialDirectories.MyDocuments + "//Predictie Filters//"
+    Dim saveDirectory As String
     Private filters As ArrayList
     Private root As MainScreen
     Dim selectedIndex As Integer = -1
@@ -13,6 +13,7 @@ Public Class Settings
 
     Public Sub New(main As MainScreen)
         filters = main.getFilters()
+        saveDirectory = main.getSaveDirectory
         ' This call is required by the designer.
         InitializeComponent()
         ' Add any initialization after the InitializeComponent() call.
