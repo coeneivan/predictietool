@@ -63,7 +63,9 @@
     Public Sub setFilters(filterlist As ArrayList)
         f = createFilterString(filterlist)
     End Sub
-
+    ''' <summary>
+    ''' Checkt als voorspelde waarde overeen komt met echte waarde en bewaart dit in .isCorrect
+    ''' </summary>
     Private Sub isVoorspellingCorrect()
         For Each item As Cursus In listOfAllItems
             Dim echt = Math.Round((item.getDoorgegaan / item.getTotaal), 2) * 100
