@@ -39,15 +39,15 @@ Partial Class Test
         Me.Label4 = New System.Windows.Forms.Label()
         Me.cbbSubafdeling = New System.Windows.Forms.ComboBox()
         Me.Label5 = New System.Windows.Forms.Label()
-        Me.dtpStartdatum = New System.Windows.Forms.DateTimePicker()
         Me.Label6 = New System.Windows.Forms.Label()
         Me.cbbLesdag = New System.Windows.Forms.ComboBox()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.btnClearMerk = New System.Windows.Forms.Button()
         Me.btnClearCenturm = New System.Windows.Forms.Button()
         Me.btnClearSubafdeling = New System.Windows.Forms.Button()
-        Me.btnClearStartdatum = New System.Windows.Forms.Button()
+        Me.btnClearMaand = New System.Windows.Forms.Button()
         Me.btnClearDag = New System.Windows.Forms.Button()
+        Me.cbbMaand = New System.Windows.Forms.ComboBox()
         CType(Me.chartBerekend, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dgvResult, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -176,14 +176,6 @@ Partial Class Test
         Me.Label5.TabIndex = 10
         Me.Label5.Text = "Startdatum:"
         '
-        'dtpStartdatum
-        '
-        Me.dtpStartdatum.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
-        Me.dtpStartdatum.Location = New System.Drawing.Point(295, 36)
-        Me.dtpStartdatum.Name = "dtpStartdatum"
-        Me.dtpStartdatum.Size = New System.Drawing.Size(117, 20)
-        Me.dtpStartdatum.TabIndex = 12
-        '
         'Label6
         '
         Me.Label6.AutoSize = True
@@ -237,14 +229,14 @@ Partial Class Test
         Me.btnClearSubafdeling.TabIndex = 14
         Me.btnClearSubafdeling.UseVisualStyleBackColor = True
         '
-        'btnClearStartdatum
+        'btnClearMaand
         '
-        Me.btnClearStartdatum.BackgroundImage = CType(resources.GetObject("btnClearStartdatum.BackgroundImage"), System.Drawing.Image)
-        Me.btnClearStartdatum.Location = New System.Drawing.Point(418, 34)
-        Me.btnClearStartdatum.Name = "btnClearStartdatum"
-        Me.btnClearStartdatum.Size = New System.Drawing.Size(27, 25)
-        Me.btnClearStartdatum.TabIndex = 14
-        Me.btnClearStartdatum.UseVisualStyleBackColor = True
+        Me.btnClearMaand.BackgroundImage = CType(resources.GetObject("btnClearMaand.BackgroundImage"), System.Drawing.Image)
+        Me.btnClearMaand.Location = New System.Drawing.Point(418, 34)
+        Me.btnClearMaand.Name = "btnClearMaand"
+        Me.btnClearMaand.Size = New System.Drawing.Size(27, 25)
+        Me.btnClearMaand.TabIndex = 14
+        Me.btnClearMaand.UseVisualStyleBackColor = True
         '
         'btnClearDag
         '
@@ -255,19 +247,27 @@ Partial Class Test
         Me.btnClearDag.TabIndex = 14
         Me.btnClearDag.UseVisualStyleBackColor = True
         '
+        'cbbMaand
+        '
+        Me.cbbMaand.FormattingEnabled = True
+        Me.cbbMaand.Location = New System.Drawing.Point(291, 36)
+        Me.cbbMaand.Name = "cbbMaand"
+        Me.cbbMaand.Size = New System.Drawing.Size(121, 21)
+        Me.cbbMaand.TabIndex = 15
+        '
         'Test
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.ClientSize = New System.Drawing.Size(662, 851)
+        Me.Controls.Add(Me.cbbMaand)
         Me.Controls.Add(Me.btnClearCenturm)
         Me.Controls.Add(Me.btnClearDag)
-        Me.Controls.Add(Me.btnClearStartdatum)
+        Me.Controls.Add(Me.btnClearMaand)
         Me.Controls.Add(Me.btnClearSubafdeling)
         Me.Controls.Add(Me.btnClearMerk)
         Me.Controls.Add(Me.Button1)
-        Me.Controls.Add(Me.dtpStartdatum)
         Me.Controls.Add(Me.cbbCentrum)
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.cbbLesdag)
@@ -305,13 +305,13 @@ Partial Class Test
     Friend WithEvents Label4 As Label
     Friend WithEvents cbbSubafdeling As ComboBox
     Friend WithEvents Label5 As Label
-    Friend WithEvents dtpStartdatum As DateTimePicker
     Friend WithEvents Label6 As Label
     Friend WithEvents cbbLesdag As ComboBox
     Friend WithEvents Button1 As Button
     Friend WithEvents btnClearMerk As Button
     Friend WithEvents btnClearCenturm As Button
     Friend WithEvents btnClearSubafdeling As Button
-    Friend WithEvents btnClearStartdatum As Button
+    Friend WithEvents btnClearMaand As Button
     Friend WithEvents btnClearDag As Button
+    Friend WithEvents cbbMaand As ComboBox
 End Class

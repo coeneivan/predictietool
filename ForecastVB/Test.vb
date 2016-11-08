@@ -25,6 +25,7 @@ Public Class Test
         cbbCentrum.Items.AddRange(b.getCentra.ToArray)
         cbbSubafdeling.Items.AddRange(b.getSubafdelingen.ToArray)
         cbbLesdag.Items.AddRange({"Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag", "Zaterdag", "Zondag"})
+        cbbMaand.Items.AddRange({"Januari", "Februari", "Maart", "April", "Mei", "Juni", "Juli", "Augustus", "September", "Oktober", "November", "December"})
     End Sub
 
     Private Sub drawBarGraph(ver As Series)
@@ -168,51 +169,59 @@ Public Class Test
 
 
         For Each item As Cursus In bayesBayesLinear.getItems
+            Dim dag As String = ""
+            If (cbbLesdag.SelectedItem IsNot Nothing) Then dag = cbbLesdag.SelectedItem.ToLower()
 
-            ' Verschil
-            Dim verschil = Math.Round(((item.getDoorgegaan / item.getTotaal) - (item.getKans)) * 100)
-            If Not versch.ContainsKey(verschil) Then
-                versch.Add(verschil, 1)
-            Else
-                versch(verschil) += 1
-            End If
-
-            If verschil > ligtTussen Or verschil < -ligtTussen Then
-                cOut += 1
-            Else
-                cIn += 1
-            End If
-
-            Dim echt = (Math.Round(((item.getDoorgegaan / item.getTotaal) * 10000)) / 100)
-
-            ' Bereken de top waarde en onderste waarde van de afwijking, controlleer of deze boven 100 of onder 0 zit en pas deze aan indien nodig
-            Dim bEdge = Math.Round(item.getKans * 100 - item.afwijking, 2)
-            Dim tEdge = Math.Round(item.getKans * 100 + item.afwijking, 2)
-            If bEdge < 0 Then bEdge = 0
-            If tEdge > 100 Then tEdge = 100
-
-            Dim result = "[" + bEdge.ToString + " - " + Math.Round(item.getKans * 100, 2).ToString + " - " + tEdge.ToString + "]"
-
-            Dim kleur As Color
-            If echt <= tEdge And echt >= bEdge Then
-                trues += 1
-                kleur = Color.LightGreen
-                item.isCorrect = True
-                verschil = item.getKans * 100 - echt
-            Else
-                falses += 1
-                kleur = Color.OrangeRed
-                If echt < bEdge Then
-                    verschil = bEdge - echt
+            If (cbbMerk.SelectedItem Is Nothing Or item.getMerk.Equals(cbbMerk.SelectedItem)) And (cbbCentrum.SelectedItem Is Nothing Or item.getUitvoerCentrum.Equals(cbbCentrum.SelectedItem)) And
+            (cbbLesdag.SelectedItem Is Nothing Or item.getDag.Equals(dag)) And (cbbSubafdeling.SelectedItem Is Nothing Or item.getCodeSubAfdeling.Equals(cbbSubafdeling.SelectedItem)) And
+            (cbbMaand.SelectedItem Is Nothing Or item.getMaand = cbbMaand.SelectedIndex + 1) Then
+                ' 
+                ' Verschil
+                Dim verschil = Math.Round(((item.getDoorgegaan / item.getTotaal) - (item.getKans)) * 100)
+                If Not versch.ContainsKey(verschil) Then
+                    versch.Add(verschil, 1)
                 Else
-                    verschil = tEdge - echt
+                    versch(verschil) += 1
                 End If
+
+                If verschil > ligtTussen Or verschil < -ligtTussen Then
+                    cOut += 1
+                Else
+                    cIn += 1
+                End If
+
+                Dim echt = (Math.Round(((item.getDoorgegaan / item.getTotaal) * 10000)) / 100)
+
+                ' Bereken de top waarde en onderste waarde van de afwijking, controlleer of deze boven 100 of onder 0 zit en pas deze aan indien nodig
+                Dim bEdge = Math.Round(item.getKans * 100 - item.afwijking, 2)
+                Dim tEdge = Math.Round(item.getKans * 100 + item.afwijking, 2)
+                If bEdge < 0 Then bEdge = 0
+                If tEdge > 100 Then tEdge = 100
+
+                Dim result = "[" + bEdge.ToString + " - " + Math.Round(item.getKans * 100, 2).ToString + " - " + tEdge.ToString + "]"
+
+                Dim kleur As Color
+                If echt <= tEdge And echt >= bEdge Then
+                    trues += 1
+                    kleur = Color.LightGreen
+                    item.isCorrect = True
+                    verschil = item.getKans * 100 - echt
+                Else
+                    falses += 1
+                    kleur = Color.OrangeRed
+                    If echt < bEdge Then
+                        verschil = bEdge - echt
+                    Else
+                        verschil = tEdge - echt
+                    End If
+                End If
+
+                verschil = Math.Round(verschil, 2)
+
+                dgvResult.Rows.Add(item.getMerk, item.getUitvoerCentrum, item.getCodeSubAfdeling, item.getMaand.ToString, item.getDag, item.getTotaal.ToString, echt.ToString, result, verschil.ToString, item.getJaar, item.temp)
+                dgvResult.Rows(dgvResult.RowCount - 1).DefaultCellStyle.BackColor = kleur
             End If
 
-            verschil = Math.Round(verschil, 2)
-
-            dgvResult.Rows.Add(item.getMerk, item.getUitvoerCentrum, item.getCodeSubAfdeling, item.getMaand.ToString, item.getDag, item.getTotaal.ToString, echt.ToString, result, verschil.ToString, item.getJaar, item.temp)
-            dgvResult.Rows(dgvResult.RowCount - 1).DefaultCellStyle.BackColor = kleur
 
         Next
 
@@ -288,7 +297,7 @@ Public Class Test
         cbbLesdag.SelectedItem = Nothing
     End Sub
 
-    Private Sub btnClearStartdatum_Click(sender As Object, e As EventArgs) Handles btnClearStartdatum.Click
-        'TODO: clear selection date
+    Private Sub btnClearMaand_Click(sender As Object, e As EventArgs) Handles btnClearMaand.Click
+        cbbMaand.SelectedItem = Nothing
     End Sub
 End Class
