@@ -169,7 +169,22 @@ Public Class Test
 
         For Each item As Cursus In bayesBayesLinear.getItems
 
-            ' Verschil
+            Dim echt = (Math.Round(((item.getDoorgegaan / item.getTotaal) * 10000)) / 100)
+
+            ' Bereken de top waarde en onderste waarde van de afwijking, controlleer of deze boven 100 of onder 0 zit en pas deze aan indien nodig
+            Dim bereik = New Bereik(item.afwijking, item.getKans * 100)
+
+            Dim kleur As Color
+            If bereik.valtTussen(echt) Then
+                trues += 1
+                kleur = Color.LightGreen
+                item.isCorrect = True
+            Else
+                falses += 1
+                kleur = Color.OrangeRed
+            End If
+
+            'Verschil
             Dim verschil = Math.Round(((item.getDoorgegaan / item.getTotaal) - (item.getKans)) * 100)
             If Not versch.ContainsKey(verschil) Then
                 versch.Add(verschil, 1)
@@ -183,35 +198,7 @@ Public Class Test
                 cIn += 1
             End If
 
-            Dim echt = (Math.Round(((item.getDoorgegaan / item.getTotaal) * 10000)) / 100)
-
-            ' Bereken de top waarde en onderste waarde van de afwijking, controlleer of deze boven 100 of onder 0 zit en pas deze aan indien nodig
-            Dim bEdge = Math.Round(item.getKans * 100 - item.afwijking, 2)
-            Dim tEdge = Math.Round(item.getKans * 100 + item.afwijking, 2)
-            If bEdge < 0 Then bEdge = 0
-            If tEdge > 100 Then tEdge = 100
-
-            Dim result = "[" + bEdge.ToString + " - " + Math.Round(item.getKans * 100, 2).ToString + " - " + tEdge.ToString + "]"
-
-            Dim kleur As Color
-            If echt <= tEdge And echt >= bEdge Then
-                trues += 1
-                kleur = Color.LightGreen
-                item.isCorrect = True
-                verschil = item.getKans * 100 - echt
-            Else
-                falses += 1
-                kleur = Color.OrangeRed
-                If echt < bEdge Then
-                    verschil = bEdge - echt
-                Else
-                    verschil = tEdge - echt
-                End If
-            End If
-
-            verschil = Math.Round(verschil, 2)
-
-            dgvResult.Rows.Add(item.getMerk, item.getUitvoerCentrum, item.getCodeSubAfdeling, item.getMaand.ToString, item.getDag, item.getTotaal.ToString, echt.ToString, result, verschil.ToString, item.getJaar, item.temp)
+            dgvResult.Rows.Add(item.getMerk, item.getUitvoerCentrum, item.getCodeSubAfdeling, item.getMaand.ToString, item.getDag, item.getTotaal.ToString, echt.ToString, bereik.ToString, bereik.verschilMet(echt).ToString, item.getJaar, item.temp)
             dgvResult.Rows(dgvResult.RowCount - 1).DefaultCellStyle.BackColor = kleur
 
         Next
