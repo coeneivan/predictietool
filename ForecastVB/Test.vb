@@ -18,7 +18,9 @@ Public Class Test
     End Sub
 
     Private Sub Test_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Dim b As New Bayes_Bayes_Linear(root.getFilters)
+        Dim b As New Bayes_Bayes_Linear()
+        b.setFilters(root.getFilters)
+        b.getData()
         cbbMerk.Items.AddRange(b.getMerken.ToArray)
         cbbCentrum.Items.AddRange(b.getCentra.ToArray)
         cbbSubafdeling.Items.AddRange(b.getSubafdelingen.ToArray)
@@ -157,8 +159,9 @@ Public Class Test
         Dim cOut As Integer = 0
         Dim ligtTussen As Integer = 10
         Dim versch As New Dictionary(Of Double, Integer)
-        Dim bayesBayesLinear As New Bayes_Bayes_Linear(filters)
-
+        Dim bayesBayesLinear As New Bayes_Bayes_Linear()
+        bayesBayesLinear.setFilters(filters)
+        bayesBayesLinear.BerekenKans()
 
         ' Standaard afwijking berekenen
         Dim deviatie = bayesBayesLinear.deviatie
@@ -195,7 +198,7 @@ Public Class Test
                 trues += 1
                 kleur = Color.LightGreen
                 item.isCorrect = True
-                verschil = item.afwijking - echt
+                verschil = item.getKans * 100 - echt
             Else
                 falses += 1
                 kleur = Color.OrangeRed

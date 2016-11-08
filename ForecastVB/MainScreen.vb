@@ -13,7 +13,9 @@ Public Class MainScreen
         refreshCombobox()
     End Sub
     Public Sub refreshCombobox()
-        Dim b As New Bayes_Bayes_Linear(filters)
+        Dim b As New Bayes_Bayes_Linear()
+        b.setFilters(getFilters)
+        b.getData()
         cboMerk.Items.Clear()
         cboMerk.Items.AddRange(b.getMerken.ToArray)
         cboUitvCent.Items.Clear()

@@ -37,11 +37,8 @@
     Private getdeviatie As Double
 
 
-    Public Sub New(filterlist As ArrayList)
-        f = createFilterString(filterlist)
-
-        listOfAllItems = TestBLL.GetAllCursForAllVar(f)
-        listOfAllItemsWithYear = TestBLL.GetAllCursForAllVarWithYear(f)
+    Public Sub BerekenKans()
+        getData()
 
         berekenAantalDoorgegaanEnNietDoorgegaan()
 
@@ -56,6 +53,15 @@
         getdeviatie = Math.Round(CalculateStandardDeviation(listMetAfwijking), 3)
 
         afwijkingBerekenen()
+    End Sub
+
+    Public Sub getData()
+        listOfAllItems = TestBLL.GetAllCursForAllVar(f)
+        listOfAllItemsWithYear = TestBLL.GetAllCursForAllVarWithYear(f)
+    End Sub
+
+    Public Sub setFilters(filterlist As ArrayList)
+        f = createFilterString(filterlist)
     End Sub
 
     Private Sub isVoorspellingCorrect()
@@ -294,7 +300,7 @@
 
     Public Property deviatie() As Double
         Get
-            Return deviatie
+            Return getdeviatie
         End Get
         Set(ByVal dev As Double)
             getdeviatie = dev
