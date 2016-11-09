@@ -51,27 +51,28 @@ Public Class Bayes_Bayes_Linear
     End Sub
     Public Sub BerekenKans()
 
-
         berekenBayesVoorIederItem()
         getdeviatie = Math.Round(CalculateStandardDeviation(listMetAfwijking), 3)
         afwijkingBerekenen()
         isVoorspellingsLijstCorrect()
         listMetAfwijking = New List(Of Double)
 
+
         calcBayesWithLinear()
-        'berekenBayesVoorIederItem()
-
         getdeviatie = Math.Round(CalculateStandardDeviation(listMetAfwijking), 3)
-
         afwijkingBerekenen()
         isVoorspellingsLijstCorrect()
         listMetAfwijking = New List(Of Double)
 
-        'bayesWanneerMerkSterkAfwijkt()
-        'getdeviatie = Math.Round(CalculateStandardDeviation(listMetAfwijking), 3)
-        'afwijkingBerekenen()
-        'isVoorspellingsLijstCorrect()
-        'listMetAfwijking = New List(Of Double)
+
+        bayesWanneerMerkSterkAfwijkt()
+        getdeviatie = Math.Round(CalculateStandardDeviation(listMetAfwijking), 3)
+        afwijkingBerekenen()
+        isVoorspellingsLijstCorrect()
+        listMetAfwijking = New List(Of Double)
+
+
+        root.setDeviatie(getdeviatie)
     End Sub
 
 
@@ -84,10 +85,10 @@ Public Class Bayes_Bayes_Linear
         Dim minPercVerschil As Double = 0.1 ' uitgedrukt /100
 
         For Each item As Cursus In listOfAllItems
-            If t1CursList.Count = 0 Then
-                t1CursList.Add(item)
-            Else
-                Dim gevonden As Boolean = False
+            Dim gevonden As Boolean = False
+
+
+            If Not t1CursList.Count = 0 Then
                 For Each item2 As Cursus In t1CursList
                     If item.getCodeSubAfdeling.Equals(item2.getCodeSubAfdeling) And item.getMerk.Equals(item2.getMerk) Then
                         item2.setTotaal(item.getTotaal + item2.getTotaal)
@@ -95,10 +96,11 @@ Public Class Bayes_Bayes_Linear
                         gevonden = True
                     End If
                 Next
+            End If
 
-                If Not gevonden Then
-                    t1CursList.Add(item)
-                End If
+            If Not gevonden Or t1CursList.Count = 0 Then
+                Dim curs As New Cursus(item.getMerk, Nothing, Nothing, Nothing, item.getCodeSubAfdeling, item.getTotaal, item.getDoorgegaan)
+                t1CursList.Add(curs)
             End If
         Next
 
@@ -115,19 +117,18 @@ Public Class Bayes_Bayes_Linear
         Next
 
         For Each item1 As Cursus In listOfAllItems
-
             For Each item2 As Cursus In t2CursList
                 If Not item1.isCorrect And Not item2.isCorrect Then
                     If (item1.getMerk.Equals(item2.getMerk()) And item1.getCodeSubAfdeling().Equals(item2.getCodeSubAfdeling())) Then
-                        baycalculation(item2, True)
+                        baycalculation(item1, True)
                     Else
-                        baycalculation(item2, False)
+                        baycalculation(item1, False)
                     End If
                 End If
             Next
         Next
 
-        For Each item As Cursus In t2CursList
+        For Each item As Cursus In listOfAllItems
             If Not item.isCorrect Then
                 berekenBayes(item)
                 item.algoritme = Algoritmes.BayesMerk
@@ -137,12 +138,10 @@ Public Class Bayes_Bayes_Linear
     End Sub
 
     Private Sub calcBayesWithLinear()
-        ' berekend kans van iedere entry dat deze door gaat en plaatst dit vervolgens in de listview
 
-        Dim i As Integer = 0
+        ' berekend kans van iedere entry dat deze door gaat en plaatst dit vervolgens in de listview
         For Each item As Cursus In listOfAllItems
             If Not item.isCorrect Then
-                i += 1
 
                 'Bereken Bayes voor item, mocht Linear eerst worden opgeropen
                 berekenBayes(item)
@@ -158,7 +157,8 @@ Public Class Bayes_Bayes_Linear
                 Dim b As Double
 
                 For Each itemWithYear As Cursus In listOfAllItemsWithYear
-                    If item.getCodeSubAfdeling = itemWithYear.getCodeSubAfdeling And item.getMaand = itemWithYear.getMaand And item.getUitvoerCentrum = itemWithYear.getUitvoerCentrum And item.getDag = itemWithYear.getDag And item.getMerk = itemWithYear.getMerk Then
+                    If item.getCodeSubAfdeling = itemWithYear.getCodeSubAfdeling And item.getMaand = itemWithYear.getMaand And item.getUitvoerCentrum = itemWithYear.getUitvoerCentrum And
+                        item.getDag = itemWithYear.getDag And item.getMerk = itemWithYear.getMerk Then
 
                         Dim x = itemWithYear.getJaar
                         Dim y = (itemWithYear.getDoorgegaan / itemWithYear.getTotaal)
@@ -281,14 +281,22 @@ Public Class Bayes_Bayes_Linear
         Dim j1, j2, j3, j4, j5, j6 As Double
         Dim n1, n2, n3, n4, n5, n6 As Double
 
-        j1 = (dicMerkW(item.getMerk) / atlDoorgg)
+        If dicMerkW.ContainsKey(item.getMerk) Then
+            j1 = (dicMerkW(item.getMerk) / atlDoorgg)
+        Else
+            j1 = 1
+        End If
         j2 = (dicSubW(item.getCodeSubAfdeling) / atlDoorgg)
         j3 = (dicMaandW(item.getMaand) / atlDoorgg)
         j4 = (dicDagW(item.getDag) / atlDoorgg)
         j5 = (dicUitvW(item.getUitvoerCentrum) / atlDoorgg)
         j6 = (atlDoorgg / (atlDoorgg + atlNietDgg))
 
-        n1 = (dicMerkN(item.getMerk) / atlNietDgg)
+        If dicMerkN.ContainsKey(item.getMerk) Then
+            n1 = (dicMerkN(item.getMerk) / atlNietDgg)
+        Else
+            n1 = 1
+        End If
         n2 = (dicSubN(item.getCodeSubAfdeling) / atlNietDgg)
         n3 = (dicMaandN(item.getMaand) / atlNietDgg)
         n4 = (dicDagN(item.getDag) / atlNietDgg)
