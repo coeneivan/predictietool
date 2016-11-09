@@ -51,6 +51,7 @@ Public Class Bayes_Bayes_Linear
     End Sub
     Public Sub BerekenKans()
 
+
         berekenBayesVoorIederItem()
         getdeviatie = Math.Round(CalculateStandardDeviation(listMetAfwijking), 3)
         afwijkingBerekenen()
@@ -70,6 +71,7 @@ Public Class Bayes_Bayes_Linear
         afwijkingBerekenen()
         isVoorspellingsLijstCorrect()
         listMetAfwijking = New List(Of Double)
+
 
 
         root.setDeviatie(getdeviatie)
@@ -277,46 +279,40 @@ Public Class Bayes_Bayes_Linear
 
 
     Private Sub berekenBayes(item As Cursus)
+        If dicMerkW.ContainsKey(item.getMerk) And dicMerkN.ContainsKey(item.getMerk) Then
+            Dim j1, j2, j3, j4, j5, j6 As Double
+            Dim n1, n2, n3, n4, n5, n6 As Double
 
-        Dim j1, j2, j3, j4, j5, j6 As Double
-        Dim n1, n2, n3, n4, n5, n6 As Double
-
-        If dicMerkW.ContainsKey(item.getMerk) Then
             j1 = (dicMerkW(item.getMerk) / atlDoorgg)
-        Else
-            j1 = 1
-        End If
-        j2 = (dicSubW(item.getCodeSubAfdeling) / atlDoorgg)
-        j3 = (dicMaandW(item.getMaand) / atlDoorgg)
-        j4 = (dicDagW(item.getDag) / atlDoorgg)
-        j5 = (dicUitvW(item.getUitvoerCentrum) / atlDoorgg)
-        j6 = (atlDoorgg / (atlDoorgg + atlNietDgg))
+            j2 = (dicSubW(item.getCodeSubAfdeling) / atlDoorgg)
+            j3 = (dicMaandW(item.getMaand) / atlDoorgg)
+            j4 = (dicDagW(item.getDag) / atlDoorgg)
+            j5 = (dicUitvW(item.getUitvoerCentrum) / atlDoorgg)
+            j6 = (atlDoorgg / (atlDoorgg + atlNietDgg))
 
-        If dicMerkN.ContainsKey(item.getMerk) Then
+
             n1 = (dicMerkN(item.getMerk) / atlNietDgg)
-        Else
-            n1 = 1
-        End If
-        n2 = (dicSubN(item.getCodeSubAfdeling) / atlNietDgg)
-        n3 = (dicMaandN(item.getMaand) / atlNietDgg)
-        n4 = (dicDagN(item.getDag) / atlNietDgg)
-        n5 = (dicUitvN(item.getUitvoerCentrum) / atlNietDgg)
-        n6 = (atlNietDgg / (atlDoorgg + atlNietDgg))
+            n2 = (dicSubN(item.getCodeSubAfdeling) / atlNietDgg)
+            n3 = (dicMaandN(item.getMaand) / atlNietDgg)
+            n4 = (dicDagN(item.getDag) / atlNietDgg)
+            n5 = (dicUitvN(item.getUitvoerCentrum) / atlNietDgg)
+            n6 = (atlNietDgg / (atlDoorgg + atlNietDgg))
 
-        Dim wel As Double = 0
-        Dim niet As Double = 0
-        If (item.getTotaal <= 12) Then
-            wel = j2 * j3 * j4 * j5 * j6
-            niet = n2 * n3 * n4 * n5 * n6
-        ElseIf item.getTotaal <= 15 Then
-            wel = j1 * j2 * j3 * j5 * j6
-            niet = n1 * n2 * n3 * n5 * n6
-        Else
-            wel = j1 * j2 * j3 * j4 * j5 * j6
-            niet = n1 * n2 * n3 * n4 * n5 * n6
+            Dim wel As Double = 0
+            Dim niet As Double = 0
+            If (item.getTotaal <= 12) Then
+                wel = j2 * j3 * j4 * j5 * j6
+                niet = n2 * n3 * n4 * n5 * n6
+            ElseIf item.getTotaal <= 15 Then
+                wel = j1 * j2 * j3 * j5 * j6
+                niet = n1 * n2 * n3 * n5 * n6
+            Else
+                wel = j1 * j2 * j3 * j4 * j5 * j6
+                niet = n1 * n2 * n3 * n4 * n5 * n6
+            End If
+            Dim totaal = wel + niet
+            item.setKans(wel / (wel + niet))
         End If
-        Dim totaal = wel + niet
-        item.setKans(wel / (wel + niet))
     End Sub
     Private Sub berekenBayesVoorIederItem()
 
