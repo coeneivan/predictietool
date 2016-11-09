@@ -1,4 +1,4 @@
-﻿Public Class Cursus
+﻿<Serializable()> Public Class Cursus
     Dim ont As String
     Dim merk As String
     Dim uitvCentr As String
@@ -84,7 +84,19 @@
     Public Function getJaar() As Double
         Return jaar
     End Function
-
+    Public Overrides Function toString() As String
+        Dim toRet As String = ""
+        Dim toCheck = New ArrayList({ont, merk, uitvCentr, maand, dag, codeSubAfd, totaal, doorgegaan, kans, jaar, afwijking, temp, Correct, algoritmeProp})
+        For Each item In toCheck
+            toRet += checkIfNotNothing(item)
+        Next
+        Return toRet
+    End Function
+    Private Function checkIfNotNothing(x As String) As String
+        If x IsNot Nothing Then
+            Return x.ToString + " "
+        End If
+    End Function
     Private t As Double
     Public Property temp() As Double
         Get

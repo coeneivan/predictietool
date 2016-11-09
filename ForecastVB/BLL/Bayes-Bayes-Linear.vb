@@ -9,40 +9,47 @@ Public Class Bayes_Bayes_Linear
     'TODO Controle of er bij filters nog altijd alles wordt weergegeven (Percentages worden op alles berekend, gebeurd dit nog altijd met filters?)
 
 #Region "Global variables"
-    Private root As New MainScreen
+    Private root As MainScreen
 
-    Dim f As String = ""
-    Dim listOfAllItems As New List(Of Cursus)
-    Dim listOfAllItemsWithYear As New List(Of Cursus)
-    Dim startTime = Now
+    Private f As String = ""
+    Private listOfAllItems As New List(Of Cursus)
+    Private listOfAllItemsWithYear As New List(Of Cursus)
+    Private startTime = Now
 
     ' Lijst om te tellen hoeveel cursussen van elk item niet geschrapt werden
-    Dim dicMerkW As New Dictionary(Of String, Integer)
-    Dim dicUitvW As New Dictionary(Of String, Integer)
-    Dim dicMaandW As New Dictionary(Of String, Integer)
-    Dim dicDagW As New Dictionary(Of String, Integer)
-    Dim dicSubW As New Dictionary(Of String, Integer)
+    Private dicMerkW As New Dictionary(Of String, Integer)
+    Private dicUitvW As New Dictionary(Of String, Integer)
+    Private dicMaandW As New Dictionary(Of String, Integer)
+    Private dicDagW As New Dictionary(Of String, Integer)
+    Private dicSubW As New Dictionary(Of String, Integer)
 
     ' Lijst om te tellen hoeveel cursussen van elk item wel geschrapt werden
-    Dim dicMerkN As New Dictionary(Of String, Integer)
-    Dim dicUitvN As New Dictionary(Of String, Integer)
-    Dim dicMaandN As New Dictionary(Of String, Integer)
-    Dim dicDagN As New Dictionary(Of String, Integer)
-    Dim dicSubN As New Dictionary(Of String, Integer)
+    Private dicMerkN As New Dictionary(Of String, Integer)
+    Private dicUitvN As New Dictionary(Of String, Integer)
+    Private dicMaandN As New Dictionary(Of String, Integer)
+    Private dicDagN As New Dictionary(Of String, Integer)
+    Private dicSubN As New Dictionary(Of String, Integer)
 
-    Dim atlDoorgg As Integer
-    Dim atlNietDgg As Integer
-    Dim listMetAfwijking As New List(Of Double)
+    Private atlDoorgg As Integer
+    Private atlNietDgg As Integer
+    Private listMetAfwijking As New List(Of Double)
 
-    Dim cIn As Integer = 0
-    Dim cOut As Integer = 0
-    Dim ligtTussen As Integer = 10
+    Private cIn As Integer = 0
+    Private cOut As Integer = 0
+    Private ligtTussen As Integer = 10
     Private getdeviatie As Double
 
 #End Region
-
+    Public Sub New(main As MainScreen)
+        root = main
+        Try
+            listOfAllItems = root.getAllItems
+            listOfAllItemsWithYear = root.getAllItemsWithYear
+        Catch ex As Exception
+            'TODO: Als bestand nog niets bestaat, geeft dit een exception
+        End Try
+    End Sub
     Public Sub BerekenKans()
-        getData()
 
         berekenAantalDoorgegaanEnNietDoorgegaan()
 
@@ -55,8 +62,8 @@ Public Class Bayes_Bayes_Linear
 
         calcBayesWithLinear()
         'berekenBayesVoorIederItem()
-
-        getdeviatie = Math.Round(CalculateStandardDeviation(listMetAfwijking), 3)
+        My.Settings.Deviatie = Math.Round(CalculateStandardDeviation(listMetAfwijking), 3)
+        My.Settings.Save()
 
         afwijkingBerekenen()
     End Sub
@@ -69,7 +76,6 @@ Public Class Bayes_Bayes_Linear
             Dim schatting = item.getKans * 100
             Dim afwijking = item.afwijking
             Dim schattingsbereik = New Bereik(afwijking, schatting)
-
             item.isCorrect = schattingsbereik.valtTussen(echt)
         Next
     End Sub
@@ -301,26 +307,26 @@ Public Class Bayes_Bayes_Linear
     End Function
 
 #Region "Getters/Setters"
-
-
-    Public Sub getData()
+    ''' <summary>
+    ''' Hallt data van de database en geeft dictionary weer met lists van cursussen
+    ''' </summary>
+    ''' <param name="filterlist">Toe te passen parameters in een arraylist</param>
+    ''' <returns>Dictinary met 2 waardes allItems en withYear (Spreekt voro zich zeker?)</returns>
+    Public Function getData(filterlist As ArrayList) As Dictionary(Of String, List(Of Cursus))
+        Dim lists As New Dictionary(Of String, List(Of Cursus))
+        f = createFilterString(filterlist)
         listOfAllItems = TestBLL.GetAllCursForAllVar(f)
         listOfAllItemsWithYear = TestBLL.GetAllCursForAllVarWithYear(f)
-    End Sub
-    Public Sub getDataOnlyAllItems()
-        listOfAllItems = TestBLL.GetAllCursForAllVar(f)
-    End Sub
-
-    Public Sub setFilters(filterlist As ArrayList)
-        f = createFilterString(filterlist)
-    End Sub
-
+        lists.Add("allItems", listOfAllItems)
+        lists.Add("withYear", listOfAllItemsWithYear)
+        BerekenKans()
+        Return lists
+    End Function
     ''' <summary>
     ''' Berekend de waarde voor het te berekenen jaar wanneer lastYear het laatste jaar is met waarde
     ''' </summary>
     ''' <param name="filters">Geef een ArrayList mee met de filters</param>
     ''' <returns>Geeft de voorspelde waarde terug volgens een niet linaire functie verkregen door de gegeven data</returns>
-
     Private Function createFilterString(filters As ArrayList) As String
         Dim f As String = ""
         For Each s As FilterItem In filters
