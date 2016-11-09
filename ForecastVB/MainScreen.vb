@@ -22,12 +22,18 @@ Public Class MainScreen
         ready = True
         Me.Visible = True
     End Sub
+    ''' <summary>
+    ''' Data herlezen en comboboxen refreshen
+    ''' </summary>
     Private Sub startup()
         readData()
         b = New Bayes_Bayes_Linear(Me)
         refreshCombobox()
     End Sub
-
+    ''' <summary>
+    ''' Data uit file lezen
+    ''' Als het niet bestaat, lezen van db
+    ''' </summary>
     Private Sub readData()
         Dim ltf As New ListToFile
         If File.Exists(saveDirectory + "/cursussen.xml") Then
@@ -51,17 +57,28 @@ Public Class MainScreen
     ''' <summary>
     ''' Geeft alle items weer met jaar (om trend te bepalen)
     ''' </summary>
-    ''' <returns>Alle data met extra veld, jaarj, in een lijst met cursussen </returns>
+    ''' <returns>Alle data met extra veld, jaar, in een lijst met cursussen </returns>
     Public Function getAllItemsWithYear() As List(Of Cursus)
         Return lists("withYear")
     End Function
-    Public Function getDeviatie()
+    ''' <summary>
+    ''' Standaardafwijking van de gegevens berekenen
+    ''' </summary>
+    ''' <returns>De standaardafwijking as double</returns>
+    Public Function getDeviatie() As Double
         Return My.Settings.Deviatie
     End Function
-
+    ''' <summary>
+    ''' Stel de standaardafwijking in
+    ''' </summary>
+    ''' <param name="dev">Nieuwe standaardafwijking</param>
     Public Sub setDeviatie(dev As Double)
         My.Settings.Deviatie = dev
     End Sub
+    ''' <summary>
+    ''' Comboboxen merk, uitvoerend centrum en subafdeling refreshen
+    ''' Handig om te gebruiken na het instellen van filters
+    ''' </summary>
     Public Sub refreshCombobox()
         cboMerk.Items.Clear()
         cboMerk.Items.AddRange(b.getMerken.ToArray)
@@ -109,20 +126,6 @@ Public Class MainScreen
     Private Sub cboMerk_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboMerk.SelectedIndexChanged
 
     End Sub
-    Private Sub cboUitvCent_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboUitvCent.SelectedIndexChanged
-
-    End Sub
-    Private Sub cboSubAfd_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboSubAfd.SelectedIndexChanged
-
-    End Sub
-    Private Sub dtpStartcursus_ValueChanged(sender As Object, e As EventArgs) Handles dtpStartcursus.ValueChanged
-        'dtpStartcursus.Value.Month.ToString
-        'dtpStartcursus.Value.Year.ToString
-    End Sub
-    Private Sub cboLesdag_SelectedIndexChanged(sender As Object, e As EventArgs)
-
-    End Sub
-
     ''' <summary>
     ''' Toont settings scherm waar je parameters kan toevoegen
     ''' </summary>
@@ -154,11 +157,10 @@ Public Class MainScreen
                 Else
                     MessageBox.Show("Alles ok")
                     Dim c As New Cursus(cboMerk.SelectedItem.ToString, cboUitvCent.SelectedItem.ToString, dtpStartcursus.Value.Month.ToString, dtpStartcursus.Value.ToString("dddd", New CultureInfo("nl-BE")), cboSubAfd.SelectedItem.ToString, 0, 0)
-                    'txtTotaal.Text = b.getKansVoorCursus(c).ToString
+                    txtTotaal.Text = b.getKansVoorCursus(c).ToString
                 End If
             End If
         End If
-        'txtTotaal.Text = dtpStartcursus.Value.ToString("dddd", New CultureInfo("nl-BE")) + " " + dtpStartcursus.Value.Month.ToString + " " + dtpStartcursus.Value.Year.ToString
     End Sub
     ''' <summary>
     ''' Voegt filters toe aan active lijst
@@ -202,6 +204,10 @@ Public Class MainScreen
             startup()
         End If
     End Sub
+    ''' <summary>
+    ''' Geeft de directory terug waar er standaard in opgeslaan word
+    ''' </summary>
+    ''' <returns>Pad in een string formaat waar alles opgeslaan wordt</returns>
     Public Function getSaveDirectory() As String
         Return saveDirectory
     End Function
