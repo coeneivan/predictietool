@@ -9,17 +9,22 @@ Public Class MainScreen
     Private saveDirectory As String = SpecialDirectories.MyDocuments + "//Predictie Filters//"
     Private lists As New Dictionary(Of String, List(Of Cursus))
     Private b As Bayes_Bayes_Linear
-
+    Private s As SplashScreen1
+    Private ready As Boolean = False
     Private Sub MainScreen_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Dim start = DateTime.Now
+        s = New SplashScreen1()
+        s.Show()
+        Me.Visible = False
         b = New Bayes_Bayes_Linear(Me)
         refreshFilterList()
         readData()
         b = New Bayes_Bayes_Linear(Me)
         refreshCombobox()
-        MessageBox.Show("Totale tijd: " + (DateTime.Now - start).ToString)
+        addFilterListsToList()
+        s.Close()
+        ready = True
+        Me.Visible = True
     End Sub
-
     Private Sub readData()
         Dim ltf As New ListToFile
         If File.Exists(saveDirectory + "/cursussen.xml") Then
@@ -67,9 +72,7 @@ Public Class MainScreen
     ''' Indien de map niet bestaat, maakt die aan en steek er de defaultlist in
     ''' </summary>
     Public Sub refreshFilterList()
-
         filterlist = New ArrayList
-        cboFiltersList.Items.Clear()
         Dim filterFiles As String()
         Try
             filterFiles = Directory.GetFiles(saveDirectory)
@@ -86,10 +89,7 @@ Public Class MainScreen
                 'Als map leeg is steek de bijgeleverde defaultList in 
                 Throw New DirectoryNotFoundException
             End If
-            cboFiltersList.Items.AddRange(filterlist.ToArray)
-            'Auto select last selected list
-            selectedFilterList = My.Settings.selectedFilterList
-            cboFiltersList.SelectedItem = selectedFilterList
+
         Catch ex As DirectoryNotFoundException
             'Als map niet bestaat is -> map aanmaken en bijgeleverde defaultList kopieren 
             My.Computer.FileSystem.CopyFile("..\..\Filters\defaultList.json", saveDirectory + "\DafaultList.json")
@@ -97,6 +97,14 @@ Public Class MainScreen
         Catch ex As Exception
             MessageBox.Show(ex.Message, "Foutje")
         End Try
+    End Sub
+
+    Private Sub addFilterListsToList()
+        cboFiltersList.Items.Clear()
+        cboFiltersList.Items.AddRange(filterlist.ToArray)
+        'Auto select last selected list
+        selectedFilterList = My.Settings.selectedFilterList
+        cboFiltersList.SelectedItem = selectedFilterList
     End Sub
 
     Private Sub cboMerk_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboMerk.SelectedIndexChanged
@@ -194,4 +202,12 @@ Public Class MainScreen
     Public Function getSaveDirectory() As String
         Return saveDirectory
     End Function
+
+    Private Sub MainScreen_VisibleChanged(sender As Object, e As EventArgs) Handles Me.VisibleChanged
+        Me.Visible = ready
+    End Sub
+
+    Private Sub MainScreen_BindingContextChanged(sender As Object, e As EventArgs) Handles Me.BindingContextChanged
+        Me.Visible = False
+    End Sub
 End Class
