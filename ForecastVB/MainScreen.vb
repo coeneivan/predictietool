@@ -17,14 +17,17 @@ Public Class MainScreen
         Me.Visible = False
         b = New Bayes_Bayes_Linear(Me)
         refreshFilterList()
-        readData()
-        b = New Bayes_Bayes_Linear(Me)
-        refreshCombobox()
-        addFilterListsToList()
+        startup()
         s.Close()
         ready = True
         Me.Visible = True
     End Sub
+    Private Sub startup()
+        readData()
+        b = New Bayes_Bayes_Linear(Me)
+        refreshCombobox()
+    End Sub
+
     Private Sub readData()
         Dim ltf As New ListToFile
         If File.Exists(saveDirectory + "/cursussen.xml") Then
@@ -69,6 +72,7 @@ Public Class MainScreen
     ''' </summary>
     Public Sub refreshFilterList()
         filterlist = New ArrayList
+        cboFiltersList.Items.Clear()
         Dim filterFiles As String()
         Try
             filterFiles = Directory.GetFiles(saveDirectory)
@@ -85,7 +89,10 @@ Public Class MainScreen
                 'Als map leeg is steek de bijgeleverde defaultList in 
                 Throw New DirectoryNotFoundException
             End If
-
+            cboFiltersList.Items.AddRange(filterlist.ToArray)
+            'Auto select last selected list
+            selectedFilterList = My.Settings.selectedFilterList
+            cboFiltersList.SelectedItem = selectedFilterList
         Catch ex As DirectoryNotFoundException
             'Als map niet bestaat is -> map aanmaken en bijgeleverde defaultList kopieren 
             My.Computer.FileSystem.CopyFile("..\..\Filters\defaultList.json", saveDirectory + "\DafaultList.json")
@@ -93,14 +100,6 @@ Public Class MainScreen
         Catch ex As Exception
             MessageBox.Show(ex.Message, "Foutje")
         End Try
-    End Sub
-
-    Private Sub addFilterListsToList()
-        cboFiltersList.Items.Clear()
-        cboFiltersList.Items.AddRange(filterlist.ToArray)
-        'Auto select last selected list
-        selectedFilterList = My.Settings.selectedFilterList
-        cboFiltersList.SelectedItem = selectedFilterList
     End Sub
 
     Private Sub cboMerk_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboMerk.SelectedIndexChanged
@@ -150,10 +149,12 @@ Public Class MainScreen
                     MessageBox.Show("Gelieve een code subafdeling te selecteren aub")
                 Else
                     MessageBox.Show("Alles ok")
+                    Dim c As New Cursus(cboMerk.SelectedItem.ToString, cboUitvCent.SelectedItem.ToString, dtpStartcursus.Value.Month.ToString, dtpStartcursus.Value.ToString("dddd", New CultureInfo("nl-BE")), cboSubAfd.SelectedItem.ToString, 0, 0)
+                    txtTotaal.Text = b.getKansVoorCursus(c).ToString
                 End If
             End If
         End If
-        txtTotaal.Text = dtpStartcursus.Value.ToString("dddd", New CultureInfo("nl-BE")) + " " + dtpStartcursus.Value.Month.ToString + " " + dtpStartcursus.Value.Year.ToString
+        'txtTotaal.Text = dtpStartcursus.Value.ToString("dddd", New CultureInfo("nl-BE")) + " " + dtpStartcursus.Value.Month.ToString + " " + dtpStartcursus.Value.Year.ToString
     End Sub
     ''' <summary>
     ''' Voegt filters toe aan active lijst
@@ -185,25 +186,27 @@ Public Class MainScreen
     End Function
 
     Private Sub cboFiltersList_SelectedValueChanged(sender As Object, e As EventArgs) Handles cboFiltersList.SelectedValueChanged
-        Dim j As New JSONParser
-        filters = j.readFilters(saveDirectory + cboFiltersList.SelectedItem.ToString() + ".json")
-        'Opslaan in my.settings om later automatisch te selecteren
-        My.Settings.selectedFilterList = cboFiltersList.SelectedItem
-        My.Settings.Save()
+        If Not cboFiltersList.SelectedItem.Equals(My.Settings.selectedFilterList) Then
+            If File.Exists(saveDirectory + "/cursussen.xml") Then
+                My.Computer.FileSystem.DeleteFile(saveDirectory + "/cursussen.xml")
+                Dim j As New JSONParser
+                filters = j.readFilters(saveDirectory + cboFiltersList.SelectedItem.ToString() + ".json")
+                'Opslaan in my.settings om later automatisch te selecteren
+                My.Settings.selectedFilterList = cboFiltersList.SelectedItem
+                My.Settings.Save()
+            End If
+            startup()
+        End If
     End Sub
-
-    Private Sub Label5_Click(sender As Object, e As EventArgs) Handles Label5.Click
-    End Sub
-
     Public Function getSaveDirectory() As String
         Return saveDirectory
     End Function
-
     Private Sub MainScreen_VisibleChanged(sender As Object, e As EventArgs) Handles Me.VisibleChanged
+        'Alleen visible maken als het klaar is met laden
         Me.Visible = ready
     End Sub
-
     Private Sub MainScreen_BindingContextChanged(sender As Object, e As EventArgs) Handles Me.BindingContextChanged
+        'Scherm verbergen bij de opstart
         Me.Visible = False
     End Sub
 End Class
