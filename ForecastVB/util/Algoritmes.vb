@@ -4,4 +4,5 @@
 Public Enum Algoritmes
     Bayes
     BayesLinear
+    BayesMerk
 End Enum

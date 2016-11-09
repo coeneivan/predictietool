@@ -61,6 +61,10 @@
         Return codeSubAfd
     End Function
 
+    Public Sub setTotaal(t As Int32)
+        totaal = t
+    End Sub
+
     Public Function getTotaal() As Int32
         Return totaal
     End Function
@@ -85,13 +89,13 @@
         Return jaar
     End Function
 
-    Private t As Double
-    Public Property temp() As Double
+    Private b As Double
+    Public Property setB() As Double
         Get
-            Return t
+            Return b
         End Get
         Set(ByVal value As Double)
-            t = value
+            b = value
         End Set
     End Property
 
@@ -127,4 +131,8 @@
             algoritmeProp = value
         End Set
     End Property
+
+    Friend Sub SetDoorgegaan(v As Integer)
+        doorgegaan = v
+    End Sub
 End Class

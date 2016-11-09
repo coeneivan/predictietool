@@ -174,7 +174,7 @@ Public Class Test
 
             If (cbbMerk.SelectedItem Is Nothing Or item.getMerk.Equals(cbbMerk.SelectedItem)) And (cbbCentrum.SelectedItem Is Nothing Or item.getUitvoerCentrum.Equals(cbbCentrum.SelectedItem)) And
             (cbbLesdag.SelectedItem Is Nothing Or item.getDag.Equals(dag)) And (cbbSubafdeling.SelectedItem Is Nothing Or item.getCodeSubAfdeling.Equals(cbbSubafdeling.SelectedItem)) And
-            (cbbMaand.SelectedItem Is Nothing Or item.getMaand.Equals(cbbMaand.SelectedIndex + 1)) Then
+            (cbbMaand.SelectedItem Is Nothing Or item.getMaand = cbbMaand.SelectedIndex + 1) Then
 
                 Dim echt = (Math.Round(((item.getDoorgegaan / item.getTotaal) * 10000)) / 100)
 

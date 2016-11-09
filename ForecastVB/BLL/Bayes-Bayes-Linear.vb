@@ -44,9 +44,7 @@ Public Class Bayes_Bayes_Linear
     Public Sub BerekenKans()
         getData()
 
-        berekenAantalDoorgegaanEnNietDoorgegaan()
 
-        'calcBayesWithLinear()
         berekenBayesVoorIederItem()
         getdeviatie = Math.Round(CalculateStandardDeviation(listMetAfwijking), 3)
         afwijkingBerekenen()
@@ -54,46 +52,82 @@ Public Class Bayes_Bayes_Linear
         listMetAfwijking = New List(Of Double)
 
         calcBayesWithLinear()
-        'berekenBayesVoorIederItem()
-
         getdeviatie = Math.Round(CalculateStandardDeviation(listMetAfwijking), 3)
-
         afwijkingBerekenen()
-    End Sub
-    ''' <summary>
-    ''' Checkt als voorspelde waarde overeen komt met echte waarde en bewaart dit in .isCorrect
-    ''' </summary>
-    Private Sub isVoorspellingsLijstCorrect()
-        For Each item As Cursus In listOfAllItems
-            Dim echt = Math.Round((item.getDoorgegaan / item.getTotaal), 2) * 100
-            Dim schatting = item.getKans * 100
-            Dim afwijking = item.afwijking
-            Dim schattingsbereik = New Bereik(afwijking, schatting)
+        isVoorspellingsLijstCorrect()
+        listMetAfwijking = New List(Of Double)
 
-            item.isCorrect = schattingsbereik.valtTussen(echt)
+        'bayesWanneerMerkSterkAfwijkt()
+        'getdeviatie = Math.Round(CalculateStandardDeviation(listMetAfwijking), 3)
+        'afwijkingBerekenen()
+        'isVoorspellingsLijstCorrect()
+        'listMetAfwijking = New List(Of Double)
+    End Sub
+
+
+#Region "Algoritmes"
+    Private Sub bayesWanneerMerkSterkAfwijkt()
+        Dim t1CursList As New List(Of Cursus)
+        Dim t2CursList As New List(Of Cursus)
+        Dim subAfdList As New List(Of String)
+        Dim minAantalCursPerMerk As Integer = 20
+        Dim minPercVerschil As Double = 0.1 ' uitgedrukt /100
+
+        For Each item As Cursus In listOfAllItems
+            If t1CursList.Count = 0 Then
+                t1CursList.Add(item)
+            Else
+                Dim gevonden As Boolean = False
+                For Each item2 As Cursus In t1CursList
+                    If item.getCodeSubAfdeling.Equals(item2.getCodeSubAfdeling) And item.getMerk.Equals(item2.getMerk) Then
+                        item2.setTotaal(item.getTotaal + item2.getTotaal)
+                        item2.SetDoorgegaan(item.getDoorgegaan + item2.getDoorgegaan)
+                        gevonden = True
+                    End If
+                Next
+
+                If Not gevonden Then
+                    t1CursList.Add(item)
+                End If
+            End If
         Next
-    End Sub
 
-    ''' <summary>
-    ''' Checkt als voorspelde waarde overeen komt met echte waarde en bewaart dit in .isCorrect
-    ''' </summary>
-    Private Sub isVoorspellingsCorrect(item As Cursus)
-        Dim echt = Math.Round((item.getDoorgegaan / item.getTotaal), 2) * 100
-        Dim schatting = item.getKans * 100
-        Dim afwijking = item.afwijking
-        Dim schattingsbereik = New Bereik(afwijking, schatting)
 
-        item.isCorrect = schattingsbereik.valtTussen(echt)
-    End Sub
+        For Each item As Cursus In t1CursList
+            If (item.getTotaal >= minAantalCursPerMerk) Then
+                For Each item2 As Cursus In t1CursList
+                    If Not item.Equals(item2) And item2.getTotaal >= minAantalCursPerMerk And item.getCodeSubAfdeling().Equals(item2.getCodeSubAfdeling()) And
+                        Math.Abs(item.getDoorgegaan() / item.getTotaal - item2.getDoorgegaan / item2.getTotaal) >= minPercVerschil Then
+                        t2CursList.Add(item2)
+                    End If
+                Next
+            End If
+        Next
 
-    Private Sub afwijkingBerekenen()
-        Dim tVerd As New tVerdeling
-        For Each item As Cursus In listOfAllItems
-            item.afwijking = tVerd.getTwaarde(0.995, item.getTotaal) * getdeviatie / Math.Sqrt(item.getTotaal)
+        For Each item1 As Cursus In listOfAllItems
+
+            For Each item2 As Cursus In t2CursList
+                If Not item1.isCorrect And Not item2.isCorrect Then
+                    If (item1.getMerk.Equals(item2.getMerk()) And item1.getCodeSubAfdeling().Equals(item2.getCodeSubAfdeling())) Then
+                        baycalculation(item2, True)
+                    Else
+                        baycalculation(item2, False)
+                    End If
+                End If
+            Next
+        Next
+
+        For Each item As Cursus In t2CursList
+            If Not item.isCorrect Then
+                berekenBayes(item)
+                item.algoritme = Algoritmes.BayesMerk
+                voegToeAanAfwijkingLijst(item)
+            End If
         Next
     End Sub
 
     Private Sub calcBayesWithLinear()
+
         ' berekend kans van iedere entry dat deze door gaat en plaatst dit vervolgens in de listview
 
         Dim i As Integer = 0
@@ -136,120 +170,102 @@ Public Class Bayes_Bayes_Linear
                 If (item.getKans < 0) Then item.setKans(0)
                 'item.setKans(kansBayes)
                 item.setJaar(a)
-                item.temp = b
+                item.setB = b
 
                 item.algoritme = Algoritmes.BayesLinear
 
-                listMetAfwijking.Add(Math.Round((((item.getDoorgegaan / item.getTotaal) - (item.getKans)) * 100), 2))
+                voegToeAanAfwijkingLijst(item)
             End If
         Next
     End Sub
 
-    Private Sub berekenAantalDoorgegaanEnNietDoorgegaan()
-        For Each item As Cursus In listOfAllItems
-            Dim merk = item.getMerk()
-            Dim uitvCentr = item.getUitvoerCentrum
-            Dim maand = item.getMaand
-            Dim dag = item.getDag
-            Dim codeSubAfd = item.getCodeSubAfdeling
-            Dim nietDoor = item.getTotaal - item.getDoorgegaan
-            Dim doorgegaan = item.getDoorgegaan
+    Private Sub baycalculation(item As Cursus, merkRekenen As Boolean)
+        Dim merk = item.getMerk()
+        Dim uitvCentr = item.getUitvoerCentrum
+        Dim maand = item.getMaand
+        Dim dag = item.getDag
+        Dim codeSubAfd = item.getCodeSubAfdeling
+        Dim nietDoor = item.getTotaal - item.getDoorgegaan
+        Dim doorgegaan = item.getDoorgegaan
 
+        If merkRekenen Then
             ' Lijst per merk aanvullen
             If Not dicMerkW.ContainsKey(merk) Then
                 dicMerkW.Add(merk, doorgegaan)
 
-                ' Som van aantal doorgegane cursussen
-                atlDoorgg += doorgegaan
             Else
                 dicMerkW(merk) += doorgegaan
-
-                ' Som van aantal doorgegane cursussen
-                atlDoorgg += doorgegaan
             End If
 
-            ' Lijst per merk aanvullen
             If Not dicMerkN.ContainsKey(merk) Then
                 dicMerkN.Add(merk, nietDoor)
-
-                ' Som van aantal Geschrapte cursussen
-                atlNietDgg += nietDoor
             Else
                 dicMerkN(merk) += nietDoor
-
-                ' Som van aantal Geschrapte cursussen
-                atlNietDgg += nietDoor
             End If
+        End If
 
-            ' Lijst per uitvoercentrum aanvullen
-            If Not dicUitvW.ContainsKey(uitvCentr) Then
-                dicUitvW.Add(uitvCentr, doorgegaan)
-            Else
-                dicUitvW(uitvCentr) += doorgegaan
-            End If
+        ' Lijst per uitvoercentrum aanvullen
+        If Not dicUitvW.ContainsKey(uitvCentr) Then
+            dicUitvW.Add(uitvCentr, doorgegaan)
+        Else
+            dicUitvW(uitvCentr) += doorgegaan
+        End If
 
-            If Not dicUitvN.ContainsKey(uitvCentr) Then
-                dicUitvN.Add(uitvCentr, nietDoor)
-            Else
-                dicUitvN(uitvCentr) += nietDoor
-            End If
-
-
-            ' Lijst per maand aanvullen
-            If Not dicMaandW.ContainsKey(maand) Then
-                dicMaandW.Add(maand, doorgegaan)
-            Else
-                dicMaandW(maand) += doorgegaan
-            End If
-
-            If Not dicMaandN.ContainsKey(maand) Then
-                dicMaandN.Add(maand, nietDoor)
-            Else
-                dicMaandN(maand) += nietDoor
-            End If
+        If Not dicUitvN.ContainsKey(uitvCentr) Then
+            dicUitvN.Add(uitvCentr, nietDoor)
+        Else
+            dicUitvN(uitvCentr) += nietDoor
+        End If
 
 
-            ' Lijst per Dag aanvullen
-            If Not dicDagW.ContainsKey(dag) Then
-                dicDagW.Add(dag, doorgegaan)
-            Else
-                dicDagW(dag) += doorgegaan
-            End If
+        ' Lijst per maand aanvullen
+        If Not dicMaandW.ContainsKey(maand) Then
+            dicMaandW.Add(maand, doorgegaan)
+        Else
+            dicMaandW(maand) += doorgegaan
+        End If
 
-            If Not dicDagN.ContainsKey(dag) Then
-                dicDagN.Add(dag, nietDoor)
-            Else
-                dicDagN(dag) += nietDoor
-            End If
+        If Not dicMaandN.ContainsKey(maand) Then
+            dicMaandN.Add(maand, nietDoor)
+        Else
+            dicMaandN(maand) += nietDoor
+        End If
 
 
-            ' Lijst per subafdeling aanvullen
-            If Not dicSubW.ContainsKey(codeSubAfd) Then
-                dicSubW.Add(codeSubAfd, doorgegaan)
-            Else
-                dicSubW(codeSubAfd) += doorgegaan
-            End If
+        ' Lijst per Dag aanvullen
+        If Not dicDagW.ContainsKey(dag) Then
+            dicDagW.Add(dag, doorgegaan)
+        Else
+            dicDagW(dag) += doorgegaan
+        End If
 
-            If Not dicSubN.ContainsKey(codeSubAfd) Then
-                dicSubN.Add(codeSubAfd, nietDoor)
-            Else
-                dicSubN(codeSubAfd) += nietDoor
-            End If
-        Next
+        If Not dicDagN.ContainsKey(dag) Then
+            dicDagN.Add(dag, nietDoor)
+        Else
+            dicDagN(dag) += nietDoor
+        End If
+
+
+        ' Lijst per subafdeling aanvullen
+        If Not dicSubW.ContainsKey(codeSubAfd) Then
+            dicSubW.Add(codeSubAfd, doorgegaan)
+        Else
+            dicSubW(codeSubAfd) += doorgegaan
+        End If
+
+        If Not dicSubN.ContainsKey(codeSubAfd) Then
+            dicSubN.Add(codeSubAfd, nietDoor)
+        Else
+            dicSubN(codeSubAfd) += nietDoor
+        End If
+
+
+        ' Som van aantal doorgegane cursussen
+        atlDoorgg += doorgegaan
+        ' Som van aantal Geschrapte cursussen
+        atlNietDgg += nietDoor
     End Sub
 
-    Private Sub berekenBayesVoorIederItem()
-        ' berekend kans van iedere entry dat deze door gaat en plaatst dit vervolgens in de listview
-        For Each item As Cursus In listOfAllItems
-            If Not item.isCorrect Then
-                berekenBayes(item)
-
-                item.algoritme = Algoritmes.Bayes
-
-                listMetAfwijking.Add(Math.Round((((item.getDoorgegaan / item.getTotaal) - (item.getKans)) * 100), 2))
-            End If
-        Next
-    End Sub
 
     Private Sub berekenBayes(item As Cursus)
 
@@ -285,6 +301,25 @@ Public Class Bayes_Bayes_Linear
         Dim totaal = wel + niet
         item.setKans(wel / (wel + niet))
     End Sub
+    Private Sub berekenBayesVoorIederItem()
+
+        berekenAantalDoorgegaanEnNietDoorgegaan()
+
+        ' berekend kans van iedere entry dat deze door gaat en plaatst dit vervolgens in de listview
+        For Each item As Cursus In listOfAllItems
+            If Not item.isCorrect Then
+                berekenBayes(item)
+
+                item.algoritme = Algoritmes.Bayes
+
+                voegToeAanAfwijkingLijst(item)
+            End If
+        Next
+    End Sub
+
+#End Region
+
+#Region "Diverse berekeningen, geen algoritmes"
 
     Private Function CalculateStandardDeviation(data As List(Of Double)) As Double
         Dim mean As Double = data.Average()
@@ -299,6 +334,49 @@ Public Class Bayes_Bayes_Linear
 
         Return Math.Sqrt(squareAvg)
     End Function
+    Private Sub berekenAantalDoorgegaanEnNietDoorgegaan()
+        For Each item As Cursus In listOfAllItems
+            baycalculation(item, True)
+        Next
+    End Sub
+
+    ''' <summary>
+    ''' Checkt als voorspelde waarde overeen komt met echte waarde en bewaart dit in .isCorrect
+    ''' </summary>
+    Private Sub isVoorspellingsCorrect(item As Cursus)
+        Dim echt = Math.Round((item.getDoorgegaan / item.getTotaal), 2) * 100
+        Dim schatting = item.getKans * 100
+        Dim afwijking = item.afwijking
+        Dim schattingsbereik = New Bereik(afwijking, schatting)
+
+        item.isCorrect = schattingsbereik.valtTussen(echt)
+    End Sub
+
+    Private Sub afwijkingBerekenen()
+        Dim tVerd As New tVerdeling
+        For Each item As Cursus In listOfAllItems
+            item.afwijking = tVerd.getTwaarde(0.995, item.getTotaal) * getdeviatie / Math.Sqrt(item.getTotaal)
+        Next
+    End Sub
+
+    ''' <summary>
+    ''' Checkt als voorspelde waarde overeen komt met echte waarde en bewaart dit in .isCorrect
+    ''' </summary>
+    Private Sub isVoorspellingsLijstCorrect()
+        For Each item As Cursus In listOfAllItems
+            Dim echt = Math.Round((item.getDoorgegaan / item.getTotaal), 2) * 100
+            Dim schatting = item.getKans * 100
+            Dim afwijking = item.afwijking
+            Dim schattingsbereik = New Bereik(afwijking, schatting)
+
+            item.isCorrect = schattingsbereik.valtTussen(echt)
+        Next
+    End Sub
+
+    Private Sub voegToeAanAfwijkingLijst(item As Cursus)
+        listMetAfwijking.Add(Math.Round((((item.getDoorgegaan / item.getTotaal) - (item.getKans)) * 100), 2))
+    End Sub
+#End Region
 
 #Region "Getters/Setters"
 
