@@ -154,7 +154,7 @@ Public Class MainScreen
                 Else
                     MessageBox.Show("Alles ok")
                     Dim c As New Cursus(cboMerk.SelectedItem.ToString, cboUitvCent.SelectedItem.ToString, dtpStartcursus.Value.Month.ToString, dtpStartcursus.Value.ToString("dddd", New CultureInfo("nl-BE")), cboSubAfd.SelectedItem.ToString, 0, 0)
-                    txtTotaal.Text = b.getKansVoorCursus(c).ToString
+                    'txtTotaal.Text = b.getKansVoorCursus(c).ToString
                 End If
             End If
         End If
