@@ -1,12 +1,12 @@
 ﻿Imports System.Windows.Forms.DataVisualization.Charting
 
 Public Class Test
-    Dim root As MainScreen
-    Dim a As Double = 1
-    Dim b As Double = 1
-    Dim c As Double = 1
-    Dim som As Double = 0
-    Dim nodata As Double
+    Private root As MainScreen
+    Private a As Double = 1
+    Private b As Double = 1
+    Private c As Double = 1
+    Private som As Double = 0
+    Private nodata As Double
 
     Public Sub New(main As MainScreen)
         root = main
@@ -18,9 +18,7 @@ Public Class Test
     End Sub
 
     Private Sub Test_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Dim b As New Bayes_Bayes_Linear()
-        b.setFilters(root.getFilters)
-        b.getDataOnlyAllItems()
+        Dim b As New Bayes_Bayes_Linear(root)
         cbbMerk.Items.AddRange(b.getMerken.ToArray)
         cbbCentrum.Items.AddRange(b.getCentra.ToArray)
         cbbSubafdeling.Items.AddRange(b.getSubafdelingen.ToArray)
@@ -153,22 +151,19 @@ Public Class Test
     End Sub
 
     Private Sub bayesAndBayesLinear()
-        Dim filters = root.getFilters()
         Dim trues = 0
         Dim falses = 0
         Dim cIn As Integer = 0
         Dim cOut As Integer = 0
         Dim ligtTussen As Integer = 10
         Dim versch As New Dictionary(Of Double, Integer)
-        Dim bayesBayesLinear As New Bayes_Bayes_Linear()
-        bayesBayesLinear.setFilters(filters)
-        bayesBayesLinear.BerekenKans()
+
 
         ' Standaard afwijking berekenen
-        Dim deviatie = bayesBayesLinear.deviatie
+        Dim deviatie = root.getDeviatie
 
 
-        For Each item As Cursus In bayesBayesLinear.getItems
+        For Each item As Cursus In root.getAllItems
             Dim dag As String = ""
             If (cbbLesdag.SelectedItem IsNot Nothing) Then dag = cbbLesdag.SelectedItem.ToLower()
 

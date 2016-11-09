@@ -113,6 +113,7 @@
     <Compile Include="BLL\tVerdeling.vb" />
     <Compile Include="DAO\FiltersDAO.vb" />
     <Compile Include="util\Algoritmes.vb" />
+    <Compile Include="util\ListToFile.vb" />
     <Compile Include="util\SQLUtil.vb" />
     <Compile Include="DAO\TestDAO.vb" />
     <Compile Include="MainScreen.Designer.vb">

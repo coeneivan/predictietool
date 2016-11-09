@@ -65,6 +65,18 @@ Namespace My
                 Me("selectedFilterList") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+        Public Property Deviatie() As Double
+            Get
+                Return CType(Me("Deviatie"),Double)
+            End Get
+            Set
+                Me("Deviatie") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

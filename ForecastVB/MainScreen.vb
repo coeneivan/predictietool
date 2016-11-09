@@ -7,16 +7,50 @@ Public Class MainScreen
     Private filterlist As ArrayList
     Private selectedFilterList As String
     Private saveDirectory As String = SpecialDirectories.MyDocuments + "//Predictie Filters//"
+    Private lists As New Dictionary(Of String, List(Of Cursus))
+    Private b As Bayes_Bayes_Linear
 
     Private Sub MainScreen_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Dim start = DateTime.Now
+        b = New Bayes_Bayes_Linear(Me)
         refreshFilterList()
+        readData()
+        b = New Bayes_Bayes_Linear(Me)
         refreshCombobox()
-        Dim a As String = Algoritmes.Bayes.ToString
+        MessageBox.Show("Totale tijd: " + (DateTime.Now - start).ToString)
     End Sub
+
+    Private Sub readData()
+        Dim ltf As New ListToFile
+        If File.Exists(saveDirectory + "/cursussen.xml") Then
+            Try
+                lists = ltf.openTheList(saveDirectory + "/cursussen.xml")
+            Catch ex As Exception
+                MessageBox.Show(ex.ToString)
+            End Try
+        Else
+            lists = b.getData(filters)
+            ltf.saveTheList(lists, saveDirectory + "/cursussen.xml")
+        End If
+    End Sub
+    ''' <summary>
+    ''' Geeft alle items weer
+    ''' </summary>
+    ''' <returns>Alle data in een lijst met cursussen </returns>
+    Public Function getAllItems() As List(Of Cursus)
+        Return lists("allItems")
+    End Function
+    ''' <summary>
+    ''' Geeft alle items weer met jaar (om trend te bepalen)
+    ''' </summary>
+    ''' <returns>Alle data met extra veld, jaarj, in een lijst met cursussen </returns>
+    Public Function getAllItemsWithYear() As List(Of Cursus)
+        Return lists("withYear")
+    End Function
+    Public Function getDeviatie()
+        Return My.Settings.Deviatie
+    End Function
     Public Sub refreshCombobox()
-        Dim b As New Bayes_Bayes_Linear()
-        b.setFilters(getFilters)
-        b.getDataOnlyAllItems()
         cboMerk.Items.Clear()
         cboMerk.Items.AddRange(b.getMerken.ToArray)
         cboUitvCent.Items.Clear()
@@ -35,7 +69,7 @@ Public Class MainScreen
         Dim filterFiles As String()
         Try
             filterFiles = Directory.GetFiles(saveDirectory)
-            'TODO: Controleren als map leeg is
+            'Als map niet leeg is
             If filterFiles.Count > 0 Then
                 For Each file As String In filterFiles
                     'Enkel json bestanden
@@ -48,7 +82,6 @@ Public Class MainScreen
                 'Als map leeg is steek de bijgeleverde defaultList in 
                 Throw New DirectoryNotFoundException
             End If
-
             cboFiltersList.Items.AddRange(filterlist.ToArray)
             'Auto select last selected list
             selectedFilterList = My.Settings.selectedFilterList
@@ -58,7 +91,7 @@ Public Class MainScreen
             My.Computer.FileSystem.CopyFile("..\..\Filters\defaultList.json", saveDirectory + "\DafaultList.json")
             refreshFilterList()
         Catch ex As Exception
-            MessageBox.Show(ex.ToString, "Foutje")
+            MessageBox.Show(ex.Message, "Foutje")
         End Try
     End Sub
 
