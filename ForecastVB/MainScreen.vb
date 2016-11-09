@@ -50,6 +50,10 @@ Public Class MainScreen
     Public Function getDeviatie()
         Return My.Settings.Deviatie
     End Function
+
+    Public Sub setDeviatie(dev As Double)
+        My.Settings.Deviatie = dev
+    End Sub
     Public Sub refreshCombobox()
         cboMerk.Items.Clear()
         cboMerk.Items.AddRange(b.getMerken.ToArray)
