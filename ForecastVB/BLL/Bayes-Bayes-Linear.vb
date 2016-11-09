@@ -193,16 +193,8 @@ Public Class Bayes_Bayes_Linear
     Friend Function getKansVoorCursus(c As Cursus) As Bereik
         Dim bereik As New Bereik(0, 50, 100)
         For Each cu In listOfAllItems
-            If cu.getMerk.Equals(c.getMerk) Then
-                If cu.getUitvoerCentrum.Equals(c.getUitvoerCentrum) Then
-                    If cu.getMaand.Equals(c.getMaand) Then
-                        If cu.getCodeSubAfdeling.Equals(c.getCodeSubAfdeling) Then
-                            If cu.getDag.Equals(c.getDag) Then
-                                bereik = New Bereik(cu.afwijking, cu.getKans * 100)
-                            End If
-                        End If
-                    End If
-                End If
+            If cu.getMerk.Equals(c.getMerk) And cu.getUitvoerCentrum.Equals(c.getUitvoerCentrum) And cu.getMaand.Equals(c.getMaand) And cu.getCodeSubAfdeling.Equals(c.getCodeSubAfdeling) And cu.getDag.Equals(c.getDag) Then
+                bereik = New Bereik(cu.afwijking, cu.getKans * 100)
             End If
         Next
         Return bereik
