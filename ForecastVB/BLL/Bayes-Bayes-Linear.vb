@@ -52,25 +52,10 @@ Public Class Bayes_Bayes_Linear
 
 
         berekenBayesVoorIederItem()
-        getdeviatie = Math.Round(CalculateStandardDeviation(listMetAfwijking), 3)
-        afwijkingBerekenen()
-        isVoorspellingsLijstCorrect()
-        listMetAfwijking = New List(Of Double)
-
 
         calcBayesWithLinear()
-        getdeviatie = Math.Round(CalculateStandardDeviation(listMetAfwijking), 3)
-        afwijkingBerekenen()
-        isVoorspellingsLijstCorrect()
-        listMetAfwijking = New List(Of Double)
-
 
         bayesWanneerMerkSterkAfwijkt()
-        getdeviatie = Math.Round(CalculateStandardDeviation(listMetAfwijking), 3)
-        afwijkingBerekenen()
-        isVoorspellingsLijstCorrect()
-        listMetAfwijking = New List(Of Double)
-
 
 
         root.setDeviatie(getdeviatie)
@@ -78,6 +63,14 @@ Public Class Bayes_Bayes_Linear
 
 
 #Region "Algoritmes"
+
+    Public Sub alleAfwijkingenVerwerken()
+        getdeviatie = Math.Round(CalculateStandardDeviation(listMetAfwijking), 3)
+        afwijkingBerekenen()
+        isVoorspellingsLijstCorrect()
+        listMetAfwijking = New List(Of Double)
+    End Sub
+
     Private Sub bayesWanneerMerkSterkAfwijkt()
         Dim t1CursList As New List(Of Cursus)
         Dim t2CursList As New List(Of Cursus)
@@ -136,6 +129,8 @@ Public Class Bayes_Bayes_Linear
                 voegToeAanAfwijkingLijst(item)
             End If
         Next
+
+        alleAfwijkingenVerwerken()
     End Sub
 
     Private Sub calcBayesWithLinear()
@@ -187,6 +182,8 @@ Public Class Bayes_Bayes_Linear
                 voegToeAanAfwijkingLijst(item)
             End If
         Next
+
+        alleAfwijkingenVerwerken()
     End Sub
 
     Friend Function getKansVoorCursus(c As Cursus) As Bereik
@@ -292,6 +289,8 @@ Public Class Bayes_Bayes_Linear
             Dim j1, j2, j3, j4, j5, j6 As Double
             Dim n1, n2, n3, n4, n5, n6 As Double
 
+            'TODO wat als er bv. een Subcategorie niet voorkomt? 
+
             j1 = (dicMerkW(item.getMerk) / atlDoorgg)
             j2 = (dicSubW(item.getCodeSubAfdeling) / atlDoorgg)
             j3 = (dicMaandW(item.getMaand) / atlDoorgg)
@@ -337,6 +336,7 @@ Public Class Bayes_Bayes_Linear
                 voegToeAanAfwijkingLijst(item)
             End If
         Next
+        alleAfwijkingenVerwerken()
     End Sub
 
 #End Region
