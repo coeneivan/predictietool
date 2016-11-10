@@ -44,6 +44,8 @@ Public Class Bayes_Bayes_Linear
         Try
             listOfAllItems = root.getAllItems
             listOfAllItemsWithYear = root.getAllItemsWithYear
+            berekenAantalDoorgegaanEnNietDoorgegaan()
+            BerekenKans()
         Catch ex As Exception
             'TODO: Als bestand nog niets bestaat, geeft dit een exception
         End Try
@@ -56,7 +58,6 @@ Public Class Bayes_Bayes_Linear
         calcBayesWithLinear()
 
         bayesWanneerMerkSterkAfwijkt()
-
 
         root.setDeviatie(getdeviatie)
     End Sub
@@ -197,8 +198,6 @@ Public Class Bayes_Bayes_Linear
             End If
         Next
         If Not found Then
-            berekenAantalDoorgegaanEnNietDoorgegaan()
-            BerekenKans()
             berekenBayes(c)
         End If
 stopAndReturn:

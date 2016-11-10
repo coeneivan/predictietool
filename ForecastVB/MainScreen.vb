@@ -172,7 +172,6 @@ Public Class MainScreen
                 If cboSubAfd.SelectedItem Is Nothing Then
                     MessageBox.Show("Gelieve een code subafdeling te selecteren aub")
                 Else
-                    MessageBox.Show("Alles ok")
                     Dim c As New Cursus(cboMerk.SelectedItem.ToString, cboUitvCent.SelectedItem.ToString, dtpStartcursus.Value.Month.ToString, dtpStartcursus.Value.ToString("dddd", New CultureInfo("nl-BE")), cboSubAfd.SelectedItem.ToString, 0, 0)
                     txtTotaal.Text = b.getKansVoorCursus(c).ToString
                 End If
