@@ -1,5 +1,6 @@
 ﻿Imports System.Globalization
 Imports System.IO
+Imports System.Windows.Forms
 Imports Microsoft.VisualBasic.FileIO
 
 Public Class MainScreen
@@ -39,28 +40,33 @@ Public Class MainScreen
     ''' </summary>
     Private Sub readData()
         Dim ltf As New ListToFile
-        If File.Exists(saveDirectory + "/cursussen.xml") Then
-            Try
-                lists = ltf.openTheList(saveDirectory + "/cursussen.xml")
-                Dim fileCreatedDate As DateTime = File.GetLastWriteTime(saveDirectory + "/cursussen.xml")
-                Dim nu As DateTime = Now
-                Dim dagenoud = nu.Subtract(fileCreatedDate).Days
-                If dagenoud > 0 Then
-                    tslblStatus.Text = "Uw data is " + dagenoud.ToString + " dagen oud, click om te refreshen"
-                    tslblStatus.IsLink = True
-                    tslblStatus.LinkColor = Color.Black
-                    tslblStatus.LinkBehavior = LinkBehavior.NeverUnderline
-                Else
-                    tslblStatus.Text = "Uw data is up to date!"
-                End If
-            Catch ex As Exception
-                MessageBox.Show(ex.ToString)
-            End Try
-        Else
-            lists = b.getData(filters)
-            ltf.saveTheList(lists, saveDirectory + "/cursussen.xml")
-            tslblStatus.Text = "Uw data is up to date!"
-        End If
+        Try
+            Me.Cursor = Cursors.WaitCursor
+            If File.Exists(saveDirectory + "/cursussen.xml") Then
+                Try
+                    lists = ltf.openTheList(saveDirectory + "/cursussen.xml")
+                    Dim fileCreatedDate As DateTime = File.GetLastWriteTime(saveDirectory + "/cursussen.xml")
+                    Dim nu As DateTime = Now
+                    Dim dagenoud = nu.Subtract(fileCreatedDate).Days
+                    If dagenoud > 0 Then
+                        tslblStatus.Text = "Uw data is " + dagenoud.ToString + " dagen oud, click om te refreshen"
+                        tslblStatus.IsLink = True
+                        tslblStatus.LinkColor = Color.Black
+                        tslblStatus.LinkBehavior = LinkBehavior.NeverUnderline
+                    Else
+                        tslblStatus.Text = "Uw data is up to date!"
+                    End If
+                Catch ex As Exception
+                    MessageBox.Show(ex.ToString)
+                End Try
+            Else
+                lists = b.getData(filters)
+                ltf.saveTheList(lists, saveDirectory + "/cursussen.xml")
+                tslblStatus.Text = "Uw data is up to date!"
+            End If
+        Finally
+            Me.Cursor = Cursors.Default
+        End Try
     End Sub
     ''' <summary>
     ''' Geeft alle items weer
@@ -261,6 +267,7 @@ Public Class MainScreen
             forceRefresh()
             startup()
         Catch
+            Throw New Exception()
         End Try
     End Sub
 End Class
