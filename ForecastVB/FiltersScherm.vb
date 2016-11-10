@@ -2,7 +2,7 @@
 Imports System.IO
 Imports Microsoft.VisualBasic.FileIO
 
-Public Class Settings
+Public Class FiltersScherm
 
     ' Directory waar alle filter bestanden worden in opgeslaan
     Dim saveDirectory As String

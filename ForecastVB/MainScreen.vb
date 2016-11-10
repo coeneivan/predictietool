@@ -130,7 +130,7 @@ Public Class MainScreen
     ''' Toont settings scherm waar je parameters kan toevoegen
     ''' </summary>
     Private Sub btnFilter_Click(sender As Object, e As EventArgs) Handles btnFilter.Click
-        Dim settings As New Settings(Me)
+        Dim settings As New FiltersScherm(Me)
         settings.Show()
     End Sub
     ''' <summary>
