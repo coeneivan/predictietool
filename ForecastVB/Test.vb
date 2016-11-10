@@ -20,12 +20,9 @@ Public Class Test
     End Sub
 
     Private Sub Test_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Dim b As New Bayes_Bayes_Linear(root)
-        cbbMerk.Items.AddRange(b.getMerken.ToArray)
-        cbbCentrum.Items.AddRange(b.getCentra.ToArray)
-        Dim subAfdArray = b.getSubafdelingen.ToArray
-        Array.Sort(subAfdArray)
-        cbbSubafdeling.Items.AddRange(subAfdArray)
+        cbbMerk.Items.AddRange(root.getMerken)
+        cbbCentrum.Items.AddRange(root.getCentra)
+        cbbSubafdeling.Items.AddRange(root.getSubafdeling)
         cbbLesdag.Items.AddRange({"Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag", "Zaterdag", "Zondag"})
         cbbMaand.Items.AddRange({"Januari", "Februari", "Maart", "April", "Mei", "Juni", "Juli", "Augustus", "September", "Oktober", "November", "December"})
     End Sub

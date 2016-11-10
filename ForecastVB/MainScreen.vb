@@ -102,11 +102,11 @@ Public Class MainScreen
     ''' </summary>
     Public Sub refreshCombobox()
         cboMerk.Items.Clear()
-        cboMerk.Items.AddRange(b.getMerken.ToArray)
+        cboMerk.Items.AddRange(getMerken)
         cboUitvCent.Items.Clear()
-        cboUitvCent.Items.AddRange(b.getCentra.ToArray)
+        cboUitvCent.Items.AddRange(getCentra)
         cboSubAfd.Items.Clear()
-        cboSubAfd.Items.AddRange(b.getSubafdelingen.ToArray)
+        cboSubAfd.Items.AddRange(getSubafdeling)
     End Sub
     ''' <summary>
     ''' Refresht de lijst met filters
@@ -268,4 +268,31 @@ Public Class MainScreen
             Throw New Exception()
         End Try
     End Sub
+    ''' <summary>
+    ''' Alle gekende merken terug geven
+    ''' </summary>
+    ''' <returns>Gesorteerd earray met alle merken</returns>
+    Public Function getMerken() As Array
+        Dim merken = b.getMerken().ToArray
+        Array.Sort(merken)
+        Return merken
+    End Function
+    ''' <summary>
+    ''' Alle gekende subafdelingen terug geven
+    ''' </summary>
+    ''' <returns>Gesorteerd earray met alle subafdelingen</returns>
+    Public Function getSubafdeling() As Array
+        Dim sa = b.getSubafdelingen().ToArray
+        Array.Sort(sa)
+        Return sa
+    End Function
+    ''' <summary>
+    ''' Alle gekende centra terug geven
+    ''' </summary>
+    ''' <returns>Gesorteerd earray met alle centra</returns>
+    Public Function getCentra() As Array
+        Dim centra = b.getCentra().ToArray
+        Array.Sort(centra)
+        Return centra
+    End Function
 End Class
