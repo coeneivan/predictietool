@@ -52,12 +52,13 @@ Public Class Bayes_Bayes_Linear
     End Sub
     Public Sub BerekenKans()
 
-
         berekenBayesVoorIederItem()
-
+        alleAfwijkingenVerwerken()
         calcBayesWithLinear()
-
+        alleAfwijkingenVerwerken()
         bayesWanneerMerkSterkAfwijkt()
+
+        alleAfwijkingenVerwerken()
 
         root.setDeviatie(getdeviatie)
     End Sub
@@ -131,7 +132,6 @@ Public Class Bayes_Bayes_Linear
             End If
         Next
 
-        alleAfwijkingenVerwerken()
     End Sub
 
     Private Sub calcBayesWithLinear()
@@ -183,8 +183,6 @@ Public Class Bayes_Bayes_Linear
                 voegToeAanAfwijkingLijst(item)
             End If
         Next
-
-        alleAfwijkingenVerwerken()
     End Sub
 
     Friend Function getKansVoorCursus(c As Cursus) As Bereik
@@ -326,10 +324,21 @@ stopAndReturn:
                 wel = j1 * j2 * j3 * j4 * j5 * j6
                 niet = n1 * n2 * n3 * n4 * n5 * n6
             End If
-            Dim totaal = wel + niet
-            item.setKans(wel / (wel + niet))
+            Dim nieuweKans = wel / (wel + niet)
+
+            isNieuwKansCBeter(item, nieuweKans, Algoritmes.Bayes)
+
         End If
     End Sub
+
+    Private Sub isNieuwKansCBeter(item As Cursus, nieuweKans As Double, algo As Algoritmes)
+        If Not item.isCorrect() Or Math.Abs(item.getKans - (item.getDoorgegaan / item.getTotaal)) Then
+            item.setKans(nieuweKans)
+            item.isCorrect = True
+            item.algoritme = algo
+        End If
+    End Sub
+
     Private Sub berekenBayesVoorIederItem()
 
         berekenAantalDoorgegaanEnNietDoorgegaan()
@@ -344,7 +353,6 @@ stopAndReturn:
                 voegToeAanAfwijkingLijst(item)
             End If
         Next
-        alleAfwijkingenVerwerken()
     End Sub
 
 #End Region
@@ -385,7 +393,7 @@ stopAndReturn:
     Private Sub afwijkingBerekenen()
         Dim tVerd As New tVerdeling
         For Each item As Cursus In listOfAllItems
-            item.afwijking = tVerd.getTwaarde(0.995, item.getTotaal) * getdeviatie / Math.Sqrt(item.getTotaal)
+            item.afwijking = tVerd.getTwaarde(0.95, item.getTotaal) * getdeviatie / Math.Sqrt(item.getTotaal)
         Next
     End Sub
 

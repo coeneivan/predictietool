@@ -153,7 +153,7 @@ Public Class MainScreen
     ''' <summary>
     ''' Toont test scherm
     ''' </summary>
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+    Private Sub btnTest_Click(sender As Object, e As EventArgs) Handles btnTest.Click
         Dim t As New Test(Me)
         t.Show()
     End Sub
