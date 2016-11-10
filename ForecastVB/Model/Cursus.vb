@@ -148,4 +148,7 @@
     Friend Sub SetDoorgegaan(v As Integer)
         doorgegaan = v
     End Sub
+    Public Function getBereik() As Bereik
+        Return New Bereik(afwijking, kans * 100)
+    End Function
 End Class

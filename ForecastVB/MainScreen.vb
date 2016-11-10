@@ -143,10 +143,6 @@ Public Class MainScreen
             MessageBox.Show(ex.Message, "Foutje")
         End Try
     End Sub
-
-    Private Sub cboMerk_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboMerk.SelectedIndexChanged
-
-    End Sub
     ''' <summary>
     ''' Toont settings scherm waar je parameters kan toevoegen
     ''' </summary>
@@ -214,8 +210,7 @@ Public Class MainScreen
     Private Sub tslblStatus_Click(sender As Object, e As EventArgs) Handles tslblStatus.Click
         Try
             My.Computer.FileSystem.DeleteFile(saveDirectory + "/cursussen.xml")
-
-            refreshFilterList()
+            forceRefresh()
             startup()
         Catch
         End Try
@@ -224,14 +219,17 @@ Public Class MainScreen
         If Not cboFiltersList.SelectedItem.Equals(My.Settings.selectedFilterList) Then
             If File.Exists(saveDirectory + "/cursussen.xml") Then
                 My.Computer.FileSystem.DeleteFile(saveDirectory + "/cursussen.xml")
-                Dim j As New JSONParser
-                filters = j.readFilters(saveDirectory + cboFiltersList.SelectedItem.ToString() + ".json")
-                'Opslaan in my.settings om later automatisch te selecteren
-                My.Settings.selectedFilterList = cboFiltersList.SelectedItem
-                My.Settings.Save()
+                forceRefresh()
             End If
-            startup()
         End If
+    End Sub
+    Private Sub forceRefresh()
+        Dim j As New JSONParser
+        filters = j.readFilters(saveDirectory + cboFiltersList.SelectedItem.ToString() + ".json")
+        'Opslaan in my.settings om later automatisch te selecteren
+        My.Settings.selectedFilterList = cboFiltersList.SelectedItem
+        My.Settings.Save()
+        startup()
     End Sub
     ''' <summary>
     ''' Geeft de directory terug waar er standaard in opgeslaan word
@@ -265,7 +263,7 @@ Public Class MainScreen
         Try
             My.Computer.FileSystem.DeleteFile(saveDirectory + "/cursussen.xml")
 
-            refreshFilterList()
+            forceRefresh()
             startup()
         Catch
             Throw New Exception()
