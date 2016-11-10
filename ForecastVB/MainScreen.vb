@@ -210,8 +210,7 @@ Public Class MainScreen
     Private Sub tslblStatus_Click(sender As Object, e As EventArgs) Handles tslblStatus.Click
         Try
             My.Computer.FileSystem.DeleteFile(saveDirectory + "/cursussen.xml")
-
-            refreshFilterList()
+            forceRefresh()
             startup()
         Catch
         End Try
@@ -227,8 +226,8 @@ Public Class MainScreen
     Private Sub forceRefresh()
         Dim j As New JSONParser
         filters = j.readFilters(saveDirectory + cboFiltersList.SelectedItem.ToString() + ".json")
-            'Opslaan in my.settings om later automatisch te selecteren
-            My.Settings.selectedFilterList = cboFiltersList.SelectedItem
+        'Opslaan in my.settings om later automatisch te selecteren
+        My.Settings.selectedFilterList = cboFiltersList.SelectedItem
         My.Settings.Save()
         startup()
     End Sub
