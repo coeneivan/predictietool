@@ -37,6 +37,10 @@ Partial Class MainScreen
         Me.Label7 = New System.Windows.Forms.Label()
         Me.cboUitvCent = New System.Windows.Forms.ComboBox()
         Me.dtpStartcursus = New System.Windows.Forms.DateTimePicker()
+        Me.tslblStatus = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
+        Me.ToolStripSplitButton1 = New System.Windows.Forms.ToolStripSplitButton()
+        Me.StatusStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
         'Label3
@@ -122,7 +126,7 @@ Partial Class MainScreen
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(103, 441)
+        Me.Button1.Location = New System.Drawing.Point(103, 431)
         Me.Button1.Margin = New System.Windows.Forms.Padding(2)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(141, 41)
@@ -176,12 +180,42 @@ Partial Class MainScreen
         Me.dtpStartcursus.Size = New System.Drawing.Size(158, 20)
         Me.dtpStartcursus.TabIndex = 4
         '
+        'tslblStatus
+        '
+        Me.tslblStatus.ActiveLinkColor = System.Drawing.Color.DarkGray
+        Me.tslblStatus.LinkColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.tslblStatus.Name = "tslblStatus"
+        Me.tslblStatus.Size = New System.Drawing.Size(0, 14)
+        '
+        'StatusStrip1
+        '
+        Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tslblStatus, Me.ToolStripSplitButton1})
+        Me.StatusStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow
+        Me.StatusStrip1.Location = New System.Drawing.Point(0, 486)
+        Me.StatusStrip1.Name = "StatusStrip1"
+        Me.StatusStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional
+        Me.StatusStrip1.Size = New System.Drawing.Size(356, 22)
+        Me.StatusStrip1.SizingGrip = False
+        Me.StatusStrip1.Stretch = False
+        Me.StatusStrip1.TabIndex = 16
+        Me.StatusStrip1.Text = "StatusStrip1"
+        '
+        'ToolStripSplitButton1
+        '
+        Me.ToolStripSplitButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.ToolStripSplitButton1.Image = CType(resources.GetObject("ToolStripSplitButton1.Image"), System.Drawing.Image)
+        Me.ToolStripSplitButton1.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripSplitButton1.Name = "ToolStripSplitButton1"
+        Me.ToolStripSplitButton1.Size = New System.Drawing.Size(32, 20)
+        Me.ToolStripSplitButton1.Text = "Refresh"
+        '
         'MainScreen
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.Control
         Me.ClientSize = New System.Drawing.Size(356, 508)
+        Me.Controls.Add(Me.StatusStrip1)
         Me.Controls.Add(Me.Button2)
         Me.Controls.Add(Me.txtTotaal)
         Me.Controls.Add(Me.Button1)
@@ -196,10 +230,14 @@ Partial Class MainScreen
         Me.Controls.Add(Me.Label7)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.Label2)
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Margin = New System.Windows.Forms.Padding(2)
+        Me.MaximizeBox = False
         Me.Name = "MainScreen"
         Me.Text = "Cursus realiseerbaarheid prospectie tool"
+        Me.StatusStrip1.ResumeLayout(False)
+        Me.StatusStrip1.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -218,4 +256,7 @@ Partial Class MainScreen
     Friend WithEvents Label7 As Label
     Friend WithEvents cboUitvCent As ComboBox
     Friend WithEvents dtpStartcursus As DateTimePicker
+    Friend WithEvents tslblStatus As ToolStripStatusLabel
+    Friend WithEvents StatusStrip1 As StatusStrip
+    Friend WithEvents ToolStripSplitButton1 As ToolStripSplitButton
 End Class

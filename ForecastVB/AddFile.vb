@@ -1,7 +1,7 @@
 ﻿Public Class AddFile
-    Private settings As Settings
+    Private settings As FiltersScherm
     Dim r As DialogResult
-    Public Sub New(file As String, s As Settings)
+    Public Sub New(file As String, s As FiltersScherm)
 
         ' This call is required by the designer.
         InitializeComponent()

@@ -42,12 +42,24 @@ Public Class MainScreen
         If File.Exists(saveDirectory + "/cursussen.xml") Then
             Try
                 lists = ltf.openTheList(saveDirectory + "/cursussen.xml")
+                Dim fileCreatedDate As DateTime = File.GetLastWriteTime(saveDirectory + "/cursussen.xml")
+                Dim nu As DateTime = Now
+                Dim dagenoud = nu.Subtract(fileCreatedDate).Days
+                If dagenoud > 0 Then
+                    tslblStatus.Text = "Uw data is " + dagenoud.ToString + " dagen oud, click om te refreshen"
+                    tslblStatus.IsLink = True
+                    tslblStatus.LinkColor = Color.Black
+                    tslblStatus.LinkBehavior = LinkBehavior.NeverUnderline
+                Else
+                    tslblStatus.Text = "Uw data is up to date!"
+                End If
             Catch ex As Exception
                 MessageBox.Show(ex.ToString)
             End Try
         Else
             lists = b.getData(filters)
             ltf.saveTheList(lists, saveDirectory + "/cursussen.xml")
+            tslblStatus.Text = "Uw data is up to date!"
         End If
     End Sub
     ''' <summary>
@@ -133,7 +145,7 @@ Public Class MainScreen
     ''' Toont settings scherm waar je parameters kan toevoegen
     ''' </summary>
     Private Sub btnFilter_Click(sender As Object, e As EventArgs) Handles btnFilter.Click
-        Dim settings As New Settings(Me)
+        Dim settings As New FiltersScherm(Me)
         settings.Show()
     End Sub
     ''' <summary>
@@ -193,7 +205,15 @@ Public Class MainScreen
     Public Function getFilterList() As ArrayList
         Return filterlist
     End Function
+    Private Sub tslblStatus_Click(sender As Object, e As EventArgs) Handles tslblStatus.Click
+        Try
+            My.Computer.FileSystem.DeleteFile(saveDirectory + "/cursussen.xml")
 
+            refreshFilterList()
+            startup()
+        Catch
+        End Try
+    End Sub
     Private Sub cboFiltersList_SelectedValueChanged(sender As Object, e As EventArgs) Handles cboFiltersList.SelectedValueChanged
         If Not cboFiltersList.SelectedItem.Equals(My.Settings.selectedFilterList) Then
             If File.Exists(saveDirectory + "/cursussen.xml") Then
@@ -234,4 +254,14 @@ Public Class MainScreen
         Next
         Return f
     End Function
+
+    Private Sub ToolStripSplitButton1_ButtonClick(sender As Object, e As EventArgs) Handles ToolStripSplitButton1.ButtonClick
+        Try
+            My.Computer.FileSystem.DeleteFile(saveDirectory + "/cursussen.xml")
+
+            refreshFilterList()
+            startup()
+        Catch
+        End Try
+    End Sub
 End Class
