@@ -190,13 +190,22 @@ Public Class Bayes_Bayes_Linear
     End Sub
 
     Friend Function getKansVoorCursus(c As Cursus) As Bereik
-        Dim bereik As New Bereik(0, 50, 100)
+        Dim found = False
         For Each cu In listOfAllItems
             If cu.getMerk.Equals(c.getMerk) And cu.getUitvoerCentrum.Equals(c.getUitvoerCentrum) And cu.getMaand.Equals(c.getMaand) And cu.getCodeSubAfdeling.Equals(c.getCodeSubAfdeling) And cu.getDag.Equals(c.getDag) Then
-                bereik = New Bereik(cu.afwijking, cu.getKans * 100)
+                c.setKans(cu.getKans)
+                c.afwijking = cu.afwijking
+                found = True
+                GoTo stopAndReturn
             End If
         Next
-        Return bereik
+        If Not found Then
+            berekenAantalDoorgegaanEnNietDoorgegaan()
+            BerekenKans()
+            berekenBayes(c)
+        End If
+stopAndReturn:
+        Return c.getBereik
     End Function
 
     Private Sub baycalculation(item As Cursus, merkRekenen As Boolean)

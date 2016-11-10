@@ -143,9 +143,6 @@ Public Class Test
     '        chartBerekend.ChartAreas(0).AxisY.Maximum = 1
     '        chartBerekend.ChartAreas(0).AxisY.Interval = 0.05
     '    End If
-    '    '{
-    '    '    //Do Something with your button.
-    '    '}
     'End Sub
 
     Private Sub addColumns(list As ArrayList)
@@ -224,8 +221,6 @@ Public Class Test
             ver.Points.AddXY(s.Key, s.Value)
         Next
         drawBarGraph(ver)
-
-        pgb.Value = pgb.Maximum
 
         lblInfo2.Text = "Binnen -" + ligtTussen.ToString + " en " + ligtTussen.ToString + ": " + cIn.ToString + "    Buiten -" + ligtTussen.ToString + " en " + ligtTussen.ToString + ": " + cOut.ToString + "      Standaardafwijking: " + deviatie.ToString
         Label1.Text = "Totaal = " + (trues + falses).ToString + " waarvan " + trues.ToString + " (" + Math.Round((trues / (trues + falses) * 100), 2).ToString + "%) correct voorspeld waren en " + falses.ToString + " (" + Math.Round((falses / (trues + falses) * 100), 2).ToString + "%) niet"
