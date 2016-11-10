@@ -31,7 +31,7 @@ Partial Class MainScreen
         Me.btnFilter = New System.Windows.Forms.Button()
         Me.cboFiltersList = New System.Windows.Forms.ComboBox()
         Me.Label1 = New System.Windows.Forms.Label()
-        Me.Button1 = New System.Windows.Forms.Button()
+        Me.btnTest = New System.Windows.Forms.Button()
         Me.txtTotaal = New System.Windows.Forms.TextBox()
         Me.Button2 = New System.Windows.Forms.Button()
         Me.Label7 = New System.Windows.Forms.Label()
@@ -124,15 +124,15 @@ Partial Class MainScreen
         Me.Label1.TabIndex = 2
         Me.Label1.Text = "Active filter:"
         '
-        'Button1
+        'btnTest
         '
-        Me.Button1.Location = New System.Drawing.Point(103, 431)
-        Me.Button1.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(141, 41)
-        Me.Button1.TabIndex = 5
-        Me.Button1.Text = "Test it!"
-        Me.Button1.UseVisualStyleBackColor = True
+        Me.btnTest.Location = New System.Drawing.Point(103, 431)
+        Me.btnTest.Margin = New System.Windows.Forms.Padding(2)
+        Me.btnTest.Name = "btnTest"
+        Me.btnTest.Size = New System.Drawing.Size(141, 41)
+        Me.btnTest.TabIndex = 5
+        Me.btnTest.Text = "Test it!"
+        Me.btnTest.UseVisualStyleBackColor = True
         '
         'txtTotaal
         '
@@ -185,7 +185,7 @@ Partial Class MainScreen
         Me.tslblStatus.ActiveLinkColor = System.Drawing.Color.DarkGray
         Me.tslblStatus.LinkColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.tslblStatus.Name = "tslblStatus"
-        Me.tslblStatus.Size = New System.Drawing.Size(0, 14)
+        Me.tslblStatus.Size = New System.Drawing.Size(0, 0)
         '
         'StatusStrip1
         '
@@ -218,7 +218,7 @@ Partial Class MainScreen
         Me.Controls.Add(Me.StatusStrip1)
         Me.Controls.Add(Me.Button2)
         Me.Controls.Add(Me.txtTotaal)
-        Me.Controls.Add(Me.Button1)
+        Me.Controls.Add(Me.btnTest)
         Me.Controls.Add(Me.cboFiltersList)
         Me.Controls.Add(Me.btnFilter)
         Me.Controls.Add(Me.cboUitvCent)
@@ -250,7 +250,7 @@ Partial Class MainScreen
     Friend WithEvents btnFilter As Button
     Friend WithEvents cboFiltersList As ComboBox
     Friend WithEvents Label1 As Label
-    Friend WithEvents Button1 As Button
+    Friend WithEvents btnTest As Button
     Friend WithEvents txtTotaal As TextBox
     Friend WithEvents Button2 As Button
     Friend WithEvents Label7 As Label
