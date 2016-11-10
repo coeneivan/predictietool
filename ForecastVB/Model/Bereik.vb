@@ -11,12 +11,12 @@ Public Class Bereik
     ''' <param name="pBovengrens">Double met de waarde van de bovengrens</param>
     Public Sub New(pOndergrens As Double, pAverage As Double, pBovengrens As Double)
         If Not Double.IsNaN(pOndergrens) Then
-            ondergrens = Math.Round(pOndergrens, 0)
+            ondergrens = Math.Round(pOndergrens, 2)
         Else
             ondergrens = 0
         End If
         If Not Double.IsNaN(pBovengrens) Then
-            bovengrens = Math.Round(pBovengrens, 0)
+            bovengrens = Math.Round(pBovengrens, 2)
         Else
             bovengrens = 100
         End If
@@ -30,13 +30,13 @@ Public Class Bereik
         If pAverage - pAfwijking < 0 Then
             ondergrens = 0
         Else
-            ondergrens = Math.Round(pAverage - pAfwijking, 0)
+            ondergrens = Math.Round(pAverage - pAfwijking, 2)
         End If
         average = pAverage
         If pAverage + pAfwijking > 100 Then
             bovengrens = 100
         Else
-            bovengrens = Math.Round(pAverage + pAfwijking, 0)
+            bovengrens = Math.Round(pAverage + pAfwijking, 2)
         End If
 
     End Sub
@@ -45,7 +45,7 @@ Public Class Bereik
     ''' </summary>
     ''' <returns>Een string om aan de eindgebruike te tonen afgerond op 2 cijfers na de komma</returns>
     Public Overrides Function ToString() As String
-        Return "[" + IIf(ondergrens > 0, Math.Round(ondergrens, 0), 0).ToString + " - " + IIf(Math.Round(average, 0) > 0, IIf(Math.Round(average, 0) < 100, Math.Round(average, 0).ToString, 100), 0).ToString + " - " + IIf(bovengrens < 100, Math.Round(bovengrens, 0), 100).ToString + "]"
+        Return "[" + IIf(ondergrens > 0, Math.Round(ondergrens, 2), 0).ToString + " - " + IIf(Math.Round(average, 2) > 0, IIf(Math.Round(average, 2) < 100, Math.Round(average, 2).ToString, 100), 0).ToString + " - " + IIf(bovengrens < 100, Math.Round(bovengrens, 2), 100).ToString + "]"
     End Function
     ''' <summary>
     ''' Controleert of mee geleverde waarde tussen dit bereik valt
@@ -96,6 +96,6 @@ Public Class Bereik
                 verschil = x - bovengrens
             End If
         End If
-        Return Math.Round(verschil, 0)
+        Return Math.Round(verschil, 2)
     End Function
 End Class
