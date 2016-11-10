@@ -3,6 +3,9 @@ Imports System.IO
 Imports Microsoft.VisualBasic.FileIO
 
 Public Class MainScreen
+
+    'TODO Wanneer een filter wordt verwijderd en terug wordt gegaan naar het mainscreen staat deze standaard nog geselecteerd
+
     Private filters As New ArrayList
     Private filterlist As ArrayList
     Private selectedFilterList As String
@@ -219,4 +222,16 @@ Public Class MainScreen
         'Scherm verbergen bij de opstart
         Me.Visible = False
     End Sub
+
+    Friend Function createFilterString(filters As ArrayList) As String
+        Dim f As String = ""
+        For Each s As FilterItem In filters
+            If f.Equals("") Then
+                f = s.toString
+            Else
+                f += " and " + s.toString
+            End If
+        Next
+        Return f
+    End Function
 End Class

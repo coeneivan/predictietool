@@ -6,7 +6,6 @@ Public Class Bayes_Bayes_Linear
     'TODO Hoe houden we bij welk algoritme van de 2 gekozen moet worden voor welke parameters?
     'TODO Bijde algoritmes testen voor alle te testen parameters en bijhouden welke het beste resultaat geeft?
     'TODO Uitbreiden voor andere algoritmes?
-    'TODO Controle of er bij filters nog altijd alles wordt weergegeven (Percentages worden op alles berekend, gebeurd dit nog altijd met filters?)
 
 #Region "Global variables"
     Private root As MainScreen
@@ -423,15 +422,7 @@ Public Class Bayes_Bayes_Linear
     ''' <param name="filters">Geef een ArrayList mee met de filters</param>
     ''' <returns>Geeft de voorspelde waarde terug volgens een niet linaire functie verkregen door de gegeven data</returns>
     Private Function createFilterString(filters As ArrayList) As String
-        Dim f As String = ""
-        For Each s As FilterItem In filters
-            If f.Equals("") Then
-                f = s.toString
-            Else
-                f += " and " + s.toString
-            End If
-        Next
-        Return f
+        Return root.createFilterString(filters)
     End Function
 
 

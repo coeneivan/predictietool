@@ -23,5 +23,8 @@ Public Class TestBLL
     Public Function GetAllCursForAllVarByOnt(f As String) As List(Of Cursus)
         Return TestDAO.GetAllCursForAllVarByOnt(f)
     End Function
-    
+
+    Public Function GetAantalCursussenVoorJaar(fil As String, j As Integer) As List(Of Cursus)
+        Return TestDAO.GetAantalCursussenVoorJaar(fil, j)
+    End Function
 End Class

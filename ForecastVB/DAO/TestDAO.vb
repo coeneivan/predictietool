@@ -29,6 +29,36 @@ Public Class TestDAO
         Return sql.getParameterForYear(script)
     End Function
 
+    Friend Shared Function GetAantalCursussenVoorJaar(fil As String, j As Int16) As List(Of Cursus)
+        Dim query As String = ""
+        query += "Select Distinct Merk"
+        query += ", UitvCentrumOmsch"
+        query += ", Month(StartDatum) as Maand"
+        query += ", Dag as Dag"
+        query += ", [CodeSubafdeling]"
+        query += ", count(*) as totaal"
+        query += ", SUM(CASE WHEN CodeIngetrokken='Nee' THEN 1 ELSE 0 END) as doorgegaan "
+        query += "From syntratest.dbo.Cursussen  "
+
+        If Not fil.Equals("") Then
+            query += " WHERE year(startdatum) = " + j.ToString + " "
+            query += " and  startdatum < '2016-10-1' "
+            query += " And " + fil
+        End If
+
+        query += "group by "
+        query += "Merk"
+        query += ", UitvCentrumOmsch"
+        query += ", Month(StartDatum)"
+        query += ", Dag"
+        query += ", [CodeSubafdeling] "
+        query += "Having count(*) > 5"
+
+
+        Dim sql As New SQLUtil
+        Return sql.GetAllCursForAllVar(query)
+    End Function
+
 
 
     Friend Shared Function GetAllCursForAllVarWithYear(f As String) As List(Of Cursus)
@@ -44,7 +74,7 @@ Public Class TestDAO
         query += "From SyntraTest.dbo.Cursussen "
 
         If Not f.Equals("") Then
-            query += "WHERE startdatum < CAST('2016-10-01' AS DATETIME) AND " + f
+            query += "WHERE startdatum <  CAST('2016-10-01' AS DATETIME) AND " + f
         End If
 
         query += "group by "
@@ -76,7 +106,7 @@ Public Class TestDAO
         query += "From Cursussen "
 
         If Not s.Equals("") Then
-            query += "WHERE startdatum < CAST('2016-10-01' AS DATETIME) AND " + s 'TODO: 2016 automatisch aanpassen
+            query += "WHERE startdatum <  CAST('2016-10-01' AS DATETIME) AND " + s 'TODO: 2016 automatisch aanpassen
         End If
 
         query += "group by "
