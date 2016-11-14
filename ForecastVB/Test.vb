@@ -252,4 +252,8 @@ Public Class Test
     Private Sub btnClearDag_Click(sender As Object, e As EventArgs) Handles btnClearDag.Click
         cbbLesdag.SelectedItem = Nothing
     End Sub
+
+    Private Sub btnClearMaand_Click(sender As Object, e As EventArgs) Handles btnClearMaand.Click
+        cbbMaand.SelectedItem = Nothing
+    End Sub
 End Class

@@ -189,8 +189,8 @@ Public Class Bayes_Bayes_Linear
                 b = (((xSquareSum * ySum) - (xSum * xySum)) / ((aantal * xSquareSum) - (xSum ^ 2)))
 
                 Dim nieuweKans = (((kansBayes * 1) + (a * Now.Year + b) * 1) / (1 + 1))
-                If (listForBayesLin(i).getKans > 1) Then nieuweKans = 1
-                If (listForBayesLin(i).getKans < 0) Then nieuweKans = 0
+                If (nieuweKans > 1) Then nieuweKans = 1
+                If (nieuweKans < 0) Then nieuweKans = 0
                 'item.setKans(kansBayes)
                 listForBayesLin(i) = listForBayesLin(i).setJaar(a)
                 listForBayesLin(i) = listForBayesLin(i).setB(b)

@@ -9,7 +9,7 @@
     Dim doorgegaan As Int32
     Dim kans As Double
     Dim jaar As Double
-    Dim afwijkingValue As Double = -1
+    Dim afwijkingValue As Double
     Private algoritmeProp As Algoritmes
 
     Public Sub New(mer As String, u As String, ma As Int16, da As String, subAf As String, tot As Int32, doorg As Int32)
