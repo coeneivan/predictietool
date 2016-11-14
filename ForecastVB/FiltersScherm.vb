@@ -103,7 +103,7 @@ Public Class FiltersScherm
     ''' </summary>
     Private Sub btnAdd_Click(sender As Object, e As EventArgs) Handles btnAdd.Click
 
-        ' TODO Voeg controlle toe of filter correct is. Regular expression?
+        'TODO Voeg controlle toe of filter correct is. Regular expression?
 
         Dim lvi As New ListViewItem(cbbKolom.Text, 0)
         lvi.SubItems.Add(cbbFactor.Text)

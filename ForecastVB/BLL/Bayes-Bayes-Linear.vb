@@ -3,12 +3,6 @@ Imports System.Collections.Immutable
 
 Public Class Bayes_Bayes_Linear
 
-
-
-    'TODO Hoe houden we bij welk algoritme van de 2 gekozen moet worden voor welke parameters?
-    'TODO Bijde algoritmes testen voor alle te testen parameters en bijhouden welke het beste resultaat geeft?
-    'TODO Uitbreiden voor andere algoritmes?
-
 #Region "Global variables"
     Private root As MainScreen
 
