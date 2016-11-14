@@ -44,16 +44,14 @@ Public Class Bayes_Bayes_Linear
     Private getdeviatie As Double
 
 #End Region
-    Public Sub New(main As MainScreen)
+    Public Sub New(main As MainScreen, bestaatBestand As Boolean)
         root = main
-        Try
+        If bestaatBestand Then
             listOfAllItems = root.getAllItems
             listOfAllItemsWithYear = root.getAllItemsWithYear
             berekenAantalDoorgegaanEnNietDoorgegaan()
             BerekenKans()
-        Catch ex As Exception
-            'TODO: Als bestand nog niets bestaat, geeft dit een exception
-        End Try
+        End If
     End Sub
     Public Sub BerekenKans()
 
