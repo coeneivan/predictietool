@@ -1,5 +1,4 @@
-﻿
-Public Class FiltersDAO
+﻿Public Class FiltersDAO
 
     Private tabelNaam = "dbo.Cursussen" 'De tabel naam waarin de kolomen moeten worden gezocht
     ''' <summary>

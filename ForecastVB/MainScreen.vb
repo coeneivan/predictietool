@@ -17,9 +17,7 @@ Public Class MainScreen
         s = New SplashScreen1()
         s.Show()
         Me.Visible = False
-        b = New Bayes_Bayes_Linear(Me)
         refreshFilterList()
-
         s.Close()
         ready = True
         Me.Visible = True
@@ -29,7 +27,7 @@ Public Class MainScreen
     ''' </summary>
     Private Sub startup()
         readData()
-        b = New Bayes_Bayes_Linear(Me)
+        b = New Bayes_Bayes_Linear(Me, True)
         refreshCombobox()
     End Sub
     ''' <summary>
@@ -58,6 +56,7 @@ Public Class MainScreen
                     MessageBox.Show(ex.ToString)
                 End Try
             Else
+                b = New Bayes_Bayes_Linear(Me, False)
                 lists = b.getData(filters)
                 ltf.saveTheList(lists, saveDirectory + "/cursussen.xml")
                 tslblStatus.Text = "Uw data is up to date!"
