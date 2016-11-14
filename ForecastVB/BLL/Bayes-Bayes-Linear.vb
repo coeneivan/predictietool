@@ -44,22 +44,20 @@ Public Class Bayes_Bayes_Linear
             listOfAllItems = root.getAllItems
             listOfAllItemsWithYear = root.getAllItemsWithYear
             berekenAantalDoorgegaanEnNietDoorgegaan()
-            BerekenKans()
+            'BerekenKans()
         End If
     End Sub
     Public Sub BerekenKans()
 
-        emptyCursusList = resetCursusList(root.getAllItems()).ToImmutableList
+        emptyCursusList = resetCursusList(listOfAllItems).ToImmutableList
 
         berekenBayesVoorIederItem()
         calcBayesWithLinear()
         bayesWanneerMerkSterkAfwijkt()
 
-        Dim bestList = getBestAlgoritme()
+        listOfAllItems = getBestAlgoritme()
 
         root.setDeviatie(getdeviatie)
-
-        root.setAllItems(bestList)
     End Sub
 
 
@@ -590,6 +588,7 @@ stopAndReturn:
         f = createFilterString(filterlist)
         listOfAllItems = TestBLL.GetAllCursForAllVar(f)
         listOfAllItemsWithYear = TestBLL.GetAllCursForAllVarWithYear(f)
+        BerekenKans()
         lists.Add("allItems", listOfAllItems)
         lists.Add("withYear", listOfAllItemsWithYear)
         Return lists
