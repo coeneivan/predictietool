@@ -77,6 +77,9 @@ Public Class MainScreen
 
     Public Sub setAllItems(list As List(Of Cursus))
         lists("allItems") = list
+        Dim ltf As New ListToFile
+        My.Computer.FileSystem.DeleteFile(saveDirectory + "/cursussen.xml")
+        ltf.saveTheList(lists, saveDirectory + "/cursussen.xml")
     End Sub
     ''' <summary>
     ''' Geeft alle items weer met jaar (om trend te bepalen)
