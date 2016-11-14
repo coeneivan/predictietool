@@ -57,9 +57,8 @@ Public Class Test
             Try
                 e.SortResult = If(CDbl(e.CellValue1) < CDbl(e.CellValue2), -1, 1)
                 e.Handled = True
-            Catch
-                Throw New Exception()
-                'TODO catch!
+            Catch ex As Exception
+                Throw ex
             End Try
         End If
     End Sub

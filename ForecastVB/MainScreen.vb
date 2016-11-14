@@ -5,8 +5,6 @@ Imports Microsoft.VisualBasic.FileIO
 
 Public Class MainScreen
 
-    'TODO Wanneer een filter wordt verwijderd en terug wordt gegaan naar het mainscreen staat deze standaard nog geselecteerd
-
     Private filters As New ArrayList
     Private filterlist As ArrayList
     Private selectedFilterList As String

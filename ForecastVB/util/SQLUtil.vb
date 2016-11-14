@@ -1,7 +1,4 @@
-﻿Imports System.Data.Odbc
-Imports System.Configuration
-Imports System.Data.SqlClient
-Imports ForecastVB
+﻿Imports System.Data.SqlClient
 'TODO: CLEAN UP!
 ''' <summary>
 ''' Maakt verbinding met DB
