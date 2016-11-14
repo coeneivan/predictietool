@@ -61,6 +61,8 @@ Public Class MainScreen
                 ltf.saveTheList(lists, saveDirectory + "/cursussen.xml")
                 tslblStatus.Text = "Uw data is up to date!"
             End If
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, "FOUT")
         Finally
             Me.Cursor = Cursors.Default
         End Try
@@ -140,7 +142,7 @@ Public Class MainScreen
 
             'Auto select last selected list als die bestaat, anders defaultlist 
             If Not bestaatFilter Then
-                My.Settings.selectedFilterList = "DafaultList"
+                My.Settings.selectedFilterList = "DefaultList"
                 My.Settings.Save()
             End If
             selectedFilterList = My.Settings.selectedFilterList
@@ -148,7 +150,7 @@ Public Class MainScreen
             startup()
         Catch ex As DirectoryNotFoundException
             'Als map niet bestaat is -> map aanmaken en bijgeleverde defaultList kopieren 
-            My.Computer.FileSystem.CopyFile("..\..\Filters\defaultList.json", saveDirectory + "\DafaultList.json")
+            My.Computer.FileSystem.CopyFile("..\..\Filters\defaultList.json", saveDirectory + "\DefaultList.json")
             refreshFilterList()
         Catch ex As Exception
             MessageBox.Show(ex.Message, "Foutje")
