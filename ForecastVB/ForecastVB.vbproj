@@ -75,6 +75,10 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Collections.Immutable, Version=1.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Collections.Immutable.1.2.0\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
@@ -112,6 +116,7 @@
     <Compile Include="BLL\TestBLL.vb" />
     <Compile Include="BLL\tVerdeling.vb" />
     <Compile Include="DAO\FiltersDAO.vb" />
+    <Compile Include="Model\ImmutableCursus.vb" />
     <Compile Include="SplashScreen1.Designer.vb">
       <DependentUpon>SplashScreen1.vb</DependentUpon>
     </Compile>

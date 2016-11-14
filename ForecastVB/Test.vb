@@ -198,9 +198,7 @@ Public Class Test
                     versch(verschil) += 1
                 End If
 
-                gemiddeldeAfw += item.afwijking
-
-                remove += item.getKans
+                gemiddeldeAfw += Math.Abs(item.afwijking)
 
                 dgvResult.Rows.Add(item.getMerk, item.getUitvoerCentrum, item.getCodeSubAfdeling, item.getMaand.ToString, item.getDag, item.getTotaal.ToString, echt.ToString, bereik.ToString, bereik.verschilMet(echt).ToString, item.algoritme.ToString)
                 dgvResult.Rows(dgvResult.RowCount - 1).DefaultCellStyle.BackColor = kleur
@@ -219,7 +217,7 @@ Public Class Test
         Next
         drawBarGraph(ver)
 
-        lblInfo2.Text = "Gemiddelde afwijking bedraagd +-: " + (Math.Round(gemiddeldeAfw / (trues + falses), 3)).ToString + "%" + "      Standaardafwijking: " + deviatie.ToString + "    " + remove.ToString + "%"
+        lblInfo2.Text = "Gemiddelde afwijking bedraagd +-: " + (Math.Round(gemiddeldeAfw / (trues + falses), 3)).ToString + "%" + "      Standaardafwijking: " + deviatie.ToString
         Label1.Text = "Totaal = " + (trues + falses).ToString + " waarvan " + trues.ToString + " (" + Math.Round((trues / (trues + falses) * 100), 2).ToString + "%) correct voorspeld waren en " + falses.ToString + " (" + Math.Round((falses / (trues + falses) * 100), 2).ToString + "%) niet"
     End Sub
     Private Sub initDataGridView()

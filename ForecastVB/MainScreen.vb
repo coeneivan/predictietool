@@ -75,6 +75,10 @@ Public Class MainScreen
     Public Function getAllItems() As List(Of Cursus)
         Return lists("allItems")
     End Function
+
+    Public Sub setAllItems(list As List(Of Cursus))
+        lists("allItems") = list
+    End Sub
     ''' <summary>
     ''' Geeft alle items weer met jaar (om trend te bepalen)
     ''' </summary>
@@ -215,11 +219,13 @@ Public Class MainScreen
         End Try
     End Sub
     Private Sub cboFiltersList_SelectedValueChanged(sender As Object, e As EventArgs) Handles cboFiltersList.SelectedValueChanged
-        If Not cboFiltersList.SelectedItem.Equals(My.Settings.selectedFilterList) Then
-            If File.Exists(saveDirectory + "/cursussen.xml") Then
+        If File.Exists(saveDirectory + "/cursussen.xml") Then
+            If Not cboFiltersList.SelectedItem.Equals(My.Settings.selectedFilterList) Then
                 My.Computer.FileSystem.DeleteFile(saveDirectory + "/cursussen.xml")
                 forceRefresh()
             End If
+        Else
+            forceRefresh()
         End If
     End Sub
     Private Sub forceRefresh()

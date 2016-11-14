@@ -1,6 +1,8 @@
 ﻿Imports ForecastVB
+Imports System.Collections.Immutable
 
 Public Class Bayes_Bayes_Linear
+
 
 
     'TODO Hoe houden we bij welk algoritme van de 2 gekozen moet worden voor welke parameters?
@@ -13,7 +15,10 @@ Public Class Bayes_Bayes_Linear
     Private f As String = ""
     Private listOfAllItems As New List(Of Cursus)
     Private listOfAllItemsWithYear As New List(Of Cursus)
-    Private startTime = Now
+    Private listForBayes As New List(Of ImmutableCursus)
+    Private listForBayesLin As New List(Of ImmutableCursus)
+    Private listForBayesMerk As New List(Of ImmutableCursus)
+    Private emptyCursusList As ImmutableList(Of ImmutableCursus)
 
     ' Lijst om te tellen hoeveel cursussen van elk item niet geschrapt werden
     Private dicMerkW As New Dictionary(Of String, Integer)
@@ -52,24 +57,40 @@ Public Class Bayes_Bayes_Linear
     End Sub
     Public Sub BerekenKans()
 
+        emptyCursusList = resetCursusList(root.getAllItems()).ToImmutableList
+
         berekenBayesVoorIederItem()
-        alleAfwijkingenVerwerken()
         calcBayesWithLinear()
-        alleAfwijkingenVerwerken()
         bayesWanneerMerkSterkAfwijkt()
 
-        alleAfwijkingenVerwerken()
+        Dim bestList = getBestAlgoritme()
 
         root.setDeviatie(getdeviatie)
+
+        root.setAllItems(bestList)
     End Sub
 
 
 #Region "Algoritmes"
 
-    Public Sub alleAfwijkingenVerwerken()
+    Public Sub alleAfwijkingenVerwerken(list As List(Of Cursus))
+        For Each item As Cursus In list
+            voegToeAanAfwijkingLijst(item)
+        Next
+
         getdeviatie = Math.Round(CalculateStandardDeviation(listMetAfwijking), 3)
-        afwijkingBerekenen()
-        isVoorspellingsLijstCorrect()
+        afwijkingBerekenen(list)
+        isVoorspellingsLijstCorrect(list)
+        listMetAfwijking = New List(Of Double)
+    End Sub
+    Public Sub alleAfwijkingenVerwerkenImmutable(list As List(Of ImmutableCursus))
+        For Each item As ImmutableCursus In list
+            voegToeAanAfwijkingLijstImmutable(item)
+        Next
+
+        getdeviatie = Math.Round(CalculateStandardDeviation(listMetAfwijking), 3)
+        afwijkingBerekenenImmutable(list)
+        isVoorspellingsLijstCorrectImmutable(list)
         listMetAfwijking = New List(Of Double)
     End Sub
 
@@ -80,22 +101,24 @@ Public Class Bayes_Bayes_Linear
         Dim minAantalCursPerMerk As Integer = 20
         Dim minPercVerschil As Double = 0.1 ' uitgedrukt /100
 
-        For Each item As Cursus In listOfAllItems
+        listForBayesMerk = emptyCursusList.ToList
+
+        For Each item As ImmutableCursus In listForBayesMerk
             Dim gevonden As Boolean = False
 
 
             If Not t1CursList.Count = 0 Then
                 For Each item2 As Cursus In t1CursList
-                    If item.getCodeSubAfdeling.Equals(item2.getCodeSubAfdeling) And item.getMerk.Equals(item2.getMerk) Then
+                    If item.getCodeSubafdeling.Equals(item2.getCodeSubAfdeling) And item.getMerk.Equals(item2.getMerk) Then
                         item2.setTotaal(item.getTotaal + item2.getTotaal)
-                        item2.SetDoorgegaan(item.getDoorgegaan + item2.getDoorgegaan)
+                        item2.SetDoorgegaan(item.getAantalDoorgegaan + item2.getDoorgegaan)
                         gevonden = True
                     End If
                 Next
             End If
 
             If Not gevonden Or t1CursList.Count = 0 Then
-                Dim curs As New Cursus(item.getMerk, Nothing, Nothing, Nothing, item.getCodeSubAfdeling, item.getTotaal, item.getDoorgegaan)
+                Dim curs As New Cursus(item.getMerk, Nothing, Nothing, Nothing, item.getCodeSubafdeling, item.getTotaal, item.getAantalDoorgegaan)
                 t1CursList.Add(curs)
             End If
         Next
@@ -124,26 +147,28 @@ Public Class Bayes_Bayes_Linear
             Next
         Next
 
-        For Each item As Cursus In listOfAllItems
-            If Not item.isCorrect Then
-                berekenBayes(item)
-                item.algoritme = Algoritmes.BayesMerk
-                voegToeAanAfwijkingLijst(item)
+        For i As Integer = 0 To listForBayesMerk.Count - 1
+            If Not listForBayesMerk(i).getIsCorrect Then
+                Dim nieuweKans = berekenBayes(listOfAllItems(i))
+
+                listForBayesMerk(i) = kansToevoegenImmutable(listForBayesMerk(i), nieuweKans, Algoritmes.BayesMerk)
             End If
         Next
 
+        alleAfwijkingenVerwerkenImmutable(listForBayesMerk)
     End Sub
 
     Private Sub calcBayesWithLinear()
 
+        listForBayesLin = emptyCursusList.ToList
         ' berekend kans van iedere entry dat deze door gaat en plaatst dit vervolgens in de listview
-        For Each item As Cursus In listOfAllItems
-            If Not item.isCorrect Then
+        For i As Integer = 0 To listForBayesLin.Count - 1
+            If Not listForBayesLin(i).getIsCorrect Then
 
                 'Bereken Bayes voor item, mocht Linear eerst worden opgeropen
-                berekenBayes(item)
+                listForBayesLin(i) = listForBayesLin(i).setKans(berekenBayesImmutable(listForBayesLin(i)))
 
-                Dim kansBayes = item.getKans
+                Dim kansBayes = listForBayesLin(i).getKans
 
                 Dim xSum As Double = 0
                 Dim ySum As Double = 0
@@ -154,8 +179,9 @@ Public Class Bayes_Bayes_Linear
                 Dim b As Double
 
                 For Each itemWithYear As Cursus In listOfAllItemsWithYear
-                    If item.getCodeSubAfdeling = itemWithYear.getCodeSubAfdeling And item.getMaand = itemWithYear.getMaand And item.getUitvoerCentrum = itemWithYear.getUitvoerCentrum And
-                        item.getDag = itemWithYear.getDag And item.getMerk = itemWithYear.getMerk Then
+                    If listForBayesLin(i).getCodeSubafdeling = itemWithYear.getCodeSubAfdeling And listForBayesLin(i).getMaand = itemWithYear.getMaand And
+                        listForBayesLin(i).getUitvoerCentrum = itemWithYear.getUitvoerCentrum And listForBayesLin(i).getDag = itemWithYear.getDag And
+                        listForBayesLin(i).getMerk = itemWithYear.getMerk Then
 
                         Dim x = itemWithYear.getJaar
                         Dim y = (itemWithYear.getDoorgegaan / itemWithYear.getTotaal)
@@ -171,18 +197,18 @@ Public Class Bayes_Bayes_Linear
                 a = (((aantal * xySum) - (xSum * ySum)) / ((aantal * xSquareSum) - xSum ^ 2))
                 b = (((xSquareSum * ySum) - (xSum * xySum)) / ((aantal * xSquareSum) - (xSum ^ 2)))
 
-                item.setKans(((kansBayes * 1) + (a * Now.Year + b) * 1) / (1 + 1))
-                If (item.getKans > 1) Then item.setKans(1)
-                If (item.getKans < 0) Then item.setKans(0)
+                Dim nieuweKans = (((kansBayes * 1) + (a * Now.Year + b) * 1) / (1 + 1))
+                If (listForBayesLin(i).getKans > 1) Then nieuweKans = 1
+                If (listForBayesLin(i).getKans < 0) Then nieuweKans = 0
                 'item.setKans(kansBayes)
-                item.setJaar(a)
-                item.setB = b
+                listForBayesLin(i) = listForBayesLin(i).setJaar(a)
+                listForBayesLin(i) = listForBayesLin(i).setB(b)
 
-                item.algoritme = Algoritmes.BayesLinear
-
-                voegToeAanAfwijkingLijst(item)
+                listForBayesLin(i) = kansToevoegenImmutable(listForBayesLin(i), nieuweKans, Algoritmes.BayesLinear)
             End If
         Next
+
+        alleAfwijkingenVerwerkenImmutable(listForBayesLin)
     End Sub
 
     Friend Function getKansVoorCursus(c As Cursus) As Bereik
@@ -196,7 +222,7 @@ Public Class Bayes_Bayes_Linear
             End If
         Next
         If Not found Then
-            berekenBayes(c)
+            c.setKans(berekenBayes(c))
         End If
 stopAndReturn:
         Return c.getBereik
@@ -290,7 +316,7 @@ stopAndReturn:
     End Sub
 
 
-    Private Sub berekenBayes(item As Cursus)
+    Private Function berekenBayes(item As Cursus) As Double
         If dicMerkW.ContainsKey(item.getMerk) And dicMerkN.ContainsKey(item.getMerk) Then
             Dim j1, j2, j3, j4, j5, j6 As Double
             Dim n1, n2, n3, n4, n5, n6 As Double
@@ -324,40 +350,162 @@ stopAndReturn:
                 wel = j1 * j2 * j3 * j4 * j5 * j6
                 niet = n1 * n2 * n3 * n4 * n5 * n6
             End If
-            Dim nieuweKans = wel / (wel + niet)
-
-            isNieuwKansCBeter(item, nieuweKans, Algoritmes.Bayes)
-
+            Return (wel / (wel + niet))
         End If
-    End Sub
+        Return Nothing
+    End Function
 
-    Private Sub isNieuwKansCBeter(item As Cursus, nieuweKans As Double, algo As Algoritmes)
-        If Not item.isCorrect() Or Math.Abs(item.getKans - (item.getDoorgegaan / item.getTotaal)) Then
-            item.setKans(nieuweKans)
-            item.isCorrect = True
-            item.algoritme = algo
+    Private Function berekenBayesImmutable(item As ImmutableCursus) As Double
+        If dicMerkW.ContainsKey(item.getMerk) And dicMerkN.ContainsKey(item.getMerk) Then
+            Dim j1, j2, j3, j4, j5, j6 As Double
+            Dim n1, n2, n3, n4, n5, n6 As Double
+
+            'TODO wat als er bv. een Subcategorie niet voorkomt? 
+
+            j1 = (dicMerkW(item.getMerk) / atlDoorgg)
+            j2 = (dicSubW(item.getCodeSubafdeling) / atlDoorgg)
+            j3 = (dicMaandW(item.getMaand) / atlDoorgg)
+            j4 = (dicDagW(item.getDag) / atlDoorgg)
+            j5 = (dicUitvW(item.getUitvoerCentrum) / atlDoorgg)
+            j6 = (atlDoorgg / (atlDoorgg + atlNietDgg))
+
+
+            n1 = (dicMerkN(item.getMerk) / atlNietDgg)
+            n2 = (dicSubN(item.getCodeSubafdeling) / atlNietDgg)
+            n3 = (dicMaandN(item.getMaand) / atlNietDgg)
+            n4 = (dicDagN(item.getDag) / atlNietDgg)
+            n5 = (dicUitvN(item.getUitvoerCentrum) / atlNietDgg)
+            n6 = (atlNietDgg / (atlDoorgg + atlNietDgg))
+
+            Dim wel As Double = 0
+            Dim niet As Double = 0
+            If (item.getTotaal <= 12) Then
+                wel = j2 * j3 * j4 * j5 * j6
+                niet = n2 * n3 * n4 * n5 * n6
+            ElseIf item.getTotaal <= 15 Then
+                wel = j1 * j2 * j3 * j5 * j6
+                niet = n1 * n2 * n3 * n5 * n6
+            Else
+                wel = j1 * j2 * j3 * j4 * j5 * j6
+                niet = n1 * n2 * n3 * n4 * n5 * n6
+            End If
+            Return (wel / (wel + niet))
         End If
+        Return Nothing
+    End Function
+
+    Private Sub kansToevoegen(item As Cursus, nieuweKans As Double, algo As Algoritmes)
+
+        item.setKans(nieuweKans)
+        item.algoritme = algo
+
+        voegToeAanAfwijkingLijst(item)
     End Sub
+    Private Function kansToevoegenImmutable(item As ImmutableCursus, nieuweKans As Double, algo As Algoritmes) As ImmutableCursus
+
+        item = item.setKans(nieuweKans)
+        item = item.setAlgoritme(algo)
+
+        voegToeAanAfwijkingLijstImmutable(item)
+        Return item
+    End Function
 
     Private Sub berekenBayesVoorIederItem()
 
         berekenAantalDoorgegaanEnNietDoorgegaan()
 
+        listForBayes = emptyCursusList.ToList
+
         ' berekend kans van iedere entry dat deze door gaat en plaatst dit vervolgens in de listview
-        For Each item As Cursus In listOfAllItems
-            If Not item.isCorrect Then
-                berekenBayes(item)
-
-                item.algoritme = Algoritmes.Bayes
-
-                voegToeAanAfwijkingLijst(item)
+        For i As Integer = 0 To listForBayes.Count - 1
+            If Not listForBayes(i).getIsCorrect Then
+                Dim nieuweKans = berekenBayesImmutable(listForBayes(i))
+                listForBayes(i) = kansToevoegenImmutable(listForBayes(i), nieuweKans, Algoritmes.Bayes)
             End If
         Next
+
+        alleAfwijkingenVerwerkenImmutable(listForBayes)
     End Sub
 
 #End Region
 
 #Region "Diverse berekeningen, geen algoritmes"
+
+    Private Function resetCursusList(list As List(Of Cursus)) As List(Of ImmutableCursus)
+        Dim immutCurs
+        Dim immutCursList As New List(Of ImmutableCursus)
+
+        For Each item As Cursus In list
+            item.afwijking = -1
+            item.setKans(-1.01) ' is in procent uit gedrukt en iedere berekende waar is zo altijd groter dan dit
+            item.algoritme = Algoritmes.Niets
+
+            immutCurs = New ImmutableCursus(item.getMerk, item.getUitvoerCentrum, item.getMaand, item.getDag, item.getCodeSubAfdeling,
+                                            item.getTotaal, item.getDoorgegaan, item.getKans, item.getJaar, item.setB, item.afwijking, item.algoritme, item.isCorrect)
+
+
+            immutCursList.Add(immutCurs)
+        Next
+        Return immutCursList
+    End Function
+
+    Private Function getBestAlgoritme() As List(Of Cursus)
+
+        Dim newList = listForBayes
+
+        For i As Integer = 0 To newList.Count - 1
+            For Each item2 As ImmutableCursus In listForBayesLin
+                ' is item dezelfde en is voorspelling correct?
+                If newList(i).getMerk().Equals(item2.getMerk()) Then
+                    If newList(i).getCodeSubafdeling().Equals(item2.getCodeSubafdeling()) Then
+                        If newList(i).getUitvoerCentrum().Equals(item2.getUitvoerCentrum()) Then
+                            If newList(i).getDag().Equals(item2.getDag()) Then
+                                If newList(i).getMaand = item2.getMaand Then
+                                    If item2.getIsCorrect Then
+
+                                        Dim temp1 = Math.Abs(newList(i).getKans - (newList(i).getAantalDoorgegaan / newList(i).getTotaal))
+                                        Dim temp2 = Math.Abs(item2.getKans - (newList(i).getAantalDoorgegaan / newList(i).getTotaal))
+
+                                        ' is nieuwe voorspelling naukeuriger dan oude voorspelling?
+                                        If Math.Abs(newList(i).getKans - (newList(i).getAantalDoorgegaan / newList(i).getTotaal)) > Math.Abs(item2.getKans - (newList(i).getAantalDoorgegaan / newList(i).getTotaal)) Then
+                                            newList(i) = item2
+                                        End If
+                                    End If
+                                End If
+                            End If
+                        End If
+                    End If
+                End If
+            Next
+            For Each item2 As ImmutableCursus In listForBayesMerk
+                ' is item dezelfde en is voorspelling correct?
+                If (newList(i).getMerk().Equals(item2.getMerk()) And newList(i).getCodeSubafdeling().Equals(item2.getCodeSubafdeling()) And newList(i).getUitvoerCentrum().Equals(item2.getUitvoerCentrum()) And
+                newList(i).getDag().Equals(item2.getDag()) And newList(i).getMaand = item2.getMaand) And item2.getIsCorrect Then
+
+                    ' is nieuwe voorspelling naukeuriger dan oude voorspelling?
+                    If Math.Abs(newList(i).getKans - (newList(i).getAantalDoorgegaan / newList(i).getTotaal)) > Math.Abs(item2.getKans - (newList(i).getAantalDoorgegaan / newList(i).getTotaal)) Then
+                        newList(i) = item2
+                    End If
+                End If
+            Next
+        Next
+
+        Dim newListCursus As New List(Of Cursus)
+        For i As Integer = 0 To newList.Count - 1
+            If newList(i).getAlgoritme = Algoritmes.Niets Then
+                Dim stopdat = ""
+            End If
+            Dim c = New Cursus(newList(i).getMerk, newList(i).getUitvoerCentrum, newList(i).getMaand, newList(i).getDag, newList(i).getCodeSubafdeling, newList(i).getTotaal, newList(i).getAantalDoorgegaan)
+            c.setB = newList(i).getB
+            c.isCorrect = newList(i).getIsCorrect
+            c.setKans(newList(i).getKans)
+            c.afwijking = newList(i).getAfwijkingswaarde
+            c.algoritme = newList(i).getAlgoritme
+            newListCursus.Add(c)
+        Next
+
+        Return newListCursus
+    End Function
 
     Private Function CalculateStandardDeviation(data As List(Of Double)) As Double
         Dim mean As Double = data.Average()
@@ -390,18 +538,26 @@ stopAndReturn:
         item.isCorrect = schattingsbereik.valtTussen(echt)
     End Sub
 
-    Private Sub afwijkingBerekenen()
+    Private Sub afwijkingBerekenen(list As List(Of Cursus))
         Dim tVerd As New tVerdeling
-        For Each item As Cursus In listOfAllItems
-            item.afwijking = tVerd.getTwaarde(0.95, item.getTotaal) * getdeviatie / Math.Sqrt(item.getTotaal)
+        For i As Integer = 0 To list.Count - 1
+            list(i).afwijking = tVerd.getTwaarde(0.995, list(i).getTotaal) * getdeviatie / Math.Sqrt(list(i).getTotaal)
+        Next
+    End Sub
+
+    Private Sub afwijkingBerekenenImmutable(list As List(Of ImmutableCursus))
+        Dim tVerd As New tVerdeling
+        For i As Integer = 0 To list.Count - 1
+            Dim t = tVerd.getTwaarde(0.995, list(i).getTotaal) * getdeviatie / Math.Sqrt(list(i).getTotaal)
+            list(i) = list(i).setAfwijkingValue(t)
         Next
     End Sub
 
     ''' <summary>
     ''' Checkt als voorspelde waarde overeen komt met echte waarde en bewaart dit in .isCorrect
     ''' </summary>
-    Private Sub isVoorspellingsLijstCorrect()
-        For Each item As Cursus In listOfAllItems
+    Private Sub isVoorspellingsLijstCorrect(list As List(Of Cursus))
+        For Each item As Cursus In list
             Dim echt = Math.Round((item.getDoorgegaan / item.getTotaal), 2) * 100
             Dim schatting = item.getKans * 100
             Dim afwijking = item.afwijking
@@ -411,8 +567,27 @@ stopAndReturn:
         Next
     End Sub
 
+
+    ''' <summary>
+    ''' Checkt als voorspelde waarde overeen komt met echte waarde en bewaart dit in .isCorrect
+    ''' </summary>
+    Private Sub isVoorspellingsLijstCorrectImmutable(list As List(Of ImmutableCursus))
+        For i As Integer = 0 To list.Count - 1
+            Dim echt = Math.Round((list(i).getAantalDoorgegaan / list(i).getTotaal), 2) * 100
+            Dim schatting = list(i).getKans * 100
+            Dim afwijking = list(i).getAfwijkingswaarde
+            Dim schattingsbereik = New Bereik(afwijking, schatting)
+
+            list(i) = list(i).setIsCorrect(schattingsbereik.valtTussen(echt))
+        Next
+    End Sub
+
     Private Sub voegToeAanAfwijkingLijst(item As Cursus)
         listMetAfwijking.Add(Math.Round((((item.getDoorgegaan / item.getTotaal) - (item.getKans)) * 100), 2))
+    End Sub
+
+    Private Sub voegToeAanAfwijkingLijstImmutable(item As ImmutableCursus)
+        listMetAfwijking.Add(Math.Round((((item.getAantalDoorgegaan / item.getTotaal) - (item.getKans)) * 100), 2))
     End Sub
 #End Region
 
@@ -429,7 +604,6 @@ stopAndReturn:
         listOfAllItemsWithYear = TestBLL.GetAllCursForAllVarWithYear(f)
         lists.Add("allItems", listOfAllItems)
         lists.Add("withYear", listOfAllItemsWithYear)
-        BerekenKans()
         Return lists
     End Function
     ''' <summary>

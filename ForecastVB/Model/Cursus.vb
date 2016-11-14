@@ -9,7 +9,8 @@
     Dim doorgegaan As Int32
     Dim kans As Double
     Dim jaar As Double
-    Dim afwijkingValue As Double
+    Dim afwijkingValue As Double = -1
+    Private algoritmeProp As Algoritmes
 
     Public Sub New(mer As String, u As String, ma As Int16, da As String, subAf As String, tot As Int32, doorg As Int32)
         merk = mer
@@ -91,7 +92,7 @@
 
     Public Overrides Function toString() As String
         Dim toRet As String = ""
-        Dim toCheck = New ArrayList({ont, merk, uitvCentr, maand, dag, codeSubAfd, totaal, doorgegaan, kans, jaar, afwijking, b, Correct, algoritmeProp})
+        Dim toCheck = New ArrayList({ont, merk, uitvCentr, maand, dag, codeSubAfd, totaal, doorgegaan, Math.Round(kans, 4), jaar, Math.Round(afwijking, 4), b, Correct, algoritmeProp})
         For Each item In toCheck
             toRet += checkIfNotNothing(item)
         Next
@@ -135,7 +136,6 @@
         End Set
     End Property
 
-    Private algoritmeProp As Algoritmes
     Public Property algoritme() As Algoritmes
         Get
             Return algoritmeProp
