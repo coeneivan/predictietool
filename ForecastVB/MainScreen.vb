@@ -21,7 +21,7 @@ Public Class MainScreen
         Me.Visible = False
         b = New Bayes_Bayes_Linear(Me)
         refreshFilterList()
-        startup()
+
         s.Close()
         ready = True
         Me.Visible = True
@@ -116,6 +116,7 @@ Public Class MainScreen
         filterlist = New ArrayList
         cboFiltersList.Items.Clear()
         Dim filterFiles As String()
+        Dim bestaatFilter As Boolean = false
         Try
             filterFiles = Directory.GetFiles(saveDirectory)
             'Als map niet leeg is
@@ -125,6 +126,9 @@ Public Class MainScreen
                     If System.IO.Path.GetExtension(file).ToUpper = ".JSON" Then
                         Dim filterNames As String = System.IO.Path.GetFileNameWithoutExtension(file)
                         filterlist.Add(filterNames)
+                        If filterNames.Equals(My.Settings.selectedFilterList) Then
+                            bestaatFilter = True
+                        End If
                     End If
                 Next
             Else
@@ -132,9 +136,15 @@ Public Class MainScreen
                 Throw New DirectoryNotFoundException
             End If
             cboFiltersList.Items.AddRange(filterlist.ToArray)
-            'Auto select last selected list
+
+            'Auto select last selected list als die bestaat, anders defaultlist 
+            If Not bestaatFilter Then
+                My.Settings.selectedFilterList = "DafaultList"
+                My.Settings.Save()
+            End If
             selectedFilterList = My.Settings.selectedFilterList
             cboFiltersList.SelectedItem = selectedFilterList
+            startup()
         Catch ex As DirectoryNotFoundException
             'Als map niet bestaat is -> map aanmaken en bijgeleverde defaultList kopieren 
             My.Computer.FileSystem.CopyFile("..\..\Filters\defaultList.json", saveDirectory + "\DafaultList.json")
@@ -200,6 +210,14 @@ Public Class MainScreen
         Return selectedFilterList
     End Function
     ''' <summary>
+    ''' Selecteer een ander lijst vanuit een ander scherm
+    ''' </summary>
+    Public Sub setSelectedList(list As String)
+        Me.Cursor = Cursors.WaitCursor
+        cboFiltersList.SelectedItem = list
+        Me.Cursor = Cursors.Default
+    End Sub
+    ''' <summary>
     ''' Geeft alle filterlijsten terug
     ''' </summary>
     ''' <returns>Arraylist met namen van lijsten</returns>
@@ -210,14 +228,19 @@ Public Class MainScreen
         Try
             My.Computer.FileSystem.DeleteFile(saveDirectory + "/cursussen.xml")
             forceRefresh()
-            startup()
         Catch
         End Try
     End Sub
     Private Sub cboFiltersList_SelectedValueChanged(sender As Object, e As EventArgs) Handles cboFiltersList.SelectedValueChanged
         If Not cboFiltersList.SelectedItem.Equals(My.Settings.selectedFilterList) Then
             If File.Exists(saveDirectory + "/cursussen.xml") Then
+                'Verwijderd cursussen.xml om straks weer aan te maken
                 My.Computer.FileSystem.DeleteFile(saveDirectory + "/cursussen.xml")
+                forceRefresh()
+            End If
+        Else
+            If Not File.Exists(saveDirectory + "/cursussen.xml") Then
+                'Maakt cursussen.xml aan als het niet bestaat
                 forceRefresh()
             End If
         End If
@@ -261,11 +284,9 @@ Public Class MainScreen
     Private Sub ToolStripSplitButton1_ButtonClick(sender As Object, e As EventArgs) Handles ToolStripSplitButton1.ButtonClick
         Try
             My.Computer.FileSystem.DeleteFile(saveDirectory + "/cursussen.xml")
-
             forceRefresh()
-            startup()
-        Catch
-            Throw New Exception()
+        Catch ex As Exception
+            Throw ex
         End Try
     End Sub
     ''' <summary>
@@ -295,4 +316,5 @@ Public Class MainScreen
         Array.Sort(centra)
         Return centra
     End Function
+
 End Class

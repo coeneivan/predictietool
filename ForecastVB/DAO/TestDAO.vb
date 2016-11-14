@@ -106,7 +106,8 @@ Public Class TestDAO
         query += "From Cursussen "
 
         If Not s.Equals("") Then
-            query += "WHERE startdatum <  CAST('2016-10-01' AS DATETIME) AND " + s 'TODO: 2016 automatisch aanpassen
+            Dim vandaag = Date.Now
+            query += "WHERE startdatum <  CAST('01/01/" + vandaag.Year.ToString + "' AS DATETIME) AND " + s
         End If
 
         query += "group by "

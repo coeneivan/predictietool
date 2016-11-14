@@ -418,7 +418,7 @@ stopAndReturn:
 
 #Region "Getters/Setters"
     ''' <summary>
-    ''' Hallt data van de database en geeft dictionary weer met lists van cursussen
+    ''' Haalt data van de database en geeft dictionary weer met lists van cursussen
     ''' </summary>
     ''' <param name="filterlist">Toe te passen parameters in een arraylist</param>
     ''' <returns>Dictinary met 2 waardes allItems en withYear (Spreekt voro zich zeker?)</returns>

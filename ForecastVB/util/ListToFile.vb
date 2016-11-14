@@ -17,7 +17,6 @@ Public Class ListToFile
             Dim formatter As New Formatters.Binary.BinaryFormatter()
             formatter.Serialize(stream, theList)
         Catch ex As Exception
-            'TODO: fixme
             Throw ex
         Finally
             stream.Close()
@@ -41,7 +40,6 @@ Public Class ListToFile
 
             Return theList
         Catch ex As Exception
-            'TODO: fixen
             Throw ex
         End Try
 
