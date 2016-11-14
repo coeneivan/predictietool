@@ -14,6 +14,7 @@ Public Class MainScreen
     Private s As SplashScreen1
     Private ready As Boolean = False
     Private Sub MainScreen_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Dim start As DateTime = DateTime.Now
         s = New SplashScreen1()
         s.Show()
         Me.Visible = False
@@ -21,20 +22,24 @@ Public Class MainScreen
         s.Close()
         ready = True
         Me.Visible = True
+        Console.WriteLine("Load: " + (DateTime.Now - start).ToString)
     End Sub
     ''' <summary>
     ''' Data herlezen en comboboxen refreshen
     ''' </summary>
     Private Sub startup()
+        Dim start = DateTime.Now
         readData()
         b = New Bayes_Bayes_Linear(Me, True)
         refreshCombobox()
+        Console.WriteLine("Startup: " + (DateTime.Now - start).ToString)
     End Sub
     ''' <summary>
     ''' Data uit file lezen
     ''' Als het niet bestaat, lezen van db
     ''' </summary>
     Private Sub readData()
+        Dim start = DateTime.Now
         Dim ltf As New ListToFile
         Try
             Me.Cursor = Cursors.WaitCursor
@@ -65,6 +70,7 @@ Public Class MainScreen
             MessageBox.Show(ex.Message, "FOUT")
         Finally
             Me.Cursor = Cursors.Default
+            Console.WriteLine("Read data: " + (DateTime.Now - start).ToString)
         End Try
     End Sub
     ''' <summary>
@@ -119,6 +125,7 @@ Public Class MainScreen
     ''' Indien de map niet bestaat, maakt die aan en steek er de defaultlist in
     ''' </summary>
     Public Sub refreshFilterList()
+        Dim start = DateTime.Now
         filterlist = New ArrayList
         cboFiltersList.Items.Clear()
         Dim filterFiles As String()
@@ -157,6 +164,8 @@ Public Class MainScreen
             refreshFilterList()
         Catch ex As Exception
             MessageBox.Show(ex.Message, "Foutje")
+        Finally
+            Console.WriteLine("Refresh filterlist: " + (DateTime.Now - start).ToString)
         End Try
     End Sub
     ''' <summary>

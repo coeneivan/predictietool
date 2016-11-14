@@ -48,7 +48,7 @@ Public Class Bayes_Bayes_Linear
         End If
     End Sub
     Public Sub BerekenKans()
-
+        Dim start = DateTime.Now
         emptyCursusList = resetCursusList(listOfAllItems).ToImmutableList
 
         berekenBayesVoorIederItem()
@@ -58,6 +58,7 @@ Public Class Bayes_Bayes_Linear
         listOfAllItems = getBestAlgoritme()
 
         root.setDeviatie(getdeviatie)
+        Console.WriteLine("Bereken kans: " + (DateTime.Now - start).ToString)
     End Sub
 
 
@@ -82,7 +83,7 @@ Public Class Bayes_Bayes_Linear
         afwijkingBerekenenImmutable(list)
         isVoorspellingsLijstCorrectImmutable(list)
         listMetAfwijking = New List(Of Double)
-        Console.WriteLine("Standaardafwijking: " + getdeviatie.ToString)
+        'Console.WriteLine("Standaardafwijking: " + getdeviatie.ToString)
     End Sub
 
     Private Sub bayesWanneerMerkSterkAfwijkt()
@@ -584,13 +585,17 @@ stopAndReturn:
     ''' <param name="filterlist">Toe te passen parameters in een arraylist</param>
     ''' <returns>Dictinary met 2 waardes allItems en withYear (Spreekt voro zich zeker?)</returns>
     Public Function getData(filterlist As ArrayList) As Dictionary(Of String, List(Of Cursus))
+        Dim start = DateTime.Now
         Dim lists As New Dictionary(Of String, List(Of Cursus))
         f = createFilterString(filterlist)
         listOfAllItems = TestBLL.GetAllCursForAllVar(f)
+        Console.WriteLine("GetAllCursForAllVar: " + (DateTime.Now - start).ToString)
         listOfAllItemsWithYear = TestBLL.GetAllCursForAllVarWithYear(f)
+        Console.WriteLine("GetAllCursForAllVarWithYear: " + (DateTime.Now - start).ToString)
         BerekenKans()
         lists.Add("allItems", listOfAllItems)
         lists.Add("withYear", listOfAllItemsWithYear)
+        Console.WriteLine("getData: " + (DateTime.Now - start).ToString)
         Return lists
     End Function
     ''' <summary>

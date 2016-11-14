@@ -53,7 +53,7 @@ Public Class Test
     End Sub
 
     Private Sub dgvResult_SortCompare(sender As Object, e As DataGridViewSortCompareEventArgs) Handles dgvResult.SortCompare
-        If e.Column.Index = 8 Then
+        If e.Column.Index = 8 Or e.Column.Index = 10 Then
             Try
                 e.SortResult = If(CDbl(e.CellValue1) < CDbl(e.CellValue2), -1, 1)
                 e.Handled = True
@@ -196,7 +196,7 @@ Public Class Test
 
                 gemiddeldeAfw += Math.Abs(item.afwijking)
 
-                dgvResult.Rows.Add(item.getMerk, item.getUitvoerCentrum, item.getCodeSubAfdeling, item.getMaand.ToString, item.getDag, item.getTotaal.ToString, echt.ToString, bereik.ToString, bereik.verschilMet(echt).ToString, item.algoritme.ToString)
+                dgvResult.Rows.Add(item.getMerk, item.getUitvoerCentrum, item.getCodeSubAfdeling, item.getMaand.ToString, item.getDag, item.getTotaal.ToString, echt.ToString, bereik.ToString, bereik.verschilMet(echt).ToString, item.algoritme.ToString, (bereik.getBovengrens - bereik.getOndergrens).ToString)
                 dgvResult.Rows(dgvResult.RowCount - 1).DefaultCellStyle.BackColor = kleur
             End If
             'End If
@@ -219,7 +219,7 @@ Public Class Test
     Private Sub initDataGridView()
         dgvResult.DataSource = Nothing
         dgvResult.Columns.Clear()
-        addColumns(New ArrayList({"merk", "Uitvoerend centrum", "Sub afdeling", "Maand", "Dag", "Totaal", "% Doorgeg", "% Berekend", "verschil", "Algoritme"}))
+        addColumns(New ArrayList({"merk", "Uitvoerend centrum", "Sub afdeling", "Maand", "Dag", "Totaal", "% Doorgeg", "% Berekend", "verschil", "Algoritme", "Bereik"}))
         dgvResult.Columns(0).Width = 40
         dgvResult.Columns(1).Width = 100
         dgvResult.Columns(2).Width = 40
@@ -230,6 +230,7 @@ Public Class Test
         dgvResult.Columns(7).Width = 115
         dgvResult.Columns(8).Width = 50
         dgvResult.Columns(9).Width = 75
+        dgvResult.Columns(10).Width = 75
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
