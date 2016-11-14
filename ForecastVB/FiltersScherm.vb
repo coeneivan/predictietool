@@ -90,14 +90,10 @@ Public Class FiltersScherm
         doesDirectoryExistifNotCreate()
 
         cbbFilterFiles.Items.Clear()
-        Try
-            If root.getFilterList().Count > 0 Then
-                cbbFilterFiles.Items.AddRange(root.getFilterList.ToArray)
-            End If
-        Catch ex As Exception
-            'TODO: catch null exception
-            Throw ex
-        End Try
+        If root.getFilterList().Count > 0 Then
+            cbbFilterFiles.Items.AddRange(root.getFilterList.ToArray)
+        End If
+
 
 
     End Sub
@@ -251,6 +247,7 @@ Public Class FiltersScherm
         Dim j As New JSONParser
         If cbbFilterFiles.SelectedItem <> "" Then
             readFilterFile(j.readFilters(saveDirectory + cbbFilterFiles.SelectedItem.ToString() + ".json"))
+
         End If
 
     End Sub
@@ -259,6 +256,16 @@ Public Class FiltersScherm
         If filters.Count <> 0 Then
             root.addFilters(filters)
         End If
+        'Als geselecteerde filterlist niet het zelfde is als laatst geselecteerde filterlist --> Aanpassen in main
+        Try
+            If Not cbbFilterFiles.SelectedItem.Equals(My.Settings.selectedFilterList) Then
+                root.setSelectedList(cbbFilterFiles.SelectedItem)
+            End If
+        Catch ex As NullReferenceException
+            'Als niets geselecteerd defaultlist selecteren
+            root.setSelectedList("Defaultlist")
+        End Try
+
         root.refreshFilterList()
         root.refreshCombobox()
     End Sub
@@ -271,7 +278,6 @@ Public Class FiltersScherm
                 My.Computer.FileSystem.DeleteFile(saveDirectory + cbbFilterFiles.SelectedItem.ToString + ".json")
                 makeFilterFileList()
                 ListViewStarter()
-                root.refreshFilterList()
                 makeFilterFileList()
             End If
         Catch ex As FileNotFoundException
