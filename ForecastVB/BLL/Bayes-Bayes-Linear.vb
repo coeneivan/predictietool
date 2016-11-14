@@ -84,6 +84,7 @@ Public Class Bayes_Bayes_Linear
         afwijkingBerekenenImmutable(list)
         isVoorspellingsLijstCorrectImmutable(list)
         listMetAfwijking = New List(Of Double)
+        Console.WriteLine("Standaardafwijking: " + getdeviatie.ToString)
     End Sub
 
     Private Sub bayesWanneerMerkSterkAfwijkt()
@@ -448,34 +449,29 @@ stopAndReturn:
         For i As Integer = 0 To newList.Count - 1
             For Each item2 As ImmutableCursus In listForBayesLin
                 ' is item dezelfde en is voorspelling correct?
-                If newList(i).getMerk().Equals(item2.getMerk()) Then
-                    If newList(i).getCodeSubafdeling().Equals(item2.getCodeSubafdeling()) Then
-                        If newList(i).getUitvoerCentrum().Equals(item2.getUitvoerCentrum()) Then
-                            If newList(i).getDag().Equals(item2.getDag()) Then
-                                If newList(i).getMaand = item2.getMaand Then
-                                    If item2.getIsCorrect Then
+                If newList(i).getMerk().Equals(item2.getMerk()) And newList(i).getCodeSubafdeling().Equals(item2.getCodeSubafdeling()) And newList(i).getUitvoerCentrum().Equals(item2.getUitvoerCentrum()) And
+                    newList(i).getDag().Equals(item2.getDag()) And newList(i).getMaand = item2.getMaand And item2.getIsCorrect Then
 
-                                        Dim temp1 = Math.Abs(newList(i).getKans - (newList(i).getAantalDoorgegaan / newList(i).getTotaal))
-                                        Dim temp2 = Math.Abs(item2.getKans - (newList(i).getAantalDoorgegaan / newList(i).getTotaal))
+                    Dim temp1 = newList(i).getAfwijkingswaarde
+                    Dim temp2 = item2.getAfwijkingswaarde
 
-                                        ' is nieuwe voorspelling naukeuriger dan oude voorspelling?
-                                        If Math.Abs(newList(i).getKans - (newList(i).getAantalDoorgegaan / newList(i).getTotaal)) > Math.Abs(item2.getKans - (newList(i).getAantalDoorgegaan / newList(i).getTotaal)) Then
-                                            newList(i) = item2
-                                        End If
-                                    End If
-                                End If
-                            End If
-                        End If
+                    ' is nieuwe voorspelling naukeuriger dan oude voorspelling?
+                    If newList(i).getAfwijkingswaarde > item2.getAfwijkingswaarde Or Not newList(i).getIsCorrect Then
+                        newList(i) = item2
                     End If
                 End If
             Next
+
             For Each item2 As ImmutableCursus In listForBayesMerk
                 ' is item dezelfde en is voorspelling correct?
                 If (newList(i).getMerk().Equals(item2.getMerk()) And newList(i).getCodeSubafdeling().Equals(item2.getCodeSubafdeling()) And newList(i).getUitvoerCentrum().Equals(item2.getUitvoerCentrum()) And
                 newList(i).getDag().Equals(item2.getDag()) And newList(i).getMaand = item2.getMaand) And item2.getIsCorrect Then
 
+                    Dim temp1 = newList(i).getAfwijkingswaarde
+                    Dim temp2 = item2.getAfwijkingswaarde
+
                     ' is nieuwe voorspelling naukeuriger dan oude voorspelling?
-                    If Math.Abs(newList(i).getKans - (newList(i).getAantalDoorgegaan / newList(i).getTotaal)) > Math.Abs(item2.getKans - (newList(i).getAantalDoorgegaan / newList(i).getTotaal)) Then
+                    If newList(i).getAfwijkingswaarde > item2.getAfwijkingswaarde Or Not newList(i).getIsCorrect Then
                         newList(i) = item2
                     End If
                 End If
