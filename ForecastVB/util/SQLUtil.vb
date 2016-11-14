@@ -41,21 +41,23 @@ Public Class SQLUtil
             myConn.Close()
         End Try
     End Function
-    Friend Function getParameterForYear(script As String) As Parameter
+    Friend Function GetAllCursForAllVar(query As String) As List(Of Cursus)
         myConn = New SqlConnection(sDatabaseLocatie)
         myCmd = myConn.CreateCommand
-        myCmd.CommandText = script
+        myCmd.CommandText = query
 
         Try
-            Dim param As New Parameter
+            Dim predic As New List(Of Cursus)
             Dim arr As New Dictionary(Of String, Parameter)
             myConn.Open()
             myReader = myCmd.ExecuteReader()
+
             While myReader.Read()
-                param.setTotaal(myReader.GetValue(1))
-                param.setNietGeschrapt(myReader.GetValue(2))
+                Dim param As New Cursus(myReader.GetValue(0), myReader.GetValue(1), myReader.GetValue(2), myReader.GetValue(3), myReader.GetValue(4), myReader.GetValue(5), myReader.GetValue(6))
+                predic.Add(param)
             End While
-            Return param
+
+            Return predic
         Finally
             myConn.Close()
         End Try
