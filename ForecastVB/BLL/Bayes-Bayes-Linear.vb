@@ -51,9 +51,9 @@ Public Class Bayes_Bayes_Linear
         Dim start = DateTime.Now
         emptyCursusList = resetCursusList(listOfAllItems).ToImmutableList
 
+        bayesWanneerMerkSterkAfwijkt()
         berekenBayesVoorIederItem()
         calcBayesWithLinear()
-        bayesWanneerMerkSterkAfwijkt()
 
         listOfAllItems = getBestAlgoritme()
 
@@ -328,16 +328,10 @@ stopAndReturn:
 
             Dim wel As Double = 0
             Dim niet As Double = 0
-            If (item.getTotaal <= 12) Then
-                wel = j2 * j3 * j4 * j5 * j6
-                niet = n2 * n3 * n4 * n5 * n6
-            ElseIf item.getTotaal <= 15 Then
-                wel = j1 * j2 * j3 * j5 * j6
-                niet = n1 * n2 * n3 * n5 * n6
-            Else
-                wel = j1 * j2 * j3 * j4 * j5 * j6
-                niet = n1 * n2 * n3 * n4 * n5 * n6
-            End If
+
+            wel = j1 * j2 * j3 * j4 * j5 * j6
+            niet = n1 * n2 * n3 * n4 * n5 * n6
+
             Return (wel / (wel + niet))
         End If
         Return Nothing
@@ -545,8 +539,8 @@ stopAndReturn:
     Public Function getSubafdelingen() As List(Of String)
         Dim subafdelingenDictionay As New Dictionary(Of String, Cursus)
         For Each cursus In listOfAllItems
-            If Not subafdelingenDictionay.ContainsKey(cursus.getCodeSubAfdeling.ToUpper) Then
-                subafdelingenDictionay.Add(cursus.getCodeSubAfdeling.ToUpper, cursus)
+            If Not subafdelingenDictionay.ContainsKey(cursus.getCodeSubafdeling.ToUpper) Then
+                subafdelingenDictionay.Add(cursus.getCodeSubafdeling.ToUpper, cursus)
             End If
         Next
         Dim list As New List(Of String)
