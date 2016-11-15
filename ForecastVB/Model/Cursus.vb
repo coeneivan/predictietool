@@ -1,6 +1,6 @@
 ﻿Imports ForecastVB
 
-<Serializable()> Public NotInheritable Class ImmutableCursus
+<Serializable()> Public NotInheritable Class Cursus
     Private merk As String
     Private uitvCentr As String
     Private maand As Integer
@@ -36,68 +36,68 @@
 
 
 #Region "Getters/Setters"
-    Public Function setMerk(merk As String) As ImmutableCursus
-        Return New ImmutableCursus(merk, Me.uitvCentr, Me.maand, Me.dag, Me.codeSubAfd, Me.totaal, Me.doorgegaan,
+    Public Function setMerk(merk As String) As Cursus
+        Return New Cursus(merk, Me.uitvCentr, Me.maand, Me.dag, Me.codeSubAfd, Me.totaal, Me.doorgegaan,
                                    Me.kans, Me.jaar, Me.b, Me.afwijkingValue, Me.algoritmeProp, Me.correct)
     End Function
 
-    Public Function setUitvoerCentrum(uitvoercentrum As String) As ImmutableCursus
-        Return New ImmutableCursus(Me.merk, uitvCentr, Me.maand, Me.dag, Me.codeSubAfd, Me.totaal, Me.doorgegaan,
+    Public Function setUitvoerCentrum(uitvoercentrum As String) As Cursus
+        Return New Cursus(Me.merk, uitvCentr, Me.maand, Me.dag, Me.codeSubAfd, Me.totaal, Me.doorgegaan,
                            Me.kans, Me.jaar, Me.b, Me.afwijkingValue, Me.algoritmeProp, Me.correct)
     End Function
 
-    Public Function setMaand(maand As Integer) As ImmutableCursus
-        Return New ImmutableCursus(Me.merk, Me.uitvCentr, maand, Me.dag, Me.codeSubAfd, Me.totaal, Me.doorgegaan,
+    Public Function setMaand(maand As Integer) As Cursus
+        Return New Cursus(Me.merk, Me.uitvCentr, maand, Me.dag, Me.codeSubAfd, Me.totaal, Me.doorgegaan,
                            Me.kans, Me.jaar, Me.b, Me.afwijkingValue, Me.algoritmeProp, Me.correct)
     End Function
 
-    Public Function setDag(dag As String) As ImmutableCursus
-        Return New ImmutableCursus(Me.merk, Me.uitvCentr, Me.maand, dag, Me.codeSubAfd, Me.totaal, Me.doorgegaan,
+    Public Function setDag(dag As String) As Cursus
+        Return New Cursus(Me.merk, Me.uitvCentr, Me.maand, dag, Me.codeSubAfd, Me.totaal, Me.doorgegaan,
                            Me.kans, Me.jaar, Me.b, Me.afwijkingValue, Me.algoritmeProp, Me.correct)
     End Function
 
-    Public Function setCodeSubafdeling(codeSubAfd As String) As ImmutableCursus
-        Return New ImmutableCursus(Me.merk, Me.uitvCentr, Me.maand, Me.dag, codeSubAfd, Me.totaal, Me.doorgegaan,
+    Public Function setCodeSubafdeling(codeSubAfd As String) As Cursus
+        Return New Cursus(Me.merk, Me.uitvCentr, Me.maand, Me.dag, codeSubAfd, Me.totaal, Me.doorgegaan,
                            Me.kans, Me.jaar, Me.b, Me.afwijkingValue, Me.algoritmeProp, Me.correct)
     End Function
 
-    Public Function setTotaal(totaal As Integer) As ImmutableCursus
-        Return New ImmutableCursus(Me.merk, Me.uitvCentr, Me.maand, Me.dag, Me.codeSubAfd, totaal, Me.doorgegaan,
+    Public Function setTotaal(totaal As Integer) As Cursus
+        Return New Cursus(Me.merk, Me.uitvCentr, Me.maand, Me.dag, Me.codeSubAfd, totaal, Me.doorgegaan,
                            Me.kans, Me.jaar, Me.b, Me.afwijkingValue, Me.algoritmeProp, Me.correct)
     End Function
 
-    Public Function setDoorgegaan(doorgegaan As Integer) As ImmutableCursus
-        Return New ImmutableCursus(Me.merk, Me.uitvCentr, Me.maand, Me.dag, Me.codeSubAfd, Me.totaal, doorgegaan,
+    Public Function setDoorgegaan(doorgegaan As Integer) As Cursus
+        Return New Cursus(Me.merk, Me.uitvCentr, Me.maand, Me.dag, Me.codeSubAfd, Me.totaal, doorgegaan,
                            Me.kans, Me.jaar, Me.b, Me.afwijkingValue, Me.algoritmeProp, Me.correct)
     End Function
 
-    Public Function setKans(kans As Double) As ImmutableCursus
-        Return New ImmutableCursus(Me.merk, Me.uitvCentr, Me.maand, Me.dag, Me.codeSubAfd, Me.totaal, Me.doorgegaan,
+    Public Function setKans(kans As Double) As Cursus
+        Return New Cursus(Me.merk, Me.uitvCentr, Me.maand, Me.dag, Me.codeSubAfd, Me.totaal, Me.doorgegaan,
                            kans, Me.jaar, Me.b, Me.afwijkingValue, Me.algoritmeProp, Me.correct)
     End Function
 
-    Public Function setJaar(jaar As Double) As ImmutableCursus
-        Return New ImmutableCursus(Me.merk, Me.uitvCentr, Me.maand, Me.dag, Me.codeSubAfd, Me.totaal, Me.doorgegaan,
+    Public Function setJaar(jaar As Double) As Cursus
+        Return New Cursus(Me.merk, Me.uitvCentr, Me.maand, Me.dag, Me.codeSubAfd, Me.totaal, Me.doorgegaan,
                            Me.kans, jaar, Me.b, Me.afwijkingValue, Me.algoritmeProp, Me.correct)
     End Function
 
-    Public Function setB(b As Double) As ImmutableCursus
-        Return New ImmutableCursus(Me.merk, Me.uitvCentr, Me.maand, Me.dag, Me.codeSubAfd, Me.totaal, Me.doorgegaan,
+    Public Function setB(b As Double) As Cursus
+        Return New Cursus(Me.merk, Me.uitvCentr, Me.maand, Me.dag, Me.codeSubAfd, Me.totaal, Me.doorgegaan,
                                Me.kans, Me.jaar, b, Me.afwijkingValue, Me.algoritmeProp, Me.correct)
     End Function
 
-    Public Function setAfwijkingValue(afwijkingValue As Double) As ImmutableCursus
-        Return New ImmutableCursus(Me.merk, Me.uitvCentr, Me.maand, Me.dag, Me.codeSubAfd, Me.totaal, Me.doorgegaan,
+    Public Function setAfwijkingValue(afwijkingValue As Double) As Cursus
+        Return New Cursus(Me.merk, Me.uitvCentr, Me.maand, Me.dag, Me.codeSubAfd, Me.totaal, Me.doorgegaan,
                            Me.kans, Me.jaar, Me.b, afwijkingValue, Me.algoritmeProp, Me.correct)
     End Function
 
-    Public Function setAlgoritme(algoritmeProp As Algoritmes) As ImmutableCursus
-        Return New ImmutableCursus(Me.merk, Me.uitvCentr, Me.maand, Me.dag, Me.codeSubAfd, Me.totaal, Me.doorgegaan,
+    Public Function setAlgoritme(algoritmeProp As Algoritmes) As Cursus
+        Return New Cursus(Me.merk, Me.uitvCentr, Me.maand, Me.dag, Me.codeSubAfd, Me.totaal, Me.doorgegaan,
                            Me.kans, Me.jaar, Me.b, Me.afwijkingValue, algoritmeProp, Me.correct)
     End Function
 
-    Public Function setIsCorrect(correct As Boolean) As ImmutableCursus
-        Return New ImmutableCursus(Me.merk, Me.uitvCentr, Me.maand, Me.dag, Me.codeSubAfd, Me.totaal, Me.doorgegaan,
+    Public Function setIsCorrect(correct As Boolean) As Cursus
+        Return New Cursus(Me.merk, Me.uitvCentr, Me.maand, Me.dag, Me.codeSubAfd, Me.totaal, Me.doorgegaan,
                                Me.kans, Me.jaar, Me.b, Me.afwijkingValue, Me.algoritmeProp, correct)
     End Function
 

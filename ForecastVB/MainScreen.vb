@@ -9,7 +9,7 @@ Public Class MainScreen
     Private filterlist As ArrayList
     Private selectedFilterList As String
     Private saveDirectory As String = SpecialDirectories.MyDocuments + "//Predictie Filters//"
-    Private lists As New Dictionary(Of String, List(Of ImmutableCursus))
+    Private lists As New Dictionary(Of String, List(Of Cursus))
     Private b As Bayes_Bayes_Linear
     Private s As SplashScreen1
     Private ready As Boolean = False
@@ -71,11 +71,11 @@ Public Class MainScreen
     ''' Geeft alle items weer
     ''' </summary>
     ''' <returns>Alle data in een lijst met cursussen </returns>
-    Public Function getAllItems() As List(Of ImmutableCursus)
+    Public Function getAllItems() As List(Of Cursus)
         Return lists("allItems")
     End Function
 
-    Public Sub setAllItems(list As List(Of ImmutableCursus))
+    Public Sub setAllItems(list As List(Of Cursus))
         lists("allItems") = list
         Dim ltf As New ListToFile
         My.Computer.FileSystem.DeleteFile(saveDirectory + "/cursussen.xml")
@@ -85,7 +85,7 @@ Public Class MainScreen
     ''' Geeft alle items weer met jaar (om trend te bepalen)
     ''' </summary>
     ''' <returns>Alle data met extra veld, jaar, in een lijst met cursussen </returns>
-    Public Function getAllItemsWithYear() As List(Of ImmutableCursus)
+    Public Function getAllItemsWithYear() As List(Of Cursus)
         Return lists("withYear")
     End Function
     ''' <summary>
@@ -189,7 +189,7 @@ Public Class MainScreen
                 If cboSubAfd.SelectedItem Is Nothing Then
                     MessageBox.Show("Gelieve een code subafdeling te selecteren aub")
                 Else
-                    Dim c As New ImmutableCursus(cboMerk.SelectedItem.ToString, cboUitvCent.SelectedItem.ToString, dtpStartcursus.Value.Month.ToString, dtpStartcursus.Value.ToString("dddd", New CultureInfo("nl-BE")),
+                    Dim c As New Cursus(cboMerk.SelectedItem.ToString, cboUitvCent.SelectedItem.ToString, dtpStartcursus.Value.Month.ToString, dtpStartcursus.Value.ToString("dddd", New CultureInfo("nl-BE")),
                                                  cboSubAfd.SelectedItem.ToString, 0, 0, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing)
                     txtTotaal.Text = b.getKansVoorCursus(c).ToString
                 End If

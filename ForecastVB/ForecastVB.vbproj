@@ -116,7 +116,7 @@
     <Compile Include="BLL\TestBLL.vb" />
     <Compile Include="BLL\tVerdeling.vb" />
     <Compile Include="DAO\FiltersDAO.vb" />
-    <Compile Include="Model\ImmutableCursus.vb" />
+    <Compile Include="Model\Cursus.vb" />
     <Compile Include="SplashScreen1.Designer.vb">
       <DependentUpon>SplashScreen1.vb</DependentUpon>
     </Compile>

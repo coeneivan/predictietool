@@ -41,19 +41,19 @@ Public Class SQLUtil
             myConn.Close()
         End Try
     End Function
-    Friend Function GetAllCursForAllVar(query As String) As List(Of ImmutableCursus)
+    Friend Function GetAllCursForAllVar(query As String) As List(Of Cursus)
         myConn = New SqlConnection(sDatabaseLocatie)
         myCmd = myConn.CreateCommand
         myCmd.CommandText = query
 
         Try
-            Dim predic As New List(Of ImmutableCursus)
+            Dim predic As New List(Of Cursus)
             Dim arr As New Dictionary(Of String, Parameter)
             myConn.Open()
             myReader = myCmd.ExecuteReader()
 
             While myReader.Read()
-                Dim param As New ImmutableCursus(myReader.GetValue(0), myReader.GetValue(1), myReader.GetValue(2), myReader.GetValue(3), myReader.GetValue(4), myReader.GetValue(5), myReader.GetValue(6),
+                Dim param As New Cursus(myReader.GetValue(0), myReader.GetValue(1), myReader.GetValue(2), myReader.GetValue(3), myReader.GetValue(4), myReader.GetValue(5), myReader.GetValue(6),
                                                  Nothing, Nothing, Nothing, Nothing, Algoritmes.Niets, False)
                 predic.Add(param)
             End While
@@ -63,19 +63,19 @@ Public Class SQLUtil
             myConn.Close()
         End Try
     End Function
-    Friend Function GetAllCursForAllVarWithYear(query As String) As List(Of ImmutableCursus)
+    Friend Function GetAllCursForAllVarWithYear(query As String) As List(Of Cursus)
         myConn = New SqlConnection(sDatabaseLocatie)
         myCmd = myConn.CreateCommand
         myCmd.CommandText = query
 
         Try
-            Dim predic As New List(Of ImmutableCursus)
+            Dim predic As New List(Of Cursus)
             Dim arr As New Dictionary(Of String, Parameter)
             myConn.Open()
             myReader = myCmd.ExecuteReader()
 
             While myReader.Read()
-                Dim param As New ImmutableCursus(myReader.GetValue(0), myReader.GetValue(1), myReader.GetValue(2), myReader.GetValue(3), myReader.GetValue(4), myReader.GetValue(5), myReader.GetValue(6),
+                Dim param As New Cursus(myReader.GetValue(0), myReader.GetValue(1), myReader.GetValue(2), myReader.GetValue(3), myReader.GetValue(4), myReader.GetValue(5), myReader.GetValue(6),
                                                  Nothing, myReader.GetValue(7), Nothing, Nothing, Algoritmes.Niets, False)
                 predic.Add(param)
             End While

@@ -161,7 +161,7 @@ Public Class Test
 
 
         'For Each item1 As Cursus In cursusList2015
-        For Each item As ImmutableCursus In root.getAllItems
+        For Each item As Cursus In root.getAllItems
             'If item1.getMerk().Equals(item.getMerk()) And item1.getCodeSubAfdeling().Equals(item.getCodeSubAfdeling()) And item1.getDag().Equals(item.getDag()) Then
             'If item1.getMaand() = item.getMaand() And item1.getUitvoerCentrum().Equals(item.getUitvoerCentrum()) Then
             Dim dag As String = ""
