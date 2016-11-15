@@ -9,6 +9,7 @@ Public Class Bayes_Bayes_Linear
     Private f As String = ""
     Private listOfAllItems As New List(Of Cursus)
     Private listOfAllItemsWithYear As New List(Of Cursus)
+
     Private listForBayes As New List(Of Cursus)
     Private listForBayesLin As New List(Of Cursus)
     Private listForBayesMerk As New List(Of Cursus)
@@ -31,10 +32,6 @@ Public Class Bayes_Bayes_Linear
     Private atlDoorgg As Integer
     Private atlNietDgg As Integer
     Private listMetAfwijking As New List(Of Double)
-
-    Private cIn As Integer = 0
-    Private cOut As Integer = 0
-    Private ligtTussen As Integer = 10
     Private getdeviatie As Double
 
 #End Region
@@ -67,14 +64,14 @@ Public Class Bayes_Bayes_Linear
 
 #Region "Algoritmes"
 
-    Public Sub alleAfwijkingenVerwerkenImmutable(list As List(Of Cursus))
+    Public Sub alleAfwijkingenVerwerken(list As List(Of Cursus))
         For Each item As Cursus In list
-            voegToeAanAfwijkingLijstImmutable(item)
+            voegToeAanAfwijkingLijst(item)
         Next
 
         getdeviatie = Math.Round(CalculateStandardDeviation(listMetAfwijking), 3)
-        afwijkingBerekenenImmutable(list)
-        isVoorspellingsLijstCorrectImmutable(list)
+        afwijkingBerekenen(list)
+        isVoorspellingsLijstCorrect(list)
         listMetAfwijking = New List(Of Double)
         'Console.WriteLine("Standaardafwijking: " + getdeviatie.ToString)
     End Sub
@@ -139,11 +136,11 @@ Public Class Bayes_Bayes_Linear
             If Not listForBayesMerk(i).getIsCorrect Then
                 Dim nieuweKans = berekenBayes(listOfAllItems(i))
 
-                listForBayesMerk(i) = kansToevoegenImmutable(listForBayesMerk(i), nieuweKans, Algoritmes.BayesMerk)
+                listForBayesMerk(i) = kansToevoegen(listForBayesMerk(i), nieuweKans, Algoritmes.BayesMerk)
             End If
         Next
 
-        alleAfwijkingenVerwerkenImmutable(listForBayesMerk)
+        alleAfwijkingenVerwerken(listForBayesMerk)
     End Sub
 
     Private Sub calcBayesWithLinear()
@@ -154,7 +151,7 @@ Public Class Bayes_Bayes_Linear
             If Not listForBayesLin(i).getIsCorrect Then
 
                 'Bereken Bayes voor item, mocht Linear eerst worden opgeropen
-                listForBayesLin(i) = listForBayesLin(i).setKans(berekenBayesImmutable(listForBayesLin(i)))
+                listForBayesLin(i) = listForBayesLin(i).setKans(berekenBayes(listForBayesLin(i)))
 
                 Dim kansBayes = listForBayesLin(i).getKans
 
@@ -192,17 +189,18 @@ Public Class Bayes_Bayes_Linear
                 listForBayesLin(i) = listForBayesLin(i).setJaar(a)
                 listForBayesLin(i) = listForBayesLin(i).setB(b)
 
-                listForBayesLin(i) = kansToevoegenImmutable(listForBayesLin(i), nieuweKans, Algoritmes.BayesLinear)
+                listForBayesLin(i) = kansToevoegen(listForBayesLin(i), nieuweKans, Algoritmes.BayesLinear)
             End If
         Next
 
-        alleAfwijkingenVerwerkenImmutable(listForBayesLin)
+        alleAfwijkingenVerwerken(listForBayesLin)
     End Sub
 
     Friend Function getKansVoorCursus(c As Cursus) As Bereik
         Dim found = False
         For Each cu In listOfAllItems
-            If cu.getMerk.Equals(c.getMerk) And cu.getUitvoerCentrum.Equals(c.getUitvoerCentrum) And cu.getMaand.Equals(c.getMaand) And cu.getCodeSubafdeling.Equals(c.getCodeSubafdeling) And cu.getDag.Equals(c.getDag) Then
+            If cu.getMerk.Equals(c.getMerk) And cu.getUitvoerCentrum.Equals(c.getUitvoerCentrum) And cu.getMaand.Equals(c.getMaand) And cu.getCodeSubafdeling.Equals(c.getCodeSubafdeling) And
+                cu.getDag.Equals(c.getDag) Then
                 c = c.setKans(cu.getKans)
                 c = c.setAfwijkingValue(cu.getAfwijkingswaarde)
                 found = True
@@ -304,6 +302,8 @@ stopAndReturn:
     End Sub
 
 
+
+
     Private Function berekenBayes(item As Cursus) As Double
         If dicMerkW.ContainsKey(item.getMerk) And dicMerkN.ContainsKey(item.getMerk) Then
             Dim j1, j2, j3, j4, j5, j6 As Double
@@ -343,51 +343,12 @@ stopAndReturn:
         Return Nothing
     End Function
 
-    Private Function berekenBayesImmutable(item As Cursus) As Double
-        If dicMerkW.ContainsKey(item.getMerk) And dicMerkN.ContainsKey(item.getMerk) Then
-            Dim j1, j2, j3, j4, j5, j6 As Double
-            Dim n1, n2, n3, n4, n5, n6 As Double
-
-            'TODO wat als er bv. een Subcategorie niet voorkomt? 
-
-            j1 = (dicMerkW(item.getMerk) / atlDoorgg)
-            j2 = (dicSubW(item.getCodeSubafdeling) / atlDoorgg)
-            j3 = (dicMaandW(item.getMaand) / atlDoorgg)
-            j4 = (dicDagW(item.getDag) / atlDoorgg)
-            j5 = (dicUitvW(item.getUitvoerCentrum) / atlDoorgg)
-            j6 = (atlDoorgg / (atlDoorgg + atlNietDgg))
-
-
-            n1 = (dicMerkN(item.getMerk) / atlNietDgg)
-            n2 = (dicSubN(item.getCodeSubafdeling) / atlNietDgg)
-            n3 = (dicMaandN(item.getMaand) / atlNietDgg)
-            n4 = (dicDagN(item.getDag) / atlNietDgg)
-            n5 = (dicUitvN(item.getUitvoerCentrum) / atlNietDgg)
-            n6 = (atlNietDgg / (atlDoorgg + atlNietDgg))
-
-            Dim wel As Double = 0
-            Dim niet As Double = 0
-            If (item.getTotaal <= 12) Then
-                wel = j2 * j3 * j4 * j5 * j6
-                niet = n2 * n3 * n4 * n5 * n6
-            ElseIf item.getTotaal <= 15 Then
-                wel = j1 * j2 * j3 * j5 * j6
-                niet = n1 * n2 * n3 * n5 * n6
-            Else
-                wel = j1 * j2 * j3 * j4 * j5 * j6
-                niet = n1 * n2 * n3 * n4 * n5 * n6
-            End If
-            Return (wel / (wel + niet))
-        End If
-        Return Nothing
-    End Function
-
-    Private Function kansToevoegenImmutable(item As Cursus, nieuweKans As Double, algo As Algoritmes) As Cursus
+    Private Function kansToevoegen(item As Cursus, nieuweKans As Double, algo As Algoritmes) As Cursus
 
         item = item.setKans(nieuweKans)
         item = item.setAlgoritme(algo)
 
-        'voegToeAanAfwijkingLijstImmutable(item)
+        'voegToeAanAfwijkingLijst(item)
         Return item
     End Function
 
@@ -400,12 +361,12 @@ stopAndReturn:
         ' berekend kans van iedere entry dat deze door gaat en plaatst dit vervolgens in de listview
         For i As Integer = 0 To listForBayes.Count - 1
             If Not listForBayes(i).getIsCorrect Then
-                Dim nieuweKans = berekenBayesImmutable(listForBayes(i))
-                listForBayes(i) = kansToevoegenImmutable(listForBayes(i), nieuweKans, Algoritmes.Bayes)
+                Dim nieuweKans = berekenBayes(listForBayes(i))
+                listForBayes(i) = kansToevoegen(listForBayes(i), nieuweKans, Algoritmes.Bayes)
             End If
         Next
 
-        alleAfwijkingenVerwerkenImmutable(listForBayes)
+        alleAfwijkingenVerwerken(listForBayes)
     End Sub
 
 #End Region
@@ -486,7 +447,7 @@ stopAndReturn:
         Next
     End Sub
 
-    Private Sub afwijkingBerekenenImmutable(list As List(Of Cursus))
+    Private Sub afwijkingBerekenen(list As List(Of Cursus))
         Dim tVerd As New tVerdeling
         For i As Integer = 0 To list.Count - 1
             Dim t = tVerd.getTwaarde(0.995, list(i).getTotaal) * getdeviatie / Math.Sqrt(list(i).getTotaal)
@@ -497,7 +458,7 @@ stopAndReturn:
     ''' <summary>
     ''' Checkt als voorspelde waarde overeen komt met echte waarde en bewaart dit in .isCorrect
     ''' </summary>
-    Private Sub isVoorspellingsLijstCorrectImmutable(list As List(Of Cursus))
+    Private Sub isVoorspellingsLijstCorrect(list As List(Of Cursus))
         For i As Integer = 0 To list.Count - 1
             Dim echt = Math.Round((list(i).getAantalDoorgegaan / list(i).getTotaal), 2) * 100
             Dim schatting = list(i).getKans * 100
@@ -508,7 +469,7 @@ stopAndReturn:
         Next
     End Sub
 
-    Private Sub voegToeAanAfwijkingLijstImmutable(item As Cursus)
+    Private Sub voegToeAanAfwijkingLijst(item As Cursus)
         listMetAfwijking.Add(Math.Round((((item.getAantalDoorgegaan / item.getTotaal) - (item.getKans)) * 100), 2))
     End Sub
 #End Region
