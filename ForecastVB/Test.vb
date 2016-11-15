@@ -180,7 +180,7 @@ Public Class Test
                 If bereik.valtTussen(echt) Then
                     trues += 1
                     kleur = Color.LightGreen
-                    item.setIsCorrect(True)
+                    item = item.setIsCorrect(True)
                 Else
                     falses += 1
                     kleur = Color.OrangeRed

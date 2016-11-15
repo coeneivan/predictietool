@@ -203,14 +203,14 @@ Public Class Bayes_Bayes_Linear
         Dim found = False
         For Each cu In listOfAllItems
             If cu.getMerk.Equals(c.getMerk) And cu.getUitvoerCentrum.Equals(c.getUitvoerCentrum) And cu.getMaand.Equals(c.getMaand) And cu.getCodeSubafdeling.Equals(c.getCodeSubafdeling) And cu.getDag.Equals(c.getDag) Then
-                c.setKans(cu.getKans)
-                c.setAfwijkingValue(cu.getAfwijkingswaarde)
+                c = c.setKans(cu.getKans)
+                c = c.setAfwijkingValue(cu.getAfwijkingswaarde)
                 found = True
                 GoTo stopAndReturn
             End If
         Next
         If Not found Then
-            c.setKans(berekenBayes(c))
+            c = c.setKans(berekenBayes(c))
         End If
 stopAndReturn:
         Return c.getBereik
