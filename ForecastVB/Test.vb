@@ -161,42 +161,43 @@ Public Class Test
 
 
         'For Each item1 As Cursus In cursusList2015
-        For Each item As Cursus In root.getAllItems
+        For Each item As ImmutableCursus In root.getAllItems
             'If item1.getMerk().Equals(item.getMerk()) And item1.getCodeSubAfdeling().Equals(item.getCodeSubAfdeling()) And item1.getDag().Equals(item.getDag()) Then
             'If item1.getMaand() = item.getMaand() And item1.getUitvoerCentrum().Equals(item.getUitvoerCentrum()) Then
             Dim dag As String = ""
             If (cbbLesdag.SelectedItem IsNot Nothing) Then dag = cbbLesdag.SelectedItem.ToLower()
 
             If (cbbMerk.SelectedItem Is Nothing Or item.getMerk.Equals(cbbMerk.SelectedItem)) And (cbbCentrum.SelectedItem Is Nothing Or item.getUitvoerCentrum.Equals(cbbCentrum.SelectedItem)) And
-                        (cbbLesdag.SelectedItem Is Nothing Or item.getDag.Equals(dag)) And (cbbSubafdeling.SelectedItem Is Nothing Or item.getCodeSubAfdeling.Equals(cbbSubafdeling.SelectedItem)) And
+                        (cbbLesdag.SelectedItem Is Nothing Or item.getDag.Equals(dag)) And (cbbSubafdeling.SelectedItem Is Nothing Or item.getCodeSubafdeling.Equals(cbbSubafdeling.SelectedItem)) And
                         (cbbMaand.SelectedItem Is Nothing Or item.getMaand = cbbMaand.SelectedIndex + 1) Then
 
-                Dim echt = (Math.Round(((item.getDoorgegaan / item.getTotaal) * 10000)) / 100)
+                Dim echt = (Math.Round(((item.getAantalDoorgegaan / item.getTotaal) * 10000)) / 100)
 
                 ' Bereken de top waarde en onderste waarde van de afwijking, controlleer of deze boven 100 of onder 0 zit en pas deze aan indien nodig
-                Dim bereik = New Bereik(item.afwijking, item.getKans * 100)
+                Dim bereik = New Bereik(item.getAfwijkingswaarde, item.getKans * 100)
 
                 Dim kleur As Color
                 If bereik.valtTussen(echt) Then
                     trues += 1
                     kleur = Color.LightGreen
-                    item.isCorrect = True
+                    item.setIsCorrect(True)
                 Else
                     falses += 1
                     kleur = Color.OrangeRed
                 End If
 
                 'Verschil
-                Dim verschil = Math.Round(((item.getDoorgegaan / item.getTotaal) - (item.getKans)) * 100)
+                Dim verschil = Math.Round(((item.getAantalDoorgegaan / item.getTotaal) - (item.getKans)) * 100)
                 If Not versch.ContainsKey(verschil) Then
                     versch.Add(verschil, 1)
                 Else
                     versch(verschil) += 1
                 End If
 
-                gemiddeldeAfw += Math.Abs(item.afwijking)
+                gemiddeldeAfw += Math.Abs(item.getAfwijkingswaarde)
 
-                dgvResult.Rows.Add(item.getMerk, item.getUitvoerCentrum, item.getCodeSubAfdeling, item.getMaand.ToString, item.getDag, item.getTotaal.ToString, echt.ToString, bereik.ToString, bereik.verschilMet(echt).ToString, item.algoritme.ToString, (bereik.getBovengrens - bereik.getOndergrens).ToString)
+                dgvResult.Rows.Add(item.getMerk, item.getUitvoerCentrum, item.getCodeSubafdeling, item.getMaand.ToString, item.getDag, item.getTotaal.ToString, echt.ToString, bereik.ToString,
+                                   bereik.verschilMet(echt).ToString, item.getAlgoritme.ToString, (bereik.getBovengrens - bereik.getOndergrens).ToString)
                 dgvResult.Rows(dgvResult.RowCount - 1).DefaultCellStyle.BackColor = kleur
             End If
             'End If

@@ -9,7 +9,7 @@ Public Class MainScreen
     Private filterlist As ArrayList
     Private selectedFilterList As String
     Private saveDirectory As String = SpecialDirectories.MyDocuments + "//Predictie Filters//"
-    Private lists As New Dictionary(Of String, List(Of Cursus))
+    Private lists As New Dictionary(Of String, List(Of ImmutableCursus))
     Private b As Bayes_Bayes_Linear
     Private s As SplashScreen1
     Private ready As Boolean = False
@@ -44,30 +44,24 @@ Public Class MainScreen
         Try
             Me.Cursor = Cursors.WaitCursor
             If File.Exists(saveDirectory + "/cursussen.xml") Then
-                Try
-                    lists = ltf.openTheList(saveDirectory + "/cursussen.xml")
-                    Dim fileCreatedDate As DateTime = File.GetLastWriteTime(saveDirectory + "/cursussen.xml")
-                    Dim nu As DateTime = Now
-                    Dim dagenoud = nu.Subtract(fileCreatedDate).Days
-                    If dagenoud > 0 Then
-                        tslblStatus.Text = "Uw data is " + dagenoud.ToString + " dagen oud, click om te refreshen"
-                        tslblStatus.IsLink = True
-                        tslblStatus.LinkColor = Color.Black
-                        tslblStatus.LinkBehavior = LinkBehavior.NeverUnderline
-                    Else
-                        tslblStatus.Text = "Uw data is up to date!"
-                    End If
-                Catch ex As Exception
-                    MessageBox.Show(ex.ToString)
-                End Try
+                lists = ltf.openTheList(saveDirectory + "/cursussen.xml")
+                Dim fileCreatedDate As DateTime = File.GetLastWriteTime(saveDirectory + "/cursussen.xml")
+                Dim nu As DateTime = Now
+                Dim dagenoud = nu.Subtract(fileCreatedDate).Days
+                If dagenoud > 0 Then
+                    tslblStatus.Text = "Uw data is " + dagenoud.ToString + " dagen oud, click om te refreshen"
+                    tslblStatus.IsLink = True
+                    tslblStatus.LinkColor = Color.Black
+                    tslblStatus.LinkBehavior = LinkBehavior.NeverUnderline
+                Else
+                    tslblStatus.Text = "Uw data is up to date!"
+                End If
             Else
                 b = New Bayes_Bayes_Linear(Me, False)
                 lists = b.getData(filters)
                 ltf.saveTheList(lists, saveDirectory + "/cursussen.xml")
                 tslblStatus.Text = "Uw data is up to date!"
             End If
-        Catch ex As Exception
-            MessageBox.Show(ex.Message, "FOUT")
         Finally
             Me.Cursor = Cursors.Default
             Console.WriteLine("Read data: " + (DateTime.Now - start).ToString)
@@ -77,11 +71,11 @@ Public Class MainScreen
     ''' Geeft alle items weer
     ''' </summary>
     ''' <returns>Alle data in een lijst met cursussen </returns>
-    Public Function getAllItems() As List(Of Cursus)
+    Public Function getAllItems() As List(Of ImmutableCursus)
         Return lists("allItems")
     End Function
 
-    Public Sub setAllItems(list As List(Of Cursus))
+    Public Sub setAllItems(list As List(Of ImmutableCursus))
         lists("allItems") = list
         Dim ltf As New ListToFile
         My.Computer.FileSystem.DeleteFile(saveDirectory + "/cursussen.xml")
@@ -91,7 +85,7 @@ Public Class MainScreen
     ''' Geeft alle items weer met jaar (om trend te bepalen)
     ''' </summary>
     ''' <returns>Alle data met extra veld, jaar, in een lijst met cursussen </returns>
-    Public Function getAllItemsWithYear() As List(Of Cursus)
+    Public Function getAllItemsWithYear() As List(Of ImmutableCursus)
         Return lists("withYear")
     End Function
     ''' <summary>
@@ -162,8 +156,6 @@ Public Class MainScreen
             'Als map niet bestaat is -> map aanmaken en bijgeleverde defaultList kopieren 
             My.Computer.FileSystem.CopyFile("..\..\Filters\defaultList.json", saveDirectory + "\DefaultList.json")
             refreshFilterList()
-        Catch ex As Exception
-            MessageBox.Show(ex.Message, "Foutje")
         Finally
             Console.WriteLine("Refresh filterlist: " + (DateTime.Now - start).ToString)
         End Try
@@ -197,7 +189,8 @@ Public Class MainScreen
                 If cboSubAfd.SelectedItem Is Nothing Then
                     MessageBox.Show("Gelieve een code subafdeling te selecteren aub")
                 Else
-                    Dim c As New Cursus(cboMerk.SelectedItem.ToString, cboUitvCent.SelectedItem.ToString, dtpStartcursus.Value.Month.ToString, dtpStartcursus.Value.ToString("dddd", New CultureInfo("nl-BE")), cboSubAfd.SelectedItem.ToString, 0, 0)
+                    Dim c As New ImmutableCursus(cboMerk.SelectedItem.ToString, cboUitvCent.SelectedItem.ToString, dtpStartcursus.Value.Month.ToString, dtpStartcursus.Value.ToString("dddd", New CultureInfo("nl-BE")),
+                                                 cboSubAfd.SelectedItem.ToString, 0, 0, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing)
                     txtTotaal.Text = b.getKansVoorCursus(c).ToString
                 End If
             End If
@@ -240,11 +233,9 @@ Public Class MainScreen
         Return filterlist
     End Function
     Private Sub tslblStatus_Click(sender As Object, e As EventArgs) Handles tslblStatus.Click
-        Try
-            My.Computer.FileSystem.DeleteFile(saveDirectory + "/cursussen.xml")
-            forceRefresh()
-        Catch
-        End Try
+
+        My.Computer.FileSystem.DeleteFile(saveDirectory + "/cursussen.xml")
+        forceRefresh()
     End Sub
     Private Sub cboFiltersList_SelectedValueChanged(sender As Object, e As EventArgs) Handles cboFiltersList.SelectedValueChanged
         If Not cboFiltersList.SelectedItem.Equals(My.Settings.selectedFilterList) Then
@@ -297,12 +288,9 @@ Public Class MainScreen
     End Function
 
     Private Sub ToolStripSplitButton1_ButtonClick(sender As Object, e As EventArgs) Handles ToolStripSplitButton1.ButtonClick
-        Try
-            My.Computer.FileSystem.DeleteFile(saveDirectory + "/cursussen.xml")
-            forceRefresh()
-        Catch ex As Exception
-            Throw ex
-        End Try
+
+        My.Computer.FileSystem.DeleteFile(saveDirectory + "/cursussen.xml")
+        forceRefresh()
     End Sub
     ''' <summary>
     ''' Alle gekende merken terug geven
@@ -331,5 +319,4 @@ Public Class MainScreen
         Array.Sort(centra)
         Return centra
     End Function
-
 End Class

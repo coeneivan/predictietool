@@ -1,5 +1,5 @@
 ﻿Public Class TestDAO
-    Public Function GetAllCursForAllVarWithYear(f As String) As List(Of Cursus)
+    Public Function GetAllCursForAllVarWithYear(f As String) As List(Of ImmutableCursus)
         Dim query As String = ""
         query += "Select Distinct Merk"
         query += ", UitvCentrumOmsch"
@@ -27,7 +27,7 @@
         Return sql.GetAllCursForAllVarWithYear(query)
     End Function
 
-    Public Function GetAllCursForAllVar(f As String) As List(Of Cursus)
+    Public Function GetAllCursForAllVar(f As String) As List(Of ImmutableCursus)
         Dim query As String = ""
         query += "Select Distinct Merk"
         query += ", UitvCentrumOmsch"

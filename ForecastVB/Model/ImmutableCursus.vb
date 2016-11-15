@@ -1,6 +1,6 @@
 ﻿Imports ForecastVB
 
-Public NotInheritable Class ImmutableCursus
+<Serializable()> Public NotInheritable Class ImmutableCursus
     Private merk As String
     Private uitvCentr As String
     Private maand As Integer
@@ -152,7 +152,9 @@ Public NotInheritable Class ImmutableCursus
     Public Function getIsCorrect() As Boolean
         Return correct
     End Function
-
+    Public Function getBereik() As Bereik
+        Return New Bereik(afwijkingValue, kans * 100)
+    End Function
 #End Region
 End Class
 

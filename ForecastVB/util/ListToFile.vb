@@ -10,14 +10,12 @@ Public Class ListToFile
     ''' <param name="theList">De lijst van cursusen dat opgeslaan moet worden</param>
     ''' <param name="path">Het pad waar de lijst moet opgeslaan worden</param>
     ''' <example>saveTheList(cursussen, "c:/temp/data.xml")</example>
-    Friend Sub saveTheList(theList As Dictionary(Of String, List(Of Cursus)), path As String)
+    Friend Sub saveTheList(theList As Dictionary(Of String, List(Of ImmutableCursus)), path As String)
         Dim stream As Stream
         Try
             stream = File.Open(path, FileMode.Create)
             Dim formatter As New Formatters.Binary.BinaryFormatter()
             formatter.Serialize(stream, theList)
-        Catch ex As Exception
-            Throw ex
         Finally
             stream.Close()
         End Try
@@ -30,18 +28,15 @@ Public Class ListToFile
     ''' <param name="path">Het pad waar de lijst zich bevindt</param>
     ''' <returns>De ingelezen lijst van Cursussen</returns>
     ''' <example>Dim cursussen as List(Of Cursus) = openTheList("c:/temp/data.xml")</example>
-    Friend Function openTheList(path As String) As Dictionary(Of String, List(Of Cursus))
-        Dim theList As Dictionary(Of String, List(Of Cursus))
-        Try
-            Dim stream As Stream = File.Open(path, FileMode.Open)
-            Dim Formatter = New Formatters.Binary.BinaryFormatter()
-            theList = CType(Formatter.Deserialize(stream), Dictionary(Of String, List(Of Cursus)))
-            stream.Close()
+    Friend Function openTheList(path As String) As Dictionary(Of String, List(Of ImmutableCursus))
+        Dim theList As Dictionary(Of String, List(Of ImmutableCursus))
 
-            Return theList
-        Catch ex As Exception
-            Throw ex
-        End Try
+        Dim stream As Stream = File.Open(path, FileMode.Open)
+        Dim Formatter = New Formatters.Binary.BinaryFormatter()
+        theList = CType(Formatter.Deserialize(stream), Dictionary(Of String, List(Of ImmutableCursus)))
+        stream.Close()
+
+        Return theList
 
     End Function
 
