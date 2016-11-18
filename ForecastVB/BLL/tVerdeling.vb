@@ -66,25 +66,25 @@ Public Class tVerdeling
             Case < 30
                 y = aantal - 1
             Case 30 To 34
-                y = 30
+                y = 30 - 1
             Case 35 To 39
-                y = 31
+                y = 31 - 1
             Case 40 To 49
-                y = 32
+                y = 32 - 1
             Case 50 To 59
-                y = 33
+                y = 33 - 1
             Case 60 To 79
-                y = 34
+                y = 34 - 1
             Case 80 To 99
-                y = 35
+                y = 35 - 1
             Case 100 To 119
-                y = 36
+                y = 36 - 1
             Case 120 To 149
-                y = 37
+                y = 37 - 1
             Case 150
-                y = 38
+                y = 38 - 1
             Case > 150
-                y = 39
+                y = 39 - 1
         End Select
         Return tbl(y, x)
     End Function

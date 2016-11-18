@@ -53,7 +53,7 @@ Public Class SQLUtil
             myReader = myCmd.ExecuteReader()
 
             While myReader.Read()
-                Dim param As New Cursus(myReader.GetValue(0), myReader.GetValue(1), myReader.GetValue(2), myReader.GetValue(3), myReader.GetValue(4), myReader.GetValue(5), myReader.GetValue(6),
+                Dim param As New Cursus(myReader.GetValue(0), myReader.GetValue(1), myReader.GetValue(2), "", myReader.GetValue(3), myReader.GetValue(4), myReader.GetValue(5),
                                                  Nothing, Nothing, Nothing, Nothing, Algoritmes.Niets, False)
                 predic.Add(param)
             End While
@@ -75,8 +75,8 @@ Public Class SQLUtil
             myReader = myCmd.ExecuteReader()
 
             While myReader.Read()
-                Dim param As New Cursus(myReader.GetValue(0), myReader.GetValue(1), myReader.GetValue(2), myReader.GetValue(3), myReader.GetValue(4), myReader.GetValue(5), myReader.GetValue(6),
-                                                 Nothing, myReader.GetValue(7), Nothing, Nothing, Algoritmes.Niets, False)
+                Dim param As New Cursus(myReader.GetValue(0), myReader.GetValue(1), myReader.GetValue(2), myReader.GetValue(3), "", myReader.GetValue(4), myReader.GetValue(5),
+                                                 Nothing, myReader.GetValue(6), Nothing, Nothing, Algoritmes.Niets, False)
                 predic.Add(param)
             End While
 
