@@ -4,7 +4,7 @@
         query += "Select Distinct Merk"
         query += ", UitvCentrumOmsch"
         query += ", Month(StartDatum) as Maand"
-        'query += ", dag as Dag"
+        query += ", dag as Dag"
         query += ", [CodeSubafdeling]"
         query += ", count(*) as totaal"
         query += ", SUM(CASE WHEN CodeIngetrokken='Nee' THEN 1 ELSE 0 END) as doorgegaan "
@@ -21,7 +21,7 @@
         query += ", UitvCentrumOmsch"
         query += ", Month(StartDatum)"
         query += ", YEAR(StartDatum)"
-        'query += ", dag"
+        query += ", dag"
         query += ", CodeSubafdeling "
         Dim sql As New SQLUtil
         Return sql.GetAllCursForAllVarWithYear(query)
@@ -32,7 +32,7 @@
         query += "Select Distinct Merk"
         query += ", UitvCentrumOmsch"
         query += ", Month(StartDatum) as Maand"
-        'query += ", dag as Dag"
+        query += ", dag as Dag"
         query += ", [CodeSubafdeling]"
         query += ", count(*) as totaal"
         query += ", SUM(CASE WHEN CodeIngetrokken='Nee' THEN 1 ELSE 0 END) as doorgegaan "
@@ -47,9 +47,9 @@
         query += "Merk"
         query += ", UitvCentrumOmsch"
         query += ", Month(StartDatum)"
-        'query += ", dag"
+        query += ", dag"
         query += ", CodeSubafdeling "
-        query += "Having count(*) > 10"
+        query += "Having count(*) > 5"
         Dim sql As New SQLUtil
         Return sql.GetAllCursForAllVar(query)
     End Function
