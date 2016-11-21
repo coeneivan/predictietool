@@ -46,17 +46,19 @@ Public Class Bayes_Bayes_Linear
         End If
     End Sub
     Public Sub BerekenKans()
+        'For i As Integer = 0 To 10
         Dim start = DateTime.Now
-        emptyCursusList = resetCursusList(listOfAllItems).ToImmutableList
+            emptyCursusList = resetCursusList(listOfAllItems).ToImmutableList
 
-        bayesWanneerMerkSterkAfwijkt()
-        berekenBayesVoorIederItem()
-        calcBayesWithLinear()
+            bayesWanneerMerkSterkAfwijkt()
+            berekenBayesVoorIederItem()
+            calcBayesWithLinear()
 
-        listOfAllItems = getBestAlgoritme()
+            listOfAllItems = getBestAlgoritme()
 
-        root.setDeviatie(getdeviatie)
+            root.setDeviatie(getdeviatie)
         'Console.WriteLine("Bereken kans: " + (DateTime.Now - start).ToString)
+        '        Next
     End Sub
 
     Public Sub resetDictionaries()
@@ -117,8 +119,8 @@ Public Class Bayes_Bayes_Linear
             End If
 
             If Not gevonden Or t1CursList.Count = 0 Then
-                Dim curs As New Cursus(listForBayesMerk(j).getMerk, Nothing, Nothing, Nothing, listForBayesMerk(j).getCodeSubafdeling, listForBayesMerk(j).getTotaal,
-                                                listForBayesMerk(j).getAantalDoorgegaan, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing)
+                Dim curs As New Cursus(listForBayesMerk(j).getMerk, listForBayesMerk(j).getUitvoerCentrum, Nothing, listForBayesMerk(j).getDag, listForBayesMerk(j).getCodeSubafdeling,
+                                       listForBayesMerk(j).getTotaal, listForBayesMerk(j).getAantalDoorgegaan, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing)
                 t1CursList.Add(curs)
             End If
         Next
@@ -203,6 +205,11 @@ Public Class Bayes_Bayes_Linear
                 b = (((xSquareSum * ySum) - (xSum * xySum)) / ((aantal * xSquareSum) - (xSum ^ 2)))
 
                 Dim nieuweKans = (((kansBayes * 1) + (a * Now.Year + b) * 1) / (1 + 1))
+
+                If Double.IsNaN(nieuweKans) Then
+                    Stop
+                End If
+
                 If (nieuweKans > 1) Then nieuweKans = 1
                 If (nieuweKans < 0) Then nieuweKans = 0
 
@@ -210,9 +217,6 @@ Public Class Bayes_Bayes_Linear
                 listForBayesLin(i) = listForBayesLin(i).setB(b)
 
                 listForBayesLin(i) = kansToevoegen(listForBayesLin(i), nieuweKans, Algoritmes.BayesLinear)
-                If i = 984 Then
-                    Dim stopShit = "fout"
-                End If
             End If
         Next
 

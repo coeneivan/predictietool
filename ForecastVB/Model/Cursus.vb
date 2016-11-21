@@ -22,7 +22,7 @@
         Me.uitvCentr = uitvoerCentrum
         Me.maand = maand
         Me.dag = dag
-        Me.codeSubAfd = codeSubAfdeling
+        Me.codeSubAfd = codeSubAfdeling.ToUpper
         Me.totaal = totaal
         Me.doorgegaan = doorgegaan
         Me.kans = kans
@@ -57,7 +57,7 @@
     End Function
 
     Public Function setCodeSubafdeling(codeSubAfd As String) As Cursus
-        Return New Cursus(Me.merk, Me.uitvCentr, Me.maand, Me.dag, codeSubAfd, Me.totaal, Me.doorgegaan,
+        Return New Cursus(Me.merk, Me.uitvCentr, Me.maand, Me.dag, codeSubAfd.ToUpper, Me.totaal, Me.doorgegaan,
                            Me.kans, Me.jaar, Me.b, Me.afwijkingValue, Me.algoritmeProp, Me.correct)
     End Function
 
