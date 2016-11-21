@@ -151,6 +151,7 @@ Public Class Test
         Dim trues = 0
         Dim falses = 0
         Dim gemiddeldeAfw As Double = 0
+        Dim gemiddeldVerschil As Double = 0
         Dim versch As New Dictionary(Of Double, Integer)
         Dim remove = 100.0
         'Dim t As New TestBLL()
@@ -195,6 +196,7 @@ Public Class Test
                 End If
 
                 gemiddeldeAfw += Math.Abs(item.getAfwijkingswaarde)
+                gemiddeldVerschil += Math.Abs(verschil)
 
                 dgvResult.Rows.Add(item.getMerk, item.getUitvoerCentrum, item.getCodeSubafdeling, item.getMaand.ToString, item.getDag, item.getTotaal.ToString, echt.ToString, bereik.ToString,
                                    bereik.verschilMet(echt).ToString, item.getAlgoritme.ToString, (bereik.getBovengrens - bereik.getOndergrens).ToString)
@@ -214,7 +216,7 @@ Public Class Test
         Next
         drawBarGraph(ver)
 
-        lblInfo2.Text = "Gemiddelde afwijking bedraagd +-: " + (Math.Round(gemiddeldeAfw / (trues + falses), 3)).ToString + "%" + "      Standaardafwijking: " + deviatie.ToString
+        lblInfo2.Text = "Gemiddelde afwijking bedraagd +-: " + (Math.Round(gemiddeldeAfw / (trues + falses), 3)).ToString + "%" + "      Standaardafwijking: " + deviatie.ToString + "    Gemiddeld verschil:" + Math.Round((gemiddeldVerschil / (trues + falses)), 3).ToString
         Label1.Text = "Totaal = " + (trues + falses).ToString + " waarvan " + trues.ToString + " (" + Math.Round((trues / (trues + falses) * 100), 2).ToString + "%) correct voorspeld waren en " + falses.ToString + " (" + Math.Round((falses / (trues + falses) * 100), 2).ToString + "%) niet"
     End Sub
     Private Sub initDataGridView()
