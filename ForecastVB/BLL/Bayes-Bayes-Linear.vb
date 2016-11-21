@@ -37,7 +37,7 @@ Public Class Bayes_Bayes_Linear
 #End Region
     Public Sub New(main As MainScreen, bestaatBestand As Boolean)
 
-        ' TODO Wanneer xml bestand die gegevens bij houd voor het eerst opnieuw wordt aangemaakt klopt de berekende waarde niet.
+        ' TODO Wanneer xml bestand die gegevens bij houd voor het eerst opnieuw wordt aangemaakt klopt de berekende waarde soms niet.
 
         root = main
         If bestaatBestand Then
@@ -58,7 +58,23 @@ Public Class Bayes_Bayes_Linear
         listOfAllItems = getBestAlgoritme()
 
         root.setDeviatie(getdeviatie)
-        Console.WriteLine("Bereken kans: " + (DateTime.Now - start).ToString)
+        'Console.WriteLine("Bereken kans: " + (DateTime.Now - start).ToString)
+    End Sub
+
+    Public Sub resetDictionaries()
+        ' Lijst om te tellen hoeveel cursussen van elk item niet geschrapt werden
+        dicMerkW = New Dictionary(Of String, Integer)
+        dicUitvW = New Dictionary(Of String, Integer)
+        dicMaandW = New Dictionary(Of String, Integer)
+        dicDagW = New Dictionary(Of String, Integer)
+        dicSubW = New Dictionary(Of String, Integer)
+
+        ' Lijst om te tellen hoeveel cursussen van elk item wel geschrapt werden
+        dicMerkN = New Dictionary(Of String, Integer)
+        dicUitvN = New Dictionary(Of String, Integer)
+        dicMaandN = New Dictionary(Of String, Integer)
+        dicDagN = New Dictionary(Of String, Integer)
+        dicSubN = New Dictionary(Of String, Integer)
     End Sub
 
 
@@ -72,8 +88,11 @@ Public Class Bayes_Bayes_Linear
         getdeviatie = Math.Round(CalculateStandardDeviation(listMetAfwijking), 3)
         afwijkingBerekenen(list)
         isVoorspellingsLijstCorrect(list)
+
         listMetAfwijking = New List(Of Double)
-        'Console.WriteLine("Standaardafwijking: " + getdeviatie.ToString)
+        resetDictionaries()
+
+        Console.WriteLine("Standaardafwijking: " + getdeviatie.ToString)
     End Sub
 
     Private Sub bayesWanneerMerkSterkAfwijkt()
@@ -133,11 +152,11 @@ Public Class Bayes_Bayes_Linear
         Next
 
         For i As Integer = 0 To listForBayesMerk.Count - 1
-            If Not listForBayesMerk(i).getIsCorrect Then
-                Dim nieuweKans = berekenBayes(listOfAllItems(i))
+            'If Not listForBayesMerk(i).getIsCorrect Then
+            Dim nieuweKans = berekenBayes(listForBayesMerk(i))
 
-                listForBayesMerk(i) = kansToevoegen(listForBayesMerk(i), nieuweKans, Algoritmes.BayesMerk)
-            End If
+            listForBayesMerk(i) = kansToevoegen(listForBayesMerk(i), nieuweKans, Algoritmes.BayesMerk)
+            'End If
         Next
 
         alleAfwijkingenVerwerken(listForBayesMerk)
@@ -146,6 +165,9 @@ Public Class Bayes_Bayes_Linear
     Private Sub calcBayesWithLinear()
 
         listForBayesLin = emptyCursusList.ToList
+
+        berekenAantalDoorgegaanEnNietDoorgegaan()
+
         ' berekend kans van iedere entry dat deze door gaat en plaatst dit vervolgens in de listview
         For i As Integer = 0 To listForBayesLin.Count - 1
             If Not listForBayesLin(i).getIsCorrect Then
@@ -190,6 +212,9 @@ Public Class Bayes_Bayes_Linear
                 listForBayesLin(i) = listForBayesLin(i).setB(b)
 
                 listForBayesLin(i) = kansToevoegen(listForBayesLin(i), nieuweKans, Algoritmes.BayesLinear)
+                If i = 984 Then
+                    Dim stopShit = "fout"
+                End If
             End If
         Next
 
@@ -215,6 +240,7 @@ stopAndReturn:
     End Function
 
     Private Sub baycalculation(item As Cursus, merkRekenen As Boolean)
+
         Dim merk = item.getMerk()
         Dim uitvCentr = item.getUitvoerCentrum
         Dim maand = item.getMaand
@@ -305,7 +331,9 @@ stopAndReturn:
 
 
     Private Function berekenBayes(item As Cursus) As Double
-        If dicMerkW.ContainsKey(item.getMerk) And dicMerkN.ContainsKey(item.getMerk) Then
+        If dicMerkW.ContainsKey(item.getMerk) And dicMerkN.ContainsKey(item.getMerk) And dicSubW.ContainsKey(item.getCodeSubafdeling) And dicSubN.ContainsKey(item.getCodeSubafdeling) And
+            dicUitvW.ContainsKey(item.getUitvoerCentrum) And dicUitvN.ContainsKey(item.getUitvoerCentrum) And dicDagW.ContainsKey(item.getDag) And dicDagN.ContainsKey(item.getDag) And
+            dicMaandW.ContainsKey(item.getMaand) And dicMaandN.ContainsKey(item.getMaand) Then
             Dim j1, j2, j3, j4, j5, j6 As Double
             Dim n1, n2, n3, n4, n5, n6 As Double
 
@@ -479,13 +507,13 @@ stopAndReturn:
         Dim lists As New Dictionary(Of String, List(Of Cursus))
         f = createFilterString(filterlist)
         listOfAllItems = TestBLL.GetAllCursForAllVar(f)
-        Console.WriteLine("GetAllCursForAllVar: " + (DateTime.Now - start).ToString)
+        'Console.WriteLine("GetAllCursForAllVar: " + (DateTime.Now - start).ToString)
         listOfAllItemsWithYear = TestBLL.GetAllCursForAllVarWithYear(f)
-        Console.WriteLine("GetAllCursForAllVarWithYear: " + (DateTime.Now - start).ToString)
+        'Console.WriteLine("GetAllCursForAllVarWithYear: " + (DateTime.Now - start).ToString)
         BerekenKans()
         lists.Add("allItems", listOfAllItems)
         lists.Add("withYear", listOfAllItemsWithYear)
-        Console.WriteLine("getData: " + (DateTime.Now - start).ToString)
+        'Console.WriteLine("getData: " + (DateTime.Now - start).ToString)
         Return lists
     End Function
 
