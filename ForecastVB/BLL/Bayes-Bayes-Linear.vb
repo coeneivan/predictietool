@@ -37,8 +37,6 @@ Public Class Bayes_Bayes_Linear
 #End Region
     Public Sub New(main As MainScreen, bestaatBestand As Boolean)
 
-        ' TODO Wanneer xml bestand die gegevens bij houd voor het eerst opnieuw wordt aangemaakt klopt de berekende waarde soms niet.
-
         root = main
         If bestaatBestand Then
             listOfAllItems = root.getAllItems
@@ -336,8 +334,6 @@ stopAndReturn:
             dicMaandW.ContainsKey(item.getMaand) And dicMaandN.ContainsKey(item.getMaand) Then
             Dim j1, j2, j3, j4, j5, j6 As Double
             Dim n1, n2, n3, n4, n5, n6 As Double
-
-            'TODO wat als er bv. een Subcategorie niet voorkomt? 
 
             j1 = (dicMerkW(item.getMerk) / atlDoorgg)
             j2 = (dicSubW(item.getCodeSubafdeling) / atlDoorgg)
