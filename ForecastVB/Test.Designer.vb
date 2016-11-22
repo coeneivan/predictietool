@@ -127,6 +127,7 @@ Partial Class Test
         Me.cbbMerk.Name = "cbbMerk"
         Me.cbbMerk.Size = New System.Drawing.Size(169, 24)
         Me.cbbMerk.TabIndex = 11
+        Me.cbbMerk.DropDownStyle = ComboBoxStyle.DropDownList
         '
         'Label3
         '
@@ -146,6 +147,7 @@ Partial Class Test
         Me.cbbCentrum.Name = "cbbCentrum"
         Me.cbbCentrum.Size = New System.Drawing.Size(149, 24)
         Me.cbbCentrum.TabIndex = 11
+        Me.cbbCentrum.DropDownStyle = ComboBoxStyle.DropDownList
         '
         'Label4
         '
@@ -165,6 +167,7 @@ Partial Class Test
         Me.cbbSubafdeling.Name = "cbbSubafdeling"
         Me.cbbSubafdeling.Size = New System.Drawing.Size(148, 24)
         Me.cbbSubafdeling.TabIndex = 11
+        Me.cbbSubafdeling.DropDownStyle = ComboBoxStyle.DropDownList
         '
         'Label5
         '
@@ -194,6 +197,7 @@ Partial Class Test
         Me.cbbLesdag.Name = "cbbLesdag"
         Me.cbbLesdag.Size = New System.Drawing.Size(151, 24)
         Me.cbbLesdag.TabIndex = 11
+        Me.cbbLesdag.DropDownStyle = ComboBoxStyle.DropDownList
         '
         'Button1
         '
@@ -263,6 +267,7 @@ Partial Class Test
         Me.cbbMaand.Name = "cbbMaand"
         Me.cbbMaand.Size = New System.Drawing.Size(160, 24)
         Me.cbbMaand.TabIndex = 15
+        Me.cbbMaand.DropDownStyle = ComboBoxStyle.DropDownList
         '
         'Test
         '

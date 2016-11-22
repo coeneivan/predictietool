@@ -102,6 +102,7 @@ Partial Class PerOnt
         Me.cbbSubafdeling.Name = "cbbSubafdeling"
         Me.cbbSubafdeling.Size = New System.Drawing.Size(113, 21)
         Me.cbbSubafdeling.TabIndex = 25
+        Me.cbbSubafdeling.DropDownStyle = ComboBoxStyle.DropDownList
         '
         'cbbMerk
         '
@@ -110,6 +111,7 @@ Partial Class PerOnt
         Me.cbbMerk.Name = "cbbMerk"
         Me.cbbMerk.Size = New System.Drawing.Size(128, 21)
         Me.cbbMerk.TabIndex = 24
+        Me.cbbMerk.DropDownStyle = ComboBoxStyle.DropDownList
         '
         'Label4
         '
@@ -167,6 +169,7 @@ Partial Class PerOnt
         Me.cbbOnt.Name = "cbbOnt"
         Me.cbbOnt.Size = New System.Drawing.Size(108, 21)
         Me.cbbOnt.TabIndex = 25
+        cbbOnt.DropDownStyle = ComboBoxStyle.DropDownList
         '
         'btnClearOnt
         '
