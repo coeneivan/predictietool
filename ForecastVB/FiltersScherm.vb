@@ -103,8 +103,8 @@ Public Class FiltersScherm
     ''' </summary>
     Private Sub btnAdd_Click(sender As Object, e As EventArgs) Handles btnAdd.Click
 
-        'TODO Voeg controlle toe of filter correct is. Regular expression?
-        'TODO Controlle wat precies word in gegeven? geeft gebruiker geen verboden commando's in? DROP DATABASE, ....
+        'TODO: (SHOULD HAVE) Voeg controlle toe of filter correct is. Regular expression?
+        'TODO: (SHOULD HAVE) Controlle wat precies word in gegeven? geeft gebruiker geen verboden commando's in? DROP DATABASE, ....
 
         Dim lvi As New ListViewItem(cbbKolom.Text, 0)
         lvi.SubItems.Add(cbbFactor.Text)

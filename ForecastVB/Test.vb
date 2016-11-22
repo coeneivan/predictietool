@@ -63,7 +63,7 @@ Public Class Test
         End If
     End Sub
 
-    'TODO: implement cellclick!
+    'TODO: (COULD HAVE) implement cellclick! 
     'Private Sub dgvResult_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvResult.CellClick
     '    '    If (e.ColumnIndex == dataGridViewSoftware.Columns["uninstall_button"].Index)
     '    If e.ColumnIndex = 0 And grouped IsNot Nothing Then
