@@ -1,7 +1,6 @@
 ﻿Imports System.Windows.Forms.DataVisualization.Charting
 Imports ForecastVB
 
-'Veranderd dit?
 
 Public Class Test
     Private root As MainScreen
