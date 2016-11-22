@@ -54,7 +54,12 @@ Public Class MainScreen
                 Dim nu As DateTime = Now
                 Dim dagenoud = nu.Subtract(fileCreatedDate).Days
                 If dagenoud > 0 Then
-                    tslblStatus.Text = "Uw data is " + dagenoud.ToString + " dagen oud, click om te refreshen"
+                    If dagenoud = 1 Then
+                        tslblStatus.Text = "U heeft gisteren uw data gerefresht, click om opnieuw te refreshen"
+                    Else
+                        tslblStatus.Text = "Uw data is " + dagenoud.ToString + " dagen oud, click om te refreshen"
+                    End If
+
                     tslblStatus.IsLink = True
                     tslblStatus.LinkColor = Color.Black
                     tslblStatus.LinkBehavior = LinkBehavior.NeverUnderline
@@ -300,7 +305,7 @@ Public Class MainScreen
     ''' <summary>
     ''' Alle gekende merken terug geven
     ''' </summary>
-    ''' <returns>Gesorteerd earray met alle merken</returns>
+    ''' <returns>Gesorteerde array met alle merken</returns>
     Public Function getMerken() As Array
         Dim merken = b.getMerken().ToArray
         Array.Sort(merken)
@@ -309,7 +314,7 @@ Public Class MainScreen
     ''' <summary>
     ''' Alle gekende subafdelingen terug geven
     ''' </summary>
-    ''' <returns>Gesorteerd earray met alle subafdelingen</returns>
+    ''' <returns>Gesorteerde array met alle subafdelingen</returns>
     Public Function getSubafdeling() As Array
         Dim sa = b.getSubafdelingen().ToArray
         Array.Sort(sa)
@@ -318,7 +323,7 @@ Public Class MainScreen
     ''' <summary>
     ''' Alle gekende centra terug geven
     ''' </summary>
-    ''' <returns>Gesorteerd earray met alle centra</returns>
+    ''' <returns>Gesorteerde array met alle centra</returns>
     Public Function getCentra() As Array
         Dim centra = b.getCentra().ToArray
         Array.Sort(centra)

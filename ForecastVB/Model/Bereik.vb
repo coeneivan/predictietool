@@ -98,4 +98,7 @@ Public Class Bereik
         End If
         Return Math.Round(verschil, 2)
     End Function
+    Public Function getBreedte() As Double
+        Return bovengrens - ondergrens
+    End Function
 End Class
