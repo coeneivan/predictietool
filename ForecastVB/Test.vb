@@ -166,10 +166,10 @@ Public Class Test
             'If item1.getMerk().Equals(item.getMerk()) And item1.getCodeSubAfdeling().Equals(item.getCodeSubAfdeling()) And item1.getDag().Equals(item.getDag()) Then
             'If item1.getMaand() = item.getMaand() And item1.getUitvoerCentrum().Equals(item.getUitvoerCentrum()) Then
             Dim dag As String = ""
-            If (cbbLesdag.SelectedItem IsNot Nothing) Then dag = cbbLesdag.SelectedItem.ToLower()
+            If (cbbLesdag.SelectedItem IsNot Nothing) Then dag = cbbLesdag.SelectedItem.ToUpper()
 
             If (cbbMerk.SelectedItem Is Nothing Or item.getMerk.Equals(cbbMerk.SelectedItem)) And (cbbCentrum.SelectedItem Is Nothing Or item.getUitvoerCentrum.Equals(cbbCentrum.SelectedItem)) And
-                        (cbbLesdag.SelectedItem Is Nothing Or item.getDag.Equals(dag)) And (cbbSubafdeling.SelectedItem Is Nothing Or item.getCodeSubafdeling.Equals(cbbSubafdeling.SelectedItem)) And
+                        (cbbLesdag.SelectedItem Is Nothing Or item.getDag.ToUpper.Equals(dag)) And (cbbSubafdeling.SelectedItem Is Nothing Or item.getCodeSubafdeling.Equals(cbbSubafdeling.SelectedItem)) And
                         (cbbMaand.SelectedItem Is Nothing Or item.getMaand = cbbMaand.SelectedIndex + 1) Then
 
                 Dim echt = (Math.Round(((item.getAantalDoorgegaan / item.getTotaal) * 10000)) / 100)
