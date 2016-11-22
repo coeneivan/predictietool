@@ -240,7 +240,7 @@ Public Class Test
     End Sub
 
     Private Sub btnClearSubafdeling_Click(sender As Object, e As EventArgs) Handles btnClearSubafdeling.Click
-        cbbSubafdeling.SelectedItem = Nothing
+        cbbSubafdeling.ResetText()
     End Sub
 
     Private Sub btnClearDag_Click(sender As Object, e As EventArgs) Handles btnClearDag.Click
