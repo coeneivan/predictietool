@@ -241,6 +241,11 @@ Public Class MainScreen
 
         My.Computer.FileSystem.DeleteFile(saveDirectory + "/cursussen.xml")
         forceRefresh()
+
+        cboMerk.ResetText()
+        cboSubAfd.ResetText()
+        cboUitvCent.ResetText()
+
     End Sub
     Private Sub cboFiltersList_SelectedValueChanged(sender As Object, e As EventArgs) Handles cboFiltersList.SelectedValueChanged
         If Not cboFiltersList.SelectedItem.Equals(My.Settings.selectedFilterList) Then
