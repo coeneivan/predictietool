@@ -63,11 +63,11 @@ Public Class PerOnt
                 dgvResult.Rows(dgvResult.RowCount - 1).DefaultCellStyle.BackColor = kleur
                 verschil += cursus.getBereik().getBreedte
 
-                If Not merken.ContainsKey(cursus.getMerk.ToUpper) Then
-                    merken.Add(cursus.getMerk.ToUpper, cursus)
+                If Not merken.ContainsKey(cursus.getMerk) Then
+                    merken.Add(cursus.getMerk, cursus)
                 End If
-                If Not centra.ContainsKey(cursus.getUitvoerCentrum.ToUpper) Then
-                    centra.Add(cursus.getUitvoerCentrum.ToUpper, cursus)
+                If Not centra.ContainsKey(cursus.getUitvoerCentrum) Then
+                    centra.Add(cursus.getUitvoerCentrum, cursus)
                 End If
                 If Not subafdelingen.ContainsKey(cursus.getCodeSubafdeling.ToUpper) Then
                     subafdelingen.Add(cursus.getCodeSubafdeling.ToUpper, cursus)
