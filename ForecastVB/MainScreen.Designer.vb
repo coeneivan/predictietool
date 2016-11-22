@@ -69,6 +69,7 @@ Partial Class MainScreen
         Me.cboSubAfd.Name = "cboSubAfd"
         Me.cboSubAfd.Size = New System.Drawing.Size(209, 24)
         Me.cboSubAfd.TabIndex = 2
+        Me.cboSubAfd.DropDownStyle = ComboBoxStyle.DropDownList
         '
         'cboMerk
         '
@@ -78,6 +79,7 @@ Partial Class MainScreen
         Me.cboMerk.Name = "cboMerk"
         Me.cboMerk.Size = New System.Drawing.Size(209, 24)
         Me.cboMerk.TabIndex = 0
+        Me.cboMerk.DropDownStyle = ComboBoxStyle.DropDownList
         '
         'Label2
         '
@@ -110,6 +112,7 @@ Partial Class MainScreen
         Me.cboFiltersList.Name = "cboFiltersList"
         Me.cboFiltersList.Size = New System.Drawing.Size(164, 24)
         Me.cboFiltersList.TabIndex = 7
+        Me.cboFiltersList.DropDownStyle = ComboBoxStyle.DropDownList
         '
         'Label1
         '
@@ -167,6 +170,7 @@ Partial Class MainScreen
         Me.cboUitvCent.Name = "cboUitvCent"
         Me.cboUitvCent.Size = New System.Drawing.Size(209, 24)
         Me.cboUitvCent.TabIndex = 1
+        Me.cboUitvCent.DropDownStyle = ComboBoxStyle.DropDownList
         '
         'dtpStartcursus
         '
