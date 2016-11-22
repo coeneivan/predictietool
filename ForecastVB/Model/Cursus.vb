@@ -42,6 +42,7 @@
         Me.doorgegaan = doorgegaan
         Me.kans = kans
         Me.ont = ont
+        dag = "geendag"
     End Sub
 
 

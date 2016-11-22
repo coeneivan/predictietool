@@ -12,9 +12,9 @@
         Dim bayes As New Bayes_Bayes_Linear(root, False)
         bayes.alleAfwijkingenVerwerken(rows)
         For Each cursus In rows
-            'bayes.resetDictionary
+            bayes.resetDictionaries()
             bayes.baycalculation(cursus, True)
-            cursus.setKans(bayes.berekenBayes(cursus))
+            cursus = cursus.setKans(bayes.berekenBayes(cursus))
             dgvResult.Rows.Add(cursus.getOntw, cursus.getMerk, cursus.getCodeSubafdeling, cursus.getUitvoerCentrum, cursus.getTotaal, Math.Round((cursus.getAantalDoorgegaan / cursus.getTotaal) * 100, 2).ToString, cursus.getBereik, "0")
         Next
 

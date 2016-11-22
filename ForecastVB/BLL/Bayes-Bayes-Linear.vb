@@ -362,6 +362,16 @@ stopAndReturn:
             wel = j1 * j2 * j3 * j4 * j5 * j6
             niet = n1 * n2 * n3 * n4 * n5 * n6
 
+            'Als geen enkel item geschrapt wordt, is 'niet' NaN
+            If Double.IsNaN(niet) Then
+                niet = 0
+            End If
+
+            'Als geen enkel item doorgaat, is 'wel' NaN
+            If Double.IsNaN(wel) Then
+                niet = 0
+            End If
+
             Return (wel / (wel + niet))
         End If
         Return Nothing
