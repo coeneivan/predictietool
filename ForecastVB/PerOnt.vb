@@ -5,6 +5,9 @@ Public Class PerOnt
     Private trues As Double = 0
     Private falses As Double = 0
     Private verschil As Double = 0
+    Private merken As New Dictionary(Of String, Cursus)
+    Private centra As New Dictionary(Of String, Cursus)
+    Private subafdelingen As New Dictionary(Of String, Cursus)
     Private ontwikkelaars As New Dictionary(Of String, Cursus)
     Dim rows
 
@@ -60,7 +63,15 @@ Public Class PerOnt
                 dgvResult.Rows(dgvResult.RowCount - 1).DefaultCellStyle.BackColor = kleur
                 verschil += cursus.getBereik().getBreedte
 
-
+                If Not merken.ContainsKey(cursus.getMerk.ToUpper) Then
+                    merken.Add(cursus.getMerk.ToUpper, cursus)
+                End If
+                If Not centra.ContainsKey(cursus.getUitvoerCentrum.ToUpper) Then
+                    centra.Add(cursus.getUitvoerCentrum.ToUpper, cursus)
+                End If
+                If Not subafdelingen.ContainsKey(cursus.getCodeSubafdeling.ToUpper) Then
+                    subafdelingen.Add(cursus.getCodeSubafdeling.ToUpper, cursus)
+                End If
                 If Not ontwikkelaars.ContainsKey(cursus.getOntw.ToUpper) Then
                     ontwikkelaars.Add(cursus.getOntw.ToUpper, cursus)
                 End If
@@ -71,20 +82,20 @@ Public Class PerOnt
     End Sub
 
     Private Sub fillComboboxen()
-        cbbMerk.Items.AddRange(root.getMerken)
-        cbbCentrum.Items.AddRange(root.getCentra)
-        cbbSubafdeling.Items.AddRange(root.getSubafdeling)
-
+        cbbMerk.Items.AddRange(getAndOrder(merken))
+        cbbCentrum.Items.AddRange(getAndOrder(centra))
+        cbbSubafdeling.Items.AddRange(getAndOrder(subafdelingen))
+        cbbOnt.Items.AddRange(getAndOrder(ontwikkelaars))
+    End Sub
+    Private Function getAndOrder(dic As Dictionary(Of String, Cursus)) As Array
         Dim list As New List(Of String)
-        For Each k In ontwikkelaars
+        For Each k In dic
             list.Add(k.Key)
         Next
         Dim arr As Array = list.ToArray
         Array.Sort(arr)
-
-        cbbOnt.Items.AddRange(arr)
-    End Sub
-
+        Return arr
+    End Function
     Private Sub addColumns(list As ArrayList)
         For Each item In list
             Me.dgvResult.Columns.Add(item.ToString, item.ToString)
