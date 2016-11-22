@@ -44,39 +44,35 @@ Partial Class PerOnt
         'btnClearCenturm
         '
         Me.btnClearCenturm.BackgroundImage = CType(resources.GetObject("btnClearCenturm.BackgroundImage"), System.Drawing.Image)
-        Me.btnClearCenturm.Location = New System.Drawing.Point(258, 50)
-        Me.btnClearCenturm.Margin = New System.Windows.Forms.Padding(4)
+        Me.btnClearCenturm.Location = New System.Drawing.Point(194, 41)
         Me.btnClearCenturm.Name = "btnClearCenturm"
-        Me.btnClearCenturm.Size = New System.Drawing.Size(36, 31)
+        Me.btnClearCenturm.Size = New System.Drawing.Size(27, 25)
         Me.btnClearCenturm.TabIndex = 33
         Me.btnClearCenturm.UseVisualStyleBackColor = True
         '
         'btnClearSubafdeling
         '
         Me.btnClearSubafdeling.BackgroundImage = CType(resources.GetObject("btnClearSubafdeling.BackgroundImage"), System.Drawing.Image)
-        Me.btnClearSubafdeling.Location = New System.Drawing.Point(566, 15)
-        Me.btnClearSubafdeling.Margin = New System.Windows.Forms.Padding(4)
+        Me.btnClearSubafdeling.Location = New System.Drawing.Point(424, 12)
         Me.btnClearSubafdeling.Name = "btnClearSubafdeling"
-        Me.btnClearSubafdeling.Size = New System.Drawing.Size(36, 31)
+        Me.btnClearSubafdeling.Size = New System.Drawing.Size(27, 25)
         Me.btnClearSubafdeling.TabIndex = 30
         Me.btnClearSubafdeling.UseVisualStyleBackColor = True
         '
         'btnClearMerk
         '
         Me.btnClearMerk.BackgroundImage = CType(resources.GetObject("btnClearMerk.BackgroundImage"), System.Drawing.Image)
-        Me.btnClearMerk.Location = New System.Drawing.Point(259, 15)
-        Me.btnClearMerk.Margin = New System.Windows.Forms.Padding(4)
+        Me.btnClearMerk.Location = New System.Drawing.Point(194, 12)
         Me.btnClearMerk.Name = "btnClearMerk"
-        Me.btnClearMerk.Size = New System.Drawing.Size(36, 31)
+        Me.btnClearMerk.Size = New System.Drawing.Size(27, 25)
         Me.btnClearMerk.TabIndex = 29
         Me.btnClearMerk.UseVisualStyleBackColor = True
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(639, 17)
-        Me.Button1.Margin = New System.Windows.Forms.Padding(4)
+        Me.Button1.Location = New System.Drawing.Point(479, 14)
         Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(240, 57)
+        Me.Button1.Size = New System.Drawing.Size(180, 46)
         Me.Button1.TabIndex = 28
         Me.Button1.Text = "Bereken"
         Me.Button1.UseVisualStyleBackColor = True
@@ -84,57 +80,51 @@ Partial Class PerOnt
         'cbbCentrum
         '
         Me.cbbCentrum.FormattingEnabled = True
-        Me.cbbCentrum.Location = New System.Drawing.Point(103, 52)
-        Me.cbbCentrum.Margin = New System.Windows.Forms.Padding(4)
+        Me.cbbCentrum.Location = New System.Drawing.Point(77, 42)
         Me.cbbCentrum.Name = "cbbCentrum"
-        Me.cbbCentrum.Size = New System.Drawing.Size(147, 24)
+        Me.cbbCentrum.Size = New System.Drawing.Size(111, 21)
         Me.cbbCentrum.TabIndex = 27
         '
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(30, 57)
-        Me.Label3.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label3.Location = New System.Drawing.Point(22, 46)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(65, 17)
+        Me.Label3.Size = New System.Drawing.Size(49, 13)
         Me.Label3.TabIndex = 23
         Me.Label3.Text = "Centrum:"
         '
         'cbbSubafdeling
         '
         Me.cbbSubafdeling.FormattingEnabled = True
-        Me.cbbSubafdeling.Location = New System.Drawing.Point(409, 19)
-        Me.cbbSubafdeling.Margin = New System.Windows.Forms.Padding(4)
+        Me.cbbSubafdeling.Location = New System.Drawing.Point(307, 15)
         Me.cbbSubafdeling.Name = "cbbSubafdeling"
-        Me.cbbSubafdeling.Size = New System.Drawing.Size(149, 24)
+        Me.cbbSubafdeling.Size = New System.Drawing.Size(113, 21)
         Me.cbbSubafdeling.TabIndex = 25
         '
         'cbbMerk
         '
         Me.cbbMerk.FormattingEnabled = True
-        Me.cbbMerk.Location = New System.Drawing.Point(81, 19)
-        Me.cbbMerk.Margin = New System.Windows.Forms.Padding(4)
+        Me.cbbMerk.Location = New System.Drawing.Point(61, 15)
         Me.cbbMerk.Name = "cbbMerk"
-        Me.cbbMerk.Size = New System.Drawing.Size(169, 24)
+        Me.cbbMerk.Size = New System.Drawing.Size(128, 21)
         Me.cbbMerk.TabIndex = 24
         '
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(314, 23)
-        Me.Label4.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label4.Location = New System.Drawing.Point(236, 19)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(87, 17)
+        Me.Label4.Size = New System.Drawing.Size(66, 13)
         Me.Label4.TabIndex = 20
         Me.Label4.Text = "Subafdeling:"
         '
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(30, 23)
-        Me.Label2.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label2.Location = New System.Drawing.Point(22, 19)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(43, 17)
+        Me.Label2.Size = New System.Drawing.Size(34, 13)
         Me.Label2.TabIndex = 19
         Me.Label2.Text = "Merk:"
         '
@@ -145,55 +135,52 @@ Partial Class PerOnt
         Me.dgvResult.AllowUserToResizeRows = False
         Me.dgvResult.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCellsExceptHeader
         Me.dgvResult.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dgvResult.Location = New System.Drawing.Point(33, 89)
-        Me.dgvResult.Margin = New System.Windows.Forms.Padding(4)
+        Me.dgvResult.Location = New System.Drawing.Point(25, 72)
         Me.dgvResult.Name = "dgvResult"
         Me.dgvResult.ReadOnly = True
-        Me.dgvResult.Size = New System.Drawing.Size(845, 866)
+        Me.dgvResult.Size = New System.Drawing.Size(634, 704)
         Me.dgvResult.TabIndex = 17
         '
         'lblInfo
         '
         Me.lblInfo.AutoSize = True
-        Me.lblInfo.Location = New System.Drawing.Point(34, 974)
+        Me.lblInfo.Location = New System.Drawing.Point(26, 791)
+        Me.lblInfo.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.lblInfo.Name = "lblInfo"
-        Me.lblInfo.Size = New System.Drawing.Size(0, 17)
+        Me.lblInfo.Size = New System.Drawing.Size(0, 13)
         Me.lblInfo.TabIndex = 16
         '
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(314, 55)
-        Me.Label1.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label1.Location = New System.Drawing.Point(236, 45)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(93, 17)
+        Me.Label1.Size = New System.Drawing.Size(72, 13)
         Me.Label1.TabIndex = 20
         Me.Label1.Text = "Ontwikkelaar:"
         '
         'cbbOnt
         '
         Me.cbbOnt.FormattingEnabled = True
-        Me.cbbOnt.Location = New System.Drawing.Point(415, 51)
-        Me.cbbOnt.Margin = New System.Windows.Forms.Padding(4)
+        Me.cbbOnt.Location = New System.Drawing.Point(311, 41)
         Me.cbbOnt.Name = "cbbOnt"
-        Me.cbbOnt.Size = New System.Drawing.Size(143, 24)
+        Me.cbbOnt.Size = New System.Drawing.Size(108, 21)
         Me.cbbOnt.TabIndex = 25
         '
         'btnClearOnt
         '
         Me.btnClearOnt.BackgroundImage = CType(resources.GetObject("btnClearOnt.BackgroundImage"), System.Drawing.Image)
-        Me.btnClearOnt.Location = New System.Drawing.Point(566, 48)
-        Me.btnClearOnt.Margin = New System.Windows.Forms.Padding(4)
+        Me.btnClearOnt.Location = New System.Drawing.Point(424, 39)
         Me.btnClearOnt.Name = "btnClearOnt"
-        Me.btnClearOnt.Size = New System.Drawing.Size(36, 31)
+        Me.btnClearOnt.Size = New System.Drawing.Size(27, 25)
         Me.btnClearOnt.TabIndex = 30
         Me.btnClearOnt.UseVisualStyleBackColor = True
         '
         'PerOnt
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(914, 1014)
+        Me.ClientSize = New System.Drawing.Size(686, 824)
         Me.Controls.Add(Me.btnClearCenturm)
         Me.Controls.Add(Me.btnClearOnt)
         Me.Controls.Add(Me.btnClearSubafdeling)
@@ -209,6 +196,7 @@ Partial Class PerOnt
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.dgvResult)
         Me.Controls.Add(Me.lblInfo)
+        Me.Margin = New System.Windows.Forms.Padding(2)
         Me.Name = "PerOnt"
         Me.Text = "Per ontwikkelaar"
         CType(Me.dgvResult, System.ComponentModel.ISupportInitialize).EndInit()

@@ -1,19 +1,31 @@
-﻿Public Class PerOnt
+﻿Imports ForecastVB
+
+Public Class PerOnt
     Private root As MainScreen
     Private trues As Double = 0
     Private falses As Double = 0
     Private verschil As Double = 0
     Private ontwikkelaars As New Dictionary(Of String, Cursus)
+    Dim rows
 
     Public Sub New(main As MainScreen)
         InitializeComponent()
         root = main
-    End Sub
-    Private Sub PerOnt_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Dim bll As New OntwikkelaarsBLL
+        rows = bll.getAll(root.getFilters)
+
         Dim columns As New ArrayList({"Ontwikkelaar", "Merk", "Subafdeling", "Uitvoerend centrum", "Aantal geweest", "Doorgegaan", "Kans", "Verschil"})
         addColumns(columns)
-        Dim bll As New OntwikkelaarsBLL
-        Dim rows = bll.getAll(root.getFilters)
+    End Sub
+    Private Sub PerOnt_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+        vulTable(rows)
+        fillComboboxen()
+    End Sub
+
+    Private Sub vulTable(rows As List(Of Cursus))
+        dgvResult.Rows.Clear()
+
         Dim bayes As New Bayes_Bayes_Linear(root, False)
         bayes.resetDictionaries()
 
@@ -28,27 +40,34 @@
         bayes.alleAfwijkingenVerwerken(rows)
 
         For Each cursus In rows
-            Dim kleur As Color
-            If cursus.getBereik.valtTussen(Math.Round((cursus.getAantalDoorgegaan / cursus.getTotaal) * 100, 2)) Then
-                trues += 1
-                kleur = Color.LightGreen
-                cursus = cursus.setIsCorrect(True)
-            Else
-                falses += 1
-                kleur = Color.OrangeRed
-            End If
+            If (cbbCentrum.SelectedItem Is Nothing Or cursus.getUitvoerCentrum.Equals(cbbCentrum.SelectedItem)) And (cbbMerk.SelectedItem Is Nothing Or cursus.getMerk.Equals(cbbMerk.SelectedItem)) And
+                (cbbOnt.SelectedItem Is Nothing Or cursus.getOntw.Equals(cbbOnt.SelectedItem)) And
+                (cbbSubafdeling.SelectedItem Is Nothing Or cursus.getCodeSubafdeling.Equals(cbbSubafdeling.SelectedItem)) Then
 
-            dgvResult.Rows.Add(cursus.getOntw, cursus.getMerk, cursus.getCodeSubafdeling, cursus.getUitvoerCentrum, cursus.getTotaal, Math.Round((cursus.getAantalDoorgegaan / cursus.getTotaal) * 100, 2).ToString, cursus.getBereik, cursus.getBereik.verschilMet(Math.Round((cursus.getAantalDoorgegaan / cursus.getTotaal) * 100, 2)).ToString)
-            dgvResult.Rows(dgvResult.RowCount - 1).DefaultCellStyle.BackColor = kleur
-            verschil += cursus.getBereik().getBreedte
+                Dim kleur As Color
+                If cursus.getBereik.valtTussen(Math.Round((cursus.getAantalDoorgegaan / cursus.getTotaal) * 100, 2)) Then
+                    trues += 1
+                    kleur = Color.LightGreen
+                    cursus = cursus.setIsCorrect(True)
+                Else
+                    falses += 1
+                    kleur = Color.OrangeRed
+                End If
+
+                dgvResult.Rows.Add(cursus.getOntw, cursus.getMerk, cursus.getCodeSubafdeling, cursus.getUitvoerCentrum, cursus.getTotaal,
+                                   Math.Round((cursus.getAantalDoorgegaan / cursus.getTotaal) * 100, 2).ToString, cursus.getBereik,
+                                   cursus.getBereik.verschilMet(Math.Round((cursus.getAantalDoorgegaan / cursus.getTotaal) * 100, 2)).ToString)
+                dgvResult.Rows(dgvResult.RowCount - 1).DefaultCellStyle.BackColor = kleur
+                verschil += cursus.getBereik().getBreedte
 
 
-            If Not ontwikkelaars.ContainsKey(cursus.getCodeSubafdeling.ToUpper) Then
-                ontwikkelaars.Add(cursus.getCodeSubafdeling.ToUpper, cursus)
+                If Not ontwikkelaars.ContainsKey(cursus.getOntw.ToUpper) Then
+                    ontwikkelaars.Add(cursus.getOntw.ToUpper, cursus)
+                End If
             End If
         Next
         lblInfo.Text = (trues + falses).ToString + " items waarvan " + trues.ToString + " juist ingeschat met een gemiddelde afwijking van " + Math.Round(verschil / (trues + falses), 2).ToString
-        fillComboboxen()
+
     End Sub
 
     Private Sub fillComboboxen()
@@ -86,5 +105,9 @@
 
     Private Sub btnClearOnt_Click(sender As Object, e As EventArgs) Handles btnClearOnt.Click
         cbbOnt.SelectedItem = Nothing
+    End Sub
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        vulTable(rows)
     End Sub
 End Class
