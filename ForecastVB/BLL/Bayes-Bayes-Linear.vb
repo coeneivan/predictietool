@@ -46,7 +46,7 @@ Public Class Bayes_Bayes_Linear
         End If
     End Sub
     Public Sub BerekenKans()
-        'For i As Integer = 0 To 10
+        'For i As Integer = 0 To 0
         Dim start = DateTime.Now
             emptyCursusList = resetCursusList(listOfAllItems).ToImmutableList
 
@@ -58,7 +58,7 @@ Public Class Bayes_Bayes_Linear
 
             root.setDeviatie(getdeviatie)
         'Console.WriteLine("Bereken kans: " + (DateTime.Now - start).ToString)
-        '        Next
+        'Next
     End Sub
 
     Public Sub resetDictionaries()
@@ -75,6 +75,9 @@ Public Class Bayes_Bayes_Linear
         dicMaandN = New Dictionary(Of String, Integer)
         dicDagN = New Dictionary(Of String, Integer)
         dicSubN = New Dictionary(Of String, Integer)
+
+        atlDoorgg = 0
+        atlNietDgg = 0
     End Sub
 
 
@@ -139,13 +142,13 @@ Public Class Bayes_Bayes_Linear
             End If
         Next
 
-        For i As Integer = 0 To listOfAllItems.Count - 1
+        For i As Integer = 0 To emptyCursusList.Count - 1
             For j As Integer = 0 To t2CursList.Count - 1
-                If Not listOfAllItems(i).getIsCorrect And Not t2CursList(j).getIsCorrect Then
-                    If listOfAllItems(i).getMerk.Equals(t2CursList(j).getMerk()) And listOfAllItems(i).getCodeSubafdeling().Equals(t2CursList(j).getCodeSubafdeling()) Then
-                        baycalculation(listOfAllItems(i), True)
+                If Not emptyCursusList(i).getIsCorrect And Not t2CursList(j).getIsCorrect Then
+                    If emptyCursusList(i).getMerk.Equals(t2CursList(j).getMerk()) And emptyCursusList(i).getCodeSubafdeling().Equals(t2CursList(j).getCodeSubafdeling()) Then
+                        baycalculation(emptyCursusList(i), True)
                     Else
-                        baycalculation(listOfAllItems(i), False)
+                        baycalculation(emptyCursusList(i), False)
                     End If
                 End If
             Next
