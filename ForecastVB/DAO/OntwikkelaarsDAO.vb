@@ -42,7 +42,8 @@
                 ont = "Niemand"
             End Try
 
-            Dim cursus As New Cursus(row.Item("Merk"), row.Item("UitvCentrumOmsch"), row.Item("codeSubafdeling"), row.Item("totaal"), row.Item("doorgegaan"), ont)
+            Dim cursus As New Cursus(row.Item("Merk"), row.Item("UitvCentrumOmsch"), -1, "", row.Item("codeSubafdeling"), row.Item("totaal"), row.Item("doorgegaan"), -1, -1, -1, -1, Algoritmes.Niets,
+                                     False, ont)
             theList.Add(cursus)
         Next row
 

@@ -18,7 +18,7 @@
 
     Public Sub New(merk As String, uitvoerCentrum As String, maand As String, dag As String, codeSubAfdeling As String,
                    totaal As Integer, doorgegaan As Integer, kans As Double, jaar As Double, b As Double, afwijking As Double,
-                   algoritme As Algoritmes, correct As Boolean)
+                   algoritme As Algoritmes, correct As Boolean, ont As String)
         Me.merk = merk
         Me.uitvCentr = uitvoerCentrum
         Me.maand = maand
@@ -32,84 +32,74 @@
         Me.algoritmeProp = algoritme
         Me.correct = correct
         Me.b = b
-    End Sub
-    'Voor ontwikkelaar
-    Public Sub New(merk As String, uitvoerCentrum As String, codeSubAfdeling As String, totaal As Integer, doorgegaan As Integer, ont As String)
-        Me.merk = merk
-        Me.uitvCentr = uitvoerCentrum
-        Me.codeSubAfd = codeSubAfdeling
-        Me.totaal = totaal
-        Me.doorgegaan = doorgegaan
-        Me.kans = kans
         Me.ont = ont
-        dag = "geendag"
     End Sub
 
 
 #Region "Getters/Setters"
     Public Function setMerk(merk As String) As Cursus
         Return New Cursus(merk, Me.uitvCentr, Me.maand, Me.dag, Me.codeSubAfd, Me.totaal, Me.doorgegaan,
-                                   Me.kans, Me.jaar, Me.b, Me.afwijkingValue, Me.algoritmeProp, Me.correct)
+                                   Me.kans, Me.jaar, Me.b, Me.afwijkingValue, Me.algoritmeProp, Me.correct, Me.ont)
     End Function
 
     Public Function setUitvoerCentrum(uitvoercentrum As String) As Cursus
         Return New Cursus(Me.merk, uitvCentr, Me.maand, Me.dag, Me.codeSubAfd, Me.totaal, Me.doorgegaan,
-                           Me.kans, Me.jaar, Me.b, Me.afwijkingValue, Me.algoritmeProp, Me.correct)
+                           Me.kans, Me.jaar, Me.b, Me.afwijkingValue, Me.algoritmeProp, Me.correct, Me.ont)
     End Function
 
     Public Function setMaand(maand As Integer) As Cursus
         Return New Cursus(Me.merk, Me.uitvCentr, maand, Me.dag, Me.codeSubAfd, Me.totaal, Me.doorgegaan,
-                           Me.kans, Me.jaar, Me.b, Me.afwijkingValue, Me.algoritmeProp, Me.correct)
+                           Me.kans, Me.jaar, Me.b, Me.afwijkingValue, Me.algoritmeProp, Me.correct, Me.ont)
     End Function
 
     Public Function setDag(dag As String) As Cursus
         Return New Cursus(Me.merk, Me.uitvCentr, Me.maand, dag, Me.codeSubAfd, Me.totaal, Me.doorgegaan,
-                           Me.kans, Me.jaar, Me.b, Me.afwijkingValue, Me.algoritmeProp, Me.correct)
+                           Me.kans, Me.jaar, Me.b, Me.afwijkingValue, Me.algoritmeProp, Me.correct, Me.ont)
     End Function
 
     Public Function setCodeSubafdeling(codeSubAfd As String) As Cursus
         Return New Cursus(Me.merk, Me.uitvCentr, Me.maand, Me.dag, codeSubAfd.ToUpper, Me.totaal, Me.doorgegaan,
-                           Me.kans, Me.jaar, Me.b, Me.afwijkingValue, Me.algoritmeProp, Me.correct)
+                           Me.kans, Me.jaar, Me.b, Me.afwijkingValue, Me.algoritmeProp, Me.correct, Me.ont)
     End Function
 
     Public Function setTotaal(totaal As Integer) As Cursus
         Return New Cursus(Me.merk, Me.uitvCentr, Me.maand, Me.dag, Me.codeSubAfd, totaal, Me.doorgegaan,
-                           Me.kans, Me.jaar, Me.b, Me.afwijkingValue, Me.algoritmeProp, Me.correct)
+                           Me.kans, Me.jaar, Me.b, Me.afwijkingValue, Me.algoritmeProp, Me.correct, Me.ont)
     End Function
 
     Public Function setDoorgegaan(doorgegaan As Integer) As Cursus
         Return New Cursus(Me.merk, Me.uitvCentr, Me.maand, Me.dag, Me.codeSubAfd, Me.totaal, doorgegaan,
-                           Me.kans, Me.jaar, Me.b, Me.afwijkingValue, Me.algoritmeProp, Me.correct)
+                           Me.kans, Me.jaar, Me.b, Me.afwijkingValue, Me.algoritmeProp, Me.correct, Me.ont)
     End Function
 
     Public Function setKans(kans As Double) As Cursus
         Return New Cursus(Me.merk, Me.uitvCentr, Me.maand, Me.dag, Me.codeSubAfd, Me.totaal, Me.doorgegaan,
-                           kans, Me.jaar, Me.b, Me.afwijkingValue, Me.algoritmeProp, Me.correct)
+                           kans, Me.jaar, Me.b, Me.afwijkingValue, Me.algoritmeProp, Me.correct, Me.ont)
     End Function
 
     Public Function setJaar(jaar As Double) As Cursus
         Return New Cursus(Me.merk, Me.uitvCentr, Me.maand, Me.dag, Me.codeSubAfd, Me.totaal, Me.doorgegaan,
-                           Me.kans, jaar, Me.b, Me.afwijkingValue, Me.algoritmeProp, Me.correct)
+                           Me.kans, jaar, Me.b, Me.afwijkingValue, Me.algoritmeProp, Me.correct, Me.ont)
     End Function
 
     Public Function setB(b As Double) As Cursus
         Return New Cursus(Me.merk, Me.uitvCentr, Me.maand, Me.dag, Me.codeSubAfd, Me.totaal, Me.doorgegaan,
-                               Me.kans, Me.jaar, b, Me.afwijkingValue, Me.algoritmeProp, Me.correct)
+                               Me.kans, Me.jaar, b, Me.afwijkingValue, Me.algoritmeProp, Me.correct, Me.ont)
     End Function
 
     Public Function setAfwijkingValue(afwijkingValue As Double) As Cursus
         Return New Cursus(Me.merk, Me.uitvCentr, Me.maand, Me.dag, Me.codeSubAfd, Me.totaal, Me.doorgegaan,
-                           Me.kans, Me.jaar, Me.b, afwijkingValue, Me.algoritmeProp, Me.correct)
+                           Me.kans, Me.jaar, Me.b, afwijkingValue, Me.algoritmeProp, Me.correct, Me.ont)
     End Function
 
     Public Function setAlgoritme(algoritmeProp As Algoritmes) As Cursus
         Return New Cursus(Me.merk, Me.uitvCentr, Me.maand, Me.dag, Me.codeSubAfd, Me.totaal, Me.doorgegaan,
-                           Me.kans, Me.jaar, Me.b, Me.afwijkingValue, algoritmeProp, Me.correct)
+                           Me.kans, Me.jaar, Me.b, Me.afwijkingValue, algoritmeProp, Me.correct, Me.ont)
     End Function
 
     Public Function setIsCorrect(correct As Boolean) As Cursus
         Return New Cursus(Me.merk, Me.uitvCentr, Me.maand, Me.dag, Me.codeSubAfd, Me.totaal, Me.doorgegaan,
-                               Me.kans, Me.jaar, Me.b, Me.afwijkingValue, Me.algoritmeProp, correct)
+                               Me.kans, Me.jaar, Me.b, Me.afwijkingValue, Me.algoritmeProp, correct, Me.ont)
     End Function
 
     Public Function getMerk() As String

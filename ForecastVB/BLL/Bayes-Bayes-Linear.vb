@@ -21,6 +21,7 @@ Public Class Bayes_Bayes_Linear
     Private dicMaandW As New Dictionary(Of String, Integer)
     Private dicDagW As New Dictionary(Of String, Integer)
     Private dicSubW As New Dictionary(Of String, Integer)
+    Private dicOntwW = New Dictionary(Of String, Integer)
 
     ' Lijst om te tellen hoeveel cursussen van elk item wel geschrapt werden
     Private dicMerkN As New Dictionary(Of String, Integer)
@@ -28,6 +29,7 @@ Public Class Bayes_Bayes_Linear
     Private dicMaandN As New Dictionary(Of String, Integer)
     Private dicDagN As New Dictionary(Of String, Integer)
     Private dicSubN As New Dictionary(Of String, Integer)
+    Private dicOntwN = New Dictionary(Of String, Integer)
 
     Private atlDoorgg As Integer
     Private atlNietDgg As Integer
@@ -68,6 +70,7 @@ Public Class Bayes_Bayes_Linear
         dicMaandW = New Dictionary(Of String, Integer)
         dicDagW = New Dictionary(Of String, Integer)
         dicSubW = New Dictionary(Of String, Integer)
+        dicOntwW = New Dictionary(Of String, Integer)
 
         ' Lijst om te tellen hoeveel cursussen van elk item wel geschrapt werden
         dicMerkN = New Dictionary(Of String, Integer)
@@ -75,6 +78,7 @@ Public Class Bayes_Bayes_Linear
         dicMaandN = New Dictionary(Of String, Integer)
         dicDagN = New Dictionary(Of String, Integer)
         dicSubN = New Dictionary(Of String, Integer)
+        dicOntwN = New Dictionary(Of String, Integer)
 
         atlDoorgg = 0
         atlNietDgg = 0
@@ -123,7 +127,7 @@ Public Class Bayes_Bayes_Linear
 
             If Not gevonden Or t1CursList.Count = 0 Then
                 Dim curs As New Cursus(listForBayesMerk(j).getMerk, listForBayesMerk(j).getUitvoerCentrum, Nothing, listForBayesMerk(j).getDag, listForBayesMerk(j).getCodeSubafdeling,
-                                       listForBayesMerk(j).getTotaal, listForBayesMerk(j).getAantalDoorgegaan, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing)
+                                       listForBayesMerk(j).getTotaal, listForBayesMerk(j).getAantalDoorgegaan, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing)
                 t1CursList.Add(curs)
             End If
         Next
@@ -252,6 +256,7 @@ stopAndReturn:
         Dim codeSubAfd = item.getCodeSubafdeling
         Dim nietDoor = item.getTotaal - item.getAantalDoorgegaan
         Dim doorgegaan = item.getAantalDoorgegaan
+        Dim ontwikkelaar = item.getOntw
 
         If merkRekenen Then
             ' Lijst per merk aanvullen
@@ -324,6 +329,22 @@ stopAndReturn:
             dicSubN(codeSubAfd) += nietDoor
         End If
 
+        If Not ontwikkelaar Is Nothing Then
+            ' Lijst per ontwikkelaar aanvullen
+            If Not dicOntwW.ContainsKey(ontwikkelaar) Then
+                dicOntwW.Add(ontwikkelaar, doorgegaan)
+            Else
+                dicOntwW(ontwikkelaar) += doorgegaan
+            End If
+
+            If Not dicOntwN.ContainsKey(ontwikkelaar) Then
+                dicOntwN.Add(ontwikkelaar, nietDoor)
+            Else
+                dicOntwN(ontwikkelaar) += nietDoor
+            End If
+        End If
+
+
 
         ' Som van aantal doorgegane cursussen
         atlDoorgg += doorgegaan
@@ -338,8 +359,16 @@ stopAndReturn:
         If dicMerkW.ContainsKey(item.getMerk) And dicMerkN.ContainsKey(item.getMerk) And dicSubW.ContainsKey(item.getCodeSubafdeling) And dicSubN.ContainsKey(item.getCodeSubafdeling) And
             dicUitvW.ContainsKey(item.getUitvoerCentrum) And dicUitvN.ContainsKey(item.getUitvoerCentrum) And dicDagW.ContainsKey(item.getDag) And dicDagN.ContainsKey(item.getDag) And
             dicMaandW.ContainsKey(item.getMaand) And dicMaandN.ContainsKey(item.getMaand) Then
-            Dim j1, j2, j3, j4, j5, j6 As Double
-            Dim n1, n2, n3, n4, n5, n6 As Double
+            Dim j1, j2, j3, j4, j5, j6, j7 As Double
+            Dim n1, n2, n3, n4, n5, n6, n7 As Double
+
+            If Not item.getOntw Is Nothing Then
+                j7 = dicOntwW(item.getOntw) / atlDoorgg
+                n7 = dicOntwN(item.getOntw) / atlNietDgg
+            Else
+                j7 = 1
+                n7 = 1
+            End If
 
             j1 = (dicMerkW(item.getMerk) / atlDoorgg)
             j2 = (dicSubW(item.getCodeSubafdeling) / atlDoorgg)
@@ -413,7 +442,7 @@ stopAndReturn:
 
         For Each item As Cursus In list
             immutCurs = New Cursus(item.getMerk, item.getUitvoerCentrum, item.getMaand, item.getDag, item.getCodeSubafdeling,
-                                            item.getTotaal, item.getAantalDoorgegaan, -1.01, item.getJaar, item.getB, -1, Algoritmes.Niets, False)
+                                            item.getTotaal, item.getAantalDoorgegaan, -1.01, item.getJaar, item.getB, -1, Algoritmes.Niets, False, Nothing)
 
 
             immutCursList.Add(immutCurs)

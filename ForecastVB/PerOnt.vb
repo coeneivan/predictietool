@@ -10,11 +10,19 @@
         Dim bll As New OntwikkelaarsBLL
         Dim rows = bll.getAll(root.getFilters)
         Dim bayes As New Bayes_Bayes_Linear(root, False)
+        bayes.resetDictionaries()
+
+        For i As Integer = 0 To rows.Count - 1
+            bayes.baycalculation(rows(i), True)
+        Next
+
+        For i As Integer = 0 To rows.Count - 1
+            rows(i) = rows(i).setKans(bayes.berekenBayes(rows(i)))
+        Next
+
         bayes.alleAfwijkingenVerwerken(rows)
+
         For Each cursus In rows
-            bayes.resetDictionaries()
-            bayes.baycalculation(cursus, True)
-            cursus = cursus.setKans(bayes.berekenBayes(cursus))
             dgvResult.Rows.Add(cursus.getOntw, cursus.getMerk, cursus.getCodeSubafdeling, cursus.getUitvoerCentrum, cursus.getTotaal, Math.Round((cursus.getAantalDoorgegaan / cursus.getTotaal) * 100, 2).ToString, cursus.getBereik, "0")
         Next
 
