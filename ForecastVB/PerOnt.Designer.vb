@@ -84,6 +84,7 @@ Partial Class PerOnt
         Me.cbbCentrum.Name = "cbbCentrum"
         Me.cbbCentrum.Size = New System.Drawing.Size(111, 21)
         Me.cbbCentrum.TabIndex = 27
+        Me.cbbCentrum.DropDownStyle = ComboBoxStyle.DropDownList
         '
         'Label3
         '
