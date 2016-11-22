@@ -214,7 +214,7 @@ stopAndReturn:
         Return c.getBereik
     End Function
 
-    Private Sub baycalculation(item As Cursus, merkRekenen As Boolean)
+    Public Sub baycalculation(item As Cursus, merkRekenen As Boolean)
         Dim merk = item.getMerk()
         Dim uitvCentr = item.getUitvoerCentrum
         Dim maand = item.getMaand
@@ -304,7 +304,7 @@ stopAndReturn:
 
 
 
-    Private Function berekenBayes(item As Cursus) As Double
+    Public Function berekenBayes(item As Cursus) As Double
         If dicMerkW.ContainsKey(item.getMerk) And dicMerkN.ContainsKey(item.getMerk) Then
             Dim j1, j2, j3, j4, j5, j6 As Double
             Dim n1, n2, n3, n4, n5, n6 As Double

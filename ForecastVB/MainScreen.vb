@@ -23,6 +23,10 @@ Public Class MainScreen
         ready = True
         Me.Visible = True
         Console.WriteLine("Load: " + (DateTime.Now - start).ToString)
+
+        Dim j As New JSONParser
+        filters = j.readFilters(saveDirectory + cboFiltersList.SelectedItem.ToString() + ".json")
+
     End Sub
     ''' <summary>
     ''' Data herlezen en comboboxen refreshen
@@ -179,7 +183,7 @@ Public Class MainScreen
     ''' </summary>
     ''' <param name="sender"></param>
     ''' <param name="e"></param>
-    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles btnBerekenen.Click
         If cboMerk.SelectedItem Is Nothing Then
             MessageBox.Show("Gelieve een merk te selecteren aub")
         Else
@@ -287,7 +291,7 @@ Public Class MainScreen
         Return f
     End Function
 
-    Private Sub ToolStripSplitButton1_ButtonClick(sender As Object, e As EventArgs) Handles ToolStripSplitButton1.ButtonClick
+    Private Sub ToolStripSplitButton1_ButtonClick(sender As Object, e As EventArgs)
 
         My.Computer.FileSystem.DeleteFile(saveDirectory + "/cursussen.xml")
         forceRefresh()
@@ -319,4 +323,9 @@ Public Class MainScreen
         Array.Sort(centra)
         Return centra
     End Function
+
+    Private Sub btnOnt_Click(sender As Object, e As EventArgs) Handles btnOnt.Click
+        Dim ontScherm As New PerOnt(Me)
+        ontScherm.Show()
+    End Sub
 End Class

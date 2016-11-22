@@ -113,10 +113,18 @@
     </Compile>
     <Compile Include="BLL\Bayes-Bayes-Linear.vb" />
     <Compile Include="BLL\FiltersBLL.vb" />
+    <Compile Include="BLL\OntwikkelaarsBLL.vb" />
     <Compile Include="BLL\TestBLL.vb" />
     <Compile Include="BLL\tVerdeling.vb" />
     <Compile Include="DAO\FiltersDAO.vb" />
+    <Compile Include="DAO\OntwikkelaarsDAO.vb" />
     <Compile Include="Model\Cursus.vb" />
+    <Compile Include="PerOnt.Designer.vb">
+      <DependentUpon>PerOnt.vb</DependentUpon>
+    </Compile>
+    <Compile Include="PerOnt.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="SplashScreen1.Designer.vb">
       <DependentUpon>SplashScreen1.vb</DependentUpon>
     </Compile>
@@ -181,6 +189,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FiltersScherm.resx">
       <DependentUpon>FiltersScherm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PerOnt.resx">
+      <DependentUpon>PerOnt.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SplashScreen1.resx">
       <DependentUpon>SplashScreen1.vb</DependentUpon>

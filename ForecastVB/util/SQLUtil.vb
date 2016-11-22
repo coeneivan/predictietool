@@ -41,7 +41,7 @@ Public Class SQLUtil
             myConn.Close()
         End Try
     End Function
-    Friend Function GetAllCursForAllVar(query As String) As List(Of Cursus)
+    Public Function GetAllCursForAllVar(query As String) As List(Of Cursus)
         myConn = New SqlConnection(sDatabaseLocatie)
         myCmd = myConn.CreateCommand
         myCmd.CommandText = query
@@ -63,7 +63,7 @@ Public Class SQLUtil
             myConn.Close()
         End Try
     End Function
-    Friend Function GetAllCursForAllVarWithYear(query As String) As List(Of Cursus)
+    Public Function GetAllCursForAllVarWithYear(query As String) As List(Of Cursus)
         myConn = New SqlConnection(sDatabaseLocatie)
         myCmd = myConn.CreateCommand
         myCmd.CommandText = query
@@ -81,6 +81,22 @@ Public Class SQLUtil
             End While
 
             Return predic
+        Finally
+            myConn.Close()
+        End Try
+    End Function
+    'Voor ontwikkelaar
+    Public Function getAlles(script As String) As DataTable
+        myConn = New SqlConnection(sDatabaseLocatie)
+        myCmd = myConn.CreateCommand
+        myCmd.CommandText = script
+        Dim dt As New DataTable
+
+        Try
+            myConn.Open()
+            myReader = myCmd.ExecuteReader()
+            dt.Load(myReader)
+            Return dt
         Finally
             myConn.Close()
         End Try

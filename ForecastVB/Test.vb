@@ -223,17 +223,6 @@ Public Class Test
         dgvResult.DataSource = Nothing
         dgvResult.Columns.Clear()
         addColumns(New ArrayList({"merk", "Uitvoerend centrum", "Sub afdeling", "Maand", "Dag", "Totaal", "% Doorgeg", "% Berekend", "verschil", "Algoritme", "Bereik"}))
-        dgvResult.Columns(0).Width = 40
-        dgvResult.Columns(1).Width = 100
-        dgvResult.Columns(2).Width = 40
-        dgvResult.Columns(3).Width = 40
-        dgvResult.Columns(4).Width = 40
-        dgvResult.Columns(5).Width = 40
-        dgvResult.Columns(6).Width = 50
-        dgvResult.Columns(7).Width = 115
-        dgvResult.Columns(8).Width = 50
-        dgvResult.Columns(9).Width = 75
-        dgvResult.Columns(10).Width = 75
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click

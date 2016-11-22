@@ -14,6 +14,7 @@
     Private afwijkingValue As Double
     Private algoritmeProp As Algoritmes
     Private correct As Boolean
+    Private ont As String
 
     Public Sub New(merk As String, uitvoerCentrum As String, maand As String, dag As String, codeSubAfdeling As String,
                    totaal As Integer, doorgegaan As Integer, kans As Double, jaar As Double, b As Double, afwijking As Double,
@@ -32,7 +33,16 @@
         Me.correct = correct
         Me.b = b
     End Sub
-
+    'Voor ontwikkelaar
+    Public Sub New(merk As String, uitvoerCentrum As String, codeSubAfdeling As String, totaal As Integer, doorgegaan As Integer, ont As String)
+        Me.merk = merk
+        Me.uitvCentr = uitvoerCentrum
+        Me.codeSubAfd = codeSubAfdeling
+        Me.totaal = totaal
+        Me.doorgegaan = doorgegaan
+        Me.kans = kans
+        Me.ont = ont
+    End Sub
 
 
 #Region "Getters/Setters"
@@ -154,6 +164,10 @@
     End Function
     Public Function getBereik() As Bereik
         Return New Bereik(afwijkingValue, kans * 100)
+    End Function
+
+    Public Function getOntw() As String
+        Return ont
     End Function
 #End Region
 End Class
