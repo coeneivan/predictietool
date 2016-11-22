@@ -35,12 +35,12 @@
 
         For Each row As DataRow In results.Rows
             Dim ont As String
-            Try
+
+            If IsDBNull(row.Item("ont")) Then
+                ont = "NIEMAND"
+            Else
                 ont = row.Item("ont")
-            Catch ex As InvalidCastException
-                'Als het niet lukt om waarde toe te kennen is waarde null
-                ont = "Niemand"
-            End Try
+            End If
 
             Dim cursus As New Cursus(row.Item("Merk"), row.Item("UitvCentrumOmsch"), -1, "", row.Item("codeSubafdeling"), row.Item("totaal"), row.Item("doorgegaan"), -1, -1, -1, -1, Algoritmes.Niets,
                                      False, ont)
