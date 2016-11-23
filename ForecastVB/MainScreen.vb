@@ -209,7 +209,7 @@ Public Class MainScreen
                     txtTotaal.Text = b.getKansVoorCursus(c).ToString
                     ang = b.getKansVoorCursus(c).getAvg
                     Panel1.Refresh()
-                    Timer1.Start()
+                    'Timer1.Start()
                 End If
             End If
         End If
@@ -402,55 +402,26 @@ Public Class MainScreen
 
         Panel1.Refresh()
     End Sub
-    Private Ba As Point
-    Private F As Point
-    Private DistanceFromBF As Integer = 1
+
     Private Sub Panel2_Paint(sender As Object, e As PaintEventArgs) Handles Panel2.Paint
-        Dim height = 100
-        Ba = New Point(DistanceFromBF, height)
-        F = New Point(Panel2.Width - DistanceFromBF, height)
+        Dim Ypunt = 100 'ONDERSTE PUNT VAN TEKENING
+        Dim dif As Integer = 10 'AFSTAND VAN ZIJKANT
+        Dim strokeWidth = 10 'BREEDTE VAN HALFCIRCLE
+        Dim myRec As New Rectangle(New Point(dif, dif), New Size(Panel2.Width - dif * 2, Ypunt * 2)) ' hoogte was Panel2.Height - dif * 2
+        Dim myRec2 As New Rectangle(New Point(dif + strokeWidth, dif + strokeWidth), New Size((myRec.Size.Width) - strokeWidth * 2, (myRec.Size.Height) - strokeWidth * 2))
+        Dim myClip As New Rectangle(New Point(dif, dif), New Size(myRec.Size.Width, myRec.Size.Height / 2))
 
-        If Ba.Y = F.Y Then
-            Dim C As New Point(Ba.X + (F.X - Ba.X) / 2, Ba.Y - DistanceFromBF)
-            Dim ctr As Point
-            Dim rad As Double
-            CircleFromPointsOnCircumference(Ba, C, F, ctr, rad)
+        'e.Graphics.SetClip(myClip)
+        '
+        e.Graphics.FillRectangle(New SolidBrush(Color.Green), myRec)
+        e.Graphics.FillEllipse(New SolidBrush(Color.Black), myRec)
+        e.Graphics.FillEllipse(New SolidBrush(Color.Orange), myRec2)
 
-            Dim rc As New Rectangle(ctr, New Size(Panel2.Width - DistanceFromBF, Panel2.Height - DistanceFromBF))
-            rc.Inflate(rad, rad)
-            e.Graphics.DrawRectangle(Pens.Black, rc)
-            Dim dif As Integer = 10
-            Dim Width = Panel2.Width - 10
-            Console.WriteLine(Width.ToString)
-            Dim myRec As New Rectangle(New Point(dif, dif), New Size(Width, 140))
-            e.Graphics.DrawRectangle(Pens.Black, myRec)
-            'Dim clip As New Rectangle(New Point(Ba.X, Ba.Y - DistanceFromBF), New Size(F.X - Ba.X, DistanceFromBF))
-            'e.Graphics.SetClip(clip)
-            e.Graphics.DrawEllipse(Pens.Green, rc)
-
-            e.Graphics.ResetClip()
-            DrawPoint(Ba, e.Graphics, Color.Red)
-            DrawPoint(C, e.Graphics, Color.Red)
-            DrawPoint(F, e.Graphics, Color.Red)
-        End If
-    End Sub
-    Private Sub DrawPoint(ByVal pt As Point, ByVal G As Graphics, ByVal clr As Color)
-        Dim rc As New Rectangle(pt, New Size(1, 1))
-        rc.Inflate(3, 3)
-        Using brsh As New SolidBrush(clr)
-            G.FillEllipse(brsh, rc)
-        End Using
-        Console.WriteLine("PUNT: " + pt.X.ToString + " " + pt.Y.ToString)
+        e.Graphics.FillRectangle(New SolidBrush(Color.Blue), myClip)
+        e.Graphics.ResetClip()
     End Sub
 
-    Private Sub CircleFromPointsOnCircumference(ByVal ptA As Point, ByVal ptB As Point, ByVal ptC As Point, ByRef Center As Point, ByRef Radius As Double)
-        Dim mR As Double = CDbl(ptA.Y - ptB.Y) / CDbl(ptA.X - ptB.X)
-        Dim mT As Double = CDbl(ptC.Y - ptB.Y) / CDbl(ptC.X - ptB.X)
-        Dim X As Double = (mR * mT * (ptC.Y - ptA.Y) + mR * (ptB.X + ptC.X) - mT * (ptA.X + ptB.X)) / CDbl(2) * (mR - mT)
-        Dim Y As Double = CDbl(-1) / mR * (X - CDbl(ptA.X + ptB.X) / CDbl(2)) + (CDbl(ptA.Y + ptB.Y) / CDbl(2))
-        Center = New Point(X, Y)
-        Radius = Math.Sqrt(Math.Pow(ptA.X - Center.X, 2) + Math.Pow(ptA.Y - Center.Y, 2))
-    End Sub
+
     Private Sub Button2_Click_1(sender As Object, e As EventArgs) Handles Button2.Click
         Panel2.Refresh()
     End Sub
