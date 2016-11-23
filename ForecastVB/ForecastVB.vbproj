@@ -219,6 +219,8 @@
     <Content Include="conn.txt">
       <SubType>Form</SubType>
     </Content>
+    <None Include="Resources\bg.png" />
+    <None Include="Resources\1479914035_thefreeforty_location.png" />
     <None Include="Resources\1476721606_Close.png" />
     <None Include="Resources\1476715277_add.png" />
     <None Include="Resources\1476715262_multimedia-27.png" />

@@ -1,6 +1,6 @@
 ﻿Imports System.Globalization
 Imports System.IO
-Imports System.Windows.Forms
+Imports System.Drawing.Drawing2D
 Imports Microsoft.VisualBasic.FileIO
 
 Public Class MainScreen
@@ -16,7 +16,9 @@ Public Class MainScreen
     Private tverdelingsPerc As Double = 0.995
 
 
+    Private ang As Double = 50
     Private Sub MainScreen_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Dim start As DateTime = DateTime.Now
         s = New SplashScreen1()
         s.Show()
         Me.Visible = False
@@ -124,6 +126,9 @@ Public Class MainScreen
         cboSubAfd.Items.Clear()
         cboSubAfd.Items.AddRange(getSubafdeling)
     End Sub
+
+
+
     ''' <summary>
     ''' Refresht de lijst met filters
     ''' Indien de map niet bestaat, maakt die aan en steek er de defaultlist in
@@ -201,6 +206,9 @@ Public Class MainScreen
                     Dim c As New Cursus(cboMerk.SelectedItem.ToString, cboUitvCent.SelectedItem.ToString, dtpStartcursus.Value.Month.ToString, dtpStartcursus.Value.ToString("dddd", New CultureInfo("nl-BE")),
                                                  cboSubAfd.SelectedItem.ToString, 0, 0, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing)
                     txtTotaal.Text = b.getKansVoorCursus(c).ToString
+                    ang = b.getKansVoorCursus(c).getAvg
+                    Panel1.Refresh()
+                    Timer1.Start()
                 End If
             End If
         End If
@@ -341,6 +349,113 @@ Public Class MainScreen
     Private Sub btnOnt_Click(sender As Object, e As EventArgs) Handles btnOnt.Click
         Dim ontScherm As New PerOnt(Me)
         ontScherm.Show()
+    End Sub
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        Dim sql As New SQLUtil
+        Dim DTcursus = sql.getAlles("SELECT *, month(startdatum) as maand FROM Cursussen WHERE [Opleidingsnr] = '" + txtOpleidingsnummer.Text.Trim + "'")
+        Dim cursus As Cursus
+        Dim startdatum As Date
+        For Each row As DataRow In DTcursus.Rows
+            startdatum = row.Item("startdatum")
+            cursus = New Cursus(row.Item("Merk"), row.Item("UitvCentrumOmsch"), row.Item("maand"), row.Item("dag"), row.Item("codeSubafdeling"), 1, 1, 1, 1, 1, 1, Nothing, False, "")
+        Next
+        cboMerk.SelectedItem = cursus.getMerk
+        cboUitvCent.SelectedItem = cursus.getUitvoerCentrum
+        cboSubAfd.SelectedItem = cursus.getCodeSubafdeling
+        dtpStartcursus.Value = startdatum
+    End Sub
+
+    Private Sub pcbWijzer_Paint(sender As Object, e As PaintEventArgs)
+
+
+    End Sub
+    Const min As Integer = 100
+    Const max As Integer = 260
+    Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs) Handles Panel1.Paint
+        Const min As Integer = 100
+        Const max As Integer = 260
+
+        Dim W As Integer = My.Resources.DashArrow.Width / 4
+        Dim H As Integer = My.Resources.DashArrow.Height / 4
+        Dim gr As Graphics = e.Graphics
+        Dim m As Matrix = New Matrix
+        m.RotateAt((ang * ((max - min) / 100)) + min, New Point(140, 150))
+        m.Scale(0.25, 0.25)
+        gr.Transform = m
+        gr.DrawImage(My.Resources.DashArrow, New Point(220, 370))
+    End Sub
+    Dim down As Boolean
+    Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
+        'Dim a = ((ang - 1) * ((max - min) / 100)) + min
+        If Not down Then
+            Dim a = ((ang - 1) * ((max - min) / 100)) + min
+            If a <= max And a >= min Then
+                ang -= 1
+            Else
+                down = True
+            End If
+        Else
+            Dim a = ((ang + 1) * ((max - min) / 100)) + min
+            If a <= max And a >= min Then
+                ang += 1
+            Else
+                down = False
+            End If
+        End If
+
+        Panel1.Refresh()
+    End Sub
+    Private Ba As Point
+    Private F As Point
+    Private DistanceFromBF As Integer = 1
+    Private Sub Panel2_Paint(sender As Object, e As PaintEventArgs) Handles Panel2.Paint
+        Dim height = 100
+        Ba = New Point(DistanceFromBF, height)
+        F = New Point(Panel2.Width - DistanceFromBF, height)
+
+        If Ba.Y = F.Y Then
+            Dim C As New Point(Ba.X + (F.X - Ba.X) / 2, Ba.Y - DistanceFromBF)
+            Dim ctr As Point
+            Dim rad As Double
+            CircleFromPointsOnCircumference(Ba, C, F, ctr, rad)
+
+            Dim rc As New Rectangle(ctr, New Size(Panel2.Width - DistanceFromBF, Panel2.Height - DistanceFromBF))
+            rc.Inflate(rad, rad)
+            e.Graphics.DrawRectangle(Pens.Black, rc)
+            Dim dif As Integer = 10
+            Dim Width = Panel2.Width - 10
+            Console.WriteLine(Width.ToString)
+            Dim myRec As New Rectangle(New Point(dif, dif), New Size(Width, 140))
+            e.Graphics.DrawRectangle(Pens.Black, myRec)
+            'Dim clip As New Rectangle(New Point(Ba.X, Ba.Y - DistanceFromBF), New Size(F.X - Ba.X, DistanceFromBF))
+            'e.Graphics.SetClip(clip)
+            e.Graphics.DrawEllipse(Pens.Green, rc)
+
+            e.Graphics.ResetClip()
+            DrawPoint(Ba, e.Graphics, Color.Red)
+            DrawPoint(C, e.Graphics, Color.Red)
+            DrawPoint(F, e.Graphics, Color.Red)
+        End If
+    End Sub
+    Private Sub DrawPoint(ByVal pt As Point, ByVal G As Graphics, ByVal clr As Color)
+        Dim rc As New Rectangle(pt, New Size(1, 1))
+        rc.Inflate(3, 3)
+        Using brsh As New SolidBrush(clr)
+            G.FillEllipse(brsh, rc)
+        End Using
+        Console.WriteLine("PUNT: " + pt.X.ToString + " " + pt.Y.ToString)
+    End Sub
+
+    Private Sub CircleFromPointsOnCircumference(ByVal ptA As Point, ByVal ptB As Point, ByVal ptC As Point, ByRef Center As Point, ByRef Radius As Double)
+        Dim mR As Double = CDbl(ptA.Y - ptB.Y) / CDbl(ptA.X - ptB.X)
+        Dim mT As Double = CDbl(ptC.Y - ptB.Y) / CDbl(ptC.X - ptB.X)
+        Dim X As Double = (mR * mT * (ptC.Y - ptA.Y) + mR * (ptB.X + ptC.X) - mT * (ptA.X + ptB.X)) / CDbl(2) * (mR - mT)
+        Dim Y As Double = CDbl(-1) / mR * (X - CDbl(ptA.X + ptB.X) / CDbl(2)) + (CDbl(ptA.Y + ptB.Y) / CDbl(2))
+        Center = New Point(X, Y)
+        Radius = Math.Sqrt(Math.Pow(ptA.X - Center.X, 2) + Math.Pow(ptA.Y - Center.Y, 2))
+    End Sub
+    Private Sub Button2_Click_1(sender As Object, e As EventArgs) Handles Button2.Click
+        Panel2.Refresh()
     End Sub
 
     Friend Sub setTVerdeling(waarde As String)

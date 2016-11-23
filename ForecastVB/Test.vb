@@ -79,7 +79,7 @@ Public Class Test
     '        Dim ver3 As New Series
     '        Dim verB As New Series
     '        Dim verO As New Series
-    '        Dim verR As New Series
+    '        Dim verR As New Seriess
     '        verB.Color = Color.Black
     '        verO.Color = Color.Black
     '        verR.Color = Color.Red
