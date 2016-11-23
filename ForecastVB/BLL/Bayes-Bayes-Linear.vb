@@ -388,8 +388,8 @@ stopAndReturn:
             Dim wel As Double = 0
             Dim niet As Double = 0
 
-            wel = j1 * j2 * j3 * j4 * j5 * j6
-            niet = n1 * n2 * n3 * n4 * n5 * n6
+            wel = j1 * j2 * j3 * j4 * j5 * j6 * j7
+            niet = n1 * n2 * n3 * n4 * n5 * n6 * n7
 
             'Als geen enkel item geschrapt wordt, is 'niet' NaN
             If Double.IsNaN(niet) Then
