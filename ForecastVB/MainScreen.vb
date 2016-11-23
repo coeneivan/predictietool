@@ -17,7 +17,6 @@ Public Class MainScreen
 
 
     Private Sub MainScreen_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Dim start As DateTime = DateTime.Now
         s = New SplashScreen1()
         s.Show()
         Me.Visible = False
@@ -27,13 +26,11 @@ Public Class MainScreen
         cbbValtTussen.SelectedIndex = 0
         setTVerdeling(cbbValtTussen.SelectedItem)
         Me.Visible = True
-        Console.WriteLine("Load: " + (DateTime.Now - start).ToString)
 
         Dim j As New JSONParser
         filters = j.readFilters(saveDirectory + cboFiltersList.SelectedItem.ToString() + ".json")
-
-        'Console.WriteLine("Load: " + (DateTime.Now - start).ToString)
     End Sub
+
     ''' <summary>
     ''' Data herlezen en comboboxen refreshen
     ''' </summary>
@@ -42,7 +39,6 @@ Public Class MainScreen
         readData()
         b = New Bayes_Bayes_Linear(Me, True)
         refreshCombobox()
-        'Console.WriteLine("Startup: " + (DateTime.Now - start).ToString)
     End Sub
     ''' <summary>
     ''' Data uit file lezen
@@ -79,7 +75,6 @@ Public Class MainScreen
             End If
         Finally
             Me.Cursor = Cursors.Default
-            'Console.WriteLine("Read data: " + (DateTime.Now - start).ToString)
         End Try
     End Sub
     ''' <summary>
@@ -172,7 +167,6 @@ Public Class MainScreen
             My.Computer.FileSystem.CopyFile("..\..\Filters\defaultList.json", saveDirectory + "\DefaultList.json")
             refreshFilterList()
         Finally
-            'Console.WriteLine("Refresh filterlist: " + (DateTime.Now - start).ToString)
         End Try
     End Sub
     ''' <summary>

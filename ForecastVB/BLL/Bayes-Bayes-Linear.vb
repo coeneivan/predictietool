@@ -49,7 +49,6 @@ Public Class Bayes_Bayes_Linear
         End If
     End Sub
     Public Sub BerekenKans()
-        'For i As Integer = 0 To 0
         Dim start = DateTime.Now
         emptyCursusList = resetCursusList(listOfAllItems).ToImmutableList
 
@@ -62,8 +61,6 @@ Public Class Bayes_Bayes_Linear
         listOfAllItems = getBestAlgoritme()
 
         root.setDeviatie(getdeviatie)
-        'Console.WriteLine("Bereken kans: " + (DateTime.Now - start).ToString)
-        'Next
     End Sub
 
     Public Sub resetDictionaries()
