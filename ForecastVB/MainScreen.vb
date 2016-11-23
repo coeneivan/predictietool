@@ -13,6 +13,9 @@ Public Class MainScreen
     Private b As Bayes_Bayes_Linear
     Private s As SplashScreen1
     Private ready As Boolean = False
+    Private tverdelingsPerc As Double = 0.995
+
+
     Private Sub MainScreen_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim start As DateTime = DateTime.Now
         s = New SplashScreen1()
@@ -21,6 +24,8 @@ Public Class MainScreen
         refreshFilterList()
         s.Close()
         ready = True
+        cbbValtTussen.SelectedIndex = 0
+        setTVerdeling(cbbValtTussen.SelectedItem)
         Me.Visible = True
         Console.WriteLine("Load: " + (DateTime.Now - start).ToString)
 
@@ -243,15 +248,19 @@ Public Class MainScreen
         Return filterlist
     End Function
     Private Sub tslblStatus_Click(sender As Object, e As EventArgs) Handles tslblStatus.Click
+        resetData()
 
+    End Sub
+
+    Private Sub resetData()
         My.Computer.FileSystem.DeleteFile(saveDirectory + "/cursussen.xml")
         forceRefresh()
 
         cboMerk.ResetText()
         cboSubAfd.ResetText()
         cboUitvCent.ResetText()
-
     End Sub
+
     Private Sub cboFiltersList_SelectedValueChanged(sender As Object, e As EventArgs) Handles cboFiltersList.SelectedValueChanged
         If Not cboFiltersList.SelectedItem.Equals(My.Settings.selectedFilterList) Then
             If File.Exists(saveDirectory + "/cursussen.xml") Then
@@ -338,5 +347,30 @@ Public Class MainScreen
     Private Sub btnOnt_Click(sender As Object, e As EventArgs) Handles btnOnt.Click
         Dim ontScherm As New PerOnt(Me)
         ontScherm.Show()
+    End Sub
+
+    Friend Sub setTVerdeling(waarde As String)
+        If waarde = "99.5%" Then
+            tverdelingsPerc = 0.995
+        ElseIf waarde = "99%" Then
+            tverdelingsPerc = 0.99
+        ElseIf waarde = "97.5%" Then
+            tverdelingsPerc = 0.975
+        ElseIf waarde = "95%" Then
+            tverdelingsPerc = 0.95
+        ElseIf waarde = "90%" Then
+            tverdelingsPerc = 0.9
+        Else
+            Throw New ArgumentOutOfRangeException("Gegeven percentage niet beschikbaar.")
+        End If
+        resetData()
+    End Sub
+
+    Public Function getTVerdelingPercentage() As Double
+        Return tverdelingsPerc
+    End Function
+
+    Private Sub cbbValtTussen_SelectionChangeCommitted(sender As Object, e As EventArgs) Handles cbbValtTussen.SelectionChangeCommitted
+        setTVerdeling(cbbValtTussen.SelectedItem)
     End Sub
 End Class

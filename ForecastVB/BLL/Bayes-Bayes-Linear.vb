@@ -35,6 +35,7 @@ Public Class Bayes_Bayes_Linear
     Private atlNietDgg As Integer
     Private listMetAfwijking As New List(Of Double)
     Private getdeviatie As Double
+    Private alleAlgoritmesGebruiken As Boolean = False
 
 #End Region
     Public Sub New(main As MainScreen, bestaatBestand As Boolean)
@@ -52,9 +53,11 @@ Public Class Bayes_Bayes_Linear
         Dim start = DateTime.Now
         emptyCursusList = resetCursusList(listOfAllItems).ToImmutableList
 
-        'bayesWanneerMerkSterkAfwijkt()
+        If alleAlgoritmesGebruiken Then
+            bayesWanneerMerkSterkAfwijkt()
+            calcBayesWithLinear()
+        End If
         berekenBayesVoorIederItem()
-        'calcBayesWithLinear()
 
         listOfAllItems = getBestAlgoritme()
 
@@ -454,39 +457,33 @@ stopAndReturn:
 
         Dim newList = listForBayes
 
-        For i As Integer = 0 To newList.Count - 1
-            For Each item2 As Cursus In listForBayesLin
-                ' is item dezelfde en is voorspelling correct?
-                If newList(i).getMerk().Equals(item2.getMerk()) And newList(i).getCodeSubafdeling().Equals(item2.getCodeSubafdeling()) And
-                    newList(i).getUitvoerCentrum().Equals(item2.getUitvoerCentrum()) And newList(i).getDag().Equals(item2.getDag()) And newList(i).getMaand = item2.getMaand And item2.getIsCorrect Then
+        If alleAlgoritmesGebruiken Then
+            For i As Integer = 0 To newList.Count - 1
+                For Each item2 As Cursus In listForBayesLin
+                    ' is item dezelfde en is voorspelling correct?
+                    If newList(i).getMerk().Equals(item2.getMerk()) And newList(i).getCodeSubafdeling().Equals(item2.getCodeSubafdeling()) And
+                        newList(i).getUitvoerCentrum().Equals(item2.getUitvoerCentrum()) And newList(i).getDag().Equals(item2.getDag()) And newList(i).getMaand = item2.getMaand And item2.getIsCorrect Then
 
-                    Dim temp1 = newList(i).getAfwijkingswaarde
-                    Dim temp2 = item2.getAfwijkingswaarde
-                    Dim temp3 = newList(i)
-
-                    ' is nieuwe voorspelling naukeuriger dan oude voorspelling?
-                    If newList(i).getAfwijkingswaarde > item2.getAfwijkingswaarde Or Not newList(i).getIsCorrect Then
-                        newList(i) = item2
+                        ' is nieuwe voorspelling naukeuriger dan oude voorspelling?
+                        If newList(i).getAfwijkingswaarde > item2.getAfwijkingswaarde Or Not newList(i).getIsCorrect Then
+                            newList(i) = item2
+                        End If
                     End If
-                End If
-            Next
+                Next
 
-            For Each item2 As Cursus In listForBayesMerk
-                ' is item dezelfde en is voorspelling correct?
-                If (newList(i).getMerk().Equals(item2.getMerk()) And newList(i).getCodeSubafdeling().Equals(item2.getCodeSubafdeling()) And
-                    newList(i).getUitvoerCentrum().Equals(item2.getUitvoerCentrum()) And newList(i).getDag().Equals(item2.getDag()) And newList(i).getMaand = item2.getMaand) And item2.getIsCorrect Then
+                For Each item2 As Cursus In listForBayesMerk
+                    ' is item dezelfde en is voorspelling correct?
+                    If (newList(i).getMerk().Equals(item2.getMerk()) And newList(i).getCodeSubafdeling().Equals(item2.getCodeSubafdeling()) And
+                        newList(i).getUitvoerCentrum().Equals(item2.getUitvoerCentrum()) And newList(i).getDag().Equals(item2.getDag()) And newList(i).getMaand = item2.getMaand) And item2.getIsCorrect Then
 
-                    Dim temp1 = newList(i).getAfwijkingswaarde
-                    Dim temp2 = item2.getAfwijkingswaarde
-                    Dim temp3 = newList(i)
-
-                    ' is nieuwe voorspelling naukeuriger dan oude voorspelling?
-                    If newList(i).getAfwijkingswaarde > item2.getAfwijkingswaarde Or Not newList(i).getIsCorrect Then
-                        newList(i) = item2
+                        ' is nieuwe voorspelling naukeuriger dan oude voorspelling?
+                        If newList(i).getAfwijkingswaarde > item2.getAfwijkingswaarde Or Not newList(i).getIsCorrect Then
+                            newList(i) = item2
+                        End If
                     End If
-                End If
+                Next
             Next
-        Next
+        End If
 
         Return newList
     End Function
@@ -513,7 +510,7 @@ stopAndReturn:
     Private Sub afwijkingBerekenen(list As List(Of Cursus))
         Dim tVerd As New tVerdeling
         For i As Integer = 0 To list.Count - 1
-            Dim t = tVerd.getTwaarde(0.9, list(i).getTotaal) * getdeviatie / Math.Sqrt(list(i).getTotaal)
+            Dim t = tVerd.getTwaarde(root.getTVerdelingPercentage(), list(i).getTotaal) * getdeviatie / Math.Sqrt(list(i).getTotaal)
             list(i) = list(i).setAfwijkingValue(t)
         Next
     End Sub
@@ -547,14 +544,15 @@ stopAndReturn:
         Dim start = DateTime.Now
         Dim lists As New Dictionary(Of String, List(Of Cursus))
         f = createFilterString(filterlist)
+
         listOfAllItems = TestBLL.GetAllCursForAllVar(f)
-        'Console.WriteLine("GetAllCursForAllVar: " + (DateTime.Now - start).ToString)
-        listOfAllItemsWithYear = TestBLL.GetAllCursForAllVarWithYear(f)
-        'Console.WriteLine("GetAllCursForAllVarWithYear: " + (DateTime.Now - start).ToString)
+        If alleAlgoritmesGebruiken Then
+            listOfAllItemsWithYear = TestBLL.GetAllCursForAllVarWithYear(f)
+        End If
         BerekenKans()
+
         lists.Add("allItems", listOfAllItems)
         lists.Add("withYear", listOfAllItemsWithYear)
-        'Console.WriteLine("getData: " + (DateTime.Now - start).ToString)
         Return lists
     End Function
 

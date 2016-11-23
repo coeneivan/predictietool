@@ -17,6 +17,9 @@ Public Class Test
         ' Add any initialization after the InitializeComponent() call.
 
         initDataGridView()
+
+        cbbValtTussen.SelectedIndex = 0
+        root.setTVerdeling(cbbValtTussen.SelectedItem)
     End Sub
 
     Private Sub Test_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -153,13 +156,11 @@ Public Class Test
         Dim gemiddeldeAfw As Double = 0
         Dim gemiddeldVerschil As Double = 0
         Dim versch As New Dictionary(Of Double, Integer)
-        Dim remove = 100.0
         'Dim t As New TestBLL()
         'Dim cursusList2015 = t.GetAantalCursussenVoorJaar(root.createFilterString(root.getFilters()), 2016)
 
         ' Standaard afwijking berekenen
         Dim deviatie = root.getDeviatie
-
 
         'For Each item1 As Cursus In cursusList2015
         For Each item As Cursus In root.getAllItems
@@ -248,5 +249,9 @@ Public Class Test
 
     Private Sub btnClearMaand_Click(sender As Object, e As EventArgs) Handles btnClearMaand.Click
         cbbMaand.SelectedItem = Nothing
+    End Sub
+
+    Private Sub cbbValtTussen_SelectionChangeCommitted(sender As Object, e As EventArgs) Handles cbbValtTussen.SelectionChangeCommitted
+        root.setTVerdeling(cbbValtTussen.SelectedItem)
     End Sub
 End Class
