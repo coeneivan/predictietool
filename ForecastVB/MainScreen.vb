@@ -353,22 +353,22 @@ Public Class MainScreen
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         Dim sql As New SQLUtil
         Dim DTcursus = sql.getAlles("SELECT *, month(startdatum) as maand FROM Cursussen WHERE [Opleidingsnr] = '" + txtOpleidingsnummer.Text.Trim + "'")
-        Dim cursus As Cursus
-        Dim startdatum As Date
-        For Each row As DataRow In DTcursus.Rows
-            startdatum = row.Item("startdatum")
-            cursus = New Cursus(row.Item("Merk"), row.Item("UitvCentrumOmsch"), row.Item("maand"), row.Item("dag"), row.Item("codeSubafdeling"), 1, 1, 1, 1, 1, 1, Nothing, False, "")
-        Next
-        cboMerk.SelectedItem = cursus.getMerk
-        cboUitvCent.SelectedItem = cursus.getUitvoerCentrum
-        cboSubAfd.SelectedItem = cursus.getCodeSubafdeling
-        dtpStartcursus.Value = startdatum
+        If DTcursus.Rows.Count <> 0 Then
+            Dim cursus As Cursus
+            Dim startdatum As Date
+            For Each row As DataRow In DTcursus.Rows
+                startdatum = row.Item("startdatum")
+                cursus = New Cursus(row.Item("Merk"), row.Item("UitvCentrumOmsch"), row.Item("maand"), row.Item("dag"), row.Item("codeSubafdeling"), 1, 1, 1, 1, 1, 1, Nothing, False, "")
+            Next
+            cboMerk.SelectedItem = cursus.getMerk
+            cboUitvCent.SelectedItem = cursus.getUitvoerCentrum
+            cboSubAfd.SelectedItem = cursus.getCodeSubafdeling
+            dtpStartcursus.Value = startdatum
+        Else
+            MessageBox.Show("Opleidingsnummer werd niet teruggevonden")
+        End If
     End Sub
 
-    Private Sub pcbWijzer_Paint(sender As Object, e As PaintEventArgs)
-
-
-    End Sub
     Const min As Integer = 100
     Const max As Integer = 260
     Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs) Handles Panel1.Paint
@@ -481,5 +481,13 @@ Public Class MainScreen
 
     Private Sub cbbValtTussen_SelectionChangeCommitted(sender As Object, e As EventArgs) Handles cbbValtTussen.SelectionChangeCommitted
         setTVerdeling(cbbValtTussen.SelectedItem)
+    End Sub
+
+    Private Sub txtOpleidingsnummer_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtOpleidingsnummer.KeyPress
+        If Asc(e.KeyChar) <> 8 Then
+            If Asc(e.KeyChar) < 48 Or Asc(e.KeyChar) > 57 Then
+                e.Handled = True
+            End If
+        End If
     End Sub
 End Class
