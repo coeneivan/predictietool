@@ -49,7 +49,7 @@
         query += ", Month(StartDatum)"
         query += ", dag"
         query += ", CodeSubafdeling "
-        query += "Having count(*) > 5"
+        'query += "Having count(*) > 5"
         Dim sql As New SQLUtil
         Return sql.GetAllCursForAllVar(query)
     End Function

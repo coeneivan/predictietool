@@ -52,9 +52,9 @@ Public Class Bayes_Bayes_Linear
         Dim start = DateTime.Now
         emptyCursusList = resetCursusList(listOfAllItems).ToImmutableList
 
-        bayesWanneerMerkSterkAfwijkt()
+        'bayesWanneerMerkSterkAfwijkt()
         berekenBayesVoorIederItem()
-        calcBayesWithLinear()
+        'calcBayesWithLinear()
 
         listOfAllItems = getBestAlgoritme()
 
@@ -513,7 +513,7 @@ stopAndReturn:
     Private Sub afwijkingBerekenen(list As List(Of Cursus))
         Dim tVerd As New tVerdeling
         For i As Integer = 0 To list.Count - 1
-            Dim t = tVerd.getTwaarde(0.995, list(i).getTotaal) * getdeviatie / Math.Sqrt(list(i).getTotaal)
+            Dim t = tVerd.getTwaarde(0.9, list(i).getTotaal) * getdeviatie / Math.Sqrt(list(i).getTotaal)
             list(i) = list(i).setAfwijkingValue(t)
         Next
     End Sub
