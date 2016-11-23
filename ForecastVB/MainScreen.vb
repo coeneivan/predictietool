@@ -292,11 +292,11 @@ Public Class MainScreen
     Public Function getSaveDirectory() As String
         Return saveDirectory
     End Function
-    Private Sub MainScreen_VisibleChanged(sender As Object, e As EventArgs) Handles Me.VisibleChanged
+    Private Sub MainScreen_VisibleChanged(sender As Object, e As EventArgs) Handles MyBase.VisibleChanged
         'Alleen visible maken als het klaar is met laden
         Me.Visible = ready
     End Sub
-    Private Sub MainScreen_BindingContextChanged(sender As Object, e As EventArgs) Handles Me.BindingContextChanged
+    Private Sub MainScreen_BindingContextChanged(sender As Object, e As EventArgs) Handles MyBase.BindingContextChanged
         'Scherm verbergen bij de opstart
         Me.Visible = False
     End Sub
@@ -483,11 +483,7 @@ Public Class MainScreen
         setTVerdeling(cbbValtTussen.SelectedItem)
     End Sub
 
-    Private Sub txtOpleidingsnummer_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtOpleidingsnummer.KeyPress
-        If Asc(e.KeyChar) <> 8 Then
-            If Asc(e.KeyChar) < 48 Or Asc(e.KeyChar) > 57 Then
-                e.Handled = True
-            End If
-        End If
+    Private Sub txtOpleidingsnummer_KeyPress(sender As Object, e As KeyPressEventArgs)
+
     End Sub
 End Class
