@@ -192,7 +192,7 @@ Partial Class MainScreen
         Me.StatusStrip1.Name = "StatusStrip1"
         Me.StatusStrip1.Padding = New System.Windows.Forms.Padding(2, 0, 21, 0)
         Me.StatusStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional
-        Me.StatusStrip1.Size = New System.Drawing.Size(536, 5)
+        Me.StatusStrip1.Size = New System.Drawing.Size(538, 5)
         Me.StatusStrip1.SizingGrip = False
         Me.StatusStrip1.Stretch = False
         Me.StatusStrip1.TabIndex = 16
@@ -229,7 +229,7 @@ Partial Class MainScreen
         'Panel1
         '
         Me.Panel1.BackColor = System.Drawing.Color.Transparent
-        Me.Panel1.Location = New System.Drawing.Point(56, 9)
+        Me.Panel1.Location = New System.Drawing.Point(66, 25)
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(423, 231)
         Me.Panel1.TabIndex = 20
@@ -356,7 +356,7 @@ Partial Class MainScreen
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 20.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.Control
-        Me.ClientSize = New System.Drawing.Size(536, 977)
+        Me.ClientSize = New System.Drawing.Size(538, 977)
         Me.Controls.Add(Me.dtpStartcursus)
         Me.Controls.Add(Me.pcbPijl)
         Me.Controls.Add(Me.mtbOplNummer)
