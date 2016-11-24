@@ -47,31 +47,23 @@ Partial Class MainScreen
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
         Me.btnFilter = New System.Windows.Forms.Button()
-        Me.TextBox1 = New System.Windows.Forms.TextBox()
-        Me.Button2 = New System.Windows.Forms.Button()
-        Me.TextBox2 = New System.Windows.Forms.TextBox()
-        Me.TextBox3 = New System.Windows.Forms.TextBox()
-        Me.TextBox4 = New System.Windows.Forms.TextBox()
-        Me.TextBox5 = New System.Windows.Forms.TextBox()
         Me.StatusStrip1.SuspendLayout()
         Me.Panel2.SuspendLayout()
         Me.SuspendLayout()
         '
         'Label3
         '
-        Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(98, 315)
+        Me.Label3.Location = New System.Drawing.Point(20, 305)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(102, 20)
+        Me.Label3.Size = New System.Drawing.Size(213, 35)
         Me.Label3.TabIndex = 3
         Me.Label3.Text = "Sub afdeling;"
         '
         'Label5
         '
-        Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(48, 391)
+        Me.Label5.Location = New System.Drawing.Point(20, 369)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(150, 20)
+        Me.Label5.Size = New System.Drawing.Size(213, 53)
         Me.Label5.TabIndex = 5
         Me.Label5.Text = "Start van de cursus:"
         '
@@ -97,10 +89,9 @@ Partial Class MainScreen
         '
         'Label2
         '
-        Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(150, 171)
+        Me.Label2.Location = New System.Drawing.Point(20, 161)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(48, 20)
+        Me.Label2.Size = New System.Drawing.Size(213, 35)
         Me.Label2.TabIndex = 2
         Me.Label2.Text = "Merk:"
         '
@@ -116,10 +107,9 @@ Partial Class MainScreen
         '
         'Label1
         '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(17, 39)
+        Me.Label1.Location = New System.Drawing.Point(20, 18)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(90, 20)
+        Me.Label1.Size = New System.Drawing.Size(90, 61)
         Me.Label1.TabIndex = 2
         Me.Label1.Text = "Active filter:"
         '
@@ -155,16 +145,17 @@ Partial Class MainScreen
         '
         'Label7
         '
-        Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(46, 242)
+        Me.Label7.Location = New System.Drawing.Point(21, 225)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(152, 20)
+        Me.Label7.Size = New System.Drawing.Size(213, 56)
         Me.Label7.TabIndex = 2
         Me.Label7.Text = "Uitvoerend centrum:"
         '
         'cboUitvCent
         '
+        Me.cboUitvCent.BackColor = System.Drawing.Color.Red
         Me.cboUitvCent.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboUitvCent.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.cboUitvCent.FormattingEnabled = True
         Me.cboUitvCent.Location = New System.Drawing.Point(240, 239)
         Me.cboUitvCent.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
@@ -197,7 +188,7 @@ Partial Class MainScreen
         Me.StatusStrip1.Name = "StatusStrip1"
         Me.StatusStrip1.Padding = New System.Windows.Forms.Padding(1, 0, 21, 0)
         Me.StatusStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional
-        Me.StatusStrip1.Size = New System.Drawing.Size(1104, 5)
+        Me.StatusStrip1.Size = New System.Drawing.Size(533, 5)
         Me.StatusStrip1.SizingGrip = False
         Me.StatusStrip1.Stretch = False
         Me.StatusStrip1.TabIndex = 16
@@ -215,10 +206,9 @@ Partial Class MainScreen
         '
         'Label4
         '
-        Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(56, 113)
+        Me.Label4.Location = New System.Drawing.Point(20, 103)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(142, 20)
+        Me.Label4.Size = New System.Drawing.Size(213, 35)
         Me.Label4.TabIndex = 2
         Me.Label4.Text = "Opleidngsnummer:"
         '
@@ -226,14 +216,14 @@ Partial Class MainScreen
         '
         Me.txtOpleidingsnummer.Location = New System.Drawing.Point(240, 110)
         Me.txtOpleidingsnummer.Name = "txtOpleidingsnummer"
-        Me.txtOpleidingsnummer.Size = New System.Drawing.Size(169, 26)
+        Me.txtOpleidingsnummer.Size = New System.Drawing.Size(142, 26)
         Me.txtOpleidingsnummer.TabIndex = 17
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(415, 104)
+        Me.Button1.Location = New System.Drawing.Point(388, 104)
         Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(60, 39)
+        Me.Button1.Size = New System.Drawing.Size(87, 39)
         Me.Button1.TabIndex = 18
         Me.Button1.Text = "GET"
         Me.Button1.UseVisualStyleBackColor = True
@@ -248,7 +238,7 @@ Partial Class MainScreen
         '
         'Panel2
         '
-        Me.Panel2.BackColor = System.Drawing.Color.Orchid
+        Me.Panel2.BackColor = System.Drawing.Color.White
         Me.Panel2.Controls.Add(Me.Panel1)
         Me.Panel2.Location = New System.Drawing.Point(0, 605)
         Me.Panel2.Name = "Panel2"
@@ -273,62 +263,11 @@ Partial Class MainScreen
         Me.btnFilter.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
         Me.btnFilter.UseVisualStyleBackColor = False
         '
-        'TextBox1
-        '
-        Me.TextBox1.Location = New System.Drawing.Point(693, 490)
-        Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.Size = New System.Drawing.Size(226, 26)
-        Me.TextBox1.TabIndex = 19
-        '
-        'Button2
-        '
-        Me.Button2.Location = New System.Drawing.Point(693, 536)
-        Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(226, 35)
-        Me.Button2.TabIndex = 20
-        Me.Button2.Text = "Button2"
-        Me.Button2.UseVisualStyleBackColor = True
-        '
-        'TextBox2
-        '
-        Me.TextBox2.Location = New System.Drawing.Point(693, 309)
-        Me.TextBox2.Name = "TextBox2"
-        Me.TextBox2.Size = New System.Drawing.Size(226, 26)
-        Me.TextBox2.TabIndex = 19
-        '
-        'TextBox3
-        '
-        Me.TextBox3.Location = New System.Drawing.Point(693, 341)
-        Me.TextBox3.Name = "TextBox3"
-        Me.TextBox3.Size = New System.Drawing.Size(226, 26)
-        Me.TextBox3.TabIndex = 19
-        '
-        'TextBox4
-        '
-        Me.TextBox4.Location = New System.Drawing.Point(693, 395)
-        Me.TextBox4.Name = "TextBox4"
-        Me.TextBox4.Size = New System.Drawing.Size(226, 26)
-        Me.TextBox4.TabIndex = 19
-        '
-        'TextBox5
-        '
-        Me.TextBox5.Location = New System.Drawing.Point(693, 427)
-        Me.TextBox5.Name = "TextBox5"
-        Me.TextBox5.Size = New System.Drawing.Size(226, 26)
-        Me.TextBox5.TabIndex = 19
-        '
         'MainScreen
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 20.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.BackColor = System.Drawing.SystemColors.Control
-        Me.ClientSize = New System.Drawing.Size(1104, 981)
-        Me.Controls.Add(Me.Button2)
-        Me.Controls.Add(Me.TextBox5)
-        Me.Controls.Add(Me.TextBox4)
-        Me.Controls.Add(Me.TextBox3)
-        Me.Controls.Add(Me.TextBox2)
-        Me.Controls.Add(Me.TextBox1)
+        Me.ClientSize = New System.Drawing.Size(533, 981)
         Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.txtOpleidingsnummer)
         Me.Controls.Add(Me.StatusStrip1)
@@ -385,10 +324,4 @@ Partial Class MainScreen
     Friend WithEvents Panel1 As Panel
     Friend WithEvents Timer1 As Timer
     Friend WithEvents Panel2 As Panel
-    Friend WithEvents TextBox1 As TextBox
-    Friend WithEvents Button2 As Button
-    Friend WithEvents TextBox2 As TextBox
-    Friend WithEvents TextBox3 As TextBox
-    Friend WithEvents TextBox4 As TextBox
-    Friend WithEvents TextBox5 As TextBox
 End Class

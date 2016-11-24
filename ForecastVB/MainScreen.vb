@@ -4,7 +4,6 @@ Imports System.Drawing.Drawing2D
 Imports Microsoft.VisualBasic.FileIO
 
 Public Class MainScreen
-
     Private filters As New ArrayList
     Private filterlist As ArrayList
     Private selectedFilterList As String
@@ -13,9 +12,12 @@ Public Class MainScreen
     Private b As Bayes_Bayes_Linear
     Private s As SplashScreen1
     Private ready As Boolean = False
-    Private ang As Double = 50
-    Private Sub MainScreen_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private ang As Double = 0
+    Private oldAng As Double
+    Private zwart, accent, accent2, wit, rood, geel, groen As Color
 
+    Private Sub MainScreen_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        style()
         Dim start As DateTime = DateTime.Now
         s = New SplashScreen1()
         s.Show()
@@ -30,6 +32,53 @@ Public Class MainScreen
         filters = j.readFilters(saveDirectory + cboFiltersList.SelectedItem.ToString() + ".json")
 
         'Console.WriteLine("Load: " + (DateTime.Now - start).ToString)
+    End Sub
+    Private Sub style()
+        zwart = Color.FromArgb(52, 73, 94)
+        wit = Color.FromArgb(236, 240, 241)
+        accent = Color.FromArgb(52, 152, 219)
+        accent2 = Color.FromArgb(41, 128, 185)
+        rood = Color.FromArgb(231, 76, 60)
+        geel = Color.FromArgb(230, 126, 34)
+        groen = Color.FromArgb(39, 174, 96)
+
+        Panel2.BackColor = accent
+        Me.BackColor = wit
+        Me.ForeColor = zwart
+        For Each ctrl As Control In Me.Controls
+            'THE BUTTONS
+            If TypeOf ctrl Is Button Then
+                Dim btn As Button = ctrl
+                btn.BackColor = accent
+                btn.ForeColor = wit
+                btn.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+                btn.Text = btn.Text.ToUpper
+
+                btn.FlatStyle = FlatStyle.Flat
+                btn.FlatAppearance.BorderColor = accent2
+
+                btn.FlatAppearance.BorderSize = 1
+            End If
+
+            'THE COMBOBOXES
+            If TypeOf ctrl Is ComboBox Then
+                Dim cbb As ComboBox = ctrl
+                cbb.BackColor = accent
+                cbb.ForeColor = wit
+                cbb.FlatStyle = FlatStyle.Flat
+                cbb.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+                cbb.Text = cbb.Text.ToUpper
+            End If
+
+            'THE LABELS
+            If TypeOf ctrl Is Label Then
+                Dim lbl As Label = ctrl
+                lbl.Text = lbl.Text.ToUpper
+                lbl.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+                lbl.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+                lbl.FlatStyle = FlatStyle.Flat
+            End If
+        Next
     End Sub
     ''' <summary>
     ''' Data herlezen en comboboxen refreshen
@@ -207,9 +256,10 @@ Public Class MainScreen
                     Dim c As New Cursus(cboMerk.SelectedItem.ToString, cboUitvCent.SelectedItem.ToString, dtpStartcursus.Value.Month.ToString, dtpStartcursus.Value.ToString("dddd", New CultureInfo("nl-BE")),
                                                  cboSubAfd.SelectedItem.ToString, 0, 0, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing)
                     txtTotaal.Text = b.getKansVoorCursus(c).ToString
+                    oldAng = ang
                     ang = b.getKansVoorCursus(c).getAvg
                     Panel1.Refresh()
-                    'Timer1.Start()
+                    Timer1.Start()
                 End If
             End If
         End If
@@ -404,25 +454,42 @@ Public Class MainScreen
     End Sub
 
     Private Sub Panel2_Paint(sender As Object, e As PaintEventArgs) Handles Panel2.Paint
-        Dim Ypunt = 100 'ONDERSTE PUNT VAN TEKENING
+
+
         Dim dif As Integer = 10 'AFSTAND VAN ZIJKANT
+        Dim Ypunt = Panel2.Height - dif * 3 'ONDERSTE PUNT VAN TEKENING
         Dim strokeWidth = 10 'BREEDTE VAN HALFCIRCLE
+        Dim breedte = 1 / 3
         Dim myRec As New Rectangle(New Point(dif, dif), New Size(Panel2.Width - dif * 2, Ypunt * 2)) ' hoogte was Panel2.Height - dif * 2
         Dim myRec2 As New Rectangle(New Point(dif + strokeWidth, dif + strokeWidth), New Size((myRec.Size.Width) - strokeWidth * 2, (myRec.Size.Height) - strokeWidth * 2))
         Dim myClip As New Rectangle(New Point(dif, dif), New Size(myRec.Size.Width, myRec.Size.Height / 2))
+        e.Graphics.SetClip(myClip)
+        'Eerste stuk
+        Dim myClip2 As New Rectangle(New Point(dif + myClip.Size.Width * 1 / 6, dif), New Size(myClip.Size))
+        e.Graphics.FillEllipse(New SolidBrush(rood), myRec)
+        e.Graphics.SetClip(myClip2)
+        'Tweede stuk
+        Dim myClip3 As New Rectangle(New Point(dif + myClip2.Size.Width * 5 / 6, dif), New Size(myClip.Size))
+        e.Graphics.FillEllipse(New SolidBrush(geel), myRec)
+        e.Graphics.SetClip(myClip3)
 
-        'e.Graphics.SetClip(myClip)
-        '
-        e.Graphics.FillRectangle(New SolidBrush(Color.Green), myRec)
-        e.Graphics.FillEllipse(New SolidBrush(Color.Black), myRec)
-        e.Graphics.FillEllipse(New SolidBrush(Color.Orange), myRec2)
+        'Tweede stuk
+        Dim myClip4 As New Rectangle(New Point(dif + myClip3.Size.Width * 6 / 6, dif), New Size(myClip.Size))
+        e.Graphics.FillEllipse(New SolidBrush(groen), myRec)
+        e.Graphics.SetClip(myClip4)
 
-        e.Graphics.FillRectangle(New SolidBrush(Color.Blue), myClip)
+        'e.Graphics.FillRectangle(New SolidBrush(Color.Green), myRec)
+
+
+        'e.Graphics.FillRectangle(New SolidBrush(Color.Blue), myClip)
+
         e.Graphics.ResetClip()
+        e.Graphics.FillEllipse(New SolidBrush(accent), myRec2)
+
     End Sub
 
 
-    Private Sub Button2_Click_1(sender As Object, e As EventArgs) Handles Button2.Click
+    Private Sub Button2_Click_1(sender As Object, e As EventArgs)
         Panel2.Refresh()
     End Sub
 End Class
