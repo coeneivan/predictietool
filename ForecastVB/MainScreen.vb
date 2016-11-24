@@ -13,12 +13,17 @@ Public Class MainScreen
     Private s As SplashScreen1
     Private ready As Boolean = False
     Private ang As Double = 0
+    Private oldAng As Double
     Private zwart, accent, accent2, wit, rood, geel, groen As Color
     Private tverdelingsPerc As Double = 0.995
     Private oldAng As Double
     Private newAng As Double
     Private Sub MainScreen_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         style()
+#If DEBUG Then
+        ' For testing purposes
+        setRandomOplNr()
+#End If
         Dim start As DateTime = DateTime.Now
         s = New SplashScreen1()
         s.Show()
@@ -28,11 +33,17 @@ Public Class MainScreen
         ready = True
         cbbValtTussen.SelectedIndex = 0
         setTVerdeling(cbbValtTussen.SelectedItem)
+        refreshPanel()
         Me.Visible = True
 
         Dim j As New JSONParser
         filters = j.readFilters(saveDirectory + cboFiltersList.SelectedItem.ToString() + ".json")
     End Sub
+
+    Private Sub setRandomOplNr()
+        mtbOplNummer.Text = CInt(Math.Floor((188000 - 75000 + 1) * Rnd())) + 75000
+    End Sub
+
     Private Sub style()
         zwart = Color.FromArgb(52, 73, 94)
         wit = Color.FromArgb(236, 240, 241)
@@ -402,7 +413,7 @@ Public Class MainScreen
     End Sub
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         Dim sql As New SQLUtil
-        Dim DTcursus = sql.getAlles("SELECT *, month(startdatum) as maand FROM Cursussen WHERE [Opleidingsnr] = '" + txtOpleidingsnummer.Text.Trim + "'")
+        Dim DTcursus = sql.getAlles("SELECT *, month(startdatum) as maand FROM Cursussen WHERE [Opleidingsnr] = '" + mtbOplNummer.Text.Trim + "'")
         If DTcursus.Rows.Count <> 0 Then
             Dim cursus As Cursus
             Dim startdatum As Date
@@ -417,6 +428,11 @@ Public Class MainScreen
         Else
             MessageBox.Show("Opleidingsnummer werd niet teruggevonden")
         End If
+
+#If DEBUG Then
+        setRandomOplNr()
+        Button2_Click(Nothing, nothing )
+#End If
     End Sub
 
     Const min As Integer = 100
@@ -444,7 +460,17 @@ Public Class MainScreen
         ElseIf newAng = ang Then
             Timer1.Stop()
         End If
-        pnlPijl.Refresh()
+
+        refreshPanel()
+    End Sub
+
+    Private Sub refreshPanel()
+        Panel1.Refresh()
+
+        Dim bmp = New Bitmap(Panel2.Width, Panel2.Height)
+        Panel2.DrawToBitmap(bmp, Panel2.ClientRectangle)
+        pcbPijl.Image = bmp
+        pcbPijl.Refresh()
     End Sub
 
     Private Sub Panel2_Paint(sender As Object, e As PaintEventArgs) Handles pnlBackground.Paint
@@ -473,13 +499,10 @@ Public Class MainScreen
         e.Graphics.SetClip(myClip4)
 
         'e.Graphics.FillRectangle(New SolidBrush(Color.Green), myRec)
-
-
         'e.Graphics.FillRectangle(New SolidBrush(Color.Blue), myClip)
 
         e.Graphics.ResetClip()
         e.Graphics.FillEllipse(New SolidBrush(accent), myRec2)
-
     End Sub
 
 
@@ -510,9 +533,5 @@ Public Class MainScreen
 
     Private Sub cbbValtTussen_SelectionChangeCommitted(sender As Object, e As EventArgs) Handles cbbValtTussen.SelectionChangeCommitted
         setTVerdeling(cbbValtTussen.SelectedItem)
-    End Sub
-
-    Private Sub txtOpleidingsnummer_KeyPress(sender As Object, e As KeyPressEventArgs)
-
     End Sub
 End Class
