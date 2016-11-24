@@ -43,20 +43,14 @@ Partial Class MainScreen
         Me.LblPercBereik = New System.Windows.Forms.Label()
         Me.txtOpleidingsnummer = New System.Windows.Forms.TextBox()
         Me.Button1 = New System.Windows.Forms.Button()
-        Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.Panel2 = New System.Windows.Forms.Panel()
+        Me.pnlPijl = New System.Windows.Forms.Panel()
+        Me.pnlBackground = New System.Windows.Forms.Panel()
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
         Me.btnFilter = New System.Windows.Forms.Button()
-        Me.TextBox1 = New System.Windows.Forms.TextBox()
-        Me.Button2 = New System.Windows.Forms.Button()
-        Me.TextBox2 = New System.Windows.Forms.TextBox()
-        Me.TextBox3 = New System.Windows.Forms.TextBox()
-        Me.TextBox4 = New System.Windows.Forms.TextBox()
-        Me.TextBox5 = New System.Windows.Forms.TextBox()
         Me.lblOplNr = New System.Windows.Forms.Label()
         Me.cbbValtTussen = New System.Windows.Forms.ComboBox()
         Me.StatusStrip1.SuspendLayout()
-        Me.Panel2.SuspendLayout()
+        Me.pnlBackground.SuspendLayout()
         Me.SuspendLayout()
         '
         'LblSubAfd
@@ -137,7 +131,7 @@ Partial Class MainScreen
         '
         'txtTotaal
         '
-        Me.txtTotaal.Location = New System.Drawing.Point(52, 560)
+        Me.txtTotaal.Location = New System.Drawing.Point(52, 552)
         Me.txtTotaal.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.txtTotaal.Name = "txtTotaal"
         Me.txtTotaal.ReadOnly = True
@@ -199,7 +193,7 @@ Partial Class MainScreen
         Me.StatusStrip1.Name = "StatusStrip1"
         Me.StatusStrip1.Padding = New System.Windows.Forms.Padding(2, 0, 21, 0)
         Me.StatusStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional
-        Me.StatusStrip1.Size = New System.Drawing.Size(543, 5)
+        Me.StatusStrip1.Size = New System.Drawing.Size(537, 5)
         Me.StatusStrip1.SizingGrip = False
         Me.StatusStrip1.Stretch = False
         Me.StatusStrip1.TabIndex = 16
@@ -240,26 +234,26 @@ Partial Class MainScreen
         Me.Button1.Text = "GET"
         Me.Button1.UseVisualStyleBackColor = True
         '
-        'Panel1
+        'pnlPijl
         '
-        Me.Panel1.BackColor = System.Drawing.Color.Transparent
-        Me.Panel1.Location = New System.Drawing.Point(54, 12)
-        Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(423, 231)
-        Me.Panel1.TabIndex = 20
+        Me.pnlPijl.BackColor = System.Drawing.Color.Transparent
+        Me.pnlPijl.Location = New System.Drawing.Point(51, 12)
+        Me.pnlPijl.Name = "pnlPijl"
+        Me.pnlPijl.Size = New System.Drawing.Size(423, 231)
+        Me.pnlPijl.TabIndex = 20
         '
-        'Panel2
+        'pnlBackground
         '
-        Me.Panel2.BackColor = System.Drawing.Color.Orchid
-        Me.Panel2.Controls.Add(Me.Panel1)
-        Me.Panel2.Location = New System.Drawing.Point(0, 605)
-        Me.Panel2.Name = "Panel2"
-        Me.Panel2.Size = New System.Drawing.Size(532, 243)
-        Me.Panel2.TabIndex = 0
+        Me.pnlBackground.BackColor = System.Drawing.Color.Transparent
+        Me.pnlBackground.Controls.Add(Me.pnlPijl)
+        Me.pnlBackground.Location = New System.Drawing.Point(0, 594)
+        Me.pnlBackground.Name = "pnlBackground"
+        Me.pnlBackground.Size = New System.Drawing.Size(537, 243)
+        Me.pnlBackground.TabIndex = 0
         '
         'Timer1
         '
-        Me.Timer1.Interval = 10
+        Me.Timer1.Interval = 25
         '
         'btnFilter
         '
@@ -274,50 +268,6 @@ Partial Class MainScreen
         Me.btnFilter.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.btnFilter.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
         Me.btnFilter.UseVisualStyleBackColor = False
-        '
-        'TextBox1
-        '
-        Me.TextBox1.Location = New System.Drawing.Point(693, 489)
-        Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.Size = New System.Drawing.Size(226, 26)
-        Me.TextBox1.TabIndex = 19
-        '
-        'Button2
-        '
-        Me.Button2.Location = New System.Drawing.Point(693, 535)
-        Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(226, 35)
-        Me.Button2.TabIndex = 20
-        Me.Button2.Text = "Button2"
-        Me.Button2.UseVisualStyleBackColor = True
-        '
-        'TextBox2
-        '
-        Me.TextBox2.Location = New System.Drawing.Point(693, 309)
-        Me.TextBox2.Name = "TextBox2"
-        Me.TextBox2.Size = New System.Drawing.Size(226, 26)
-        Me.TextBox2.TabIndex = 19
-        '
-        'TextBox3
-        '
-        Me.TextBox3.Location = New System.Drawing.Point(693, 342)
-        Me.TextBox3.Name = "TextBox3"
-        Me.TextBox3.Size = New System.Drawing.Size(226, 26)
-        Me.TextBox3.TabIndex = 19
-        '
-        'TextBox4
-        '
-        Me.TextBox4.Location = New System.Drawing.Point(693, 395)
-        Me.TextBox4.Name = "TextBox4"
-        Me.TextBox4.Size = New System.Drawing.Size(226, 26)
-        Me.TextBox4.TabIndex = 19
-        '
-        'TextBox5
-        '
-        Me.TextBox5.Location = New System.Drawing.Point(693, 428)
-        Me.TextBox5.Name = "TextBox5"
-        Me.TextBox5.Size = New System.Drawing.Size(226, 26)
-        Me.TextBox5.TabIndex = 19
         '
         'lblOplNr
         '
@@ -343,13 +293,7 @@ Partial Class MainScreen
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 20.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.Control
-        Me.ClientSize = New System.Drawing.Size(543, 977)
-        Me.Controls.Add(Me.Button2)
-        Me.Controls.Add(Me.TextBox5)
-        Me.Controls.Add(Me.TextBox4)
-        Me.Controls.Add(Me.TextBox3)
-        Me.Controls.Add(Me.TextBox2)
-        Me.Controls.Add(Me.TextBox1)
+        Me.ClientSize = New System.Drawing.Size(537, 977)
         Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.txtOpleidingsnummer)
         Me.Controls.Add(Me.cbbValtTussen)
@@ -371,16 +315,17 @@ Partial Class MainScreen
         Me.Controls.Add(Me.lblOplNr)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.LblMerk)
-        Me.Controls.Add(Me.Panel2)
+        Me.Controls.Add(Me.pnlBackground)
+        Me.DoubleBuffered = True
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
-        Me.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.Margin = New System.Windows.Forms.Padding(2)
         Me.MaximizeBox = False
         Me.Name = "MainScreen"
         Me.Text = "Cursus realiseerbaarheid prospectie tool"
         Me.StatusStrip1.ResumeLayout(False)
         Me.StatusStrip1.PerformLayout()
-        Me.Panel2.ResumeLayout(False)
+        Me.pnlBackground.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -407,13 +352,7 @@ Partial Class MainScreen
     Friend WithEvents cbbValtTussen As ComboBox
     Friend WithEvents txtOpleidingsnummer As TextBox
     Friend WithEvents Button1 As Button
-    Friend WithEvents Panel1 As Panel
+    Friend WithEvents pnlPijl As Panel
     Friend WithEvents Timer1 As Timer
-    Friend WithEvents Panel2 As Panel
-    Friend WithEvents TextBox1 As TextBox
-    Friend WithEvents Button2 As Button
-    Friend WithEvents TextBox2 As TextBox
-    Friend WithEvents TextBox3 As TextBox
-    Friend WithEvents TextBox4 As TextBox
-    Friend WithEvents TextBox5 As TextBox
+    Friend WithEvents pnlBackground As Panel
 End Class

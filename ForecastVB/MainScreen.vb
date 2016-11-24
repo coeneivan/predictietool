@@ -13,9 +13,10 @@ Public Class MainScreen
     Private s As SplashScreen1
     Private ready As Boolean = False
     Private ang As Double = 0
-    Private oldAng As Double
     Private zwart, accent, accent2, wit, rood, geel, groen As Color
     Private tverdelingsPerc As Double = 0.995
+    Private oldAng As Double
+    Private newAng As Double
     Private Sub MainScreen_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         style()
         Dim start As DateTime = DateTime.Now
@@ -41,7 +42,9 @@ Public Class MainScreen
         geel = Color.FromArgb(230, 126, 34)
         groen = Color.FromArgb(39, 174, 96)
 
-        Panel2.BackColor = accent
+        pnlBackground.BackColor = accent
+
+
         Me.BackColor = wit
         Me.ForeColor = zwart
         For Each ctrl As Control In Me.Controls
@@ -72,7 +75,7 @@ Public Class MainScreen
             'THE LABELS
             If TypeOf ctrl Is Label Then
                 Dim lbl As Label = ctrl
-                lbl.Text = lbl.Text.ToUpper
+                'lbl.Text = lbl.Text.ToUpper
                 lbl.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
                 lbl.TextAlign = System.Drawing.ContentAlignment.MiddleRight
                 lbl.FlatStyle = FlatStyle.Flat
@@ -252,9 +255,9 @@ Public Class MainScreen
                     Dim c As New Cursus(cboMerk.SelectedItem.ToString, cboUitvCent.SelectedItem.ToString, dtpStartcursus.Value.Month.ToString, dtpStartcursus.Value.ToString("dddd", New CultureInfo("nl-BE")),
                                                  cboSubAfd.SelectedItem.ToString, 0, 0, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing)
                     txtTotaal.Text = b.getKansVoorCursus(c).ToString
-                    oldAng = ang
-                    ang = b.getKansVoorCursus(c).getAvg
-                    Panel1.Refresh()
+                    oldAng = newAng
+                    newAng = Math.Round(b.getKansVoorCursus(c).getAvg)
+                    pnlPijl.Refresh()
                     Timer1.Start()
                 End If
             End If
@@ -418,7 +421,7 @@ Public Class MainScreen
 
     Const min As Integer = 100
     Const max As Integer = 260
-    Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs) Handles Panel1.Paint
+    Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs) Handles pnlPijl.Paint
         Const min As Integer = 100
         Const max As Integer = 260
 
@@ -433,34 +436,25 @@ Public Class MainScreen
     End Sub
     Dim down As Boolean
     Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
-        'Dim a = ((ang - 1) * ((max - min) / 100)) + min
-        If Not down Then
-            Dim a = ((ang - 1) * ((max - min) / 100)) + min
-            If a <= max And a >= min Then
-                ang -= 1
-            Else
-                down = True
-            End If
-        Else
-            Dim a = ((ang + 1) * ((max - min) / 100)) + min
-            If a <= max And a >= min Then
-                ang += 1
-            Else
-                down = False
-            End If
+        Dim stap = 1
+        If newAng > ang Then
+            ang += stap
+        ElseIf newAng < ang Then
+            ang -= stap
+        ElseIf newAng = ang Then
+            Timer1.Stop()
         End If
-
-        Panel1.Refresh()
+        pnlPijl.Refresh()
     End Sub
 
-    Private Sub Panel2_Paint(sender As Object, e As PaintEventArgs) Handles Panel2.Paint
+    Private Sub Panel2_Paint(sender As Object, e As PaintEventArgs) Handles pnlBackground.Paint
 
 
         Dim dif As Integer = 10 'AFSTAND VAN ZIJKANT
-        Dim Ypunt = Panel2.Height - dif * 3 'ONDERSTE PUNT VAN TEKENING
+        Dim Ypunt = pnlBackground.Height - dif * 3 'ONDERSTE PUNT VAN TEKENING
         Dim strokeWidth = 10 'BREEDTE VAN HALFCIRCLE
         Dim breedte = 1 / 3
-        Dim myRec As New Rectangle(New Point(dif, dif), New Size(Panel2.Width - dif * 2, Ypunt * 2)) ' hoogte was Panel2.Height - dif * 2
+        Dim myRec As New Rectangle(New Point(dif, dif), New Size(pnlBackground.Width - dif * 2, Ypunt * 2)) ' hoogte was Panel2.Height - dif * 2
         Dim myRec2 As New Rectangle(New Point(dif + strokeWidth, dif + strokeWidth), New Size((myRec.Size.Width) - strokeWidth * 2, (myRec.Size.Height) - strokeWidth * 2))
         Dim myClip As New Rectangle(New Point(dif, dif), New Size(myRec.Size.Width, myRec.Size.Height / 2))
         e.Graphics.SetClip(myClip)
@@ -490,7 +484,7 @@ Public Class MainScreen
 
 
     Private Sub Button2_Click_1(sender As Object, e As EventArgs)
-        Panel2.Refresh()
+        pnlBackground.Refresh()
     End Sub
 
     Friend Sub setTVerdeling(waarde As String)
