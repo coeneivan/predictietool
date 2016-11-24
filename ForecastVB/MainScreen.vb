@@ -15,9 +15,7 @@ Public Class MainScreen
     Private ang As Double = 0
     Private oldAng As Double
     Private zwart, accent, accent2, wit, rood, geel, groen As Color
-
     Private tverdelingsPerc As Double = 0.995
-    Private ang As Double = 50
     Private Sub MainScreen_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         style()
         Dim start As DateTime = DateTime.Now
