@@ -24,152 +24,166 @@ Partial Class MainScreen
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MainScreen))
-        Me.Label3 = New System.Windows.Forms.Label()
-        Me.Label5 = New System.Windows.Forms.Label()
+        Me.LblSubAfd = New System.Windows.Forms.Label()
+        Me.LblStartDatum = New System.Windows.Forms.Label()
         Me.cboSubAfd = New System.Windows.Forms.ComboBox()
         Me.cboMerk = New System.Windows.Forms.ComboBox()
-        Me.Label2 = New System.Windows.Forms.Label()
+        Me.LblMerk = New System.Windows.Forms.Label()
         Me.cboFiltersList = New System.Windows.Forms.ComboBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.btnTest = New System.Windows.Forms.Button()
         Me.txtTotaal = New System.Windows.Forms.TextBox()
         Me.btnBerekenen = New System.Windows.Forms.Button()
-        Me.Label7 = New System.Windows.Forms.Label()
+        Me.LblUivCentr = New System.Windows.Forms.Label()
         Me.cboUitvCent = New System.Windows.Forms.ComboBox()
         Me.dtpStartcursus = New System.Windows.Forms.DateTimePicker()
         Me.tslblStatus = New System.Windows.Forms.ToolStripStatusLabel()
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.btnOnt = New System.Windows.Forms.Button()
-        Me.Label4 = New System.Windows.Forms.Label()
+        Me.LblPercBereik = New System.Windows.Forms.Label()
         Me.txtOpleidingsnummer = New System.Windows.Forms.TextBox()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
         Me.btnFilter = New System.Windows.Forms.Button()
+        Me.TextBox1 = New System.Windows.Forms.TextBox()
+        Me.Button2 = New System.Windows.Forms.Button()
+        Me.TextBox2 = New System.Windows.Forms.TextBox()
+        Me.TextBox3 = New System.Windows.Forms.TextBox()
+        Me.TextBox4 = New System.Windows.Forms.TextBox()
+        Me.TextBox5 = New System.Windows.Forms.TextBox()
+        Me.lblOplNr = New System.Windows.Forms.Label()
+        Me.cbbValtTussen = New System.Windows.Forms.ComboBox()
         Me.StatusStrip1.SuspendLayout()
         Me.Panel2.SuspendLayout()
         Me.SuspendLayout()
         '
-        'Label3
+        'LblSubAfd
         '
-        Me.Label3.Location = New System.Drawing.Point(20, 305)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(213, 35)
-        Me.Label3.TabIndex = 3
-        Me.Label3.Text = "Sub afdeling;"
+        Me.LblSubAfd.AutoSize = True
+        Me.LblSubAfd.Location = New System.Drawing.Point(65, 178)
+        Me.LblSubAfd.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.LblSubAfd.Name = "LblSubAfd"
+        Me.LblSubAfd.Size = New System.Drawing.Size(69, 13)
+        Me.LblSubAfd.TabIndex = 3
+        Me.LblSubAfd.Text = "Sub afdeling;"
         '
-        'Label5
+        'LblStartDatum
         '
-        Me.Label5.Location = New System.Drawing.Point(20, 369)
-        Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(213, 53)
-        Me.Label5.TabIndex = 5
-        Me.Label5.Text = "Start van de cursus:"
+        Me.LblStartDatum.AutoSize = True
+        Me.LblStartDatum.Location = New System.Drawing.Point(32, 213)
+        Me.LblStartDatum.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.LblStartDatum.Name = "LblStartDatum"
+        Me.LblStartDatum.Size = New System.Drawing.Size(102, 13)
+        Me.LblStartDatum.TabIndex = 5
+        Me.LblStartDatum.Text = "Start van de cursus:"
         '
         'cboSubAfd
         '
         Me.cboSubAfd.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboSubAfd.FormattingEnabled = True
-        Me.cboSubAfd.Location = New System.Drawing.Point(240, 311)
-        Me.cboSubAfd.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
+        Me.cboSubAfd.Location = New System.Drawing.Point(160, 174)
+        Me.cboSubAfd.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
         Me.cboSubAfd.Name = "cboSubAfd"
-        Me.cboSubAfd.Size = New System.Drawing.Size(235, 28)
+        Me.cboSubAfd.Size = New System.Drawing.Size(158, 21)
         Me.cboSubAfd.TabIndex = 2
         '
         'cboMerk
         '
         Me.cboMerk.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboMerk.FormattingEnabled = True
-        Me.cboMerk.Location = New System.Drawing.Point(240, 166)
-        Me.cboMerk.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
+        Me.cboMerk.Location = New System.Drawing.Point(160, 104)
+        Me.cboMerk.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
         Me.cboMerk.Name = "cboMerk"
-        Me.cboMerk.Size = New System.Drawing.Size(235, 28)
+        Me.cboMerk.Size = New System.Drawing.Size(158, 21)
         Me.cboMerk.TabIndex = 0
         '
-        'Label2
+        'LblMerk
         '
-        Me.Label2.Location = New System.Drawing.Point(20, 161)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(213, 35)
-        Me.Label2.TabIndex = 2
-        Me.Label2.Text = "Merk:"
+        Me.LblMerk.AutoSize = True
+        Me.LblMerk.Location = New System.Drawing.Point(100, 108)
+        Me.LblMerk.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.LblMerk.Name = "LblMerk"
+        Me.LblMerk.Size = New System.Drawing.Size(34, 13)
+        Me.LblMerk.TabIndex = 2
+        Me.LblMerk.Text = "Merk:"
         '
         'cboFiltersList
         '
         Me.cboFiltersList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboFiltersList.FormattingEnabled = True
-        Me.cboFiltersList.Location = New System.Drawing.Point(116, 34)
-        Me.cboFiltersList.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
+        Me.cboFiltersList.Location = New System.Drawing.Point(77, 22)
+        Me.cboFiltersList.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
         Me.cboFiltersList.Name = "cboFiltersList"
-        Me.cboFiltersList.Size = New System.Drawing.Size(184, 28)
+        Me.cboFiltersList.Size = New System.Drawing.Size(124, 21)
         Me.cboFiltersList.TabIndex = 7
         '
         'Label1
         '
-        Me.Label1.Location = New System.Drawing.Point(20, 18)
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(11, 25)
+        Me.Label1.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(90, 61)
+        Me.Label1.Size = New System.Drawing.Size(62, 13)
         Me.Label1.TabIndex = 2
         Me.Label1.Text = "Active filter:"
         '
         'btnTest
         '
-        Me.btnTest.Location = New System.Drawing.Point(273, 872)
-        Me.btnTest.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
+        Me.btnTest.Location = New System.Drawing.Point(182, 567)
+        Me.btnTest.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
         Me.btnTest.Name = "btnTest"
-        Me.btnTest.Size = New System.Drawing.Size(202, 70)
+        Me.btnTest.Size = New System.Drawing.Size(135, 45)
         Me.btnTest.TabIndex = 5
         Me.btnTest.Text = "Test it!"
         Me.btnTest.UseVisualStyleBackColor = True
         '
         'txtTotaal
         '
-        Me.txtTotaal.Location = New System.Drawing.Point(52, 560)
-        Me.txtTotaal.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
+        Me.txtTotaal.Location = New System.Drawing.Point(35, 364)
         Me.txtTotaal.Name = "txtTotaal"
         Me.txtTotaal.ReadOnly = True
-        Me.txtTotaal.Size = New System.Drawing.Size(423, 26)
+        Me.txtTotaal.Size = New System.Drawing.Size(283, 20)
         Me.txtTotaal.TabIndex = 15
         Me.txtTotaal.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'btnBerekenen
         '
-        Me.btnBerekenen.Location = New System.Drawing.Point(52, 439)
-        Me.btnBerekenen.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
+        Me.btnBerekenen.Location = New System.Drawing.Point(35, 285)
         Me.btnBerekenen.Name = "btnBerekenen"
-        Me.btnBerekenen.Size = New System.Drawing.Size(426, 99)
+        Me.btnBerekenen.Size = New System.Drawing.Size(284, 64)
         Me.btnBerekenen.TabIndex = 5
         Me.btnBerekenen.Text = "Bereken"
         Me.btnBerekenen.UseVisualStyleBackColor = True
         '
-        'Label7
+        'LblUivCentr
         '
-        Me.Label7.Location = New System.Drawing.Point(21, 225)
-        Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(213, 56)
-        Me.Label7.TabIndex = 2
-        Me.Label7.Text = "Uitvoerend centrum:"
+        Me.LblUivCentr.AutoSize = True
+        Me.LblUivCentr.Location = New System.Drawing.Point(31, 143)
+        Me.LblUivCentr.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.LblUivCentr.Name = "LblUivCentr"
+        Me.LblUivCentr.Size = New System.Drawing.Size(103, 13)
+        Me.LblUivCentr.TabIndex = 2
+        Me.LblUivCentr.Text = "Uitvoerend centrum:"
         '
         'cboUitvCent
         '
-        Me.cboUitvCent.BackColor = System.Drawing.Color.Red
         Me.cboUitvCent.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboUitvCent.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.cboUitvCent.FormattingEnabled = True
-        Me.cboUitvCent.Location = New System.Drawing.Point(240, 239)
-        Me.cboUitvCent.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
+        Me.cboUitvCent.Location = New System.Drawing.Point(160, 139)
+        Me.cboUitvCent.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
         Me.cboUitvCent.Name = "cboUitvCent"
-        Me.cboUitvCent.Size = New System.Drawing.Size(235, 28)
+        Me.cboUitvCent.Size = New System.Drawing.Size(158, 21)
         Me.cboUitvCent.TabIndex = 1
         '
         'dtpStartcursus
         '
         Me.dtpStartcursus.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
-        Me.dtpStartcursus.Location = New System.Drawing.Point(240, 381)
-        Me.dtpStartcursus.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
+        Me.dtpStartcursus.Location = New System.Drawing.Point(160, 209)
+        Me.dtpStartcursus.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
         Me.dtpStartcursus.Name = "dtpStartcursus"
-        Me.dtpStartcursus.Size = New System.Drawing.Size(235, 26)
+        Me.dtpStartcursus.Size = New System.Drawing.Size(158, 20)
         Me.dtpStartcursus.TabIndex = 4
         '
         'tslblStatus
@@ -184,11 +198,10 @@ Partial Class MainScreen
         Me.StatusStrip1.ImageScalingSize = New System.Drawing.Size(20, 20)
         Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tslblStatus})
         Me.StatusStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow
-        Me.StatusStrip1.Location = New System.Drawing.Point(0, 976)
+        Me.StatusStrip1.Location = New System.Drawing.Point(0, 630)
         Me.StatusStrip1.Name = "StatusStrip1"
-        Me.StatusStrip1.Padding = New System.Windows.Forms.Padding(1, 0, 21, 0)
         Me.StatusStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional
-        Me.StatusStrip1.Size = New System.Drawing.Size(533, 5)
+        Me.StatusStrip1.Size = New System.Drawing.Size(362, 5)
         Me.StatusStrip1.SizingGrip = False
         Me.StatusStrip1.Stretch = False
         Me.StatusStrip1.TabIndex = 16
@@ -196,34 +209,37 @@ Partial Class MainScreen
         '
         'btnOnt
         '
-        Me.btnOnt.Location = New System.Drawing.Point(52, 872)
-        Me.btnOnt.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
+        Me.btnOnt.Location = New System.Drawing.Point(35, 567)
         Me.btnOnt.Name = "btnOnt"
-        Me.btnOnt.Size = New System.Drawing.Size(196, 70)
+        Me.btnOnt.Size = New System.Drawing.Size(131, 45)
         Me.btnOnt.TabIndex = 5
         Me.btnOnt.Text = "Per Ontwikkelaar"
         Me.btnOnt.UseVisualStyleBackColor = True
         '
-        'Label4
+        'LblPercBereik
         '
-        Me.Label4.Location = New System.Drawing.Point(20, 103)
-        Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(213, 35)
-        Me.Label4.TabIndex = 2
-        Me.Label4.Text = "Opleidngsnummer:"
+        Me.LblPercBereik.AutoSize = True
+        Me.LblPercBereik.Location = New System.Drawing.Point(27, 248)
+        Me.LblPercBereik.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.LblPercBereik.Name = "LblPercBereik"
+        Me.LblPercBereik.Size = New System.Drawing.Size(107, 13)
+        Me.LblPercBereik.TabIndex = 17
+        Me.LblPercBereik.Text = "% valt tussen bereik: "
         '
         'txtOpleidingsnummer
         '
-        Me.txtOpleidingsnummer.Location = New System.Drawing.Point(240, 110)
+        Me.txtOpleidingsnummer.Location = New System.Drawing.Point(160, 71)
+        Me.txtOpleidingsnummer.Margin = New System.Windows.Forms.Padding(2)
         Me.txtOpleidingsnummer.Name = "txtOpleidingsnummer"
-        Me.txtOpleidingsnummer.Size = New System.Drawing.Size(142, 26)
+        Me.txtOpleidingsnummer.Size = New System.Drawing.Size(114, 20)
         Me.txtOpleidingsnummer.TabIndex = 17
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(388, 104)
+        Me.Button1.Location = New System.Drawing.Point(277, 68)
+        Me.Button1.Margin = New System.Windows.Forms.Padding(2)
         Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(87, 39)
+        Me.Button1.Size = New System.Drawing.Size(40, 25)
         Me.Button1.TabIndex = 18
         Me.Button1.Text = "GET"
         Me.Button1.UseVisualStyleBackColor = True
@@ -231,18 +247,20 @@ Partial Class MainScreen
         'Panel1
         '
         Me.Panel1.BackColor = System.Drawing.Color.Transparent
-        Me.Panel1.Location = New System.Drawing.Point(54, 12)
+        Me.Panel1.Location = New System.Drawing.Point(36, 8)
+        Me.Panel1.Margin = New System.Windows.Forms.Padding(2)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(423, 231)
+        Me.Panel1.Size = New System.Drawing.Size(282, 150)
         Me.Panel1.TabIndex = 20
         '
         'Panel2
         '
-        Me.Panel2.BackColor = System.Drawing.Color.White
+        Me.Panel2.BackColor = System.Drawing.Color.Orchid
         Me.Panel2.Controls.Add(Me.Panel1)
-        Me.Panel2.Location = New System.Drawing.Point(0, 605)
+        Me.Panel2.Location = New System.Drawing.Point(0, 393)
+        Me.Panel2.Margin = New System.Windows.Forms.Padding(2)
         Me.Panel2.Name = "Panel2"
-        Me.Panel2.Size = New System.Drawing.Size(533, 243)
+        Me.Panel2.Size = New System.Drawing.Size(355, 158)
         Me.Panel2.TabIndex = 0
         '
         'Timer1
@@ -253,23 +271,103 @@ Partial Class MainScreen
         '
         Me.btnFilter.Image = CType(resources.GetObject("btnFilter.Image"), System.Drawing.Image)
         Me.btnFilter.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnFilter.Location = New System.Drawing.Point(333, 18)
-        Me.btnFilter.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
+        Me.btnFilter.Location = New System.Drawing.Point(222, 12)
+        Me.btnFilter.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
         Me.btnFilter.Name = "btnFilter"
-        Me.btnFilter.Size = New System.Drawing.Size(184, 61)
+        Me.btnFilter.Size = New System.Drawing.Size(123, 40)
         Me.btnFilter.TabIndex = 6
         Me.btnFilter.Text = "Filters toevoegen"
         Me.btnFilter.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.btnFilter.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
         Me.btnFilter.UseVisualStyleBackColor = False
         '
+        'TextBox1
+        '
+        Me.TextBox1.Location = New System.Drawing.Point(462, 318)
+        Me.TextBox1.Margin = New System.Windows.Forms.Padding(2)
+        Me.TextBox1.Name = "TextBox1"
+        Me.TextBox1.Size = New System.Drawing.Size(152, 20)
+        Me.TextBox1.TabIndex = 19
+        '
+        'Button2
+        '
+        Me.Button2.Location = New System.Drawing.Point(462, 348)
+        Me.Button2.Margin = New System.Windows.Forms.Padding(2)
+        Me.Button2.Name = "Button2"
+        Me.Button2.Size = New System.Drawing.Size(151, 23)
+        Me.Button2.TabIndex = 20
+        Me.Button2.Text = "Button2"
+        Me.Button2.UseVisualStyleBackColor = True
+        '
+        'TextBox2
+        '
+        Me.TextBox2.Location = New System.Drawing.Point(462, 201)
+        Me.TextBox2.Margin = New System.Windows.Forms.Padding(2)
+        Me.TextBox2.Name = "TextBox2"
+        Me.TextBox2.Size = New System.Drawing.Size(152, 20)
+        Me.TextBox2.TabIndex = 19
+        '
+        'TextBox3
+        '
+        Me.TextBox3.Location = New System.Drawing.Point(462, 222)
+        Me.TextBox3.Margin = New System.Windows.Forms.Padding(2)
+        Me.TextBox3.Name = "TextBox3"
+        Me.TextBox3.Size = New System.Drawing.Size(152, 20)
+        Me.TextBox3.TabIndex = 19
+        '
+        'TextBox4
+        '
+        Me.TextBox4.Location = New System.Drawing.Point(462, 257)
+        Me.TextBox4.Margin = New System.Windows.Forms.Padding(2)
+        Me.TextBox4.Name = "TextBox4"
+        Me.TextBox4.Size = New System.Drawing.Size(152, 20)
+        Me.TextBox4.TabIndex = 19
+        '
+        'TextBox5
+        '
+        Me.TextBox5.Location = New System.Drawing.Point(462, 278)
+        Me.TextBox5.Margin = New System.Windows.Forms.Padding(2)
+        Me.TextBox5.Name = "TextBox5"
+        Me.TextBox5.Size = New System.Drawing.Size(152, 20)
+        Me.TextBox5.TabIndex = 19
+        '
+        'lblOplNr
+        '
+        Me.lblOplNr.AutoSize = True
+        Me.lblOplNr.Location = New System.Drawing.Point(37, 73)
+        Me.lblOplNr.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.lblOplNr.Name = "lblOplNr"
+        Me.lblOplNr.Size = New System.Drawing.Size(94, 13)
+        Me.lblOplNr.TabIndex = 2
+        Me.lblOplNr.Text = "Opleidngsnummer:"
+        '
+        'cbbValtTussen
+        '
+        Me.cbbValtTussen.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbbValtTussen.FormattingEnabled = True
+        Me.cbbValtTussen.Items.AddRange(New Object() {"99.5%", "97.5%", "95%", "90%"})
+        Me.cbbValtTussen.Location = New System.Drawing.Point(160, 244)
+        Me.cbbValtTussen.Margin = New System.Windows.Forms.Padding(2)
+        Me.cbbValtTussen.Name = "cbbValtTussen"
+        Me.cbbValtTussen.Size = New System.Drawing.Size(159, 21)
+        Me.cbbValtTussen.TabIndex = 18
+        '
         'MainScreen
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 20.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(533, 981)
+        Me.BackColor = System.Drawing.SystemColors.Control
+        Me.ClientSize = New System.Drawing.Size(362, 635)
+        Me.Controls.Add(Me.Button2)
+        Me.Controls.Add(Me.TextBox5)
+        Me.Controls.Add(Me.TextBox4)
+        Me.Controls.Add(Me.TextBox3)
+        Me.Controls.Add(Me.TextBox2)
+        Me.Controls.Add(Me.TextBox1)
         Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.txtOpleidingsnummer)
+        Me.Controls.Add(Me.cbbValtTussen)
+        Me.Controls.Add(Me.LblPercBereik)
         Me.Controls.Add(Me.StatusStrip1)
         Me.Controls.Add(Me.btnOnt)
         Me.Controls.Add(Me.btnBerekenen)
@@ -281,16 +379,16 @@ Partial Class MainScreen
         Me.Controls.Add(Me.cboMerk)
         Me.Controls.Add(Me.dtpStartcursus)
         Me.Controls.Add(Me.cboSubAfd)
-        Me.Controls.Add(Me.Label5)
-        Me.Controls.Add(Me.Label3)
-        Me.Controls.Add(Me.Label7)
-        Me.Controls.Add(Me.Label4)
+        Me.Controls.Add(Me.LblStartDatum)
+        Me.Controls.Add(Me.LblSubAfd)
+        Me.Controls.Add(Me.LblUivCentr)
+        Me.Controls.Add(Me.lblOplNr)
         Me.Controls.Add(Me.Label1)
-        Me.Controls.Add(Me.Label2)
+        Me.Controls.Add(Me.LblMerk)
         Me.Controls.Add(Me.Panel2)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
-        Me.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
+        Me.Margin = New System.Windows.Forms.Padding(1)
         Me.MaximizeBox = False
         Me.Name = "MainScreen"
         Me.Text = "Cursus realiseerbaarheid prospectie tool"
@@ -301,27 +399,35 @@ Partial Class MainScreen
         Me.PerformLayout()
 
     End Sub
-    Friend WithEvents Label3 As Label
-    Friend WithEvents Label5 As Label
+    Friend WithEvents LblSubAfd As Label
+    Friend WithEvents LblStartDatum As Label
     Friend WithEvents cboSubAfd As ComboBox
     Friend WithEvents cboMerk As ComboBox
-    Friend WithEvents Label2 As Label
+    Friend WithEvents LblMerk As Label
     Friend WithEvents btnFilter As Button
     Friend WithEvents cboFiltersList As ComboBox
     Friend WithEvents Label1 As Label
     Friend WithEvents btnTest As Button
     Friend WithEvents txtTotaal As TextBox
     Friend WithEvents btnBerekenen As Button
-    Friend WithEvents Label7 As Label
+    Friend WithEvents LblUivCentr As Label
     Friend WithEvents cboUitvCent As ComboBox
     Friend WithEvents dtpStartcursus As DateTimePicker
     Friend WithEvents tslblStatus As ToolStripStatusLabel
     Friend WithEvents StatusStrip1 As StatusStrip
     Friend WithEvents btnOnt As Button
-    Friend WithEvents Label4 As Label
+    Friend WithEvents LblPercBereik As Label
+    Friend WithEvents lblOplNr As Label
+    Friend WithEvents cbbValtTussen As ComboBox
     Friend WithEvents txtOpleidingsnummer As TextBox
     Friend WithEvents Button1 As Button
     Friend WithEvents Panel1 As Panel
     Friend WithEvents Timer1 As Timer
     Friend WithEvents Panel2 As Panel
+    Friend WithEvents TextBox1 As TextBox
+    Friend WithEvents Button2 As Button
+    Friend WithEvents TextBox2 As TextBox
+    Friend WithEvents TextBox3 As TextBox
+    Friend WithEvents TextBox4 As TextBox
+    Friend WithEvents TextBox5 As TextBox
 End Class

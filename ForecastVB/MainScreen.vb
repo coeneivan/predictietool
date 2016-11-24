@@ -16,6 +16,8 @@ Public Class MainScreen
     Private oldAng As Double
     Private zwart, accent, accent2, wit, rood, geel, groen As Color
 
+    Private tverdelingsPerc As Double = 0.995
+    Private ang As Double = 50
     Private Sub MainScreen_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         style()
         Dim start As DateTime = DateTime.Now
@@ -25,13 +27,12 @@ Public Class MainScreen
         refreshFilterList()
         s.Close()
         ready = True
+        cbbValtTussen.SelectedIndex = 0
+        setTVerdeling(cbbValtTussen.SelectedItem)
         Me.Visible = True
-        Console.WriteLine("Load: " + (DateTime.Now - start).ToString)
 
         Dim j As New JSONParser
         filters = j.readFilters(saveDirectory + cboFiltersList.SelectedItem.ToString() + ".json")
-
-        'Console.WriteLine("Load: " + (DateTime.Now - start).ToString)
     End Sub
     Private Sub style()
         zwart = Color.FromArgb(52, 73, 94)
@@ -88,7 +89,6 @@ Public Class MainScreen
         readData()
         b = New Bayes_Bayes_Linear(Me, True)
         refreshCombobox()
-        'Console.WriteLine("Startup: " + (DateTime.Now - start).ToString)
     End Sub
     ''' <summary>
     ''' Data uit file lezen
@@ -125,7 +125,6 @@ Public Class MainScreen
             End If
         Finally
             Me.Cursor = Cursors.Default
-            'Console.WriteLine("Read data: " + (DateTime.Now - start).ToString)
         End Try
     End Sub
     ''' <summary>
@@ -221,7 +220,6 @@ Public Class MainScreen
             My.Computer.FileSystem.CopyFile("..\..\Filters\defaultList.json", saveDirectory + "\DefaultList.json")
             refreshFilterList()
         Finally
-            'Console.WriteLine("Refresh filterlist: " + (DateTime.Now - start).ToString)
         End Try
     End Sub
     ''' <summary>
@@ -301,15 +299,19 @@ Public Class MainScreen
         Return filterlist
     End Function
     Private Sub tslblStatus_Click(sender As Object, e As EventArgs) Handles tslblStatus.Click
+        resetData()
 
+    End Sub
+
+    Private Sub resetData()
         My.Computer.FileSystem.DeleteFile(saveDirectory + "/cursussen.xml")
         forceRefresh()
 
         cboMerk.ResetText()
         cboSubAfd.ResetText()
         cboUitvCent.ResetText()
-
     End Sub
+
     Private Sub cboFiltersList_SelectedValueChanged(sender As Object, e As EventArgs) Handles cboFiltersList.SelectedValueChanged
         If Not cboFiltersList.SelectedItem.Equals(My.Settings.selectedFilterList) Then
             If File.Exists(saveDirectory + "/cursussen.xml") Then
@@ -339,11 +341,11 @@ Public Class MainScreen
     Public Function getSaveDirectory() As String
         Return saveDirectory
     End Function
-    Private Sub MainScreen_VisibleChanged(sender As Object, e As EventArgs) Handles Me.VisibleChanged
+    Private Sub MainScreen_VisibleChanged(sender As Object, e As EventArgs) Handles MyBase.VisibleChanged
         'Alleen visible maken als het klaar is met laden
         Me.Visible = ready
     End Sub
-    Private Sub MainScreen_BindingContextChanged(sender As Object, e As EventArgs) Handles Me.BindingContextChanged
+    Private Sub MainScreen_BindingContextChanged(sender As Object, e As EventArgs) Handles MyBase.BindingContextChanged
         'Scherm verbergen bij de opstart
         Me.Visible = False
     End Sub
@@ -400,22 +402,22 @@ Public Class MainScreen
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         Dim sql As New SQLUtil
         Dim DTcursus = sql.getAlles("SELECT *, month(startdatum) as maand FROM Cursussen WHERE [Opleidingsnr] = '" + txtOpleidingsnummer.Text.Trim + "'")
-        Dim cursus As Cursus
-        Dim startdatum As Date
-        For Each row As DataRow In DTcursus.Rows
-            startdatum = row.Item("startdatum")
-            cursus = New Cursus(row.Item("Merk"), row.Item("UitvCentrumOmsch"), row.Item("maand"), row.Item("dag"), row.Item("codeSubafdeling"), 1, 1, 1, 1, 1, 1, Nothing, False, "")
-        Next
-        cboMerk.SelectedItem = cursus.getMerk
-        cboUitvCent.SelectedItem = cursus.getUitvoerCentrum
-        cboSubAfd.SelectedItem = cursus.getCodeSubafdeling
-        dtpStartcursus.Value = startdatum
+        If DTcursus.Rows.Count <> 0 Then
+            Dim cursus As Cursus
+            Dim startdatum As Date
+            For Each row As DataRow In DTcursus.Rows
+                startdatum = row.Item("startdatum")
+                cursus = New Cursus(row.Item("Merk"), row.Item("UitvCentrumOmsch"), row.Item("maand"), row.Item("dag"), row.Item("codeSubafdeling"), 1, 1, 1, 1, 1, 1, Nothing, False, "")
+            Next
+            cboMerk.SelectedItem = cursus.getMerk
+            cboUitvCent.SelectedItem = cursus.getUitvoerCentrum
+            cboSubAfd.SelectedItem = cursus.getCodeSubafdeling
+            dtpStartcursus.Value = startdatum
+        Else
+            MessageBox.Show("Opleidingsnummer werd niet teruggevonden")
+        End If
     End Sub
 
-    Private Sub pcbWijzer_Paint(sender As Object, e As PaintEventArgs)
-
-
-    End Sub
     Const min As Integer = 100
     Const max As Integer = 260
     Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs) Handles Panel1.Paint
@@ -491,5 +493,34 @@ Public Class MainScreen
 
     Private Sub Button2_Click_1(sender As Object, e As EventArgs)
         Panel2.Refresh()
+    End Sub
+
+    Friend Sub setTVerdeling(waarde As String)
+        If waarde = "99.5%" Then
+            tverdelingsPerc = 0.995
+        ElseIf waarde = "99%" Then
+            tverdelingsPerc = 0.99
+        ElseIf waarde = "97.5%" Then
+            tverdelingsPerc = 0.975
+        ElseIf waarde = "95%" Then
+            tverdelingsPerc = 0.95
+        ElseIf waarde = "90%" Then
+            tverdelingsPerc = 0.9
+        Else
+            Throw New ArgumentOutOfRangeException("Gegeven percentage niet beschikbaar.")
+        End If
+        resetData()
+    End Sub
+
+    Public Function getTVerdelingPercentage() As Double
+        Return tverdelingsPerc
+    End Function
+
+    Private Sub cbbValtTussen_SelectionChangeCommitted(sender As Object, e As EventArgs) Handles cbbValtTussen.SelectionChangeCommitted
+        setTVerdeling(cbbValtTussen.SelectedItem)
+    End Sub
+
+    Private Sub txtOpleidingsnummer_KeyPress(sender As Object, e As KeyPressEventArgs)
+
     End Sub
 End Class
