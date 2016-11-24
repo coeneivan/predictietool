@@ -22,8 +22,57 @@ Public Class FiltersScherm
         setKolomNaam()
         setFactorLijst()
         ListViewStarter()
+        style()
     End Sub
+    Private Sub style()
+        Dim zwart = Color.FromArgb(52, 73, 94)
+        Dim wit = Color.FromArgb(236, 240, 241)
+        Dim accent = Color.FromArgb(52, 152, 219)
+        Dim accent2 = Color.FromArgb(41, 128, 185)
+        Dim rood = Color.FromArgb(231, 76, 60)
+        Dim geel = Color.FromArgb(230, 126, 34)
+        Dim groen = Color.FromArgb(39, 174, 96)
 
+
+
+        Me.BackColor = wit
+        Me.ForeColor = zwart
+        For Each ctrl As Control In Me.Controls
+            'THE BUTTONS
+            If TypeOf ctrl Is Button Then
+                Dim btn As Button = ctrl
+                btn.BackColor = accent
+                btn.ForeColor = wit
+                btn.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+                btn.Text = btn.Text.ToUpper
+
+                btn.FlatStyle = FlatStyle.Flat
+                btn.FlatAppearance.BorderColor = accent2
+
+                btn.FlatAppearance.BorderSize = 1
+            End If
+
+            'THE COMBOBOXES
+            If TypeOf ctrl Is ComboBox Then
+                Dim cbb As ComboBox = ctrl
+                cbb.BackColor = accent
+                cbb.ForeColor = wit
+                cbb.FlatStyle = FlatStyle.Flat
+                cbb.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+                cbb.Text = cbb.Text.ToUpper
+
+            End If
+
+            'THE LABELS
+            If TypeOf ctrl Is Label Then
+                Dim lbl As Label = ctrl
+                'lbl.Text = lbl.Text.ToUpper
+                lbl.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+                lbl.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+                lbl.FlatStyle = FlatStyle.Flat
+            End If
+        Next
+    End Sub
     Friend Function getSaveDirectory() As String
         Return saveDirectory
     End Function

@@ -80,6 +80,7 @@ Public Class MainScreen
                 cbb.FlatStyle = FlatStyle.Flat
                 cbb.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
                 cbb.Text = cbb.Text.ToUpper
+
             End If
 
             'THE LABELS
@@ -90,7 +91,18 @@ Public Class MainScreen
                 lbl.TextAlign = System.Drawing.ContentAlignment.MiddleRight
                 lbl.FlatStyle = FlatStyle.Flat
             End If
+
+            'THE DATETIMEPICKER
+            If TypeOf ctrl Is DateTimePicker Then
+                'Dim dtp As DateTimePicker = ctrl
+                'dtp.BackColor = accent
+                'dtp.CalendarForeColor = wit
+                'dtp.CalendarMonthBackground = Color.Red
+            End If
         Next
+        Dim dtqp As New DateTimePicker
+        dtqp.CalendarTitleBackColor = Color.Red
+        Me.Controls.Add(dtqp)
     End Sub
     ''' <summary>
     ''' Data herlezen en comboboxen refreshen

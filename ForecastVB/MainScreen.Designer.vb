@@ -36,7 +36,6 @@ Partial Class MainScreen
         Me.btnBerekenen = New System.Windows.Forms.Button()
         Me.LblUivCentr = New System.Windows.Forms.Label()
         Me.cboUitvCent = New System.Windows.Forms.ComboBox()
-        Me.dtpStartcursus = New System.Windows.Forms.DateTimePicker()
         Me.tslblStatus = New System.Windows.Forms.ToolStripStatusLabel()
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.btnOnt = New System.Windows.Forms.Button()
@@ -56,6 +55,7 @@ Partial Class MainScreen
         Me.cbbValtTussen = New System.Windows.Forms.ComboBox()
         Me.mtbOplNummer = New System.Windows.Forms.MaskedTextBox()
         Me.pcbPijl = New System.Windows.Forms.PictureBox()
+        Me.dtpStartcursus = New System.Windows.Forms.DateTimePicker()
         Me.StatusStrip1.SuspendLayout()
         Me.Panel2.SuspendLayout()
         CType(Me.pcbPijl, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -129,17 +129,17 @@ Partial Class MainScreen
         '
         'btnTest
         '
-        Me.btnTest.Location = New System.Drawing.Point(273, 872)
+        Me.btnTest.Location = New System.Drawing.Point(272, 857)
         Me.btnTest.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.btnTest.Name = "btnTest"
-        Me.btnTest.Size = New System.Drawing.Size(202, 69)
+        Me.btnTest.Size = New System.Drawing.Size(202, 60)
         Me.btnTest.TabIndex = 5
         Me.btnTest.Text = "Test it!"
         Me.btnTest.UseVisualStyleBackColor = True
         '
         'txtTotaal
         '
-        Me.txtTotaal.Location = New System.Drawing.Point(52, 560)
+        Me.txtTotaal.Location = New System.Drawing.Point(51, 552)
         Me.txtTotaal.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.txtTotaal.Name = "txtTotaal"
         Me.txtTotaal.ReadOnly = True
@@ -176,15 +176,6 @@ Partial Class MainScreen
         Me.cboUitvCent.Size = New System.Drawing.Size(235, 28)
         Me.cboUitvCent.TabIndex = 1
         '
-        'dtpStartcursus
-        '
-        Me.dtpStartcursus.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
-        Me.dtpStartcursus.Location = New System.Drawing.Point(240, 322)
-        Me.dtpStartcursus.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
-        Me.dtpStartcursus.Name = "dtpStartcursus"
-        Me.dtpStartcursus.Size = New System.Drawing.Size(235, 26)
-        Me.dtpStartcursus.TabIndex = 4
-        '
         'tslblStatus
         '
         Me.tslblStatus.ActiveLinkColor = System.Drawing.Color.DarkGray
@@ -209,10 +200,10 @@ Partial Class MainScreen
         '
         'btnOnt
         '
-        Me.btnOnt.Location = New System.Drawing.Point(52, 872)
+        Me.btnOnt.Location = New System.Drawing.Point(51, 857)
         Me.btnOnt.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.btnOnt.Name = "btnOnt"
-        Me.btnOnt.Size = New System.Drawing.Size(196, 69)
+        Me.btnOnt.Size = New System.Drawing.Size(196, 60)
         Me.btnOnt.TabIndex = 5
         Me.btnOnt.Text = "Per Ontwikkelaar"
         Me.btnOnt.UseVisualStyleBackColor = True
@@ -247,7 +238,7 @@ Partial Class MainScreen
         '
         Me.Panel2.BackColor = System.Drawing.Color.GhostWhite
         Me.Panel2.Controls.Add(Me.Panel1)
-        Me.Panel2.Location = New System.Drawing.Point(736, 595)
+        Me.Panel2.Location = New System.Drawing.Point(590, 595)
         Me.Panel2.Name = "Panel2"
         Me.Panel2.Size = New System.Drawing.Size(532, 243)
         Me.Panel2.TabIndex = 0
@@ -347,9 +338,18 @@ Partial Class MainScreen
         Me.pcbPijl.Location = New System.Drawing.Point(0, 595)
         Me.pcbPijl.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.pcbPijl.Name = "pcbPijl"
-        Me.pcbPijl.Size = New System.Drawing.Size(536, 268)
+        Me.pcbPijl.Size = New System.Drawing.Size(536, 243)
         Me.pcbPijl.TabIndex = 22
         Me.pcbPijl.TabStop = False
+        '
+        'dtpStartcursus
+        '
+        Me.dtpStartcursus.CalendarMonthBackground = System.Drawing.Color.Yellow
+        Me.dtpStartcursus.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+        Me.dtpStartcursus.Location = New System.Drawing.Point(240, 319)
+        Me.dtpStartcursus.Name = "dtpStartcursus"
+        Me.dtpStartcursus.Size = New System.Drawing.Size(235, 26)
+        Me.dtpStartcursus.TabIndex = 23
         '
         'MainScreen
         '
@@ -357,6 +357,7 @@ Partial Class MainScreen
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.Control
         Me.ClientSize = New System.Drawing.Size(536, 977)
+        Me.Controls.Add(Me.dtpStartcursus)
         Me.Controls.Add(Me.pcbPijl)
         Me.Controls.Add(Me.mtbOplNummer)
         Me.Controls.Add(Me.Button2)
@@ -377,7 +378,6 @@ Partial Class MainScreen
         Me.Controls.Add(Me.btnFilter)
         Me.Controls.Add(Me.cboUitvCent)
         Me.Controls.Add(Me.cboMerk)
-        Me.Controls.Add(Me.dtpStartcursus)
         Me.Controls.Add(Me.cboSubAfd)
         Me.Controls.Add(Me.LblStartDatum)
         Me.Controls.Add(Me.LblSubAfd)
@@ -389,7 +389,7 @@ Partial Class MainScreen
         Me.DoubleBuffered = True
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
-        Me.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.Margin = New System.Windows.Forms.Padding(2)
         Me.MaximizeBox = False
         Me.Name = "MainScreen"
         Me.Text = "Cursus realiseerbaarheid prospectie tool"
@@ -414,7 +414,6 @@ Partial Class MainScreen
     Friend WithEvents btnBerekenen As Button
     Friend WithEvents LblUivCentr As Label
     Friend WithEvents cboUitvCent As ComboBox
-    Friend WithEvents dtpStartcursus As DateTimePicker
     Friend WithEvents tslblStatus As ToolStripStatusLabel
     Friend WithEvents StatusStrip1 As StatusStrip
     Friend WithEvents btnOnt As Button
@@ -433,4 +432,5 @@ Partial Class MainScreen
     Friend WithEvents TextBox5 As TextBox
     Friend WithEvents mtbOplNummer As MaskedTextBox
     Friend WithEvents pcbPijl As PictureBox
+    Friend WithEvents dtpStartcursus As DateTimePicker
 End Class
