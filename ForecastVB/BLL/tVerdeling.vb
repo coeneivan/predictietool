@@ -54,18 +54,11 @@ Public Class tVerdeling
     ''' <returns>Double, tWaarde waarmee er gewerkt moet worden</returns>
     Public Function getTwaarde(betrouwbaarheidspercentage As Double, aantal As Double) As Double
         Dim x, y As Integer
-        Select Case betrouwbaarheidspercentage
-            Case betrwBArray(0)
-                x = 0
-            Case betrwBArray(1)
-                x = 1
-            Case betrwBArray(2)
-                x = 2
-            Case betrwBArray(3)
-                x = 3
-            Case betrwBArray(4)
-                x = 4
-        End Select
+
+        For Each betr As Double In betrwBArray
+            If (betr = betrouwbaarheidspercentage) Then x = betrouwbaarheidspercentage
+        Next
+
         Select Case aantal
             Case < 30
                 y = aantal - 1
