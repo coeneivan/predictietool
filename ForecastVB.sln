@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ForecastVB", "ForecastVB\ForecastVB.vbproj", "{D02CE33F-E939-41F2-B076-455C0C706BE3}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ForcastTest", "ForcastTest\ForcastTest.vbproj", "{44DBEAE9-26D8-4398-B5BB-A5971BAA2152}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ForecastTest", "ForcastTest\ForecastTest.vbproj", "{44DBEAE9-26D8-4398-B5BB-A5971BAA2152}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
