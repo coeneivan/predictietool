@@ -258,7 +258,6 @@ Partial Class Test
         '
         Me.cbbValtTussen.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cbbValtTussen.FormattingEnabled = True
-        Me.cbbValtTussen.Items.AddRange(New Object() {"99.5%", "97.5%", "95%", "90%"})
         Me.cbbValtTussen.Location = New System.Drawing.Point(581, 800)
         Me.cbbValtTussen.Name = "cbbValtTussen"
         Me.cbbValtTussen.Size = New System.Drawing.Size(74, 21)

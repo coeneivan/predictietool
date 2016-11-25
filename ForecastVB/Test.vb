@@ -18,8 +18,13 @@ Public Class Test
 
         initDataGridView()
 
-        cbbValtTussen.SelectedIndex = 0
-        root.setTVerdeling(cbbValtTussen.SelectedItem)
+        ' Dropdown voor afwijking initialiseren
+        Dim curs As New Cursus("", "", Nothing, "", "", Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Algoritmes.Niets, Nothing, "")
+        For i As Integer = 0 To curs.getAantalAfwijkingen - 1
+            cbbValtTussen.Items.Insert(i, curs.getAfwijkingsString(i))
+        Next
+        cbbValtTussen.SelectedIndex = curs.getAantalAfwijkingen - 1
+        root.setTVerdeling(curs.getAantalAfwijkingen - 1)
     End Sub
 
     Private Sub Test_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -176,7 +181,7 @@ Public Class Test
                 Dim echt = (Math.Round(((item.getAantalDoorgegaan / item.getTotaal) * 10000)) / 100)
 
                 ' Bereken de top waarde en onderste waarde van de afwijking, controlleer of deze boven 100 of onder 0 zit en pas deze aan indien nodig
-                Dim bereik = New Bereik(item.getAfwijkingswaarde, item.getKans * 100)
+                Dim bereik = New Bereik(item.getAfwijkingswaarde(root.getAfwijkinsindex), item.getKans * 100)
 
                 Dim kleur As Color
                 If bereik.valtTussen(echt) Then
@@ -196,7 +201,7 @@ Public Class Test
                     versch(verschil) += 1
                 End If
 
-                gemiddeldeAfw += Math.Abs(item.getAfwijkingswaarde)
+                gemiddeldeAfw += Math.Abs(item.getAfwijkingswaarde(cbbValtTussen.SelectedIndex))
                 gemiddeldVerschil += Math.Abs(verschil)
 
                 dgvResult.Rows.Add(item.getMerk, item.getUitvoerCentrum, item.getCodeSubafdeling, item.getMaand.ToString, item.getDag, item.getTotaal.ToString, echt.ToString, bereik.ToString,
@@ -252,6 +257,6 @@ Public Class Test
     End Sub
 
     Private Sub cbbValtTussen_SelectionChangeCommitted(sender As Object, e As EventArgs) Handles cbbValtTussen.SelectionChangeCommitted
-        root.setTVerdeling(cbbValtTussen.SelectedItem)
+        root.setTVerdeling(cbbValtTussen.SelectedIndex)
     End Sub
 End Class

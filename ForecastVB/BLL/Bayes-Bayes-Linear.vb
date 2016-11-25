@@ -236,7 +236,8 @@ Public Class Bayes_Bayes_Linear
             If cu.getMerk.Equals(c.getMerk) And cu.getUitvoerCentrum.Equals(c.getUitvoerCentrum) And cu.getMaand.Equals(c.getMaand) And cu.getCodeSubafdeling.Equals(c.getCodeSubafdeling) And
                 cu.getDag.Equals(c.getDag) Then
                 c = c.setKans(cu.getKans)
-                c = c.setAfwijkingValue(cu.getAfwijkingswaarde)
+                Dim remove = root.getAfwijkinsindex
+                c = c.setAfwijkingValue(cu.getAfwijkingswaarde(root.getAfwijkinsindex), root.getAfwijkinsindex)
                 found = True
                 GoTo stopAndReturn
             End If
@@ -245,7 +246,7 @@ Public Class Bayes_Bayes_Linear
             c = c.setKans(berekenBayes(c))
         End If
 stopAndReturn:
-        Return c.getBereik
+        Return c.getBereik(root.getAfwijkinsindex)
     End Function
 
     Public Sub baycalculation(item As Cursus, merkRekenen As Boolean)
@@ -411,7 +412,6 @@ stopAndReturn:
         item = item.setKans(nieuweKans)
         item = item.setAlgoritme(algo)
 
-        'voegToeAanAfwijkingLijst(item)
         Return item
     End Function
 
@@ -442,7 +442,7 @@ stopAndReturn:
 
         For Each item As Cursus In list
             immutCurs = New Cursus(item.getMerk, item.getUitvoerCentrum, item.getMaand, item.getDag, item.getCodeSubafdeling,
-                                            item.getTotaal, item.getAantalDoorgegaan, -1.01, item.getJaar, item.getB, -1, Algoritmes.Niets, False, Nothing)
+                                            item.getTotaal, item.getAantalDoorgegaan, -1.01, item.getJaar, item.getB, Nothing, Algoritmes.Niets, False, Nothing)
 
 
             immutCursList.Add(immutCurs)
@@ -462,7 +462,7 @@ stopAndReturn:
                         newList(i).getUitvoerCentrum().Equals(item2.getUitvoerCentrum()) And newList(i).getDag().Equals(item2.getDag()) And newList(i).getMaand = item2.getMaand And item2.getIsCorrect Then
 
                         ' is nieuwe voorspelling naukeuriger dan oude voorspelling?
-                        If newList(i).getAfwijkingswaarde > item2.getAfwijkingswaarde Or Not newList(i).getIsCorrect Then
+                        If newList(i).getAfwijkingswaarde(root.getAfwijkinsindex) > item2.getAfwijkingswaarde(root.getAfwijkinsindex) Or Not newList(i).getIsCorrect Then
                             newList(i) = item2
                         End If
                     End If
@@ -474,7 +474,7 @@ stopAndReturn:
                         newList(i).getUitvoerCentrum().Equals(item2.getUitvoerCentrum()) And newList(i).getDag().Equals(item2.getDag()) And newList(i).getMaand = item2.getMaand) And item2.getIsCorrect Then
 
                         ' is nieuwe voorspelling naukeuriger dan oude voorspelling?
-                        If newList(i).getAfwijkingswaarde > item2.getAfwijkingswaarde Or Not newList(i).getIsCorrect Then
+                        If newList(i).getAfwijkingswaarde(root.getAfwijkinsindex) > item2.getAfwijkingswaarde(root.getAfwijkinsindex) Or Not newList(i).getIsCorrect Then
                             newList(i) = item2
                         End If
                     End If
@@ -507,8 +507,10 @@ stopAndReturn:
     Private Sub afwijkingBerekenen(list As List(Of Cursus))
         Dim tVerd As New tVerdeling
         For i As Integer = 0 To list.Count - 1
-            Dim t = tVerd.getTwaarde(root.getTVerdelingPercentage(), list(i).getTotaal) * getdeviatie / Math.Sqrt(list(i).getTotaal)
-            list(i) = list(i).setAfwijkingValue(t)
+            For j As Integer = 0 To list(i).getAantalAfwijkingen - 1
+                Dim t = tVerd.getTwaarde(list(i).getTverdelingsWaarde(j), list(i).getTotaal) * getdeviatie / Math.Sqrt(list(i).getTotaal)
+                list(i) = list(i).setAfwijkingValue(t, j)
+            Next
         Next
     End Sub
 
@@ -519,7 +521,7 @@ stopAndReturn:
         For i As Integer = 0 To list.Count - 1
             Dim echt = Math.Round((list(i).getAantalDoorgegaan / list(i).getTotaal), 2) * 100
             Dim schatting = list(i).getKans * 100
-            Dim afwijking = list(i).getAfwijkingswaarde
+            Dim afwijking = list(i).getAfwijkingswaarde(root.getAfwijkinsindex)
             Dim schattingsbereik = New Bereik(afwijking, schatting)
 
             list(i) = list(i).setIsCorrect(schattingsbereik.valtTussen(echt))

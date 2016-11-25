@@ -118,6 +118,7 @@
     <Compile Include="BLL\tVerdeling.vb" />
     <Compile Include="DAO\FiltersDAO.vb" />
     <Compile Include="DAO\OntwikkelaarsDAO.vb" />
+    <Compile Include="Model\Afwijking.vb" />
     <Compile Include="Model\Cursus.vb" />
     <Compile Include="PerOnt.Designer.vb">
       <DependentUpon>PerOnt.vb</DependentUpon>

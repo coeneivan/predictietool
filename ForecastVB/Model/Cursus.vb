@@ -11,14 +11,28 @@
     Private kans As Double
     Private jaar As Double
     Private b As Double
-    Private afwijkingValue As Double
+    Private afwijkingValue As List(Of Afwijking)
     Private algoritmeProp As Algoritmes
     Private correct As Boolean
     Private ont As String
 
+
     Public Sub New(merk As String, uitvoerCentrum As String, maand As String, dag As String, codeSubAfdeling As String,
-                   totaal As Integer, doorgegaan As Integer, kans As Double, jaar As Double, b As Double, afwijking As Double,
+                   totaal As Integer, doorgegaan As Integer, kans As Double, jaar As Double, b As Double, afwijking As List(Of Afwijking),
                    algoritme As Algoritmes, correct As Boolean, ont As String)
+
+        If afwijking Is Nothing Then
+            ' Lijst voor verschillende afwijkingen aanmaken
+            afwijkingValue = New List(Of Afwijking)
+            afwijkingValue.Add(New Afwijking("99.5%", 0.995, -101))
+            afwijkingValue.Add(New Afwijking("99%", 0.99, -101))
+            afwijkingValue.Add(New Afwijking("95%", 0.95, -101))
+            afwijkingValue.Add(New Afwijking("90%", 0.9, -101))
+        Else
+            Me.afwijkingValue = afwijking
+        End If
+
+
         Me.merk = merk
         Me.uitvCentr = uitvoerCentrum
         Me.maand = maand
@@ -28,7 +42,6 @@
         Me.doorgegaan = doorgegaan
         Me.kans = kans
         Me.jaar = jaar
-        Me.afwijkingValue = afwijking
         Me.algoritmeProp = algoritme
         Me.correct = correct
         Me.b = b
@@ -87,7 +100,9 @@
                                Me.kans, Me.jaar, b, Me.afwijkingValue, Me.algoritmeProp, Me.correct, Me.ont)
     End Function
 
-    Public Function setAfwijkingValue(afwijkingValue As Double) As Cursus
+    Public Function setAfwijkingValue(afwijkingswaarde As Double, index As Integer) As Cursus
+        afwijkingValue(index).setAfwijking(afwijkingswaarde)
+
         Return New Cursus(Me.merk, Me.uitvCentr, Me.maand, Me.dag, Me.codeSubAfd, Me.totaal, Me.doorgegaan,
                            Me.kans, Me.jaar, Me.b, afwijkingValue, Me.algoritmeProp, Me.correct, Me.ont)
     End Function
@@ -142,8 +157,20 @@
         Return b
     End Function
 
-    Public Function getAfwijkingswaarde() As Double
-        Return afwijkingValue
+    Public Function getAfwijkingswaarde(index As Integer) As Double
+        Return afwijkingValue(index).getAfwijkingswaarde
+    End Function
+
+    Public Function getTverdelingsWaarde(index As Integer) As Double
+        Return afwijkingValue(index).getTverdelingswaarde
+    End Function
+
+    Public Function getAfwijkingsString(index As Integer) As String
+        Return afwijkingValue(index).getText
+    End Function
+
+    Public Function getAantalAfwijkingen() As Integer
+        Return afwijkingValue.Count()
     End Function
 
     Public Function getAlgoritme() As Algoritmes
@@ -153,8 +180,8 @@
     Public Function getIsCorrect() As Boolean
         Return correct
     End Function
-    Public Function getBereik() As Bereik
-        Return New Bereik(afwijkingValue, kans * 100)
+    Public Function getBereik(index As Integer) As Bereik
+        Return New Bereik(afwijkingValue(index).getAfwijkingswaarde, kans * 100)
     End Function
 
     Public Function getOntw() As String

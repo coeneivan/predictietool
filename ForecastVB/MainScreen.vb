@@ -14,7 +14,7 @@ Public Class MainScreen
     Private ready As Boolean = False
     Private ang As Double = 0
     Private zwart, accent, accent2, wit, rood, geel, groen As Color
-    Private tverdelingsPerc As Double = 0.995
+    Private afwijkinsIndex As Double = 0.995
     Private oldAng As Double
     Private newAng As Double
     Private Sub MainScreen_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -30,8 +30,15 @@ Public Class MainScreen
         refreshFilterList()
         s.Close()
         ready = True
-        cbbValtTussen.SelectedIndex = 0
-        setTVerdeling(cbbValtTussen.SelectedItem)
+
+        ' Dropdown voor afwijking initialiseren
+        Dim curs As New Cursus("", "", Nothing, "", "", Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Algoritmes.Niets, Nothing, "")
+        For i As Integer = 0 To curs.getAantalAfwijkingen - 1
+            cbbValtTussen.Items.Insert(i, curs.getAfwijkingsString(i))
+        Next
+        cbbValtTussen.SelectedIndex = curs.getAantalAfwijkingen - 1
+        setTVerdeling(curs.getAantalAfwijkingen - 1)
+
         refreshPanel()
         Me.Visible = True
 
@@ -100,9 +107,6 @@ Public Class MainScreen
                 'dtp.CalendarMonthBackground = Color.Red
             End If
         Next
-        Dim dtqp As New DateTimePicker
-        dtqp.CalendarTitleBackColor = Color.Red
-        Me.Controls.Add(dtqp)
     End Sub
     ''' <summary>
     ''' Data herlezen en comboboxen refreshen
@@ -274,6 +278,8 @@ Public Class MainScreen
                 If cboSubAfd.SelectedItem Is Nothing Then
                     MessageBox.Show("Gelieve een code subafdeling te selecteren aub")
                 Else
+                    setTVerdeling(cbbValtTussen.SelectedIndex)
+
                     Dim c As New Cursus(cboMerk.SelectedItem.ToString, cboUitvCent.SelectedItem.ToString, dtpStartcursus.Value.Month.ToString, dtpStartcursus.Value.ToString("dddd", New CultureInfo("nl-BE")),
                                                  cboSubAfd.SelectedItem.ToString, 0, 0, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing)
                     txtTotaal.Text = b.getKansVoorCursus(c).ToString
@@ -430,7 +436,7 @@ Public Class MainScreen
             Dim startdatum As Date
             For Each row As DataRow In DTcursus.Rows
                 startdatum = row.Item("startdatum")
-                cursus = New Cursus(row.Item("Merk"), row.Item("UitvCentrumOmsch"), row.Item("maand"), row.Item("dag"), row.Item("codeSubafdeling"), 1, 1, 1, 1, 1, 1, Nothing, False, "")
+                cursus = New Cursus(row.Item("Merk"), row.Item("UitvCentrumOmsch"), row.Item("maand"), row.Item("dag"), row.Item("codeSubafdeling"), 1, 1, 1, 1, 1, Nothing, Nothing, False, "")
             Next
             cboMerk.SelectedItem = cursus.getMerk
             cboUitvCent.SelectedItem = cursus.getUitvoerCentrum
@@ -521,28 +527,15 @@ Public Class MainScreen
         Panel2.Refresh()
     End Sub
 
-    Friend Sub setTVerdeling(waarde As String)
-        If waarde = "99.5%" Then
-            tverdelingsPerc = 0.995
-        ElseIf waarde = "99%" Then
-            tverdelingsPerc = 0.99
-        ElseIf waarde = "97.5%" Then
-            tverdelingsPerc = 0.975
-        ElseIf waarde = "95%" Then
-            tverdelingsPerc = 0.95
-        ElseIf waarde = "90%" Then
-            tverdelingsPerc = 0.9
-        Else
-            Throw New ArgumentOutOfRangeException("Gegeven percentage niet beschikbaar.")
-        End If
-        resetData()
+    Friend Sub setTVerdeling(index As String)
+        afwijkinsIndex = index
     End Sub
 
-    Public Function getTVerdelingPercentage() As Double
-        Return tverdelingsPerc
+    Public Function getAfwijkinsindex() As Double
+        Return afwijkinsIndex
     End Function
 
     Private Sub cbbValtTussen_SelectionChangeCommitted(sender As Object, e As EventArgs) Handles cbbValtTussen.SelectionChangeCommitted
-        setTVerdeling(cbbValtTussen.SelectedItem)
+        setTVerdeling(cbbValtTussen.SelectedIndex)
     End Sub
 End Class
