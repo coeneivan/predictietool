@@ -26,7 +26,7 @@ Partial Class PerOnt
         Me.btnClearCenturm = New System.Windows.Forms.Button()
         Me.btnClearSubafdeling = New System.Windows.Forms.Button()
         Me.btnClearMerk = New System.Windows.Forms.Button()
-        Me.Button1 = New System.Windows.Forms.Button()
+        Me.btnBereken = New System.Windows.Forms.Button()
         Me.cbbCentrum = New System.Windows.Forms.ComboBox()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.cbbSubafdeling = New System.Windows.Forms.ComboBox()
@@ -70,14 +70,14 @@ Partial Class PerOnt
         Me.btnClearMerk.TabIndex = 29
         Me.btnClearMerk.UseVisualStyleBackColor = True
         '
-        'Button1
+        'btnBereken
         '
-        Me.Button1.Location = New System.Drawing.Point(479, 14)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(180, 46)
-        Me.Button1.TabIndex = 28
-        Me.Button1.Text = "Bereken"
-        Me.Button1.UseVisualStyleBackColor = True
+        Me.btnBereken.Location = New System.Drawing.Point(479, 14)
+        Me.btnBereken.Name = "btnBereken"
+        Me.btnBereken.Size = New System.Drawing.Size(180, 46)
+        Me.btnBereken.TabIndex = 28
+        Me.btnBereken.Text = "Bereken"
+        Me.btnBereken.UseVisualStyleBackColor = True
         '
         'cbbCentrum
         '
@@ -213,7 +213,7 @@ Partial Class PerOnt
         Me.Controls.Add(Me.btnClearOnt)
         Me.Controls.Add(Me.btnClearSubafdeling)
         Me.Controls.Add(Me.btnClearMerk)
-        Me.Controls.Add(Me.Button1)
+        Me.Controls.Add(Me.btnBereken)
         Me.Controls.Add(Me.cbbCentrum)
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.cbbOnt)
@@ -236,7 +236,7 @@ Partial Class PerOnt
     Friend WithEvents btnClearCenturm As Button
     Friend WithEvents btnClearSubafdeling As Button
     Friend WithEvents btnClearMerk As Button
-    Friend WithEvents Button1 As Button
+    Friend WithEvents btnBereken As Button
     Friend WithEvents cbbCentrum As ComboBox
     Friend WithEvents Label3 As Label
     Friend WithEvents cbbSubafdeling As ComboBox

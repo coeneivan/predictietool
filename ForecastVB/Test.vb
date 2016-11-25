@@ -228,6 +228,7 @@ Public Class Test
     Private Sub initDataGridView()
         dgvResult.DataSource = Nothing
         dgvResult.Columns.Clear()
+        ' TODO (Could have) Sorteer fix toevoegen
         addColumns(New ArrayList({"merk", "Uitvoerend centrum", "Sub afdeling", "Maand", "Dag", "Totaal", "% Doorgeg", "% Berekend", "verschil", "Algoritme", "Bereik"}))
     End Sub
 

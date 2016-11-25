@@ -1,4 +1,5 @@
-﻿Imports ForecastVB
+﻿Imports System.Windows.Forms
+Imports ForecastVB
 
 Public Class PerOnt
     Private root As MainScreen
@@ -15,7 +16,15 @@ Public Class PerOnt
         InitializeComponent()
         root = main
         Dim bll As New OntwikkelaarsBLL
-        rows = bll.getAll(root.getFilters)
+        Try
+            root.Cursor = Cursors.WaitCursor
+            rows = bll.getAll(root.getFilters)
+        Catch ex As Exception
+            Throw ex
+        Finally
+            root.Cursor = Cursors.Default
+        End Try
+
 
         Dim columns As New ArrayList({"Ontwikkelaar", "Merk", "Subafdeling", "Uitvoerend centrum", "Aantal geweest", "Doorgegaan", "Kans", "Verschil"})
         addColumns(columns)
@@ -130,7 +139,7 @@ Public Class PerOnt
         cbbOnt.SelectedItem = Nothing
     End Sub
 
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+    Private Sub btnBereken_Click(sender As Object, e As EventArgs) Handles btnBereken.Click
         vulTable(rows)
     End Sub
 End Class

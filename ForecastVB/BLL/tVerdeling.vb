@@ -3,7 +3,7 @@
 ''' </summary>
 ''' 
 Public Class tVerdeling
-    Dim betrwBArray = {0.995, 0.99, 0.95, 0.9}
+    Dim betrwBArray = {0.995, 0.99, 0.975, 0.95, 0.9}
 
 
     Private tbl = {{63.66, 31.82, 12.71, 6.31, 3.08}, '1
@@ -55,8 +55,8 @@ Public Class tVerdeling
     Public Function getTwaarde(betrouwbaarheidspercentage As Double, aantal As Double) As Double
         Dim x, y As Integer
 
-        For Each betr As Double In betrwBArray
-            If (betr = betrouwbaarheidspercentage) Then x = betrouwbaarheidspercentage
+        For i As Integer = 0 To betrwBArray.Length - 1
+            If (betrwBArray(i) = betrouwbaarheidspercentage) Then x = i
         Next
 
         Select Case aantal
