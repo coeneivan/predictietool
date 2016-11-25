@@ -224,6 +224,7 @@ Partial Class PerOnt
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.dgvResult)
         Me.Controls.Add(Me.lblInfo)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Margin = New System.Windows.Forms.Padding(2)
         Me.Name = "PerOnt"
         Me.Text = "Per ontwikkelaar"

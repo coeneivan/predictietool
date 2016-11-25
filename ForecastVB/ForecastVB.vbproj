@@ -62,8 +62,7 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>
-    </ApplicationIcon>
+    <ApplicationIcon>Resources\Logo_Syntra.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MathNet.Numerics, Version=3.13.1.0, Culture=neutral, processorArchitecture=MSIL">
@@ -220,6 +219,7 @@
     <Content Include="conn.txt">
       <SubType>Form</SubType>
     </Content>
+    <Content Include="Resources\Logo_Syntra.ico" />
     <None Include="Resources\bg.png" />
     <None Include="Resources\1479914035_thefreeforty_location.png" />
     <None Include="Resources\1476721606_Close.png" />
