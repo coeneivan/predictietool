@@ -1,7 +1,11 @@
 ﻿''' <summary>
 ''' Met welke t waarde moet er gewerkt worden?
 ''' </summary>
+''' 
 Public Class tVerdeling
+    Dim betrwBArray = {0.995, 0.99, 0.95, 0.9}
+
+
     Private tbl = {{63.66, 31.82, 12.71, 6.31, 3.08}, '1
                    {9.92, 6.96, 4.3, 2.92, 1.89}, '2
                    {5.84, 4.54, 3.18, 2.35, 1.64},'3
@@ -51,15 +55,15 @@ Public Class tVerdeling
     Public Function getTwaarde(betrouwbaarheidspercentage As Double, aantal As Double) As Double
         Dim x, y As Integer
         Select Case betrouwbaarheidspercentage
-            Case 0.995
+            Case betrwBArray(0)
                 x = 0
-            Case 0.99
+            Case betrwBArray(1)
                 x = 1
-            Case 0.975
+            Case betrwBArray(2)
                 x = 2
-            Case 0.95
+            Case betrwBArray(3)
                 x = 3
-            Case 0.9
+            Case betrwBArray(4)
                 x = 4
         End Select
         Select Case aantal
@@ -88,4 +92,9 @@ Public Class tVerdeling
         End Select
         Return tbl(y, x)
     End Function
+
+    Public Function getBetrouwbaarheidsIntervallen() As Double()
+        Return betrwBArray
+    End Function
+
 End Class

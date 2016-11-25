@@ -24,10 +24,10 @@
         If afwijking Is Nothing Then
             ' Lijst voor verschillende afwijkingen aanmaken
             afwijkingValue = New List(Of Afwijking)
-            afwijkingValue.Add(New Afwijking("99.5%", 0.995, -101))
-            afwijkingValue.Add(New Afwijking("99%", 0.99, -101))
-            afwijkingValue.Add(New Afwijking("95%", 0.95, -101))
-            afwijkingValue.Add(New Afwijking("90%", 0.9, -101))
+            Dim betrwbGev = New tVerdeling()
+            For Each bet As Double In betrwbGev.getBetrouwbaarheidsIntervallen
+                afwijkingValue.Add(New Afwijking(bet, -101))
+            Next
         Else
             Me.afwijkingValue = afwijking
         End If
