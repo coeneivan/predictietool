@@ -59,9 +59,6 @@ Public Class MainScreen
         geel = Color.FromArgb(230, 126, 34)
         groen = Color.FromArgb(39, 174, 96)
 
-        Panel2.BackColor = accent
-
-
         Me.BackColor = wit
         Me.ForeColor = zwart
         For Each ctrl As Control In Me.Controls
@@ -490,8 +487,29 @@ Public Class MainScreen
         pcbPijl.Refresh()
     End Sub
 
+    Private Sub Panel1_MouseClick(sender As Object, e As MouseEventArgs) Handles Panel1.MouseClick
+
+        Console.WriteLine(e.X.ToString + " " + e.Y.ToString)
+    End Sub
+    Dim MouseIsDown As Boolean
+    Private Sub Panel1_MouseDown(sender As Object, e As MouseEventArgs) Handles Panel1.MouseDown
+        MouseIsDown = True
+    End Sub
+
+    Private Sub Panel1_MouseMove(sender As Object, e As MouseEventArgs) Handles Panel1.MouseMove
+        If MouseIsDown Then
+            createDotAtPoint(e.X, e.Y)
+        End If
+
+    End Sub
+
+    Private Sub Panel1_MouseUp(sender As Object, e As MouseEventArgs) Handles Panel1.MouseUp
+        MouseIsDown = False
+    End Sub
+
     Private Sub Panel2_Paint(sender As Object, e As PaintEventArgs) Handles Panel2.Paint
 
+        Panel2.BackColor = wit
 
         Dim dif As Integer = 10 'AFSTAND VAN ZIJKANT
         Dim Ypunt = Panel2.Height - dif * 3 'ONDERSTE PUNT VAN TEKENING
@@ -500,6 +518,12 @@ Public Class MainScreen
         Dim myRec As New Rectangle(New Point(dif, dif), New Size(Panel2.Width - dif * 2, Ypunt * 2)) ' hoogte was Panel2.Height - dif * 2
         Dim myRec2 As New Rectangle(New Point(dif + strokeWidth, dif + strokeWidth), New Size((myRec.Size.Width) - strokeWidth * 2, (myRec.Size.Height) - strokeWidth * 2))
         Dim myClip As New Rectangle(New Point(dif, dif), New Size(myRec.Size.Width, myRec.Size.Height / 2))
+        'BG
+        Dim bg As New Rectangle(New Point(0, 0), New Size(Panel2.Width, Panel2.Height - dif))
+        e.Graphics.FillRectangle(New SolidBrush(accent), bg)
+
+        e.Graphics.SetClip(bg)
+
         e.Graphics.SetClip(myClip)
         'Eerste stuk
         Dim myClip2 As New Rectangle(New Point(dif + myClip.Size.Width * 1 / 6, dif), New Size(myClip.Size))
@@ -519,9 +543,21 @@ Public Class MainScreen
         'e.Graphics.FillRectangle(New SolidBrush(Color.Blue), myClip)
 
         e.Graphics.ResetClip()
+        e.Graphics.SetClip(bg)
         e.Graphics.FillEllipse(New SolidBrush(accent), myRec2)
-    End Sub
 
+    End Sub
+    Private Sub createDotAtPoint(ByVal x As Integer, ByVal y As Integer)
+
+        Dim myGraphics As Graphics = Panel1.CreateGraphics
+
+        Dim myPen As Pen
+
+        myPen = New Pen(Drawing.Color.Black, 3)
+
+        myGraphics.DrawRectangle(myPen, x, y, 1, 1)
+
+    End Sub
 
     Private Sub Button2_Click_1(sender As Object, e As EventArgs)
         Panel2.Refresh()
