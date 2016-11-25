@@ -54,10 +54,22 @@ Public Class tVerdeling
     ''' <returns>Double, tWaarde waarmee er gewerkt moet worden</returns>
     Public Function getTwaarde(betrouwbaarheidspercentage As Double, aantal As Double) As Double
         Dim x, y As Integer
+        Dim foundX As Boolean = False
 
+        ' Overloop de mogelijke betrouwbaarheidspercentage en hou index bij wanneer deze gevonden wordt
         For i As Integer = 0 To betrwBArray.Length - 1
-            If (betrwBArray(i) = betrouwbaarheidspercentage) Then x = i
+            If (betrwBArray(i) = betrouwbaarheidspercentage) Then
+                x = i
+                foundX = True
+            End If
         Next
+
+        ' Wanneer betrouwbaarheidspercentage niet werd gevonden is gooi een exception
+        If Not foundX Then Throw New NotSupportedException("Gegeven betrouwbaarheidspercentage werd niet terug gevonden")
+
+        ' controle of geldig aantal werd meegegeven
+        If aantal <= 0 Then Throw New NotSupportedException("Aantal is negatief getal of 0")
+
 
         Select Case aantal
             Case < 30
