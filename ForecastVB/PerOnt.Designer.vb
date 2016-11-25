@@ -38,6 +38,8 @@ Partial Class PerOnt
         Me.Label1 = New System.Windows.Forms.Label()
         Me.cbbOnt = New System.Windows.Forms.ComboBox()
         Me.btnClearOnt = New System.Windows.Forms.Button()
+        Me.cbbValtTussen = New System.Windows.Forms.ComboBox()
+        Me.LblPercBereik = New System.Windows.Forms.Label()
         CType(Me.dgvResult, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -79,12 +81,12 @@ Partial Class PerOnt
         '
         'cbbCentrum
         '
+        Me.cbbCentrum.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cbbCentrum.FormattingEnabled = True
         Me.cbbCentrum.Location = New System.Drawing.Point(77, 42)
         Me.cbbCentrum.Name = "cbbCentrum"
         Me.cbbCentrum.Size = New System.Drawing.Size(111, 21)
         Me.cbbCentrum.TabIndex = 27
-        Me.cbbCentrum.DropDownStyle = ComboBoxStyle.DropDownList
         '
         'Label3
         '
@@ -97,21 +99,21 @@ Partial Class PerOnt
         '
         'cbbSubafdeling
         '
+        Me.cbbSubafdeling.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cbbSubafdeling.FormattingEnabled = True
         Me.cbbSubafdeling.Location = New System.Drawing.Point(307, 15)
         Me.cbbSubafdeling.Name = "cbbSubafdeling"
         Me.cbbSubafdeling.Size = New System.Drawing.Size(113, 21)
         Me.cbbSubafdeling.TabIndex = 25
-        Me.cbbSubafdeling.DropDownStyle = ComboBoxStyle.DropDownList
         '
         'cbbMerk
         '
+        Me.cbbMerk.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cbbMerk.FormattingEnabled = True
         Me.cbbMerk.Location = New System.Drawing.Point(61, 15)
         Me.cbbMerk.Name = "cbbMerk"
         Me.cbbMerk.Size = New System.Drawing.Size(128, 21)
         Me.cbbMerk.TabIndex = 24
-        Me.cbbMerk.DropDownStyle = ComboBoxStyle.DropDownList
         '
         'Label4
         '
@@ -164,12 +166,12 @@ Partial Class PerOnt
         '
         'cbbOnt
         '
+        Me.cbbOnt.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cbbOnt.FormattingEnabled = True
         Me.cbbOnt.Location = New System.Drawing.Point(311, 41)
         Me.cbbOnt.Name = "cbbOnt"
         Me.cbbOnt.Size = New System.Drawing.Size(108, 21)
         Me.cbbOnt.TabIndex = 25
-        cbbOnt.DropDownStyle = ComboBoxStyle.DropDownList
         '
         'btnClearOnt
         '
@@ -180,11 +182,33 @@ Partial Class PerOnt
         Me.btnClearOnt.TabIndex = 30
         Me.btnClearOnt.UseVisualStyleBackColor = True
         '
+        'cbbValtTussen
+        '
+        Me.cbbValtTussen.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbbValtTussen.FormattingEnabled = True
+        Me.cbbValtTussen.Location = New System.Drawing.Point(599, 792)
+        Me.cbbValtTussen.Margin = New System.Windows.Forms.Padding(2)
+        Me.cbbValtTussen.Name = "cbbValtTussen"
+        Me.cbbValtTussen.Size = New System.Drawing.Size(76, 21)
+        Me.cbbValtTussen.TabIndex = 34
+        '
+        'LblPercBereik
+        '
+        Me.LblPercBereik.Location = New System.Drawing.Point(453, 782)
+        Me.LblPercBereik.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.LblPercBereik.Name = "LblPercBereik"
+        Me.LblPercBereik.Size = New System.Drawing.Size(142, 39)
+        Me.LblPercBereik.TabIndex = 35
+        Me.LblPercBereik.Text = "% valt tussen bereik:"
+        Me.LblPercBereik.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
         'PerOnt
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(686, 824)
+        Me.Controls.Add(Me.LblPercBereik)
+        Me.Controls.Add(Me.cbbValtTussen)
         Me.Controls.Add(Me.btnClearCenturm)
         Me.Controls.Add(Me.btnClearOnt)
         Me.Controls.Add(Me.btnClearSubafdeling)
@@ -223,4 +247,6 @@ Partial Class PerOnt
     Friend WithEvents Label1 As Label
     Friend WithEvents cbbOnt As ComboBox
     Friend WithEvents btnClearOnt As Button
+    Friend WithEvents cbbValtTussen As ComboBox
+    Friend WithEvents LblPercBereik As Label
 End Class

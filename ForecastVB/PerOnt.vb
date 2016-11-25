@@ -19,6 +19,14 @@ Public Class PerOnt
 
         Dim columns As New ArrayList({"Ontwikkelaar", "Merk", "Subafdeling", "Uitvoerend centrum", "Aantal geweest", "Doorgegaan", "Kans", "Verschil"})
         addColumns(columns)
+
+        ' Dropdown voor afwijking initialiseren
+        Dim curs As New Cursus("", "", Nothing, "", "", Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Algoritmes.Niets, Nothing, "")
+        For i As Integer = 0 To curs.getAantalAfwijkingen - 1
+            cbbValtTussen.Items.Insert(i, curs.getAfwijkingsString(i))
+        Next
+        cbbValtTussen.SelectedIndex = curs.getAantalAfwijkingen - 1
+        root.setTVerdeling(curs.getAantalAfwijkingen - 1)
     End Sub
     Private Sub PerOnt_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
@@ -27,6 +35,10 @@ Public Class PerOnt
     End Sub
 
     Private Sub vulTable(rows As List(Of Cursus))
+        root.setTVerdeling(cbbValtTussen.SelectedIndex)
+        trues = 0
+        falses = 0
+
         dgvResult.Rows.Clear()
 
         Dim bayes As New Bayes_Bayes_Linear(root, False)
@@ -48,7 +60,7 @@ Public Class PerOnt
                 (cbbSubafdeling.SelectedItem Is Nothing Or cursus.getCodeSubafdeling.Equals(cbbSubafdeling.SelectedItem)) Then
 
                 Dim kleur As Color
-                If cursus.getBereik.valtTussen(Math.Round((cursus.getAantalDoorgegaan / cursus.getTotaal) * 100, 2)) Then
+                If cursus.getBereik(root.getAfwijkinsindex).valtTussen(Math.Round((cursus.getAantalDoorgegaan / cursus.getTotaal) * 100, 2)) Then
                     trues += 1
                     kleur = Color.LightGreen
                     cursus = cursus.setIsCorrect(True)
@@ -58,10 +70,10 @@ Public Class PerOnt
                 End If
 
                 dgvResult.Rows.Add(cursus.getOntw, cursus.getMerk, cursus.getCodeSubafdeling, cursus.getUitvoerCentrum, cursus.getTotaal,
-                                   Math.Round((cursus.getAantalDoorgegaan / cursus.getTotaal) * 100, 2).ToString, cursus.getBereik,
-                                   cursus.getBereik.verschilMet(Math.Round((cursus.getAantalDoorgegaan / cursus.getTotaal) * 100, 2)).ToString)
+                                   Math.Round((cursus.getAantalDoorgegaan / cursus.getTotaal) * 100, 2).ToString, cursus.getBereik(root.getAfwijkinsindex),
+                                   cursus.getBereik(root.getAfwijkinsindex).verschilMet(Math.Round((cursus.getAantalDoorgegaan / cursus.getTotaal) * 100, 2)).ToString)
                 dgvResult.Rows(dgvResult.RowCount - 1).DefaultCellStyle.BackColor = kleur
-                verschil += cursus.getBereik().getBreedte
+                verschil += cursus.getBereik(root.getAfwijkinsindex).getBreedte
 
                 If Not merken.ContainsKey(cursus.getMerk) Then
                     merken.Add(cursus.getMerk, cursus)
