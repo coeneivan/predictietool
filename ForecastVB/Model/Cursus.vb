@@ -9,7 +9,7 @@
     Private totaal As Integer
     Private doorgegaan As Integer
     Private kans As Double
-    Private jaar As Double
+    Private jaar As Integer
     Private b As Double
     Private afwijkingValue As List(Of Afwijking)
     Private algoritmeProp As Algoritmes
@@ -18,7 +18,7 @@
 
 
     Public Sub New(merk As String, uitvoerCentrum As String, maand As String, dag As String, codeSubAfdeling As String,
-                   totaal As Integer, doorgegaan As Integer, kans As Double, jaar As Double, b As Double, afwijking As List(Of Afwijking),
+                   totaal As Integer, doorgegaan As Integer, kans As Double, jaar As Integer, b As Double, afwijking As List(Of Afwijking),
                    algoritme As Algoritmes, correct As Boolean, ont As String)
 
         If afwijking Is Nothing Then
@@ -90,7 +90,7 @@
                            kans, Me.jaar, Me.b, Me.afwijkingValue, Me.algoritmeProp, Me.correct, Me.ont)
     End Function
 
-    Public Function setJaar(jaar As Double) As Cursus
+    Public Function setJaar(jaar As Integer) As Cursus
         Return New Cursus(Me.merk, Me.uitvCentr, Me.maand, Me.dag, Me.codeSubAfd, Me.totaal, Me.doorgegaan,
                            Me.kans, jaar, Me.b, Me.afwijkingValue, Me.algoritmeProp, Me.correct, Me.ont)
     End Function
@@ -125,7 +125,7 @@
         Return uitvCentr
     End Function
 
-    Public Function getMaand() As Double
+    Public Function getMaand() As Integer
         Return maand
     End Function
 
@@ -149,7 +149,7 @@
         Return kans
     End Function
 
-    Public Function getJaar() As Double
+    Public Function getJaar() As Integer
         Return jaar
     End Function
 

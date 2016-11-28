@@ -621,4 +621,40 @@ stopAndReturn:
         Return list
     End Function
 #End Region
+
+#Region "Public functions voor test klasses"
+#If DEBUG Then
+    Public Function TestCreateFilterString(f)
+        Return createFilterString(f)
+    End Function
+
+    Public Function TestGetSubafdelingen(curs As List(Of Cursus))
+        listOfAllItems = curs
+        Return getSubafdelingen()
+    End Function
+
+    Public Function TestGetUitvoercentrum(curs As List(Of Cursus))
+        listOfAllItems = curs
+        Return getCentra()
+    End Function
+
+    Public Sub setListOfAllItems(curs As List(Of Cursus))
+        listOfAllItems = curs
+    End Sub
+
+    Public Function TestIsVoorspellingsLijstCorrect(curs As List(Of Cursus))
+        isVoorspellingsLijstCorrect(curs)
+        Return curs
+    End Function
+
+    Public Function TestAfwijkingBerekenen(curs As List(Of Cursus))
+        afwijkingBerekenen(curs)
+        Return curs
+    End Function
+
+    Public Function TestCalculateStandardDeviation(data As List(Of Double))
+        Return CalculateStandardDeviation(data)
+    End Function
+#End If
+#End Region
 End Class

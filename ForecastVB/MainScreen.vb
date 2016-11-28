@@ -563,7 +563,7 @@ Public Class MainScreen
         Panel2.Refresh()
     End Sub
 
-    Friend Sub setTVerdeling(index As String)
+    Public Sub setTVerdeling(index As String)
         afwijkinsIndex = index
     End Sub
 
