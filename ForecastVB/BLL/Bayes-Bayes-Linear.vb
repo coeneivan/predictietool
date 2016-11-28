@@ -244,6 +244,11 @@ Public Class Bayes_Bayes_Linear
         Next
         If Not found Then
             c = c.setKans(berekenBayes(c))
+
+            Dim t As New tVerdeling
+            For i As Integer = 0 To t.getBetrouwbaarheidsIntervallen.Count - 1
+                c = c.setAfwijkingValue(100, i)
+            Next
         End If
 stopAndReturn:
         Return c.getBereik(root.getAfwijkinsindex)
