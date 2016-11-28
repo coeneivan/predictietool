@@ -76,6 +76,15 @@ Public Class Bereik
     Public Function getBovengrens() As Double
         Return bovengrens
     End Function
+    Public Sub setOndergrens(value As Double)
+        ondergrens = value
+    End Sub
+    Public Sub setAvg(value As Double)
+        average = value
+    End Sub
+    Public Sub setBobengrens(value As Double)
+        bovengrens = value
+    End Sub
     ''' <summary>
     ''' Berekent het verschil met de mee geleverde parameter
     ''' </summary>
