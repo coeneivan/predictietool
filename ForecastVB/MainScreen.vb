@@ -12,11 +12,10 @@ Public Class MainScreen
     Private b As Bayes_Bayes_Linear
     Private s As SplashScreen1
     Private ready As Boolean = False
-    Private ang As Double = 0
+    Private ang As New Bereik(0, 50, 100)
     Private zwart, accent, accent2, wit, rood, geel, groen As Color
     Private afwijkinsIndex As Double = 0.995
-    Private oldAng As Double
-    Private newAng As Double
+    Private newAng As New Bereik(0, 50, 100)
     Private Sub MainScreen_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         style()
 #If DEBUG Then
@@ -67,7 +66,7 @@ Public Class MainScreen
                 Dim btn As Button = ctrl
                 btn.BackColor = accent
                 btn.ForeColor = wit
-                btn.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+                btn.Font = New System.Drawing.Font("Roboto Bold", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
                 btn.Text = btn.Text.ToUpper
 
                 btn.FlatStyle = FlatStyle.Flat
@@ -82,7 +81,7 @@ Public Class MainScreen
                 cbb.BackColor = accent
                 cbb.ForeColor = wit
                 cbb.FlatStyle = FlatStyle.Flat
-                cbb.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+                cbb.Font = New System.Drawing.Font("Roboto Bold", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
                 cbb.Text = cbb.Text.ToUpper
 
             End If
@@ -91,17 +90,17 @@ Public Class MainScreen
             If TypeOf ctrl Is Label Then
                 Dim lbl As Label = ctrl
                 'lbl.Text = lbl.Text.ToUpper
-                lbl.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+                lbl.Font = New System.Drawing.Font("Roboto Bold", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
                 lbl.TextAlign = System.Drawing.ContentAlignment.MiddleRight
                 lbl.FlatStyle = FlatStyle.Flat
             End If
 
             'THE DATETIMEPICKER
             If TypeOf ctrl Is DateTimePicker Then
-                'Dim dtp As DateTimePicker = ctrl
-                'dtp.BackColor = accent
-                'dtp.CalendarForeColor = wit
-                'dtp.CalendarMonthBackground = Color.Red
+                Dim dtp As DateTimePicker = ctrl
+                dtp.BackColor = accent
+                dtp.CalendarForeColor = wit
+                dtp.CalendarMonthBackground = Color.Red
             End If
         Next
     End Sub
@@ -280,10 +279,10 @@ Public Class MainScreen
                     Dim c As New Cursus(cboMerk.SelectedItem.ToString, cboUitvCent.SelectedItem.ToString, dtpStartcursus.Value.Month.ToString, dtpStartcursus.Value.ToString("dddd", New CultureInfo("nl-BE")),
                                                  cboSubAfd.SelectedItem.ToString, 0, 0, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing)
                     txtTotaal.Text = b.getKansVoorCursus(c).ToString
-                    oldAng = newAng
-                    newAng = Math.Round(b.getKansVoorCursus(c).getAvg)
-                    Panel1.Refresh()
-                    Timer1.Start()
+                    newAng = b.getKansVoorCursus(c)
+                    pnlAvg.Refresh()
+                    pnlBack.Refresh()
+                    tmrAvg.Start()
                 End If
             End If
         End If
@@ -448,119 +447,87 @@ Public Class MainScreen
         Button2_Click(Nothing, Nothing)
 #End If
     End Sub
-
-    Const min As Integer = 100
-    Const max As Integer = 260
-    Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs) Handles Panel1.Paint
+    Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs) Handles pnlAvg.Paint
         Const min As Integer = 100
         Const max As Integer = 260
 
-        Dim W As Integer = My.Resources.DashArrow.Width / 4
-        Dim H As Integer = My.Resources.DashArrow.Height / 4
+        'AVG
         Dim gr As Graphics = e.Graphics
         Dim m As Matrix = New Matrix
-        m.RotateAt((ang * ((max - min) / 100)) + min, New Point(140, 150))
+
+        m.RotateAt((Math.Round(ang.getAvg) * ((max - min) / 100)) + min, New Point(140, 150))
         m.Scale(0.25, 0.25)
+
         gr.Transform = m
+        'gr.SmoothingMode = SmoothingMode.AntiAlias
         gr.DrawImage(My.Resources.DashArrow, New Point(220, 370))
     End Sub
-    Dim down As Boolean
-    Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
+    Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles tmrAvg.Tick
         Dim stap = 1
-        If newAng > ang Then
-            ang += stap
-        ElseIf newAng < ang Then
-            ang -= stap
-        ElseIf newAng = ang Then
-            Timer1.Stop()
+        If Math.Round(newAng.getAvg) > ang.getAvg Then
+            ang.setAvg(ang.getAvg + stap)
+        ElseIf Math.Round(newAng.getAvg) < ang.getAvg Then
+            ang.setAvg(ang.getAvg - stap)
+        ElseIf Math.Round(newAng.getAvg) = ang.getAvg Then
+            tmrAvg.Stop()
         End If
 
         refreshPanel()
     End Sub
 
     Private Sub refreshPanel()
-        Panel1.Refresh()
+        pnlAvg.Refresh()
 
-        Dim bmp = New Bitmap(Panel2.Width, Panel2.Height)
-        Panel2.DrawToBitmap(bmp, Panel2.ClientRectangle)
+        Dim bmp = New Bitmap(pnlBack.Width, pnlBack.Height)
+        pnlBack.DrawToBitmap(bmp, pnlBack.ClientRectangle)
         pcbPijl.Image = bmp
         pcbPijl.Refresh()
     End Sub
+    ''' <summary>
+    ''' Tekenen van achtergrond
+    ''' </summary>
+    Private Sub Panel2_Paint(sender As Object, e As PaintEventArgs) Handles pnlBack.Paint
 
-    Private Sub Panel1_MouseClick(sender As Object, e As MouseEventArgs) Handles Panel1.MouseClick
-
-        Console.WriteLine(e.X.ToString + " " + e.Y.ToString)
-    End Sub
-    Dim MouseIsDown As Boolean
-    Private Sub Panel1_MouseDown(sender As Object, e As MouseEventArgs) Handles Panel1.MouseDown
-        MouseIsDown = True
-    End Sub
-
-    Private Sub Panel1_MouseMove(sender As Object, e As MouseEventArgs) Handles Panel1.MouseMove
-        If MouseIsDown Then
-            createDotAtPoint(e.X, e.Y)
-        End If
-
-    End Sub
-
-    Private Sub Panel1_MouseUp(sender As Object, e As MouseEventArgs) Handles Panel1.MouseUp
-        MouseIsDown = False
-    End Sub
-
-    Private Sub Panel2_Paint(sender As Object, e As PaintEventArgs) Handles Panel2.Paint
-
-        Panel2.BackColor = wit
+        pnlBack.BackColor = wit
 
         Dim dif As Integer = 10 'AFSTAND VAN ZIJKANT
-        Dim Ypunt = Panel2.Height - dif * 3 'ONDERSTE PUNT VAN TEKENING
+        Dim Ypunt = pnlBack.Height - dif * 3 'ONDERSTE PUNT VAN TEKENING
         Dim strokeWidth = 10 'BREEDTE VAN HALFCIRCLE
         Dim breedte = 1 / 3
-        Dim myRec As New Rectangle(New Point(dif, dif), New Size(Panel2.Width - dif * 2, Ypunt * 2)) ' hoogte was Panel2.Height - dif * 2
+        Dim gr = e.Graphics
+        gr.SmoothingMode = SmoothingMode.AntiAlias
+        Dim myRec As New Rectangle(New Point(dif, dif), New Size(pnlBack.Width - dif * 2, Ypunt * 2)) ' hoogte was Panel2.Height - dif * 2
         Dim myRec2 As New Rectangle(New Point(dif + strokeWidth, dif + strokeWidth), New Size((myRec.Size.Width) - strokeWidth * 2, (myRec.Size.Height) - strokeWidth * 2))
         Dim myClip As New Rectangle(New Point(dif, dif), New Size(myRec.Size.Width, myRec.Size.Height / 2))
         'BG
-        Dim bg As New Rectangle(New Point(0, 0), New Size(Panel2.Width, Panel2.Height - dif))
-        e.Graphics.FillRectangle(New SolidBrush(accent), bg)
+        Dim bg As New Rectangle(New Point(0, 0), New Size(pnlBack.Width, pnlBack.Height - dif))
+        gr.FillRectangle(New SolidBrush(accent), bg)
 
-        e.Graphics.SetClip(bg)
+        gr.SetClip(bg)
 
-        e.Graphics.SetClip(myClip)
-        'Eerste stuk
+        gr.SetClip(myClip)
+        'Eerste stuk (ROOD)
         Dim myClip2 As New Rectangle(New Point(dif + myClip.Size.Width * 1 / 6, dif), New Size(myClip.Size))
-        e.Graphics.FillEllipse(New SolidBrush(rood), myRec)
-        e.Graphics.SetClip(myClip2)
-        'Tweede stuk
-        Dim myClip3 As New Rectangle(New Point(dif + myClip2.Size.Width * 5 / 6, dif), New Size(myClip.Size))
-        e.Graphics.FillEllipse(New SolidBrush(geel), myRec)
-        e.Graphics.SetClip(myClip3)
+        gr.FillEllipse(New SolidBrush(rood), myRec)
+        gr.SetClip(myClip2)
 
-        'Tweede stuk
+        'Tweede stuk (GEEL)
+        Dim myClip3 As New Rectangle(New Point(dif + myClip2.Size.Width * 5 / 6, dif), New Size(myClip.Size))
+        gr.FillEllipse(New SolidBrush(geel), myRec)
+        gr.SetClip(myClip3)
+
+        'Tweede stuk (GROEN)
         Dim myClip4 As New Rectangle(New Point(dif + myClip3.Size.Width * 6 / 6, dif), New Size(myClip.Size))
-        e.Graphics.FillEllipse(New SolidBrush(groen), myRec)
-        e.Graphics.SetClip(myClip4)
+        gr.FillEllipse(New SolidBrush(groen), myRec)
+        gr.SetClip(myClip4)
 
         'e.Graphics.FillRectangle(New SolidBrush(Color.Green), myRec)
         'e.Graphics.FillRectangle(New SolidBrush(Color.Blue), myClip)
 
-        e.Graphics.ResetClip()
-        e.Graphics.SetClip(bg)
-        e.Graphics.FillEllipse(New SolidBrush(accent), myRec2)
+        gr.ResetClip()
+        gr.SetClip(bg)
+        gr.FillEllipse(New SolidBrush(accent), myRec2)
 
-    End Sub
-    Private Sub createDotAtPoint(ByVal x As Integer, ByVal y As Integer)
-
-        Dim myGraphics As Graphics = Panel1.CreateGraphics
-
-        Dim myPen As Pen
-
-        myPen = New Pen(Drawing.Color.Black, 3)
-
-        myGraphics.DrawRectangle(myPen, x, y, 1, 1)
-
-    End Sub
-
-    Private Sub Button2_Click_1(sender As Object, e As EventArgs)
-        Panel2.Refresh()
     End Sub
 
     Public Sub setTVerdeling(index As String)
