@@ -214,6 +214,8 @@
     <None Include="App.config" />
     <None Include="packages.config" />
     <None Include="Resources\defaultList.json" />
+    <None Include="Resources\Roboto-Bold.ttf" />
+    <None Include="Resources\Roboto-Thin.ttf" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="conn.txt">

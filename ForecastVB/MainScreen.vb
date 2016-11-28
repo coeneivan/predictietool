@@ -66,7 +66,7 @@ Public Class MainScreen
                 Dim btn As Button = ctrl
                 btn.BackColor = accent
                 btn.ForeColor = wit
-                btn.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+                btn.Font = New System.Drawing.Font("Roboto Bold", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
                 btn.Text = btn.Text.ToUpper
 
                 btn.FlatStyle = FlatStyle.Flat
@@ -81,7 +81,7 @@ Public Class MainScreen
                 cbb.BackColor = accent
                 cbb.ForeColor = wit
                 cbb.FlatStyle = FlatStyle.Flat
-                cbb.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+                cbb.Font = New System.Drawing.Font("Roboto Bold", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
                 cbb.Text = cbb.Text.ToUpper
 
             End If
@@ -90,17 +90,17 @@ Public Class MainScreen
             If TypeOf ctrl Is Label Then
                 Dim lbl As Label = ctrl
                 'lbl.Text = lbl.Text.ToUpper
-                lbl.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+                lbl.Font = New System.Drawing.Font("Roboto Bold", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
                 lbl.TextAlign = System.Drawing.ContentAlignment.MiddleRight
                 lbl.FlatStyle = FlatStyle.Flat
             End If
 
             'THE DATETIMEPICKER
             If TypeOf ctrl Is DateTimePicker Then
-                'Dim dtp As DateTimePicker = ctrl
-                'dtp.BackColor = accent
-                'dtp.CalendarForeColor = wit
-                'dtp.CalendarMonthBackground = Color.Red
+                Dim dtp As DateTimePicker = ctrl
+                dtp.BackColor = accent
+                dtp.CalendarForeColor = wit
+                dtp.CalendarMonthBackground = Color.Red
             End If
         Next
     End Sub

@@ -54,10 +54,10 @@ Partial Class MainScreen
         Me.cbbValtTussen = New System.Windows.Forms.ComboBox()
         Me.mtbOplNummer = New System.Windows.Forms.MaskedTextBox()
         Me.dtpStartcursus = New System.Windows.Forms.DateTimePicker()
-        Me.tmrOndergrens = New System.Windows.Forms.Timer(Me.components)
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.Label3 = New System.Windows.Forms.Label()
         Me.pcbPijl = New System.Windows.Forms.PictureBox()
         Me.btnFilter = New System.Windows.Forms.Button()
-        Me.tmrBovengrens = New System.Windows.Forms.Timer(Me.components)
         Me.StatusStrip1.SuspendLayout()
         Me.pnlBack.SuspendLayout()
         CType(Me.pcbPijl, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -141,20 +141,20 @@ Partial Class MainScreen
         '
         'txtTotaal
         '
-        Me.txtTotaal.Location = New System.Drawing.Point(51, 552)
+        Me.txtTotaal.Location = New System.Drawing.Point(51, 559)
         Me.txtTotaal.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.txtTotaal.Name = "txtTotaal"
         Me.txtTotaal.ReadOnly = True
-        Me.txtTotaal.Size = New System.Drawing.Size(422, 26)
+        Me.txtTotaal.Size = New System.Drawing.Size(426, 26)
         Me.txtTotaal.TabIndex = 15
         Me.txtTotaal.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'btnBerekenen
         '
-        Me.btnBerekenen.Location = New System.Drawing.Point(52, 438)
+        Me.btnBerekenen.Location = New System.Drawing.Point(51, 423)
         Me.btnBerekenen.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.btnBerekenen.Name = "btnBerekenen"
-        Me.btnBerekenen.Size = New System.Drawing.Size(426, 98)
+        Me.btnBerekenen.Size = New System.Drawing.Size(426, 71)
         Me.btnBerekenen.TabIndex = 5
         Me.btnBerekenen.Text = "Bereken"
         Me.btnBerekenen.UseVisualStyleBackColor = True
@@ -212,6 +212,7 @@ Partial Class MainScreen
         '
         'LblPercBereik
         '
+        Me.LblPercBereik.Font = New System.Drawing.Font("Roboto Thin", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LblPercBereik.Location = New System.Drawing.Point(12, 358)
         Me.LblPercBereik.Name = "LblPercBereik"
         Me.LblPercBereik.Size = New System.Drawing.Size(213, 60)
@@ -221,7 +222,7 @@ Partial Class MainScreen
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(384, 105)
+        Me.Button1.Location = New System.Drawing.Point(382, 101)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(92, 38)
         Me.Button1.TabIndex = 18
@@ -329,9 +330,23 @@ Partial Class MainScreen
         Me.dtpStartcursus.Size = New System.Drawing.Size(235, 26)
         Me.dtpStartcursus.TabIndex = 23
         '
-        'tmrOndergrens
+        'Label2
         '
-        Me.tmrOndergrens.Interval = 10
+        Me.Label2.Location = New System.Drawing.Point(54, 530)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(423, 24)
+        Me.Label2.TabIndex = 24
+        Me.Label2.Text = "min - voorspeld - max"
+        Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'Label3
+        '
+        Me.Label3.Location = New System.Drawing.Point(54, 506)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(423, 24)
+        Me.Label3.TabIndex = 24
+        Me.Label3.Text = "Realisatiegraad:"
+        Me.Label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'pcbPijl
         '
@@ -356,16 +371,14 @@ Partial Class MainScreen
         Me.btnFilter.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
         Me.btnFilter.UseVisualStyleBackColor = False
         '
-        'tmrBovengrens
-        '
-        Me.tmrBovengrens.Interval = 10
-        '
         'MainScreen
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 20.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.Control
         Me.ClientSize = New System.Drawing.Size(532, 977)
+        Me.Controls.Add(Me.Label3)
+        Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.dtpStartcursus)
         Me.Controls.Add(Me.pcbPijl)
         Me.Controls.Add(Me.mtbOplNummer)
@@ -442,6 +455,6 @@ Partial Class MainScreen
     Friend WithEvents mtbOplNummer As MaskedTextBox
     Friend WithEvents pcbPijl As PictureBox
     Friend WithEvents dtpStartcursus As DateTimePicker
-    Friend WithEvents tmrOndergrens As Timer
-    Friend WithEvents tmrBovengrens As Timer
+    Friend WithEvents Label2 As Label
+    Friend WithEvents Label3 As Label
 End Class
