@@ -407,6 +407,9 @@ stopAndReturn:
                 niet = 0
             End If
 
+            ' Anders wordt gedeeld door 0 en een exception gethrowed
+            If niet = 0 And wel = 0 Then niet = 1
+
             Return (wel / (wel + niet))
         End If
         Return Nothing
