@@ -1,4 +1,6 @@
-﻿Public Class TestDAO
+﻿Imports ForecastVB
+
+Public Class TestDAO
     Public Function GetAllCursForAllVarWithYear(f As String) As List(Of Cursus)
         Dim query As String = ""
         query += "Select Distinct Merk"
@@ -25,6 +27,11 @@
         query += ", CodeSubafdeling "
         Dim sql As New SQLUtil
         Return sql.GetAllCursForAllVarWithYear(query)
+    End Function
+
+    Friend Function GetCursusByOpleidingsnummer(nr As Integer) As DataTable
+        Dim sql As New SQLUtil
+        Return sql.getAlles("SELECT *, month(startdatum) as maand FROM Cursussen WHERE [Opleidingsnr] = '" + nr.ToString + "'")
     End Function
 
     Public Function GetAllCursForAllVar(f As String) As List(Of Cursus)

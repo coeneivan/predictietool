@@ -425,28 +425,27 @@ Public Class MainScreen
         ontScherm.Show()
     End Sub
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        Dim sql As New SQLUtil
-        Dim DTcursus = sql.getAlles("SELECT *, month(startdatum) as maand FROM Cursussen WHERE [Opleidingsnr] = '" + mtbOplNummer.Text.Trim + "'")
-        If DTcursus.Rows.Count <> 0 Then
-            Dim cursus As Cursus
-            Dim startdatum As Date
-            For Each row As DataRow In DTcursus.Rows
-                startdatum = row.Item("startdatum")
-                cursus = New Cursus(row.Item("Merk"), row.Item("UitvCentrumOmsch"), row.Item("maand"), row.Item("dag"), row.Item("codeSubafdeling"), 1, 1, 1, 1, 1, Nothing, Nothing, False, "")
-            Next
+        Dim testBLL = New TestBLL()
+        Dim cursus As Cursus
+        Dim startDatum As New Date
+
+        Try
+            TestBLL.GetCursusByOpleidingsnummer(mtbOplNummer.Text.Trim, cursus, startDatum)
             cboMerk.SelectedItem = cursus.getMerk
             cboUitvCent.SelectedItem = cursus.getUitvoerCentrum
             cboSubAfd.SelectedItem = cursus.getCodeSubafdeling
-            dtpStartcursus.Value = startdatum
-        Else
-            MessageBox.Show("Opleidingsnummer werd niet teruggevonden")
-        End If
+            dtpStartcursus.Value = startDatum
 
+        Catch ex As ApplicationException
+            MessageBox.Show(ex.Message)
+        Finally
 #If DEBUG Then
-        setRandomOplNr()
-        Button2_Click(Nothing, Nothing)
+            setRandomOplNr()
+            Button2_Click(Nothing, Nothing)
 #End If
+        End Try
     End Sub
+
     Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs) Handles pnlAvg.Paint
         Const min As Integer = 100
         Const max As Integer = 260
