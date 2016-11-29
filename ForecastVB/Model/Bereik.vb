@@ -45,7 +45,10 @@ Public Class Bereik
     ''' </summary>
     ''' <returns>Een string om aan de eindgebruike te tonen afgerond op 2 cijfers na de komma</returns>
     Public Overrides Function ToString() As String
-        Return "[" + IIf(ondergrens > 0, Math.Round(ondergrens, 2), 0).ToString + " - " + IIf(Math.Round(average, 2) > 0, IIf(Math.Round(average, 2) < 100, Math.Round(average, 2).ToString, 100), 0).ToString + " - " + IIf(bovengrens < 100, Math.Round(bovengrens, 2), 100).ToString + "]"
+        Dim s = "[" + IIf(ondergrens > 0, Math.Round(ondergrens, 2), 0).ToString + "% - "
+        s += IIf(Math.Round(average, 2) > 0, IIf(Math.Round(average, 2) < 100, Math.Round(average, 2).ToString, 100), 0).ToString
+        s += "% - " + IIf(bovengrens < 100, Math.Round(bovengrens, 2), 100).ToString + "%]"
+        Return s
     End Function
     ''' <summary>
     ''' Controleert of mee geleverde waarde tussen dit bereik valt

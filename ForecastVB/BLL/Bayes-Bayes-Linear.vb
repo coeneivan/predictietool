@@ -446,8 +446,8 @@ stopAndReturn:
         Dim immutCursList As New List(Of Cursus)
 
         For Each item As Cursus In list
-            immutCurs = New Cursus(item.getMerk, item.getUitvoerCentrum, item.getMaand, item.getDag, item.getCodeSubafdeling,
-                                            item.getTotaal, item.getAantalDoorgegaan, -1.01, item.getJaar, item.getB, Nothing, Algoritmes.Niets, False, Nothing)
+            immutCurs = New Cursus(item.getMerk, item.getUitvoerCentrum, item.getMaand, item.getDag, item.getCodeSubafdeling, item.getTotaal, item.getAantalDoorgegaan, -1.01, item.getJaar,
+                                   item.getB, Nothing, Algoritmes.Niets, False, item.getOntw)
 
 
             immutCursList.Add(immutCurs)
@@ -654,6 +654,18 @@ stopAndReturn:
 
     Public Function TestCalculateStandardDeviation(data As List(Of Double))
         Return CalculateStandardDeviation(data)
+    End Function
+
+    Public Function TestResetCursusList(list As List(Of Cursus)) As List(Of Cursus)
+        Return resetCursusList(list)
+    End Function
+
+    Public Function TestBerekenBayesVoorIederItem(list As List(Of Cursus)) As List(Of Cursus)
+        emptyCursusList = resetCursusList(list).ToImmutableList
+        setListOfAllItems(list)
+        berekenAantalDoorgegaanEnNietDoorgegaan()
+        berekenBayesVoorIederItem()
+        Return listForBayes
     End Function
 #End If
 #End Region

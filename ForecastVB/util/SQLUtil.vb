@@ -48,7 +48,6 @@ Public Class SQLUtil
 
         Try
             Dim predic As New List(Of Cursus)
-            Dim arr As New Dictionary(Of String, Parameter)
             myConn.Open()
             myReader = myCmd.ExecuteReader()
 
@@ -70,7 +69,6 @@ Public Class SQLUtil
 
         Try
             Dim predic As New List(Of Cursus)
-            Dim arr As New Dictionary(Of String, Parameter)
             myConn.Open()
             myReader = myCmd.ExecuteReader()
 

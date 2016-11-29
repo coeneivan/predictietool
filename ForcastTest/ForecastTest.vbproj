@@ -99,6 +99,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="TestAfwijking.vb" />
+    <Compile Include="TestBereik.vb" />
+    <Compile Include="TestCursus.vb" />
     <Compile Include="TestTVerdeling.vb" />
     <Compile Include="TestTestBLL.vb" />
     <Compile Include="TestOntwikkelaarsBLL.vb" />

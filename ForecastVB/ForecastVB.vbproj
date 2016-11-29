@@ -143,7 +143,6 @@
     </Compile>
     <Compile Include="Model\Bereik.vb" />
     <Compile Include="Model\FilterItem.vb" />
-    <Compile Include="Model\Parameter.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>

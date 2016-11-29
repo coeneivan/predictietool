@@ -2,7 +2,11 @@
 ''' DB filtreren a.d.h.v. kolom filters
 ''' </summary>
 Public Class FilterItem
-    Private k As String
+    Private k As String ' Kollom waarop de filter moet worden toegepast
+    Private fa As String ' Factor waarmee wordt gefilterd (=, <=, <>, ...)
+    Private fi As String ' Filter waarde zelf
+
+
     Public Property kolom() As String
         Get
             Return k
@@ -11,7 +15,7 @@ Public Class FilterItem
             k = value
         End Set
     End Property
-    Private fa As String
+
     Public Property factor() As String
         Get
             Return fa
@@ -20,7 +24,8 @@ Public Class FilterItem
             fa = value
         End Set
     End Property
-    Private fi As String
+
+
     Public Property filter() As String
         Get
             Return fi
@@ -29,6 +34,8 @@ Public Class FilterItem
             fi = value
         End Set
     End Property
+
+
     ''' <summary>
     ''' DB filtreren a.d.h.v. kolom filters
     ''' </summary>
