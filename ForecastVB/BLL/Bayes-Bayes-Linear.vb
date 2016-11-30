@@ -49,7 +49,6 @@ Public Class Bayes_Bayes_Linear
         End If
     End Sub
     Public Sub BerekenKans()
-        Dim start = DateTime.Now
         emptyCursusList = resetCursusList(listOfAllItems).ToImmutableList
 
         If alleAlgoritmesGebruiken Then
@@ -105,7 +104,6 @@ Public Class Bayes_Bayes_Linear
     Private Sub bayesWanneerMerkSterkAfwijkt()
         Dim t1CursList As New List(Of Cursus)
         Dim t2CursList As New List(Of Cursus)
-        Dim subAfdList As New List(Of String)
         Dim minAantalCursPerMerk As Integer = 20
         Dim minPercVerschil As Double = 0.1 ' uitgedrukt /100
 
@@ -236,7 +234,6 @@ Public Class Bayes_Bayes_Linear
             If cu.getMerk.Equals(c.getMerk) And cu.getUitvoerCentrum.Equals(c.getUitvoerCentrum) And cu.getMaand.Equals(c.getMaand) And cu.getCodeSubafdeling.Equals(c.getCodeSubafdeling) And
                 cu.getDag.Equals(c.getDag) Then
                 c = c.setKans(cu.getKans)
-                Dim remove = root.getAfwijkinsindex
                 c = c.setAfwijkingValue(cu.getAfwijkingswaarde(root.getAfwijkinsindex), root.getAfwijkinsindex)
                 found = True
                 GoTo stopAndReturn
@@ -404,7 +401,7 @@ stopAndReturn:
 
             'Als geen enkel item doorgaat, is 'wel' NaN
             If Double.IsNaN(wel) Then
-                niet = 0
+                wel = 0
             End If
 
             ' Anders wordt gedeeld door 0 en een exception gethrowed
@@ -451,10 +448,9 @@ stopAndReturn:
         For Each item As Cursus In list
             immutCurs = New Cursus(item.getMerk, item.getUitvoerCentrum, item.getMaand, item.getDag, item.getCodeSubafdeling, item.getTotaal, item.getAantalDoorgegaan, -1.01, item.getJaar,
                                    item.getB, Nothing, Algoritmes.Niets, False, item.getOntw)
-
-
             immutCursList.Add(immutCurs)
         Next
+
         Return immutCursList
     End Function
 
@@ -548,7 +544,6 @@ stopAndReturn:
     ''' <param name="filterlist">Toe te passen parameters in een arraylist</param>
     ''' <returns>Dictinary met 2 waardes allItems en withYear (Spreekt voro zich zeker?)</returns>
     Public Function getData(filterlist As ArrayList) As Dictionary(Of String, List(Of Cursus))
-        Dim start = DateTime.Now
         Dim lists As New Dictionary(Of String, List(Of Cursus))
         f = createFilterString(filterlist)
 

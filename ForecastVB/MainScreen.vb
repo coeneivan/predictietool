@@ -118,7 +118,6 @@ Public Class MainScreen
     ''' Als het niet bestaat, lezen van db
     ''' </summary>
     Private Sub readData()
-        Dim start = DateTime.Now
         Dim ltf As New ListToFile
         Try
             Me.Cursor = Cursors.WaitCursor
@@ -205,7 +204,6 @@ Public Class MainScreen
     ''' Indien de map niet bestaat, maakt die aan en steek er de defaultlist in
     ''' </summary>
     Public Sub refreshFilterList()
-        Dim start = DateTime.Now
         filterlist = New ArrayList
         cboFiltersList.Items.Clear()
         Dim filterFiles As String()
@@ -425,7 +423,6 @@ Public Class MainScreen
         ontScherm.Show()
     End Sub
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        Dim testBLL = New TestBLL()
         Dim cursus As Cursus
         Dim startDatum As New Date
 
@@ -492,7 +489,6 @@ Public Class MainScreen
         Dim dif As Integer = 10 'AFSTAND VAN ZIJKANT
         Dim Ypunt = pnlBack.Height - dif * 3 'ONDERSTE PUNT VAN TEKENING
         Dim strokeWidth = 10 'BREEDTE VAN HALFCIRCLE
-        Dim breedte = 1 / 3
         Dim gr = e.Graphics
         gr.SmoothingMode = SmoothingMode.AntiAlias
         Dim myRec As New Rectangle(New Point(dif, dif), New Size(pnlBack.Width - dif * 2, Ypunt * 2)) ' hoogte was Panel2.Height - dif * 2

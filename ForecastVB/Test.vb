@@ -4,11 +4,6 @@ Imports ForecastVB
 
 Public Class Test
     Private root As MainScreen
-    Private a As Double = 1
-    Private b As Double = 1
-    Private c As Double = 1
-    Private som As Double = 0
-    Private nodata As Double
 
     Public Sub New(main As MainScreen)
         root = main

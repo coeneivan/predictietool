@@ -13,9 +13,14 @@ Public Class TestDAO
         query += ", YEAR(StartDatum) as Jaar "
         query += "From SyntraTest.dbo.Cursussen "
 
+        ' TODO: Datum beperking op finale versie verwijderen
+        ' Tijdens ontwikkelen werd met een locale database gewerkt waar alle gegevens van werden afgehaald op onderstaande datum
+        ' Om te voorkomen dat cursussen niet geschrapt stonden toen deze nog moesten worden gegeven hebben we onze datum beperkt tot het moment dat de database werd aangemaakt
+        ' Datum moet veranderd worden naar de vandaag
+
         If Not f.Equals("") Then
             Dim vandaag = Date.Now
-            query += "WHERE startdatum <  CAST('10-01-" + vandaag.Year.ToString + "' AS DATETIME) AND " + f
+            query += "WHERE startdatum <  CAST('10-01-2016' AS DATETIME) AND " + f
         End If
 
         query += "group by "
@@ -45,9 +50,14 @@ Public Class TestDAO
         query += ", SUM(CASE WHEN CodeIngetrokken='Nee' THEN 1 ELSE 0 END) as doorgegaan "
         query += "From SyntraTest.dbo.Cursussen "
 
+        ' TODO: Datum beperking op finale versie verwijderen
+        ' Tijdens ontwikkelen werd met een locale database gewerkt waar alle gegevens van werden afgehaald op onderstaande datum
+        ' Om te voorkomen dat cursussen niet geschrapt stonden toen deze nog moesten worden gegeven hebben we onze datum beperkt tot het moment dat de database werd aangemaakt
+        ' Datum moet veranderd worden naar de vandaag
+
         If Not f.Equals("") Then
             Dim vandaag = Date.Now
-            query += "WHERE startdatum <  CAST('10-01-" + vandaag.Year.ToString + "' AS DATETIME) AND " + f
+            query += "WHERE startdatum <  CAST('10-01-2016' AS DATETIME) AND " + f
         End If
 
         query += "group by "

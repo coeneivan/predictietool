@@ -8,7 +8,6 @@ Public Class FiltersScherm
     Dim saveDirectory As String
     Private filters As ArrayList
     Private root As MainScreen
-    Dim selectedIndex As Integer = -1
     Dim newFileName As String
 
     Public Sub New(main As MainScreen)
@@ -142,9 +141,6 @@ Public Class FiltersScherm
         If root.getFilterList().Count > 0 Then
             cbbFilterFiles.Items.AddRange(root.getFilterList.ToArray)
         End If
-
-
-
     End Sub
 
     ''' <summary>
