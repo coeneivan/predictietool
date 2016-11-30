@@ -288,9 +288,13 @@ Public Class MainScreen
                     txtTotaal.Text = c.getBereik(afwijkinsIndex).ToString
 
                     If c.getTotaal > 0 Then
-                        lblRealisatie.Text = "Realisatiegraad bepaald met " + c.getTotaal.ToString + " cursussen:"
+                        If c.getTotaal = 1 Then
+                            lblRealisatie.Text = "Realisatiegraad bepaald met 1 enkele cursus:"
+                        Else
+                            lblRealisatie.Text = "Realisatiegraad bepaald met " + c.getTotaal.ToString + " cursussen:"
+                        End If
                     Else
-                        lblRealisatie.Text = "Realisatiegraad met nieuwe situatie"
+                            lblRealisatie.Text = "Realisatiegraad met nieuwe situatie"
                     End If
 
                     newAng = c.getBereik(afwijkinsIndex)
