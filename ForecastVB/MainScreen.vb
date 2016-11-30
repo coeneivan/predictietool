@@ -294,7 +294,7 @@ Public Class MainScreen
                             lblRealisatie.Text = "Realisatiegraad bepaald met " + c.getTotaal.ToString + " cursussen:"
                         End If
                     Else
-                            lblRealisatie.Text = "Realisatiegraad met nieuwe situatie"
+                        lblRealisatie.Text = "Realisatiegraad met nieuwe situatie"
                     End If
 
                     newAng = c.getBereik(afwijkinsIndex)

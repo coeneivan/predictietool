@@ -302,7 +302,7 @@ Partial Class MainScreen
         Me.lblOplNr.Name = "lblOplNr"
         Me.lblOplNr.Size = New System.Drawing.Size(142, 20)
         Me.lblOplNr.TabIndex = 2
-        Me.lblOplNr.Text = "Opleidngsnummer:"
+        Me.lblOplNr.Text = "Opleidingsnummer:"
         Me.lblOplNr.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'cbbValtTussen
