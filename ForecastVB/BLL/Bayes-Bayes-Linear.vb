@@ -228,7 +228,7 @@ Public Class Bayes_Bayes_Linear
         alleAfwijkingenVerwerken(listForBayesLin)
     End Sub
 
-    Friend Function getKansVoorCursus(ByRef c As Cursus) As Cursus
+    Public Function getKansVoorCursus(ByRef c As Cursus) As Cursus
         Dim found = False
         For Each cu In listOfAllItems
             If cu.getMerk.Equals(c.getMerk) And cu.getUitvoerCentrum.Equals(c.getUitvoerCentrum) And cu.getMaand.Equals(c.getMaand) And cu.getCodeSubafdeling.Equals(c.getCodeSubafdeling) And

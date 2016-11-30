@@ -47,6 +47,7 @@ Public Class PerOnt
         root.setTVerdeling(cbbValtTussen.SelectedIndex)
         trues = 0
         falses = 0
+        verschil = 0
 
         dgvResult.Rows.Clear()
 
