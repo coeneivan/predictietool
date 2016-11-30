@@ -31,7 +31,6 @@ Partial Class MainScreen
         Me.LblMerk = New System.Windows.Forms.Label()
         Me.cboFiltersList = New System.Windows.Forms.ComboBox()
         Me.Label1 = New System.Windows.Forms.Label()
-        Me.btnTest = New System.Windows.Forms.Button()
         Me.txtTotaal = New System.Windows.Forms.TextBox()
         Me.btnBerekenen = New System.Windows.Forms.Button()
         Me.LblUivCentr = New System.Windows.Forms.Label()
@@ -58,6 +57,7 @@ Partial Class MainScreen
         Me.lblRealisatie = New System.Windows.Forms.Label()
         Me.pcbPijl = New System.Windows.Forms.PictureBox()
         Me.btnFilter = New System.Windows.Forms.Button()
+        Me.btnTest = New System.Windows.Forms.Button()
         Me.StatusStrip1.SuspendLayout()
         Me.pnlBack.SuspendLayout()
         CType(Me.pcbPijl, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -132,16 +132,6 @@ Partial Class MainScreen
         Me.Label1.TabIndex = 2
         Me.Label1.Text = "Active filter:"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'btnTest
-        '
-        Me.btnTest.Location = New System.Drawing.Point(181, 557)
-        Me.btnTest.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
-        Me.btnTest.Name = "btnTest"
-        Me.btnTest.Size = New System.Drawing.Size(135, 39)
-        Me.btnTest.TabIndex = 5
-        Me.btnTest.Text = "Test it!"
-        Me.btnTest.UseVisualStyleBackColor = True
         '
         'txtTotaal
         '
@@ -225,7 +215,7 @@ Partial Class MainScreen
         'Button1
         '
         Me.Button1.Location = New System.Drawing.Point(255, 66)
-        Me.Button1.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.Button1.Margin = New System.Windows.Forms.Padding(2)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(61, 25)
         Me.Button1.TabIndex = 18
@@ -236,7 +226,7 @@ Partial Class MainScreen
         '
         Me.pnlAvg.BackColor = System.Drawing.Color.Transparent
         Me.pnlAvg.Location = New System.Drawing.Point(38, 20)
-        Me.pnlAvg.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.pnlAvg.Margin = New System.Windows.Forms.Padding(2)
         Me.pnlAvg.Name = "pnlAvg"
         Me.pnlAvg.Size = New System.Drawing.Size(282, 150)
         Me.pnlAvg.TabIndex = 20
@@ -246,7 +236,7 @@ Partial Class MainScreen
         Me.pnlBack.BackColor = System.Drawing.Color.GhostWhite
         Me.pnlBack.Controls.Add(Me.pnlAvg)
         Me.pnlBack.Location = New System.Drawing.Point(393, 387)
-        Me.pnlBack.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.pnlBack.Margin = New System.Windows.Forms.Padding(2)
         Me.pnlBack.Name = "pnlBack"
         Me.pnlBack.Size = New System.Drawing.Size(355, 158)
         Me.pnlBack.TabIndex = 0
@@ -258,7 +248,7 @@ Partial Class MainScreen
         'TextBox1
         '
         Me.TextBox1.Location = New System.Drawing.Point(462, 318)
-        Me.TextBox1.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.TextBox1.Margin = New System.Windows.Forms.Padding(2)
         Me.TextBox1.Name = "TextBox1"
         Me.TextBox1.Size = New System.Drawing.Size(152, 20)
         Me.TextBox1.TabIndex = 19
@@ -266,7 +256,7 @@ Partial Class MainScreen
         'Button2
         '
         Me.Button2.Location = New System.Drawing.Point(462, 348)
-        Me.Button2.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.Button2.Margin = New System.Windows.Forms.Padding(2)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(151, 23)
         Me.Button2.TabIndex = 20
@@ -276,7 +266,7 @@ Partial Class MainScreen
         'TextBox2
         '
         Me.TextBox2.Location = New System.Drawing.Point(462, 201)
-        Me.TextBox2.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.TextBox2.Margin = New System.Windows.Forms.Padding(2)
         Me.TextBox2.Name = "TextBox2"
         Me.TextBox2.Size = New System.Drawing.Size(152, 20)
         Me.TextBox2.TabIndex = 19
@@ -284,7 +274,7 @@ Partial Class MainScreen
         'TextBox3
         '
         Me.TextBox3.Location = New System.Drawing.Point(462, 222)
-        Me.TextBox3.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.TextBox3.Margin = New System.Windows.Forms.Padding(2)
         Me.TextBox3.Name = "TextBox3"
         Me.TextBox3.Size = New System.Drawing.Size(152, 20)
         Me.TextBox3.TabIndex = 19
@@ -292,7 +282,7 @@ Partial Class MainScreen
         'TextBox4
         '
         Me.TextBox4.Location = New System.Drawing.Point(462, 257)
-        Me.TextBox4.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.TextBox4.Margin = New System.Windows.Forms.Padding(2)
         Me.TextBox4.Name = "TextBox4"
         Me.TextBox4.Size = New System.Drawing.Size(152, 20)
         Me.TextBox4.TabIndex = 19
@@ -300,7 +290,7 @@ Partial Class MainScreen
         'TextBox5
         '
         Me.TextBox5.Location = New System.Drawing.Point(462, 278)
-        Me.TextBox5.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.TextBox5.Margin = New System.Windows.Forms.Padding(2)
         Me.TextBox5.Name = "TextBox5"
         Me.TextBox5.Size = New System.Drawing.Size(152, 20)
         Me.TextBox5.TabIndex = 19
@@ -320,7 +310,7 @@ Partial Class MainScreen
         Me.cbbValtTussen.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cbbValtTussen.FormattingEnabled = True
         Me.cbbValtTussen.Location = New System.Drawing.Point(160, 244)
-        Me.cbbValtTussen.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.cbbValtTussen.Margin = New System.Windows.Forms.Padding(2)
         Me.cbbValtTussen.Name = "cbbValtTussen"
         Me.cbbValtTussen.Size = New System.Drawing.Size(159, 21)
         Me.cbbValtTussen.TabIndex = 18
@@ -338,7 +328,7 @@ Partial Class MainScreen
         Me.dtpStartcursus.CalendarMonthBackground = System.Drawing.Color.Yellow
         Me.dtpStartcursus.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
         Me.dtpStartcursus.Location = New System.Drawing.Point(160, 207)
-        Me.dtpStartcursus.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.dtpStartcursus.Margin = New System.Windows.Forms.Padding(2)
         Me.dtpStartcursus.Name = "dtpStartcursus"
         Me.dtpStartcursus.Size = New System.Drawing.Size(158, 20)
         Me.dtpStartcursus.TabIndex = 23
@@ -385,6 +375,16 @@ Partial Class MainScreen
         Me.btnFilter.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
         Me.btnFilter.UseVisualStyleBackColor = False
         '
+        'btnTest
+        '
+        Me.btnTest.Location = New System.Drawing.Point(181, 557)
+        Me.btnTest.Margin = New System.Windows.Forms.Padding(2, 1, 2, 1)
+        Me.btnTest.Name = "btnTest"
+        Me.btnTest.Size = New System.Drawing.Size(135, 39)
+        Me.btnTest.TabIndex = 5
+        Me.btnTest.Text = "Test it!"
+        Me.btnTest.UseVisualStyleBackColor = True
+        '
         'MainScreen
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -425,7 +425,7 @@ Partial Class MainScreen
         Me.DoubleBuffered = True
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
-        Me.Margin = New System.Windows.Forms.Padding(1, 1, 1, 1)
+        Me.Margin = New System.Windows.Forms.Padding(1)
         Me.MaximizeBox = False
         Me.Name = "MainScreen"
         Me.Text = "Cursus realiseerbaarheid prospectie tool"
@@ -445,7 +445,6 @@ Partial Class MainScreen
     Friend WithEvents btnFilter As Button
     Friend WithEvents cboFiltersList As ComboBox
     Friend WithEvents Label1 As Label
-    Friend WithEvents btnTest As Button
     Friend WithEvents txtTotaal As TextBox
     Friend WithEvents btnBerekenen As Button
     Friend WithEvents LblUivCentr As Label
@@ -471,4 +470,5 @@ Partial Class MainScreen
     Friend WithEvents dtpStartcursus As DateTimePicker
     Friend WithEvents lblMinMax As Label
     Friend WithEvents lblRealisatie As Label
+    Friend WithEvents btnTest As Button
 End Class

@@ -228,13 +228,14 @@ Public Class Bayes_Bayes_Linear
         alleAfwijkingenVerwerken(listForBayesLin)
     End Sub
 
-    Friend Function getKansVoorCursus(c As Cursus) As Bereik
+    Friend Function getKansVoorCursus(ByRef c As Cursus) As Cursus
         Dim found = False
         For Each cu In listOfAllItems
             If cu.getMerk.Equals(c.getMerk) And cu.getUitvoerCentrum.Equals(c.getUitvoerCentrum) And cu.getMaand.Equals(c.getMaand) And cu.getCodeSubafdeling.Equals(c.getCodeSubafdeling) And
                 cu.getDag.Equals(c.getDag) Then
                 c = c.setKans(cu.getKans)
                 c = c.setAfwijkingValue(cu.getAfwijkingswaarde(root.getAfwijkinsindex), root.getAfwijkinsindex)
+                c = c.setTotaal(cu.getTotaal)
                 found = True
                 GoTo stopAndReturn
             End If
@@ -248,7 +249,7 @@ Public Class Bayes_Bayes_Linear
             Next
         End If
 stopAndReturn:
-        Return c.getBereik(root.getAfwijkinsindex)
+        Return c
     End Function
 
     Public Sub baycalculation(item As Cursus, merkRekenen As Boolean)

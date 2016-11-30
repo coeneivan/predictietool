@@ -21,7 +21,12 @@ Public Class MainScreen
 #If DEBUG Then
         ' For testing purposes
         setRandomOplNr()
+#Else
+        btnTest.Hide()
+        btnOnt.Width = 284
 #End If
+
+
         Dim start As DateTime = DateTime.Now
         s = New SplashScreen1()
         s.Show()
@@ -46,6 +51,7 @@ Public Class MainScreen
     End Sub
 
     Private Sub setRandomOplNr()
+        Randomize()
         mtbOplNummer.Text = CInt(Math.Floor((188000 - 75000 + 1) * Rnd())) + 75000
     End Sub
 
@@ -91,7 +97,9 @@ Public Class MainScreen
                 Dim lbl As Label = ctrl
                 'lbl.Text = lbl.Text.ToUpper
                 lbl.Font = New System.Drawing.Font("Roboto Bold", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-                lbl.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+                If Not (ctrl.Name = "lblMinMax" Or ctrl.Name = "lblRealisatie") Then
+                    lbl.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+                End If
                 lbl.FlatStyle = FlatStyle.Flat
             End If
 
@@ -276,13 +284,21 @@ Public Class MainScreen
 
                     Dim c As New Cursus(cboMerk.SelectedItem.ToString, cboUitvCent.SelectedItem.ToString, dtpStartcursus.Value.Month.ToString, dtpStartcursus.Value.ToString("dddd", New CultureInfo("nl-BE")),
                                                  cboSubAfd.SelectedItem.ToString, 0, 0, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing)
-                    txtTotaal.Text = b.getKansVoorCursus(c).ToString
-                    newAng = b.getKansVoorCursus(c)
-                    pnlAvg.Refresh()
-                    pnlBack.Refresh()
-                    tmrAvg.Start()
+                    c = b.getKansVoorCursus(c)
+                    txtTotaal.Text = c.getBereik(afwijkinsIndex).ToString
+
+                    If c.getTotaal > 0 Then
+                        lblRealisatie.Text = "Realisatiegraad bepaald met " + c.getTotaal.ToString + " cursussen:"
+                    Else
+                        lblRealisatie.Text = "Realisatiegraad met nieuwe situatie"
+                    End If
+
+                    newAng = c.getBereik(afwijkinsIndex)
+                        pnlAvg.Refresh()
+                        pnlBack.Refresh()
+                        tmrAvg.Start()
+                    End If
                 End If
-            End If
         End If
     End Sub
     ''' <summary>
@@ -427,6 +443,7 @@ Public Class MainScreen
         Dim startDatum As New Date
 
         Try
+            If mtbOplNummer.Text = Nothing Then Throw New ApplicationException("Gelieve een opleidsingsnummer in te geven")
             TestBLL.GetCursusByOpleidingsnummer(mtbOplNummer.Text.Trim, cursus, startDatum)
             cboMerk.SelectedItem = cursus.getMerk
             cboUitvCent.SelectedItem = cursus.getUitvoerCentrum
@@ -458,6 +475,7 @@ Public Class MainScreen
         'gr.SmoothingMode = SmoothingMode.AntiAlias
         gr.DrawImage(My.Resources.DashArrow, New Point(220, 370))
     End Sub
+
     Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles tmrAvg.Tick
         Dim stap = 1
         If Math.Round(newAng.getAvg) > ang.getAvg Then
