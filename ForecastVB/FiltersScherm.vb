@@ -322,8 +322,8 @@ Public Class FiltersScherm
 
             If (resultaat = 6) Then
                 My.Computer.FileSystem.DeleteFile(saveDirectory + cbbFilterFiles.SelectedItem.ToString + ".json")
-                makeFilterFileList()
                 ListViewStarter()
+                root.refreshFilterList()
                 makeFilterFileList()
             End If
         Catch ex As FileNotFoundException
