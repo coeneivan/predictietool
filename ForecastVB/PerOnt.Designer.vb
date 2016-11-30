@@ -40,6 +40,9 @@ Partial Class PerOnt
         Me.btnClearOnt = New System.Windows.Forms.Button()
         Me.cbbValtTussen = New System.Windows.Forms.ComboBox()
         Me.LblPercBereik = New System.Windows.Forms.Label()
+        Me.cbbMaand = New System.Windows.Forms.ComboBox()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.btnClearMaand = New System.Windows.Forms.Button()
         CType(Me.dgvResult, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -72,9 +75,9 @@ Partial Class PerOnt
         '
         'btnBereken
         '
-        Me.btnBereken.Location = New System.Drawing.Point(479, 14)
+        Me.btnBereken.Location = New System.Drawing.Point(479, 41)
         Me.btnBereken.Name = "btnBereken"
-        Me.btnBereken.Size = New System.Drawing.Size(180, 46)
+        Me.btnBereken.Size = New System.Drawing.Size(180, 21)
         Me.btnBereken.TabIndex = 28
         Me.btnBereken.Text = "Bereken"
         Me.btnBereken.UseVisualStyleBackColor = True
@@ -202,11 +205,41 @@ Partial Class PerOnt
         Me.LblPercBereik.Text = "% valt tussen bereik:"
         Me.LblPercBereik.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
+        'cbbMaand
+        '
+        Me.cbbMaand.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbbMaand.FormattingEnabled = True
+        Me.cbbMaand.Location = New System.Drawing.Point(525, 15)
+        Me.cbbMaand.Name = "cbbMaand"
+        Me.cbbMaand.Size = New System.Drawing.Size(101, 21)
+        Me.cbbMaand.TabIndex = 36
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Location = New System.Drawing.Point(476, 19)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(43, 13)
+        Me.Label5.TabIndex = 37
+        Me.Label5.Text = "Maand:"
+        '
+        'btnClearMaand
+        '
+        Me.btnClearMaand.BackgroundImage = CType(resources.GetObject("btnClearMaand.BackgroundImage"), System.Drawing.Image)
+        Me.btnClearMaand.Location = New System.Drawing.Point(632, 13)
+        Me.btnClearMaand.Name = "btnClearMaand"
+        Me.btnClearMaand.Size = New System.Drawing.Size(27, 25)
+        Me.btnClearMaand.TabIndex = 38
+        Me.btnClearMaand.UseVisualStyleBackColor = True
+        '
         'PerOnt
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(686, 824)
+        Me.Controls.Add(Me.btnClearMaand)
+        Me.Controls.Add(Me.Label5)
+        Me.Controls.Add(Me.cbbMaand)
         Me.Controls.Add(Me.LblPercBereik)
         Me.Controls.Add(Me.cbbValtTussen)
         Me.Controls.Add(Me.btnClearCenturm)
@@ -250,4 +283,7 @@ Partial Class PerOnt
     Friend WithEvents btnClearOnt As Button
     Friend WithEvents cbbValtTussen As ComboBox
     Friend WithEvents LblPercBereik As Label
+    Friend WithEvents cbbMaand As ComboBox
+    Friend WithEvents Label5 As Label
+    Friend WithEvents btnClearMaand As Button
 End Class

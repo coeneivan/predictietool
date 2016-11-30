@@ -26,8 +26,10 @@ Public Class PerOnt
         End Try
 
 
-        Dim columns As New ArrayList({"Ontwikkelaar", "Merk", "Subafdeling", "Uitvoerend centrum", "Aantal geweest", "Doorgegaan", "Kans", "Verschil"})
+        Dim columns As New ArrayList({"Ontwikkelaar", "Merk", "Maand", "Subafdeling", "Uitvoerend centrum", "Aantal geweest", "Doorgegaan", "Kans", "Verschil"})
         addColumns(columns)
+
+        cbbMaand.Items.AddRange({"Januari", "Februari", "Maart", "April", "Mei", "Juni", "Juli", "Augustus", "September", "Oktober", "November", "December"})
 
         ' Dropdown voor afwijking initialiseren
         Dim curs As New Cursus("", "", Nothing, "", "", Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Algoritmes.Niets, Nothing, "")
@@ -66,7 +68,7 @@ Public Class PerOnt
 
         For Each cursus In rows
             If (cbbCentrum.SelectedItem Is Nothing Or cursus.getUitvoerCentrum.Equals(cbbCentrum.SelectedItem)) And (cbbMerk.SelectedItem Is Nothing Or cursus.getMerk.Equals(cbbMerk.SelectedItem)) And
-                (cbbOnt.SelectedItem Is Nothing Or cursus.getOntw.Equals(cbbOnt.SelectedItem)) And
+                (cbbOnt.SelectedItem Is Nothing Or cursus.getOntw.Equals(cbbOnt.SelectedItem)) And (cbbMaand.SelectedItem Is Nothing Or cursus.getMaand.Equals(cbbMaand.SelectedIndex + 1)) And
                 (cbbSubafdeling.SelectedItem Is Nothing Or cursus.getCodeSubafdeling.Equals(cbbSubafdeling.SelectedItem)) Then
 
                 Dim kleur As Color
@@ -79,7 +81,7 @@ Public Class PerOnt
                     kleur = Color.OrangeRed
                 End If
 
-                dgvResult.Rows.Add(cursus.getOntw, cursus.getMerk, cursus.getCodeSubafdeling, cursus.getUitvoerCentrum, cursus.getTotaal,
+                dgvResult.Rows.Add(cursus.getOntw, cursus.getMerk, cursus.getMaand, cursus.getCodeSubafdeling, cursus.getUitvoerCentrum, cursus.getTotaal,
                                    Math.Round((cursus.getAantalDoorgegaan / cursus.getTotaal) * 100, 2).ToString, cursus.getBereik(root.getAfwijkinsindex),
                                    cursus.getBereik(root.getAfwijkinsindex).verschilMet(Math.Round((cursus.getAantalDoorgegaan / cursus.getTotaal) * 100, 2)).ToString)
                 dgvResult.Rows(dgvResult.RowCount - 1).DefaultCellStyle.BackColor = kleur
@@ -142,5 +144,9 @@ Public Class PerOnt
 
     Private Sub btnBereken_Click(sender As Object, e As EventArgs) Handles btnBereken.Click
         vulTable(rows)
+    End Sub
+
+    Private Sub btnClearMaand_Click(sender As Object, e As EventArgs) Handles btnClearMaand.Click
+        cbbMaand.SelectedItem = Nothing
     End Sub
 End Class

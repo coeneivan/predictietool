@@ -7,9 +7,15 @@
         query += ", UitvCentrumOmsch"
         query += ", upper(CodeSubafdeling) as CodeSubafdeling"
         query += ", count(*) as totaal"
+        query += ", Month(Startdatum) as maand"
         query += ", SUM(CASE WHEN CodeIngetrokken='Nee' THEN 1 ELSE 0 END) as doorgegaan "
         'query += ", YEAR(StartDatum) as Jaar "
         query += "From SyntraTest.dbo.Cursussen "
+
+        ' TODO: Datum beperking op finale versie verwijderen
+        ' Tijdens ontwikkelen werd met een locale database gewerkt waar alle gegevens van werden afgehaald op onderstaande datum
+        ' Om te voorkomen dat cursussen niet geschrapt stonden toen deze nog moesten worden gegeven hebben we onze datum beperkt tot het moment dat de database werd aangemaakt
+        ' Datum moet veranderd worden naar de vandaag
 
         Dim vandaag = Date.Now
         query += "WHERE startdatum <  CAST('10-01-" + vandaag.Year.ToString + "' AS DATETIME) "
@@ -26,6 +32,7 @@
         query += " group by "
         query += " ont"
         query += ", Merk"
+        query += ", Month(startdatum)"
         query += ", UitvCentrumOmsch"
         query += ", CodeSubafdeling "
         Dim sql As New SQLUtil
@@ -42,7 +49,7 @@
                 ont = row.Item("ont")
             End If
 
-            Dim cursus As New Cursus(row.Item("Merk"), row.Item("UitvCentrumOmsch"), -1, "", row.Item("codeSubafdeling"), row.Item("totaal"), row.Item("doorgegaan"), -1, -1, -1, Nothing, Algoritmes.Niets,
+            Dim cursus As New Cursus(row.Item("Merk"), row.Item("UitvCentrumOmsch"), row.Item("maand"), "", row.Item("codeSubafdeling"), row.Item("totaal"), row.Item("doorgegaan"), -1, -1, -1, Nothing, Algoritmes.Niets,
                                      False, ont)
             theList.Add(cursus)
         Next row

@@ -1514,4 +1514,35 @@ Imports ForecastVB
 
         Assert.AreEqual(0.659844, Math.Round(cur.getKans, 6))
     End Sub
+
+    <TestMethod()> Public Sub TestOntwikkelaars2()
+        Dim bayes As New Bayes_Bayes_Linear(New MainScreen, False)
+        Dim cursList As New List(Of Cursus)
+        Dim afw As New List(Of Afwijking)
+
+        afw.Add(New Afwijking(0.995, 0))
+        afw.Add(New Afwijking(0.99, 0))
+        afw.Add(New Afwijking(0.975, 0))
+        afw.Add(New Afwijking(0.95, 0))
+        afw.Add(New Afwijking(0.9, 0))
+        cursList.Add(New Cursus("Syntra West", "Syntra West Brugge", 0, "", "Jur", 10, 7, 0, 0, 0, afw, Algoritmes.Niets, False, "MAK"))
+        cursList.Add(New Cursus("Syntra West", "Syntra West Kortrijk", 0, "", "Jur", 10, 2, 0, 0, 0, afw, Algoritmes.Niets, False, "DIR"))
+        cursList.Add(New Cursus("Escala", "Syntra West Brugge", 0, "", "Jur", 30, 21, 0, 0, 0, afw, Algoritmes.Niets, False, "DIR"))
+        cursList.Add(New Cursus("Escala", "Syntra West Kortrijk", 0, "", "Jur", 30, 14, 0, 0, 0, afw, Algoritmes.Niets, False, "DIR"))
+        cursList.Add(New Cursus("Escala", "Syntra West Kortrijk", 0, "", "Jur", 24, 14, 0, 0, 0, afw, Algoritmes.Niets, False, "MAK"))
+
+        bayes.resetDictionaries()
+
+        For i As Integer = 0 To cursList.Count - 1
+            bayes.baycalculation(cursList(i), True)
+        Next
+        For i As Integer = 0 To cursList.Count - 1
+            cursList(i) = cursList(i).setKans(bayes.berekenBayes(cursList(i)))
+        Next
+
+        Dim cur = bayes.getKansVoorCursus(New Cursus("Escala", "Syntra West Brugge", 0, "", "Jur", 30, 21, 0, 0, 0, afw, Algoritmes.Niets, False, "MAK"))
+        bayes.alleAfwijkingenVerwerken(cursList)
+
+        Assert.AreEqual(0.768479, Math.Round(cur.getKans, 6))
+    End Sub
 End Class
