@@ -176,7 +176,7 @@ Public Class Test
                 Dim echt = (Math.Round(((item.getAantalDoorgegaan / item.getTotaal) * 10000)) / 100)
 
                 ' Bereken de top waarde en onderste waarde van de afwijking, controlleer of deze boven 100 of onder 0 zit en pas deze aan indien nodig
-                Dim bereik = New Bereik(item.getAfwijkingswaarde(root.getAfwijkinsindex), item.getKans * 100)
+                Dim bereik = New Bereik(item.getAfwijkingswaarde(cbbValtTussen.SelectedIndex), item.getKans * 100)
 
                 Dim kleur As Color
                 If bereik.valtTussen(echt) Then
@@ -241,7 +241,7 @@ Public Class Test
     End Sub
 
     Private Sub btnClearSubafdeling_Click(sender As Object, e As EventArgs) Handles btnClearSubafdeling.Click
-        cbbSubafdeling.ResetText()
+        cbbSubafdeling.SelectedItem = Nothing
     End Sub
 
     Private Sub btnClearDag_Click(sender As Object, e As EventArgs) Handles btnClearDag.Click
@@ -252,7 +252,4 @@ Public Class Test
         cbbMaand.SelectedItem = Nothing
     End Sub
 
-    Private Sub cbbValtTussen_SelectionChangeCommitted(sender As Object, e As EventArgs) Handles cbbValtTussen.SelectionChangeCommitted
-        root.setTVerdeling(cbbValtTussen.SelectedIndex)
-    End Sub
 End Class
