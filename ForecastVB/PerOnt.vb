@@ -166,12 +166,12 @@ Public Class PerOnt
                 Dim listOfSelected = ontwikkelaars.getList(cursus, root.getFilters)
 
                 If listOfSelected.Count > 0 Then
-                    Dim listOfNames As New ArrayList({"Opleidingsnr", "omschrijving", "StartDatum", "dag", "EindDatum", "TotalePrijs", "Merk", "UitvCentrumOmsch", "Aard", "CaM", "CuB", "OpC", "Ont", "CoC", "CodeSubafdeling", "CodeIngetrokken", "Lesplaats", "OpInternet", "LesroosterGevalideerd", "AtlCursisten"})
+                    Dim listOfNames As New ArrayList({"Opleidingsnr", "omschrijving", "dag", "StartDatum", "EindDatum", "TotalePrijs", "Merk", "UitvCentrumOmsch", "Aard", "CaM", "CuB", "OpC", "Ont", "CoC", "CodeSubafdeling", "CodeIngetrokken", "Lesplaats", "OpInternet", "LesroosterGevalideerd", "AtlCursisten"})
                     For Each item In listOfNames
                         Me.dgvExtraInfo.Columns.Add(item.ToString, item.ToString)
                     Next
                     For Each c As CursusExtraInfo In listOfSelected
-                        dgvExtraInfo.Rows.Add(c.oNr, c.omschrijving, c.datumStart, c.datumEinde, c.lesdag, c.prijs, c.hetMerk, c.centrum, c.deAard, c.deCaM, c.deCuB, c.deOpC, c.deOnt, c.deCoc, c.deSubAfd, c.isIngetrokken, c.plaats, c.isOpInternet, c.gevalideerd, c.aantalCursisten)
+                        dgvExtraInfo.Rows.Add(c.oNr, c.omschrijving, c.lesdag, c.datumStart, c.datumEinde, c.prijs, c.hetMerk, c.centrum, c.deAard, c.deCaM, c.deCuB, c.deOpC, c.deOnt, c.deCoc, c.deSubAfd, c.isIngetrokken, c.plaats, c.isOpInternet, c.gevalideerd, c.aantalCursisten)
                     Next
                 End If
             Finally
