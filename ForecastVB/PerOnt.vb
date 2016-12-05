@@ -13,6 +13,7 @@ Public Class PerOnt
     Dim rows
 
     Public Sub New(main As MainScreen)
+
         InitializeComponent()
         root = main
         Dim bll As New OntwikkelaarsBLL
@@ -38,9 +39,9 @@ Public Class PerOnt
         Next
         cbbValtTussen.SelectedIndex = curs.getAantalAfwijkingen - 1
         root.setTVerdeling(curs.getAantalAfwijkingen - 1)
+
     End Sub
     Private Sub PerOnt_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
         vulTable(rows)
         fillComboboxen()
     End Sub
@@ -74,17 +75,15 @@ Public Class PerOnt
                 Dim kleur As Color
                 If cursus.getBereik(root.getAfwijkinsindex).valtTussen(Math.Round((cursus.getAantalDoorgegaan / cursus.getTotaal) * 100, 2)) Then
                     trues += 1
-                    kleur = Color.LightGreen
                     cursus = cursus.setIsCorrect(True)
                 Else
                     falses += 1
-                    kleur = Color.OrangeRed
                 End If
 
                 dgvResult.Rows.Add(cursus.getOntw, cursus.getMerk, cursus.getMaand, cursus.getCodeSubafdeling, cursus.getUitvoerCentrum, cursus.getTotaal,
                                    Math.Round((cursus.getAantalDoorgegaan / cursus.getTotaal) * 100, 2).ToString, cursus.getBereik(root.getAfwijkinsindex),
                                    cursus.getBereik(root.getAfwijkinsindex).verschilMet(Math.Round((cursus.getAantalDoorgegaan / cursus.getTotaal) * 100, 2)).ToString)
-                dgvResult.Rows(dgvResult.RowCount - 1).DefaultCellStyle.BackColor = kleur
+
                 verschil += cursus.getBereik(root.getAfwijkinsindex).getBreedte
 
                 If Not merken.ContainsKey(cursus.getMerk) Then
@@ -101,7 +100,6 @@ Public Class PerOnt
                 End If
             End If
         Next
-        lblInfo.Text = (trues + falses).ToString + " items waarvan " + trues.ToString + " juist ingeschat met een gemiddelde afwijking van " + Math.Round(verschil / (trues + falses), 2).ToString
 
     End Sub
 
@@ -148,5 +146,31 @@ Public Class PerOnt
 
     Private Sub btnClearMaand_Click(sender As Object, e As EventArgs) Handles btnClearMaand.Click
         cbbMaand.SelectedItem = Nothing
+    End Sub
+
+    Private Sub dgvResult_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvResult.CellContentClick
+        If Not e.RowIndex = -1 Then
+
+            dgvExtraInfo.Columns.Clear()
+            Dim ont = dgvResult.Rows(e.RowIndex).Cells(0).Value.ToString
+            Dim merk = dgvResult.Rows(e.RowIndex).Cells(1).Value.ToString
+            Dim maand = dgvResult.Rows(e.RowIndex).Cells(2).Value.ToString
+            Dim Subafdeling = dgvResult.Rows(e.RowIndex).Cells(3).Value.ToString
+            Dim uc = dgvResult.Rows(e.RowIndex).Cells(4).Value.ToString
+            Dim cursus As New Cursus(merk, uc, maand, "", Subafdeling, 0, 0, 0, 0, 0, Nothing, Nothing, False, ont)
+
+            Dim ontwikkelaars As New OntwikkelaarsBLL()
+            Dim listOfSelected = ontwikkelaars.getList(cursus, root.getFilters)
+
+            If listOfSelected.Count > 0 Then
+                Dim listOfNames As New ArrayList({"Opleidingsnr", "omschrijving", "StartDatum", "dag", "EindDatum", "TotalePrijs", "Merk", "UitvCentrumOmsch", "Aard", "CaM", "CuB", "OpC", "Ont", "CoC", "CodeSubafdeling", "CodeIngetrokken", "Lesplaats", "OpInternet", "LesroosterGevalideerd", "AtlCursisten"})
+                For Each item In listOfNames
+                    Me.dgvExtraInfo.Columns.Add(item.ToString, item.ToString)
+                Next
+                For Each c As CursusExtraInfo In listOfSelected
+                    dgvExtraInfo.Rows.Add(c.oNr, c.omschrijving, c.datumStart, c.datumEinde, c.lesdag, c.prijs, c.hetMerk, c.centrum, c.deAard, c.deCaM, c.deCuB, c.deOpC, c.deOnt, c.deCoc, c.deSubAfd, c.isIngetrokken, c.plaats, c.isOpInternet, c.gevalideerd, c.aantalCursisten)
+                Next
+            End If
+        End If
     End Sub
 End Class
