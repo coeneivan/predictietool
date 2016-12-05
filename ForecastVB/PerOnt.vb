@@ -148,29 +148,37 @@ Public Class PerOnt
         cbbMaand.SelectedItem = Nothing
     End Sub
 
-    Private Sub dgvResult_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvResult.CellContentClick
+
+    Private Sub dgvResult_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvResult.CellClick
         If Not e.RowIndex = -1 Then
+            Try
+                Me.Cursor = Cursors.WaitCursor
 
-            dgvExtraInfo.Columns.Clear()
-            Dim ont = dgvResult.Rows(e.RowIndex).Cells(0).Value.ToString
-            Dim merk = dgvResult.Rows(e.RowIndex).Cells(1).Value.ToString
-            Dim maand = dgvResult.Rows(e.RowIndex).Cells(2).Value.ToString
-            Dim Subafdeling = dgvResult.Rows(e.RowIndex).Cells(3).Value.ToString
-            Dim uc = dgvResult.Rows(e.RowIndex).Cells(4).Value.ToString
-            Dim cursus As New Cursus(merk, uc, maand, "", Subafdeling, 0, 0, 0, 0, 0, Nothing, Nothing, False, ont)
 
-            Dim ontwikkelaars As New OntwikkelaarsBLL()
-            Dim listOfSelected = ontwikkelaars.getList(cursus, root.getFilters)
+                dgvExtraInfo.Columns.Clear()
+                Dim ont = dgvResult.Rows(e.RowIndex).Cells(0).Value.ToString
+                Dim merk = dgvResult.Rows(e.RowIndex).Cells(1).Value.ToString
+                Dim maand = dgvResult.Rows(e.RowIndex).Cells(2).Value.ToString
+                Dim Subafdeling = dgvResult.Rows(e.RowIndex).Cells(3).Value.ToString
+                Dim uc = dgvResult.Rows(e.RowIndex).Cells(4).Value.ToString
+                Dim cursus As New Cursus(merk, uc, maand, "", Subafdeling, 0, 0, 0, 0, 0, Nothing, Nothing, False, ont)
 
-            If listOfSelected.Count > 0 Then
-                Dim listOfNames As New ArrayList({"Opleidingsnr", "omschrijving", "StartDatum", "dag", "EindDatum", "TotalePrijs", "Merk", "UitvCentrumOmsch", "Aard", "CaM", "CuB", "OpC", "Ont", "CoC", "CodeSubafdeling", "CodeIngetrokken", "Lesplaats", "OpInternet", "LesroosterGevalideerd", "AtlCursisten"})
-                For Each item In listOfNames
-                    Me.dgvExtraInfo.Columns.Add(item.ToString, item.ToString)
-                Next
-                For Each c As CursusExtraInfo In listOfSelected
-                    dgvExtraInfo.Rows.Add(c.oNr, c.omschrijving, c.datumStart, c.datumEinde, c.lesdag, c.prijs, c.hetMerk, c.centrum, c.deAard, c.deCaM, c.deCuB, c.deOpC, c.deOnt, c.deCoc, c.deSubAfd, c.isIngetrokken, c.plaats, c.isOpInternet, c.gevalideerd, c.aantalCursisten)
-                Next
-            End If
+                Dim ontwikkelaars As New OntwikkelaarsBLL()
+                Dim listOfSelected = ontwikkelaars.getList(cursus, root.getFilters)
+
+                If listOfSelected.Count > 0 Then
+                    Dim listOfNames As New ArrayList({"Opleidingsnr", "omschrijving", "StartDatum", "dag", "EindDatum", "TotalePrijs", "Merk", "UitvCentrumOmsch", "Aard", "CaM", "CuB", "OpC", "Ont", "CoC", "CodeSubafdeling", "CodeIngetrokken", "Lesplaats", "OpInternet", "LesroosterGevalideerd", "AtlCursisten"})
+                    For Each item In listOfNames
+                        Me.dgvExtraInfo.Columns.Add(item.ToString, item.ToString)
+                    Next
+                    For Each c As CursusExtraInfo In listOfSelected
+                        dgvExtraInfo.Rows.Add(c.oNr, c.omschrijving, c.datumStart, c.datumEinde, c.lesdag, c.prijs, c.hetMerk, c.centrum, c.deAard, c.deCaM, c.deCuB, c.deOpC, c.deOnt, c.deCoc, c.deSubAfd, c.isIngetrokken, c.plaats, c.isOpInternet, c.gevalideerd, c.aantalCursisten)
+                    Next
+                End If
+            Finally
+                Me.Cursor = Cursors.Default
+            End Try
+
         End If
     End Sub
 End Class

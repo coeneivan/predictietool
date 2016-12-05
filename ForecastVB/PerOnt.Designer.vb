@@ -182,7 +182,7 @@ Partial Class PerOnt
         Me.cbbValtTussen.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cbbValtTussen.FormattingEnabled = True
         Me.cbbValtTussen.Location = New System.Drawing.Point(584, 791)
-        Me.cbbValtTussen.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.cbbValtTussen.Margin = New System.Windows.Forms.Padding(2)
         Me.cbbValtTussen.Name = "cbbValtTussen"
         Me.cbbValtTussen.Size = New System.Drawing.Size(76, 21)
         Me.cbbValtTussen.TabIndex = 34
@@ -264,7 +264,7 @@ Partial Class PerOnt
         Me.Controls.Add(Me.dgvResult)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
-        Me.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.Margin = New System.Windows.Forms.Padding(2)
         Me.MaximizeBox = False
         Me.Name = "PerOnt"
         Me.Text = "Per ontwikkelaar"
