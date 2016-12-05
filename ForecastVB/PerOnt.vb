@@ -72,7 +72,6 @@ Public Class PerOnt
                 (cbbOnt.SelectedItem Is Nothing Or cursus.getOntw.Equals(cbbOnt.SelectedItem)) And (cbbMaand.SelectedItem Is Nothing Or cursus.getMaand.Equals(cbbMaand.SelectedIndex + 1)) And
                 (cbbSubafdeling.SelectedItem Is Nothing Or cursus.getCodeSubafdeling.Equals(cbbSubafdeling.SelectedItem)) Then
 
-                Dim kleur As Color
                 If cursus.getBereik(root.getAfwijkinsindex).valtTussen(Math.Round((cursus.getAantalDoorgegaan / cursus.getTotaal) * 100, 2)) Then
                     trues += 1
                     cursus = cursus.setIsCorrect(True)
