@@ -59,7 +59,11 @@ Public Class Bayes_Bayes_Linear
 
         listOfAllItems = getBestAlgoritme()
 
-        root.setDeviatie(getdeviatie)
+        Try
+            root.setDeviatie(getdeviatie)
+        Catch
+
+        End Try
     End Sub
 
     Public Sub resetDictionaries()
@@ -234,7 +238,13 @@ Public Class Bayes_Bayes_Linear
             If cu.getMerk.Equals(c.getMerk) And cu.getUitvoerCentrum.Equals(c.getUitvoerCentrum) And cu.getMaand.Equals(c.getMaand) And cu.getCodeSubafdeling.Equals(c.getCodeSubafdeling) And
                 cu.getDag.Equals(c.getDag) Then
                 c = c.setKans(cu.getKans)
-                c = c.setAfwijkingValue(cu.getAfwijkingswaarde(root.getAfwijkinsindex), root.getAfwijkinsindex)
+                Dim afijwijkingsindex As Double
+                Try
+                    afijwijkingsindex = root.getAfwijkinsindex()
+                Catch ex As Exception
+                    afijwijkingsindex = 0.995
+                End Try
+                c = c.setAfwijkingValue(cu.getAfwijkingswaarde(afijwijkingsindex), afijwijkingsindex)
                 c = c.setTotaal(cu.getTotaal)
                 found = True
                 GoTo stopAndReturn
@@ -523,10 +533,16 @@ stopAndReturn:
     ''' Checkt als voorspelde waarde overeen komt met echte waarde en bewaart dit in .isCorrect
     ''' </summary>
     Private Sub isVoorspellingsLijstCorrect(list As List(Of Cursus))
+        Dim afijwijkingsindex As Double
+        Try
+            afijwijkingsindex = root.getAfwijkinsindex()
+        Catch ex As Exception
+            afijwijkingsindex = 0.995
+        End Try
         For i As Integer = 0 To list.Count - 1
             Dim echt = Math.Round((list(i).getAantalDoorgegaan / list(i).getTotaal), 2) * 100
             Dim schatting = list(i).getKans * 100
-            Dim afwijking = list(i).getAfwijkingswaarde(root.getAfwijkinsindex)
+            Dim afwijking = list(i).getAfwijkingswaarde(afijwijkingsindex)
             Dim schattingsbereik = New Bereik(afwijking, schatting)
 
             list(i) = list(i).setIsCorrect(schattingsbereik.valtTussen(echt))
@@ -565,7 +581,13 @@ stopAndReturn:
     ''' <param name="filters">Geef een ArrayList mee met de filters</param>
     ''' <returns>Geeft de voorspelde waarde terug volgens een niet linaire functie verkregen door de gegeven data</returns>
     Private Function createFilterString(filters As ArrayList) As String
-        Return root.createFilterString(filters)
+        If filters.Count > 0 And root IsNot Nothing Then
+            Return root.createFilterString(filters)
+        Else
+            Return "Aard NOT IN (15,29,14,58,12,13) and OmschrijvingComm NOT LIKE '%SELOR%' and OmschrijvingComm NOT LIKE '%Bekwaamheidsattest%' and OmschrijvingComm NOT LIKE '%stage%' and OmschrijvingComm NOT LIKE '%proef%' and OmschrijvingComm NOT LIKE '%attest%' and OmschrijvingComm NOT LIKE '%aanvullende praktijk%' and OmschrijvingComm NOT LIKE '%eindwerk%' and OmschrijvingComm NOT LIKE '%AP%' Collate SQL_Latin1_General_CP1_CS_AS and OmschrijvingComm NOT LIKE 'POC%' Collate SQL_Latin1_General_CP1_CS_AS and OmschrijvingComm NOT LIKE 'C.I.%' Collate SQL_Latin1_General_CP1_CS_AS and OmschrijvingComm NOT LIKE 'P.S.%' Collate SQL_Latin1_General_CP1_CS_AS and OmschrijvingComm NOT LIKE 'LeReN%' Collate SQL_Latin1_General_CP1_CS_AS and OmschrijvingComm NOT LIKE 'Lerend%' Collate SQL_Latin1_General_CP1_CS_AS and OmschrijvingComm NOT LIKE 'Iedereen leert%' and OmschrijvingComm NOT LIKE 'Bedrijvig Brugge%' and OmschrijvingComm NOT LIKE '%testavond%' and OmschrijvingComm NOT LIKE 'Talent%' and OmschrijvingComm NOT LIKE '%Spoor 1%' and OmschrijvingComm NOT LIKE '%Spoor 2%' and OmschrijvingComm NOT LIKE '%Spoor 3%' and OmschrijvingComm NOT LIKE '%Spoor 4%' and OmschrijvingComm NOT LIKE '%Spoor 5%' and OmschrijvingComm NOT LIKE '%examen%' and Jaar NOT LIKE '%proef%' and Jaar NOT LIKE '%stage%'"
+        End If
+
+
     End Function
 
     ''' <summary>
@@ -668,4 +690,7 @@ stopAndReturn:
     End Function
 #End If
 #End Region
+
+
+
 End Class
