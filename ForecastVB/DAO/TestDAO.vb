@@ -1,4 +1,5 @@
 ﻿Imports ForecastVB
+Imports CursusPredictie
 
 Public Class TestDAO
     Public Function GetAllCursForAllVarWithYear(f As String) As List(Of Cursus)

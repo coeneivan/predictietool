@@ -1,4 +1,8 @@
 ﻿Imports System.Data.SqlClient
+Imports System.IO
+Imports System.Web
+Imports CursusPredictie
+
 ''' <summary>
 ''' Maakt verbinding met DB
 ''' Zorgt er voor dat sql scripts kunnen uitgevoerd worden
@@ -8,13 +12,22 @@ Public Class SQLUtil
     Private myCmd As SqlCommand
     Private myReader As SqlDataReader
     Private sDatabaseLocatie As String
+
     ''' <summary>
     ''' Initialiseert de klasse
     ''' Leest de connectionstring uit de file conn.txt die zich in de root bevindt
     ''' </summary>
     Public Sub New()
         Dim fileReader As String
-        fileReader = My.Computer.FileSystem.ReadAllText("C:\Users\user\Source\Repos\predictietool\ForecastVB\conn.txt")
+        Dim s As String
+
+        If (HttpContext.Current IsNot Nothing) Then
+            s = HttpContext.Current.Server.MapPath("\")
+        Else
+            s = "..\..\"
+        End If
+
+        fileReader = My.Computer.FileSystem.ReadAllText(s + "conn.txt")
         sDatabaseLocatie = fileReader.ToString
     End Sub
 

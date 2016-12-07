@@ -1,4 +1,6 @@
-﻿Public Class OntwikkelaarsDAO
+﻿Imports CursusPredictie
+
+Public Class OntwikkelaarsDAO
     Public Function getList(filters As ArrayList) As List(Of Cursus)
         'COPY FROM TestDao
         Dim query As String = ""

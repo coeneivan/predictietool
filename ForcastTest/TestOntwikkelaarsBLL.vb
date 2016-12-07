@@ -1,6 +1,7 @@
 ﻿Imports System.Text
 Imports Microsoft.VisualStudio.TestTools.UnitTesting
 Imports ForecastVB
+Imports CursusPredictie
 
 <TestClass()> Public Class TestOntwikkelaarsBLL
     Shared ontwikkelaarsBLL As New OntwikkelaarsBLL

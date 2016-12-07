@@ -1,11 +1,9 @@
-﻿Imports ForecastVB
+﻿Imports CursusPredictie
 Imports System.Collections.Immutable
 
-Public Class Bayes_Bayes_Linear
+Public Class CursusKansBerekening
 
 #Region "Global variables"
-    Private root As MainScreen
-
     Private f As String = ""
     Private listOfAllItems As New List(Of Cursus)
     Private listOfAllItemsWithYear As New List(Of Cursus)
@@ -36,19 +34,21 @@ Public Class Bayes_Bayes_Linear
     Private listMetAfwijking As New List(Of Double)
     Private getdeviatie As Double
     Private alleAlgoritmesGebruiken As Boolean = False
+    Private afwijkingsIndex As Integer
 
 #End Region
-    Public Sub New(main As MainScreen, bestaatBestand As Boolean)
-
-        root = main
-        If bestaatBestand Then
-            listOfAllItems = root.getAllItems
-            listOfAllItemsWithYear = root.getAllItemsWithYear
-            berekenAantalDoorgegaanEnNietDoorgegaan()
-            'BerekenKans()
-        End If
+    ''' <summary>
+    ''' Aanmaken van object
+    ''' Heeft een lijst van alle cursussen nodig. Wanneer een cursus per subafdeling moet worden voorspeld moet het cursus object een Merk, uitvoercentrum, maand, dag, subafdeling,
+    ''' totaal aantal cursussen en aantal doorgegane cursussen hebben. Wanneer er per ontwikkelaar moet worden berekend moet deze worden toegevoegd en de dag weggelaten
+    ''' </summary>
+    ''' <param name="cursusList">Lijst van alle cursussen met de eigenschappen zoals ze hierboven zijn beschreven</param>
+    Public Sub New(cursusList As List(Of Cursus))
+        listOfAllItems = cursusList
+        listOfAllItemsWithYear = cursusList
+        berekenAantalDoorgegaanEnNietDoorgegaan()
     End Sub
-    Public Sub BerekenKans()
+    Public Function BerekenKans()
         emptyCursusList = resetCursusList(listOfAllItems).ToImmutableList
 
         If alleAlgoritmesGebruiken Then
@@ -58,15 +58,10 @@ Public Class Bayes_Bayes_Linear
         berekenBayesVoorIederItem()
 
         listOfAllItems = getBestAlgoritme()
+        Return listOfAllItems
+    End Function
 
-        Try
-            root.setDeviatie(getdeviatie)
-        Catch
-
-        End Try
-    End Sub
-
-    Public Sub resetDictionaries()
+    Public Sub reset()
         ' Lijst om te tellen hoeveel cursussen van elk item niet geschrapt werden
         dicMerkW = New Dictionary(Of String, Integer)
         dicUitvW = New Dictionary(Of String, Integer)
@@ -87,10 +82,15 @@ Public Class Bayes_Bayes_Linear
         atlNietDgg = 0
     End Sub
 
+    Public Function BerekenVoorCursus(cursus As Cursus) As Cursus
+        berekenAantalDoorgegaanEnNietDoorgegaan()
+        cursus = cursus.setKans(berekenBayes(cursus))
+        Return cursus
+    End Function
 
 #Region "Algoritmes"
 
-    Public Sub alleAfwijkingenVerwerken(list As List(Of Cursus))
+    Private Sub alleAfwijkingenVerwerken(list As List(Of Cursus))
         For Each item As Cursus In list
             voegToeAanAfwijkingLijst(item)
         Next
@@ -100,7 +100,7 @@ Public Class Bayes_Bayes_Linear
         isVoorspellingsLijstCorrect(list)
 
         listMetAfwijking = New List(Of Double)
-        resetDictionaries()
+        reset()
 
         Console.WriteLine("Standaardafwijking: " + getdeviatie.ToString)
     End Sub
@@ -232,7 +232,7 @@ Public Class Bayes_Bayes_Linear
         alleAfwijkingenVerwerken(listForBayesLin)
     End Sub
 
-    Public Function getKansVoorCursus(ByRef c As Cursus) As Cursus
+    Private Function getKansVoorCursus(ByRef c As Cursus, afwijkingsIndex As Integer) As Cursus
         Dim found = False
         For Each cu In listOfAllItems
             If cu.getMerk.Equals(c.getMerk) And cu.getUitvoerCentrum.Equals(c.getUitvoerCentrum) And cu.getMaand.Equals(c.getMaand) And cu.getCodeSubafdeling.Equals(c.getCodeSubafdeling) And
@@ -240,7 +240,7 @@ Public Class Bayes_Bayes_Linear
                 c = c.setKans(cu.getKans)
                 Dim afijwijkingsindex As Double
                 Try
-                    afijwijkingsindex = root.getAfwijkinsindex()
+                    afijwijkingsindex = afwijkingsIndex
                 Catch ex As Exception
                     afijwijkingsindex = 0.995
                 End Try
@@ -262,7 +262,7 @@ stopAndReturn:
         Return c
     End Function
 
-    Public Sub baycalculation(item As Cursus, merkRekenen As Boolean)
+    Private Sub baycalculation(item As Cursus, merkRekenen As Boolean)
         Dim merk = item.getMerk()
         Dim uitvCentr = item.getUitvoerCentrum
         Dim maand = item.getMaand
@@ -367,9 +367,7 @@ stopAndReturn:
     End Sub
 
 
-
-
-    Public Function berekenBayes(item As Cursus) As Double
+    Private Function berekenBayes(item As Cursus) As Double
         If dicMerkW.ContainsKey(item.getMerk) And dicMerkN.ContainsKey(item.getMerk) And dicSubW.ContainsKey(item.getCodeSubafdeling) And dicSubN.ContainsKey(item.getCodeSubafdeling) And
             dicUitvW.ContainsKey(item.getUitvoerCentrum) And dicUitvN.ContainsKey(item.getUitvoerCentrum) And dicDagW.ContainsKey(item.getDag) And dicDagN.ContainsKey(item.getDag) And
             dicMaandW.ContainsKey(item.getMaand) And dicMaandN.ContainsKey(item.getMaand) Then
@@ -477,7 +475,7 @@ stopAndReturn:
                         newList(i).getUitvoerCentrum().Equals(item2.getUitvoerCentrum()) And newList(i).getDag().Equals(item2.getDag()) And newList(i).getMaand = item2.getMaand And item2.getIsCorrect Then
 
                         ' is nieuwe voorspelling naukeuriger dan oude voorspelling?
-                        If newList(i).getAfwijkingswaarde(root.getAfwijkinsindex) > item2.getAfwijkingswaarde(root.getAfwijkinsindex) Or Not newList(i).getIsCorrect Then
+                        If newList(i).getAfwijkingswaarde(afwijkingsIndex) > item2.getAfwijkingswaarde(afwijkingsIndex) Or Not newList(i).getIsCorrect Then
                             newList(i) = item2
                         End If
                     End If
@@ -489,7 +487,7 @@ stopAndReturn:
                         newList(i).getUitvoerCentrum().Equals(item2.getUitvoerCentrum()) And newList(i).getDag().Equals(item2.getDag()) And newList(i).getMaand = item2.getMaand) And item2.getIsCorrect Then
 
                         ' is nieuwe voorspelling naukeuriger dan oude voorspelling?
-                        If newList(i).getAfwijkingswaarde(root.getAfwijkinsindex) > item2.getAfwijkingswaarde(root.getAfwijkinsindex) Or Not newList(i).getIsCorrect Then
+                        If newList(i).getAfwijkingswaarde(afwijkingsIndex) > item2.getAfwijkingswaarde(afwijkingsIndex) Or Not newList(i).getIsCorrect Then
                             newList(i) = item2
                         End If
                     End If
@@ -520,12 +518,16 @@ stopAndReturn:
     End Sub
 
     Private Sub afwijkingBerekenen(list As List(Of Cursus))
-        Dim tVerd As New tVerdeling
         For i As Integer = 0 To list.Count - 1
-            For j As Integer = 0 To list(i).getAantalAfwijkingen - 1
-                Dim t = tVerd.getTwaarde(list(i).getTverdelingsWaarde(j), list(i).getTotaal) * getdeviatie / Math.Sqrt(list(i).getTotaal)
-                list(i) = list(i).setAfwijkingValue(t, j)
-            Next
+            afwijkingCursusBerekenen(list(i))
+        Next
+    End Sub
+
+    Private Sub afwijkingCursusBerekenen(cursus As Cursus)
+        Dim tVerd As New tVerdeling
+        For j As Integer = 0 To cursus.getAantalAfwijkingen - 1
+            Dim t = tVerd.getTwaarde(cursus.getTverdelingsWaarde(j), cursus.getTotaal) * getdeviatie / Math.Sqrt(cursus.getTotaal)
+            cursus = cursus.setAfwijkingValue(t, j)
         Next
     End Sub
 
@@ -535,7 +537,7 @@ stopAndReturn:
     Private Sub isVoorspellingsLijstCorrect(list As List(Of Cursus))
         Dim afijwijkingsindex As Double
         Try
-            afijwijkingsindex = root.getAfwijkinsindex()
+            afijwijkingsindex = afwijkingsIndex
         Catch ex As Exception
             afijwijkingsindex = 0.995
         End Try
@@ -555,41 +557,6 @@ stopAndReturn:
 #End Region
 
 #Region "Getters/Setters"
-    ''' <summary>
-    ''' Haalt data van de database en geeft dictionary weer met lists van cursussen
-    ''' </summary>
-    ''' <param name="filterlist">Toe te passen parameters in een arraylist</param>
-    ''' <returns>Dictinary met 2 waardes allItems en withYear (Spreekt voro zich zeker?)</returns>
-    Public Function getData(filterlist As ArrayList) As Dictionary(Of String, List(Of Cursus))
-        Dim lists As New Dictionary(Of String, List(Of Cursus))
-        f = createFilterString(filterlist)
-
-        listOfAllItems = TestBLL.GetAllCursForAllVar(f)
-        If alleAlgoritmesGebruiken Then
-            listOfAllItemsWithYear = TestBLL.GetAllCursForAllVarWithYear(f)
-        End If
-        BerekenKans()
-
-        lists.Add("allItems", listOfAllItems)
-        lists.Add("withYear", listOfAllItemsWithYear)
-        Return lists
-    End Function
-
-    ''' <summary>
-    ''' Berekend de waarde voor het te berekenen jaar wanneer lastYear het laatste jaar is met waarde
-    ''' </summary>
-    ''' <param name="filters">Geef een ArrayList mee met de filters</param>
-    ''' <returns>Geeft de voorspelde waarde terug volgens een niet linaire functie verkregen door de gegeven data</returns>
-    Private Function createFilterString(filters As ArrayList) As String
-        If filters.Count > 0 And root IsNot Nothing Then
-            Return root.createFilterString(filters)
-        Else
-            Return "Aard NOT IN (15,29,14,58,12,13) and OmschrijvingComm NOT LIKE '%SELOR%' and OmschrijvingComm NOT LIKE '%Bekwaamheidsattest%' and OmschrijvingComm NOT LIKE '%stage%' and OmschrijvingComm NOT LIKE '%proef%' and OmschrijvingComm NOT LIKE '%attest%' and OmschrijvingComm NOT LIKE '%aanvullende praktijk%' and OmschrijvingComm NOT LIKE '%eindwerk%' and OmschrijvingComm NOT LIKE '%AP%' Collate SQL_Latin1_General_CP1_CS_AS and OmschrijvingComm NOT LIKE 'POC%' Collate SQL_Latin1_General_CP1_CS_AS and OmschrijvingComm NOT LIKE 'C.I.%' Collate SQL_Latin1_General_CP1_CS_AS and OmschrijvingComm NOT LIKE 'P.S.%' Collate SQL_Latin1_General_CP1_CS_AS and OmschrijvingComm NOT LIKE 'LeReN%' Collate SQL_Latin1_General_CP1_CS_AS and OmschrijvingComm NOT LIKE 'Lerend%' Collate SQL_Latin1_General_CP1_CS_AS and OmschrijvingComm NOT LIKE 'Iedereen leert%' and OmschrijvingComm NOT LIKE 'Bedrijvig Brugge%' and OmschrijvingComm NOT LIKE '%testavond%' and OmschrijvingComm NOT LIKE 'Talent%' and OmschrijvingComm NOT LIKE '%Spoor 1%' and OmschrijvingComm NOT LIKE '%Spoor 2%' and OmschrijvingComm NOT LIKE '%Spoor 3%' and OmschrijvingComm NOT LIKE '%Spoor 4%' and OmschrijvingComm NOT LIKE '%Spoor 5%' and OmschrijvingComm NOT LIKE '%examen%' and Jaar NOT LIKE '%proef%' and Jaar NOT LIKE '%stage%'"
-        End If
-
-
-    End Function
-
     ''' <summary>
     ''' Geeft alle merken terug
     ''' </summary>
@@ -645,9 +612,6 @@ stopAndReturn:
 
 #Region "Public functions voor test klasses"
 #If DEBUG Then
-    Public Function TestCreateFilterString(f)
-        Return createFilterString(f)
-    End Function
 
     Public Function TestGetSubafdelingen(curs As List(Of Cursus))
         listOfAllItems = curs

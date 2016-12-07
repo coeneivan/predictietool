@@ -1,4 +1,5 @@
-﻿Public Class TestBLL
+﻿Imports CursusPredictie
+Public Class TestBLL
     Public Shared Function GetAllCursForAllVar(f As String) As List(Of Cursus)
         Dim test As New TestDAO
         Return test.GetAllCursForAllVar(f)
