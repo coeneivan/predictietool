@@ -424,7 +424,7 @@ Public Class MainScreen
         Me.Visible = False
     End Sub
 
-    Friend Function createFilterString(filters As ArrayList) As String
+    Public Function createFilterString(filters As ArrayList) As String
         Dim f As String = ""
         For Each s As FilterItem In filters
             If f.Equals("") Then

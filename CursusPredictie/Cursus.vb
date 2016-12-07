@@ -18,8 +18,7 @@
 
 
 
-    Public Sub New(merk As String, uitvoerCentrum As String, maand As String, dag As String, codeSubAfdeling As String,
-                   totaal As Integer, doorgegaan As Integer)
+    Public Sub New(merk As String, uitvoerCentrum As String, maand As Integer, dag As String, codeSubAfdeling As String, totaal As Integer, doorgegaan As Integer)
 
         ' Lijst voor verschillende afwijkingen aanmaken
         afwijkingValue = New List(Of Afwijking)
@@ -46,7 +45,7 @@
     End Sub
 
 
-    Public Sub New(merk As String, uitvoerCentrum As String, maand As String, codeSubAfdeling As String, totaal As Integer, doorgegaan As Integer, ont As String)
+    Public Sub New(merk As String, uitvoerCentrum As String, maand As Integer, codeSubAfdeling As String, totaal As Integer, doorgegaan As Integer, ont As String)
 
 
         ' Lijst voor verschillende afwijkingen aanmaken
