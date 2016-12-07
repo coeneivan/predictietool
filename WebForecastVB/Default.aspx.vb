@@ -12,7 +12,7 @@ Public Class _Default
         End If
     End Sub
     Private Sub loadComboboxes()
-        'TODO:load comboboxes with real data
+
         Dim merk = b.getMerken().ToArray
         Dim centra = b.getCentra().ToArray
         Dim subafdelingen = b.getSubafdelingen().ToArray
