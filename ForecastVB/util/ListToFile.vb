@@ -1,5 +1,7 @@
 ﻿Imports System.IO
 Imports System.Runtime.Serialization
+Imports CursusPredictie
+
 ''' <summary>
 ''' Openen en opslaan van lijsten
 ''' </summary>

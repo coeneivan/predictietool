@@ -1,5 +1,5 @@
 ﻿Imports System.Windows.Forms
-Imports ForecastVB
+Imports CursusPredictie
 
 Public Class PerOnt
     Private root As MainScreen
@@ -54,18 +54,9 @@ Public Class PerOnt
 
         dgvResult.Rows.Clear()
 
-        Dim bayes As New Bayes_Bayes_Linear(root, False)
-        bayes.resetDictionaries()
+        Dim bayes As New CursusKansBerekening(rows)
 
-        For i As Integer = 0 To rows.Count - 1
-            bayes.baycalculation(rows(i), True)
-        Next
-
-        For i As Integer = 0 To rows.Count - 1
-            rows(i) = rows(i).setKans(bayes.berekenBayes(rows(i)))
-        Next
-
-        bayes.alleAfwijkingenVerwerken(rows)
+        rows = bayes.BerekenKans()
 
         For Each cursus In rows
             If (cbbCentrum.SelectedItem Is Nothing Or cursus.getUitvoerCentrum.Equals(cbbCentrum.SelectedItem)) And (cbbMerk.SelectedItem Is Nothing Or cursus.getMerk.Equals(cbbMerk.SelectedItem)) And

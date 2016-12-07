@@ -1,4 +1,4 @@
-﻿Imports ForecastVB
+﻿Imports CursusPredictie
 
 <Serializable()> Public NotInheritable Class Cursus
     Private merk As String
@@ -15,6 +15,62 @@
     Private algoritmeProp As Algoritmes
     Private correct As Boolean
     Private ont As String
+
+
+
+    Public Sub New(merk As String, uitvoerCentrum As String, maand As String, dag As String, codeSubAfdeling As String,
+                   totaal As Integer, doorgegaan As Integer)
+
+        ' Lijst voor verschillende afwijkingen aanmaken
+        afwijkingValue = New List(Of Afwijking)
+        Dim betrwbGev = New tVerdeling()
+        For Each bet As Double In betrwbGev.getBetrouwbaarheidsIntervallen
+            afwijkingValue.Add(New Afwijking(bet, -101))
+        Next
+
+
+        Me.merk = merk
+        Me.uitvCentr = uitvoerCentrum
+        Me.maand = maand
+        Me.dag = dag
+        Me.codeSubAfd = codeSubAfdeling.ToUpper
+        Me.totaal = totaal
+        Me.doorgegaan = doorgegaan
+        Me.kans = -1
+        Me.jaar = -1
+        Me.algoritmeProp = Algoritmes.Niets
+        Me.correct = correct
+        Me.b = -1
+        Me.ont = Nothing
+
+    End Sub
+
+
+    Public Sub New(merk As String, uitvoerCentrum As String, maand As String, codeSubAfdeling As String, totaal As Integer, doorgegaan As Integer, ont As String)
+
+
+        ' Lijst voor verschillende afwijkingen aanmaken
+        afwijkingValue = New List(Of Afwijking)
+        Dim betrwbGev = New tVerdeling()
+        For Each bet As Double In betrwbGev.getBetrouwbaarheidsIntervallen
+            afwijkingValue.Add(New Afwijking(bet, -101))
+        Next
+
+
+        Me.merk = merk
+        Me.uitvCentr = uitvoerCentrum
+        Me.maand = maand
+        Me.dag = Nothing
+        Me.codeSubAfd = codeSubAfdeling.ToUpper
+        Me.totaal = totaal
+        Me.doorgegaan = doorgegaan
+        Me.kans = -1
+        Me.jaar = -1
+        Me.algoritmeProp = Algoritmes.Niets
+        Me.correct = Nothing
+        Me.b = -1
+        Me.ont = ont
+    End Sub
 
 
     Public Sub New(merk As String, uitvoerCentrum As String, maand As String, dag As String, codeSubAfdeling As String,

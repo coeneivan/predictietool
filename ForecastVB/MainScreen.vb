@@ -2,6 +2,7 @@
 Imports System.IO
 Imports System.Drawing.Drawing2D
 Imports Microsoft.VisualBasic.FileIO
+Imports CursusPredictie
 
 Public Class MainScreen
     Private filters As New ArrayList
@@ -9,7 +10,7 @@ Public Class MainScreen
     Private selectedFilterList As String
     Private saveDirectory As String = SpecialDirectories.MyDocuments + "//Predictie Filters//"
     Private lists As New Dictionary(Of String, List(Of Cursus))
-    Private b As Bayes_Bayes_Linear
+    Private b As CursusKansBerekening
     Private s As SplashScreen1
     Private ready As Boolean = False
     Private ang As New Bereik(0, 50, 100)
@@ -118,7 +119,8 @@ Public Class MainScreen
     Private Sub startup()
         Dim start = DateTime.Now
         readData()
-        b = New Bayes_Bayes_Linear(Me, True)
+        b = New CursusKansBerekening(getAllItems)
+        setAllItems(b.BerekenKans())
         refreshCombobox()
     End Sub
     ''' <summary>
@@ -148,8 +150,9 @@ Public Class MainScreen
                     tslblStatus.Text = "Uw data is up to date!"
                 End If
             Else
-                b = New Bayes_Bayes_Linear(Me, False)
-                lists = b.getData(filters)
+
+                lists.Add("allItems", TestBLL.GetAllCursForAllVar(createFilterString(filters)))
+
                 ltf.saveTheList(lists, saveDirectory + "/cursussen.xml")
                 tslblStatus.Text = "Uw data is up to date!"
             End If
@@ -157,6 +160,7 @@ Public Class MainScreen
             Me.Cursor = Cursors.Default
         End Try
     End Sub
+
     ''' <summary>
     ''' Geeft alle items weer
     ''' </summary>
@@ -284,7 +288,34 @@ Public Class MainScreen
 
                     Dim c As New Cursus(cboMerk.SelectedItem.ToString, cboUitvCent.SelectedItem.ToString, dtpStartcursus.Value.Month.ToString, dtpStartcursus.Value.ToString("dddd", New CultureInfo("nl-BE")),
                                                  cboSubAfd.SelectedItem.ToString, 0, 0, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing)
-                    c = b.getKansVoorCursus(c)
+
+                    Dim gevonden As Boolean = False
+
+                    For Each item As Cursus In getAllItems()
+                        If item.getMerk = c.getMerk Then
+                            If item.getUitvoerCentrum = c.getUitvoerCentrum Then
+                                If item.getMaand = c.getMaand Then
+                                    If item.getDag = c.getDag Then
+                                        If item.getCodeSubafdeling = c.getCodeSubafdeling Then
+                                            c = item
+                                            gevonden = True
+                                        End If
+                                    End If
+                                End If
+                            End If
+                        End If
+                    Next
+
+                    If Not gevonden Then
+                        c = b.BerekenVoorCursus(c)
+
+                        Dim t As New tVerdeling
+                        For i As Integer = 0 To t.getBetrouwbaarheidsIntervallen.Count - 1
+                            c = c.setAfwijkingValue(100, i)
+                        Next
+                    End If
+
+
                     txtTotaal.Text = c.getBereik(afwijkinsIndex).ToString
 
                     If c.getTotaal > 0 Then

@@ -115,11 +115,9 @@
     <Compile Include="AddFile.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="BLL\Bayes-Bayes-Linear.vb" />
     <Compile Include="BLL\FiltersBLL.vb" />
     <Compile Include="BLL\OntwikkelaarsBLL.vb" />
     <Compile Include="BLL\TestBLL.vb" />
-    <Compile Include="BLL\tVerdeling.vb" />
     <Compile Include="DAO\FiltersDAO.vb" />
     <Compile Include="DAO\OntwikkelaarsDAO.vb" />
     <Compile Include="FormatPreservingEncryption.Designer.vb">
@@ -128,8 +126,6 @@
     <Compile Include="FormatPreservingEncryption.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Model\Afwijking.vb" />
-    <Compile Include="Model\Cursus.vb" />
     <Compile Include="Model\CursusExtraInfo.vb" />
     <Compile Include="PerOnt.Designer.vb">
       <DependentUpon>PerOnt.vb</DependentUpon>
@@ -143,7 +139,6 @@
     <Compile Include="SplashScreen1.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="util\Algoritmes.vb" />
     <Compile Include="util\ListToFile.vb" />
     <Compile Include="util\SQLUtil.vb" />
     <Compile Include="DAO\TestDAO.vb" />
@@ -153,7 +148,6 @@
     <Compile Include="MainScreen.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Model\Bereik.vb" />
     <Compile Include="Model\FilterItem.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -294,6 +288,12 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CursusPredictie\CursusPredictie.vbproj">
+      <Project>{efc4581c-7682-41e9-bac8-aeef73e32134}</Project>
+      <Name>CursusPredictie</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

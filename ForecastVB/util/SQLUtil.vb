@@ -1,6 +1,8 @@
 ﻿Imports System.Data.SqlClient
 Imports System.IO
 Imports System.Web
+Imports CursusPredictie
+
 ''' <summary>
 ''' Maakt verbinding met DB
 ''' Zorgt er voor dat sql scripts kunnen uitgevoerd worden

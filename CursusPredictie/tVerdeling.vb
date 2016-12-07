@@ -98,6 +98,11 @@ Public Class tVerdeling
         Return tbl(y, x)
     End Function
 
+
+    ''' <summary>
+    ''' Geef de verschillende mogelijk percentages terug hoeveel procent van de T-Verdeling
+    ''' </summary>
+    ''' <returns>Geeft de percentages terug in een array, deze percentages worden in kommagetallen teruggeven</returns>
     Public Function getBetrouwbaarheidsIntervallen() As Double()
         Return betrwBArray
     End Function

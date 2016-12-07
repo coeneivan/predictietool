@@ -1,8 +1,9 @@
 ﻿Imports System.Text
 Imports Microsoft.VisualStudio.TestTools.UnitTesting
 Imports ForecastVB
+Imports CursusPredictie
 
-<TestClass()> Public Class TestBayesBayesLinear
+<TestClass()> Public Class TestCursusKansBerekening
 
     <TestMethod()> Public Sub TestCreateFilterString1()
         Dim filters As New ArrayList
@@ -126,14 +127,14 @@ Imports ForecastVB
         curs.Add(New Cursus("", "", -1, "", "HSD", -1, -1, -1, -1, -1, Nothing, Nothing, Nothing, ""))
         curs.Add(New Cursus("", "", -1, "", "HW", -1, -1, -1, -1, -1, Nothing, Nothing, Nothing, ""))
 
-        Dim bbl As New Bayes_Bayes_Linear(Nothing, False)
+        Dim bbl As New CursusKansBerekening(curs)
 
         Assert.AreEqual(5, bbl.TestGetSubafdelingen(curs).count)
     End Sub
 
     <TestMethod()> Public Sub TestListOfSubafdelingenEmpty()
         Dim curs As New List(Of Cursus)
-        Dim bbl As New Bayes_Bayes_Linear(Nothing, False)
+        Dim bbl As New CursusKansBerekening(curs)
 
         Assert.AreEqual(0, bbl.TestGetSubafdelingen(curs).count)
     End Sub
@@ -142,7 +143,7 @@ Imports ForecastVB
         Dim curs As New List(Of Cursus)
         curs.Add(New Cursus("", "Syntra West Brugge", -1, "", "", -1, -1, -1, -1, -1, Nothing, Nothing, Nothing, ""))
 
-        Dim bbl As New Bayes_Bayes_Linear(Nothing, False)
+        Dim bbl As New CursusKansBerekening(curs)
 
         Assert.AreEqual(1, bbl.TestGetSubafdelingen(curs).count)
     End Sub
@@ -151,8 +152,9 @@ Imports ForecastVB
         Dim curs As New List(Of Cursus)
         curs.Add(New Cursus("", "Syntra West Brugge", -1, "", "", -1, -1, -1, -1, -1, Nothing, Nothing, Nothing, ""))
 
-        Dim bbl As New Bayes_Bayes_Linear(Nothing, False)
-        Dim uitv = bbl.TestGetUitvoercentrum(curs)
+        Dim cursKans As New CursusKansBerekening(curs)
+        Dim uitv = cursKans.TestGetUitvoercentrum(curs)
+
         Assert.AreEqual("Syntra West Brugge", uitv(0))
     End Sub
 
@@ -162,8 +164,8 @@ Imports ForecastVB
         curs.Add(New Cursus("", "Syntra West Brugge", -1, "", "", -1, -1, -1, -1, -1, Nothing, Nothing, Nothing, ""))
         curs.Add(New Cursus("", "Syntra West Kortrijk", -1, "", "", -1, -1, -1, -1, -1, Nothing, Nothing, Nothing, ""))
 
-        Dim bbl As New Bayes_Bayes_Linear(Nothing, False)
-        Dim uitv = bbl.TestGetUitvoercentrum(curs)
+        Dim cursKans As New CursusKansBerekening(curs)
+        Dim uitv = cursKans.TestGetUitvoercentrum(curs)
 
         Assert.AreEqual("Syntra West Kortrijk", uitv(1))
     End Sub
@@ -177,8 +179,8 @@ Imports ForecastVB
         curs.Add(New Cursus("", "Syntra West Ieper", -1, "", "", -1, -1, -1, -1, -1, Nothing, Nothing, Nothing, ""))
         curs.Add(New Cursus("", "Syntra West Kortrijk", -1, "", "", -1, -1, -1, -1, -1, Nothing, Nothing, Nothing, ""))
 
-        Dim bbl As New Bayes_Bayes_Linear(Nothing, False)
-        Dim uitv = bbl.TestGetUitvoercentrum(curs)
+        Dim cursKans As New CursusKansBerekening(curs)
+        Dim uitv = cursKans.TestGetUitvoercentrum(curs)
 
         Assert.AreEqual("Syntra West Kortrijk", uitv(1))
     End Sub
@@ -192,8 +194,8 @@ Imports ForecastVB
         curs.Add(New Cursus("", "Syntra West Ieper", -1, "", "", -1, -1, -1, -1, -1, Nothing, Nothing, Nothing, ""))
         curs.Add(New Cursus("", "Syntra West Kortrijk", -1, "", "", -1, -1, -1, -1, -1, Nothing, Nothing, Nothing, ""))
 
-        Dim bbl As New Bayes_Bayes_Linear(Nothing, False)
-        Dim uitv = bbl.TestGetUitvoercentrum(curs)
+        Dim cursKans As New CursusKansBerekening(curs)
+        Dim uitv = cursKans.TestGetUitvoercentrum(curs)
 
         Assert.AreEqual("Syntra West Ieper", uitv(2))
     End Sub
@@ -207,10 +209,9 @@ Imports ForecastVB
         curs.Add(New Cursus("", "Syntra West Ieper", -1, "", "", -1, -1, -1, -1, -1, Nothing, Nothing, Nothing, ""))
         curs.Add(New Cursus("", "Syntra West Kortrijk", -1, "", "", -1, -1, -1, -1, -1, Nothing, Nothing, Nothing, ""))
 
-        Dim bbl As New Bayes_Bayes_Linear(Nothing, False)
-        Dim uitv = bbl.TestGetUitvoercentrum(curs)
+        Dim cursKans As New CursusKansBerekening(curs)
 
-        Assert.AreEqual(3, bbl.TestGetUitvoercentrum(curs).count)
+        Assert.AreEqual(3, cursKans.TestGetUitvoercentrum(curs).count)
     End Sub
 
     <TestMethod()> Public Sub TestGetListOfMerk1()
@@ -365,10 +366,8 @@ Imports ForecastVB
         afw.Add(New Afwijking(0.9, 100))
         curs.Add(New Cursus("", "", -1, "", "", 10, 2, 0.75, -1, -1, afw, Nothing, False, ""))
 
-        Dim root As New MainScreen
-        Dim bbl As New Bayes_Bayes_Linear(root, False)
-        root.setTVerdeling(2)
-        curs = bbl.TestIsVoorspellingsLijstCorrect(curs)
+        Dim bbl As New CursusKansBerekening(curs)
+        curs = bbl.BerekenKans()
 
         Assert.IsFalse(curs(0).getIsCorrect)
     End Sub
@@ -471,12 +470,8 @@ Imports ForecastVB
         curs.Add(New Cursus("", "", -1, "", "", 10, 8, 0.63, -1, -1, Nothing, Nothing, False, ""))
         curs.Add(New Cursus("", "", -1, "", "", 50, 8, 0.2, -1, -1, Nothing, Nothing, False, ""))
 
-        Dim root As New MainScreen
-        Dim bbl As New Bayes_Bayes_Linear(root, False)
-        root.setTVerdeling(1)
-        bbl.alleAfwijkingenVerwerken(curs)
-        curs = bbl.TestAfwijkingBerekenen(curs)
-        curs = bbl.TestIsVoorspellingsLijstCorrect(curs)
+        Dim cursusKans As New CursusKansBerekening(curs)
+        curs = cursusKans.BerekenKans()
 
         Assert.IsTrue(curs(2).getIsCorrect)
     End Sub
@@ -487,12 +482,8 @@ Imports ForecastVB
         curs.Add(New Cursus("", "", -1, "", "", 10, 8, 0.63, -1, -1, Nothing, Nothing, False, ""))
         curs.Add(New Cursus("", "", -1, "", "", 50, 8, 0.2, -1, -1, Nothing, Nothing, False, ""))
 
-        Dim root As New MainScreen
-        Dim bbl As New Bayes_Bayes_Linear(root, False)
-        root.setTVerdeling(4)
-        bbl.alleAfwijkingenVerwerken(curs)
-        curs = bbl.TestAfwijkingBerekenen(curs)
-        curs = bbl.TestIsVoorspellingsLijstCorrect(curs)
+        Dim cursusKans As New CursusKansBerekening(curs)
+        curs = cursusKans.BerekenKans()
 
         Assert.IsFalse(curs(0).getIsCorrect)
     End Sub
@@ -1343,10 +1334,9 @@ Imports ForecastVB
     <TestMethod()> Public Sub TestBerekenBayesVoorAlles1()
         Dim cursList As New List(Of Cursus)
         cursList = FillCurs(cursList)
-        Dim root As New MainScreen
-        Dim bbl As New Bayes_Bayes_Linear(root, False)
-        cursList = bbl.TestResetCursusList(cursList)
-        cursList = bbl.TestBerekenBayesVoorIederItem(cursList)
+
+        Dim cursusKans As New CursusKansBerekening(cursList)
+        cursList = cursusKans.BerekenKans()
 
 
         Assert.AreEqual(4.0369, Math.Round(cursList(0).getAfwijkingswaarde(0), 4))
@@ -1355,10 +1345,9 @@ Imports ForecastVB
     <TestMethod()> Public Sub TestBerekenBayesVoorAlles2()
         Dim cursList As New List(Of Cursus)
         cursList = FillCurs(cursList)
-        Dim root As New MainScreen
-        Dim bbl As New Bayes_Bayes_Linear(root, False)
-        cursList = bbl.TestResetCursusList(cursList)
-        cursList = bbl.TestBerekenBayesVoorIederItem(cursList)
+
+        Dim cursusKans As New CursusKansBerekening(cursList)
+        cursList = cursusKans.BerekenKans()
 
 
         Assert.AreEqual(5.1735, Math.Round(cursList(40).getAfwijkingswaarde(2), 4))
@@ -1367,10 +1356,9 @@ Imports ForecastVB
     <TestMethod()> Public Sub TestBerekenBayesVoorAlles3()
         Dim cursList As New List(Of Cursus)
         cursList = FillCurs(cursList)
-        Dim root As New MainScreen
-        Dim bbl As New Bayes_Bayes_Linear(root, False)
-        cursList = bbl.TestResetCursusList(cursList)
-        cursList = bbl.TestBerekenBayesVoorIederItem(cursList)
+
+        Dim cursusKans As New CursusKansBerekening(cursList)
+        cursList = cursusKans.BerekenKans()
 
 
         Assert.AreEqual(6.9625, Math.Round(cursList(78).getAfwijkingswaarde(1), 4))
@@ -1415,11 +1403,9 @@ Imports ForecastVB
     <TestMethod()> Public Sub TestBerekenBayesVoorAlles7()
         Dim cursList As New List(Of Cursus)
         cursList = FillCurs(cursList)
-        Dim root As New MainScreen
-        Dim bbl As New Bayes_Bayes_Linear(root, False)
-        cursList = bbl.TestResetCursusList(cursList)
-        cursList = bbl.TestBerekenBayesVoorIederItem(cursList)
 
+        Dim bbl As New CursusKansBerekening(cursList)
+        cursList = bbl.BerekenKans()
 
         Assert.AreEqual(0.8883, Math.Round(cursList(0).getKans, 4))
     End Sub
@@ -1427,11 +1413,9 @@ Imports ForecastVB
     <TestMethod()> Public Sub TestBerekenBayesVoorAlles8()
         Dim cursList As New List(Of Cursus)
         cursList = FillCurs(cursList)
-        Dim root As New MainScreen
-        Dim bbl As New Bayes_Bayes_Linear(root, False)
-        cursList = bbl.TestResetCursusList(cursList)
-        cursList = bbl.TestBerekenBayesVoorIederItem(cursList)
 
+        Dim bbl As New CursusKansBerekening(cursList)
+        cursList = bbl.BerekenKans()
 
         Assert.AreEqual(0.6772, Math.Round(cursList(24).getKans, 4))
     End Sub
@@ -1439,35 +1423,24 @@ Imports ForecastVB
     <TestMethod()> Public Sub TestBerekenBayesVoorAlles9()
         Dim cursList As New List(Of Cursus)
         cursList = FillCurs(cursList)
-        Dim root As New MainScreen
-        Dim bbl As New Bayes_Bayes_Linear(root, False)
-        cursList = bbl.TestResetCursusList(cursList)
-        cursList = bbl.TestBerekenBayesVoorIederItem(cursList)
-
-
+        Dim bbl As New CursusKansBerekening(cursList)
+        cursList = bbl.BerekenKans()
         Assert.AreEqual(0.7956, Math.Round(cursList(78).getKans, 4))
     End Sub
 
     <TestMethod()> Public Sub TestBerekenBayesVoorAlles10()
         Dim cursList As New List(Of Cursus)
         cursList = FillCurs(cursList)
-        Dim root As New MainScreen
-        Dim bbl As New Bayes_Bayes_Linear(root, False)
-        cursList = bbl.TestResetCursusList(cursList)
-        cursList = bbl.TestBerekenBayesVoorIederItem(cursList)
-
-
+        Dim bbl As New CursusKansBerekening(cursList)
+        cursList = bbl.BerekenKans()
         Assert.AreEqual(0.9797, Math.Round(cursList(142).getKans, 4))
     End Sub
 
     <TestMethod()> Public Sub TestBerekenBayesVoorAlles11()
         Dim cursList As New List(Of Cursus)
         cursList = FillCurs(cursList)
-        Dim root As New MainScreen
-        Dim bbl As New Bayes_Bayes_Linear(root, False)
-        cursList = bbl.TestResetCursusList(cursList)
-        cursList = bbl.TestBerekenBayesVoorIederItem(cursList)
-
+        Dim bbl As New CursusKansBerekening(cursList)
+        cursList = bbl.BerekenKans()
 
         Assert.AreEqual(0.8002, Math.Round(cursList(183).getKans, 4))
     End Sub
@@ -1475,17 +1448,14 @@ Imports ForecastVB
     <TestMethod()> Public Sub TestBerekenBayesVoorAlles12()
         Dim cursList As New List(Of Cursus)
         cursList = FillCurs(cursList)
-        Dim root As New MainScreen
-        Dim bbl As New Bayes_Bayes_Linear(root, False)
-        cursList = bbl.TestResetCursusList(cursList)
-        cursList = bbl.TestBerekenBayesVoorIederItem(cursList)
-
+        Dim bbl As New CursusKansBerekening(cursList)
+        cursList = bbl.BerekenKans()
 
         Assert.AreEqual(0.9321, Math.Round(cursList(243).getKans, 4))
     End Sub
 
     <TestMethod()> Public Sub TestOntwikkelaars1()
-        Dim bayes As New Bayes_Bayes_Linear(New MainScreen, False)
+
         Dim cursList As New List(Of Cursus)
         Dim afw As New List(Of Afwijking)
 
@@ -1500,14 +1470,10 @@ Imports ForecastVB
         cursList.Add(New Cursus("Escala", "Syntra West Kortrijk", 0, "", "Jur", 30, 14, 0, 0, 0, afw, Algoritmes.Niets, False, "DIR"))
         cursList.Add(New Cursus("Escala", "Syntra West Kortrijk", 0, "", "Jur", 24, 14, 0, 0, 0, afw, Algoritmes.Niets, False, "MAK"))
 
-        bayes.resetDictionaries()
+        Dim cursKans As New CursusKansBerekening(cursList)
+        cursList = cursKans.BerekenKans()
 
-        For i As Integer = 0 To cursList.Count - 1
-            bayes.baycalculation(cursList(i), True)
-        Next
-        For i As Integer = 0 To cursList.Count - 1
-            cursList(i) = cursList(i).setKans(bayes.berekenBayes(cursList(i)))
-        Next
+        Dim bayes As New Bayes_Bayes_Linear(Nothing, False)
 
         Dim cur = bayes.getKansVoorCursus(New Cursus("Syntra West", "Syntra West Brugge", 0, "", "Jur", 30, 21, 0, 0, 0, afw, Algoritmes.Niets, False, "MAK"))
         bayes.alleAfwijkingenVerwerken(cursList)
@@ -1516,7 +1482,6 @@ Imports ForecastVB
     End Sub
 
     <TestMethod()> Public Sub TestOntwikkelaars2()
-        Dim bayes As New Bayes_Bayes_Linear(New MainScreen, False)
         Dim cursList As New List(Of Cursus)
         Dim afw As New List(Of Afwijking)
 
@@ -1531,14 +1496,10 @@ Imports ForecastVB
         cursList.Add(New Cursus("Escala", "Syntra West Kortrijk", 0, "", "Jur", 30, 14, 0, 0, 0, afw, Algoritmes.Niets, False, "DIR"))
         cursList.Add(New Cursus("Escala", "Syntra West Kortrijk", 0, "", "Jur", 24, 14, 0, 0, 0, afw, Algoritmes.Niets, False, "MAK"))
 
-        bayes.resetDictionaries()
+        Dim cursKans As New CursusKansBerekening(cursList)
+        cursList = cursKans.BerekenKans()
 
-        For i As Integer = 0 To cursList.Count - 1
-            bayes.baycalculation(cursList(i), True)
-        Next
-        For i As Integer = 0 To cursList.Count - 1
-            cursList(i) = cursList(i).setKans(bayes.berekenBayes(cursList(i)))
-        Next
+        Dim bayes As New Bayes_Bayes_Linear(Nothing, False)
 
         Dim cur = bayes.getKansVoorCursus(New Cursus("Escala", "Syntra West Brugge", 0, "", "Jur", 30, 21, 0, 0, 0, afw, Algoritmes.Niets, False, "MAK"))
         bayes.alleAfwijkingenVerwerken(cursList)

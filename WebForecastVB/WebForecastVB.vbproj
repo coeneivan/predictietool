@@ -95,6 +95,10 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CursusPredictie\CursusPredictie.vbproj">
+      <Project>{efc4581c-7682-41e9-bac8-aeef73e32134}</Project>
+      <Name>CursusPredictie</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ForecastVB\ForecastVB.vbproj">
       <Project>{d02ce33f-e939-41f2-b076-455c0c706be3}</Project>
       <Name>ForecastVB</Name>
@@ -124,6 +128,7 @@
     <Import Include="System.Web.UI.HtmlControls" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="conn.txt" />
     <Content Include="Default.aspx" />
     <Content Include="Style\css\bootstrap-theme.css" />
     <Content Include="Style\css\bootstrap-theme.min.css" />

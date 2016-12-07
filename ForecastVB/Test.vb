@@ -1,5 +1,5 @@
 ﻿Imports System.Windows.Forms.DataVisualization.Charting
-Imports ForecastVB
+Imports CursusPredictie
 
 
 Public Class Test
