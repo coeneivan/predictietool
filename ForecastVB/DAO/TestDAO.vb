@@ -21,7 +21,7 @@ Public Class TestDAO
 
         If Not f.Equals("") Then
             Dim vandaag = Date.Now
-            query += "WHERE startdatum <  CAST('10-01-2016' AS DATETIME) AND " + f
+            query += "WHERE startdatum <  CAST('12-01-2016' AS DATETIME) AND " + f
         End If
 
         query += "group by "
@@ -58,7 +58,7 @@ Public Class TestDAO
 
         If Not f.Equals("") Then
             Dim vandaag = Date.Now
-            query += "WHERE startdatum <  CAST('10-01-2016' AS DATETIME) AND " + f
+            query += "WHERE startdatum <  CAST('12-01-2016' AS DATETIME) AND " + f
         End If
 
         query += "group by "

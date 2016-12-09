@@ -150,7 +150,7 @@ Public Class MainScreen
                     tslblStatus.Text = "Uw data is up to date!"
                 End If
             Else
-
+                lists = New Dictionary(Of String, List(Of Cursus))
                 lists.Add("allItems", TestBLL.GetAllCursForAllVar(createFilterString(filters)))
 
                 ltf.saveTheList(lists, saveDirectory + "/cursussen.xml")
