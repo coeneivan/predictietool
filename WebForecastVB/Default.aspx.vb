@@ -7,6 +7,8 @@ Public Class _Default
     Private b As CursusKansBerekening
     Private allItems As List(Of Cursus)
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+
+        ' Filters voor webform cursus lijst
         Dim f = " Aard NOT IN (15,29,14,58,12,13) and OmschrijvingComm NOT LIKE '%SELOR%' and OmschrijvingComm NOT LIKE '%Bekwaamheidsattest%' and OmschrijvingComm NOT LIKE"
         f += " '%stage%' and OmschrijvingComm NOT LIKE '%proef%' and OmschrijvingComm NOT LIKE '%attest%' and OmschrijvingComm NOT LIKE '%aanvullende praktijk%' and OmschrijvingComm"
         f += " Not Like '%eindwerk%' and OmschrijvingComm NOT LIKE '%AP%' Collate SQL_Latin1_General_CP1_CS_AS and OmschrijvingComm NOT LIKE 'POC%' Collate SQL_Latin1_General_CP1_CS_AS"

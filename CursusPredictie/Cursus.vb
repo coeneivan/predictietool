@@ -17,7 +17,16 @@
     Private ont As String
 
 
-
+    ''' <summary>
+    ''' Maak een nieuw cursus object aan voor de voorspelling van een cursus per subafdeling
+    ''' </summary>
+    ''' <param name="merk">Het merk van deze cursus. "Syntra West", "SBM", ... </param>
+    ''' <param name="uitvoerCentrum">Waar gaat deze cursus door? "Syntra West Brugge", "Syntra West Roeselare", ...</param>
+    ''' <param name="maand">Op welke maand zal deze cursus door gaan gegeven als nummer van de maand. 1 = Januari, 2 = Februari, ...</param>
+    ''' <param name="dag">Op welke dag gaat de cursus door? "Maandag", "Dinsdag", ...</param>
+    ''' <param name="codeSubAfdeling">Welke code is toegekend aan deze subafdeling</param>
+    ''' <param name="totaal">Hoeveel cursussen vallen in totaal in deze situatie?</param>
+    ''' <param name="doorgegaan">Hoeveel van het totaal aantal cursussen is kunnen doorgaan?</param>
     Public Sub New(merk As String, uitvoerCentrum As String, maand As Integer, dag As String, codeSubAfdeling As String, totaal As Integer, doorgegaan As Integer)
 
         ' Lijst voor verschillende afwijkingen aanmaken
@@ -44,7 +53,16 @@
 
     End Sub
 
-
+    ''' <summary>
+    ''' Maak een nieuw cursus object aan voor de voorspelling van een cursus per ontwikkelaar
+    ''' </summary>
+    ''' <param name="merk">Het merk van deze cursus. "Syntra West", "SBM", ... </param>
+    ''' <param name="uitvoerCentrum">Waar gaat deze cursus door? "Syntra West Brugge", "Syntra West Roeselare", ...</param>
+    ''' <param name="maand">Op welke maand zal deze cursus door gaan gegeven als nummer van de maand. 1 = Januari, 2 = Februari, ...</param>
+    ''' <param name="codeSubAfdeling">Welke code is toegekend aan deze subafdeling</param>
+    ''' <param name="totaal">Hoeveel cursussen vallen in totaal in deze situatie?</param>
+    ''' <param name="doorgegaan">Hoeveel van het totaal aantal cursussen is kunnen doorgaan?</param>
+    ''' <param name="ont">Onder welke ontwikkelaar valt deze cursus?</param>
     Public Sub New(merk As String, uitvoerCentrum As String, maand As Integer, codeSubAfdeling As String, totaal As Integer, doorgegaan As Integer, ont As String)
 
 
@@ -71,7 +89,23 @@
         Me.ont = ont
     End Sub
 
-
+    ''' <summary>
+    ''' Cursus met al zijn gegevens, wordt gereturned wanneer een getter of setter wordt aangeropen omdat object Immutable moest zijn om gecopiëerd te kunnen worden naar meerdere lijsten
+    ''' </summary>
+    ''' <param name="merk">Het merk van deze cursus. "Syntra West", "SBM", ... </param>
+    ''' <param name="uitvoerCentrum">Waar gaat deze cursus door? "Syntra West Brugge", "Syntra West Roeselare", ...</param>
+    ''' <param name="maand">Op welke maand zal deze cursus door gaan gegeven als nummer van de maand. 1 = Januari, 2 = Februari, ...</param>
+    ''' <param name="dag">Op welke dag gaat de cursus door? "Maandag", "Dinsdag", ...</param>
+    ''' <param name="codeSubAfdeling">Welke code is toegekend aan deze subafdeling</param>
+    ''' <param name="totaal">Hoeveel cursussen vallen in totaal in deze situatie?</param>
+    ''' <param name="doorgegaan">Hoeveel van het totaal aantal cursussen is kunnen doorgaan?</param>
+    ''' <param name="kans">Wat is de kans dat deze cursus gaat kunnen door gaan?</param>
+    ''' <param name="jaar">In welk jaar wordt deze cursus gegeven</param>
+    ''' <param name="b">Bij een Lineaire formule, waar gaat deze lijn door de y-as? Y = aX + b</param>
+    ''' <param name="afwijking">Welke afwijking is er waartussen de werkelijke slaagpercentage zou moeten liggen</param>
+    ''' <param name="algoritme">Welk algoritme werd gebruikt om voorspelling te maken</param>
+    ''' <param name="correct">Is deze voorspelling correct gebeurd?</param>
+    ''' <param name="ont">Welke ontwikkelaar geeft deze cursus</param>
     Public Sub New(merk As String, uitvoerCentrum As String, maand As String, dag As String, codeSubAfdeling As String,
                    totaal As Integer, doorgegaan As Integer, kans As Double, jaar As Integer, b As Double, afwijking As List(Of Afwijking),
                    algoritme As Algoritmes, correct As Boolean, ont As String)
@@ -199,14 +233,29 @@
         Return b
     End Function
 
+    ''' <summary>
+    ''' Welke afwijking is er voor welke betrouwbaarheidsinterval?
+    ''' </summary>
+    ''' <param name="index">het index van de tabel van de t-verdeling voor de gewenste afwijking</param>
+    ''' <returns>geeft de afwijking terug die aan dit betrouwbaarheidsinterval voldoet</returns>
     Public Function getAfwijkingswaarde(index As Integer) As Double
         Return afwijkingValue(index).getAfwijkingswaarde
     End Function
 
+    ''' <summary>
+    ''' Welk betrouwbaarheidsinterval is er ingesteld voor deze index?
+    ''' </summary>
+    ''' <param name="index">het index van de tabel van de t-verdeling voor het gewenste betrouwbaarheidsinterval</param>
+    ''' <returns>geeft het betrouwbaarheidsinterval terug die aan deze index gekoppeld is</returns>
     Public Function getTverdelingsWaarde(index As Integer) As Double
         Return afwijkingValue(index).getTverdelingswaarde
     End Function
 
+    ''' <summary>
+    ''' Krijg in text voor welk percentage gekoppeld is aan deze index, bv 0.975 geeft 97,5% terug
+    ''' </summary>
+    ''' <param name="index">Index voor welke het percentage moet terug gegeven worden</param>
+    ''' <returns>Percentage voor betrouwbaarheidsinterval in tekstformaat</returns>
     Public Function getAfwijkingsString(index As Integer) As String
         Return afwijkingValue(index).getText
     End Function

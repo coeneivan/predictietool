@@ -48,6 +48,11 @@ Public Class CursusKansBerekening
         listOfAllItemsWithYear = cursusList
         berekenAantalDoorgegaanEnNietDoorgegaan()
     End Sub
+
+    ''' <summary>
+    ''' Voer alle berekeningen uit op de cursus
+    ''' </summary>
+    ''' <returns>returnt een list met alle cursussen waar hen berekende slaagpercentage en afwijking op werdt ingevuld</returns>
     Public Function BerekenKans()
         emptyCursusList = resetCursusList(listOfAllItems).ToImmutableList
 
@@ -61,6 +66,9 @@ Public Class CursusKansBerekening
         Return listOfAllItems
     End Function
 
+    ''' <summary>
+    ''' Reset alle gegevens van deze klasse om opnieuw te berekenen
+    ''' </summary>
     Public Sub reset()
         ' Lijst om te tellen hoeveel cursussen van elk item niet geschrapt werden
         dicMerkW = New Dictionary(Of String, Integer)
@@ -82,6 +90,15 @@ Public Class CursusKansBerekening
         atlNietDgg = 0
     End Sub
 
+    ''' <summary>
+    ''' Bereken de slaagkans voor een bepaalde cursus
+    ''' !!!LET OP!!!
+    ''' Om een correct resultaat te krijgen moeten alle gegevens van alle cursussen worden gegeven.
+    ''' het algoritme kijk welk slaagkans er is voor iedere parameter en maakt aan de hand hiervan vervolgens zijn voorspelling
+    ''' wanneer maar 1 cursus in het systeem zit kan deze niet worden correct voorspeld worden
+    ''' </summary>
+    ''' <param name="cursus">Cursus waarvoor een voorspelling moet worden gemaakt</param>
+    ''' <returns>Geeft de cursus terug met de kans en afwijkin op ingevuld</returns>
     Public Function BerekenVoorCursus(cursus As Cursus) As Cursus
         berekenAantalDoorgegaanEnNietDoorgegaan()
         cursus = cursus.setKans(berekenBayes(cursus))

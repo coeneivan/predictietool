@@ -26,6 +26,12 @@ Public Class Bereik
             average = 0
         End If
     End Sub
+
+    ''' <summary>
+    ''' Aan maken van bereik object met enkel de afwijking en de voorspelde waarde
+    ''' </summary>
+    ''' <param name="pAfwijking">Afwijking waarmee gerekend zal worden</param>
+    ''' <param name="pAverage">De voorspellde waarde</param>
     Public Sub New(pAfwijking As Double, pAverage As Double)
         If pAverage - pAfwijking < 0 Then
             ondergrens = 0
@@ -110,6 +116,11 @@ Public Class Bereik
         End If
         Return Math.Round(verschil, 2)
     End Function
+
+    ''' <summary>
+    ''' Afstand tussen boven en ondergrens
+    ''' </summary>
+    ''' <returns></returns>
     Public Function getBreedte() As Double
         Return bovengrens - ondergrens
     End Function
