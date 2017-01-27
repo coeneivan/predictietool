@@ -2,6 +2,8 @@
 Imports System.IO
 Imports System.Web
 Imports CursusPredictie
+Imports System.Data.SQLite
+
 
 ''' <summary>
 ''' Maakt verbinding met DB
@@ -12,6 +14,7 @@ Public Class SQLUtil
     Private myCmd As SqlCommand
     Private myReader As SqlDataReader
     Private sDatabaseLocatie As String
+    'Private db As New SQLiteConnection("Data Source=MyDatabase.sqlite;Version=3;")
 
     ''' <summary>
     ''' Initialiseert de klasse
@@ -29,6 +32,43 @@ Public Class SQLUtil
 
         fileReader = My.Computer.FileSystem.ReadAllText(s + "conn.txt")
         sDatabaseLocatie = fileReader.ToString
+
+
+        'db.Open()
+
+        'Dim Sql As String = "create table highscores (name varchar(20), score int)"
+        'Dim command As New SQLiteCommand(Sql, db)
+        ''command.ExecuteNonQuery()
+
+        'Sql = "insert into highscores values (""Ben"", ""4"")"
+        'Command = New SQLiteCommand(Sql, db)
+        ''command.ExecuteNonQuery()
+
+        ''Test if Table Exists
+        'Sql = "SELECT * FROM sqlite_master WHERE name ='highscores' and type='table'"
+        'command = New SQLiteCommand(Sql, db)
+        'Dim reader = command.ExecuteReader()
+        'While (reader.Read())
+        '    Console.WriteLine("True")
+        'End While
+
+        ''Test if Table doesn't Exists
+        'Sql = "SELECT * FROM sqlite_master WHERE name ='jfihbhbngoiqotnhg' and type='table'"
+        'command = New SQLiteCommand(Sql, db)
+        'reader = command.ExecuteReader()
+        'While (reader.Read())
+        '    Console.WriteLine("True")
+        'End While
+
+
+
+        'Sql = "select * from highscores"
+        'command = New SQLiteCommand(Sql, db)
+        'reader = command.ExecuteReader()
+        'While (reader.Read())
+        '    MessageBox.Show(reader.GetString(0))
+        'End While
+        'db.Close()
     End Sub
 
     ''' <summary>
