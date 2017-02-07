@@ -175,6 +175,7 @@
     <Compile Include="SplashScreen1.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="util\CreateDB.vb" />
     <Compile Include="util\ListToFile.vb" />
     <Compile Include="util\SQLUtil.vb" />
     <Compile Include="DAO\TestDAO.vb" />

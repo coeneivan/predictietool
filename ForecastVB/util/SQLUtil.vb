@@ -33,6 +33,8 @@ Public Class SQLUtil
         fileReader = My.Computer.FileSystem.ReadAllText(s + "conn.txt")
         sDatabaseLocatie = fileReader.ToString
 
+        Dim createDB = New CreateDB
+        Dim listDB = createDB.GetDBEntries()
 
         'db.Open()
 
